@@ -1,0 +1,49 @@
+@import "../../styles";
+
+@nav-height: 50px;
+@logo-size: 15.5px;
+@logo-f-size: 20px;
+@nickname-f-size: 12px;
+@user-avatar-size: 30px;
+
+nav {
+  &:extend(.light-shadow);
+  background: @card-color;
+  height: @nav-height;
+  #disk-logo-box {
+    float: left;
+    height: @nav-height;
+    line-height: @nav-height;
+    vertical-align: middle;
+    padding-left: 16.5px;
+    img {
+      width: @logo-size;
+      height: @logo-size;
+      vertical-align: middle;
+    }
+    span {
+      margin-left: 5px;
+      font-size: @logo-f-size;
+      font-family: 'Indie Flower', sans-serif;
+      letter-spacing: 4px;
+    }
+  }
+  #user-nav {
+    float: right;
+    height: @nav-height;
+    line-height: @nav-height;
+    vertical-align: middle;
+    padding-right: 15px;
+    span {
+      font-size: @nickname-f-size;
+      font-weight: lighter;
+    }
+    img {
+      margin-left: 5px;
+      width: @user-avatar-size;
+      height: @user-avatar-size;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+  }
+}

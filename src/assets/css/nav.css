@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #ddd;
+}
+.light-shadow,
+nav {
+  box-shadow: 1px 3px 10px 0 #c0c0c0;
+}
+.strong-shadow {
+  box-shadow: 1px 3px 10px 0 gray;
+}
+nav {
+  background: #fff;
+  height: 50px;
+}
+nav #disk-logo-box {
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
+  padding-left: 16.5px;
+}
+nav #disk-logo-box img {
+  width: 15.5px;
+  height: 15.5px;
+  vertical-align: middle;
+}
+nav #disk-logo-box span {
+  margin-left: 5px;
+  font-size: 20px;
+  font-family: 'Indie Flower', sans-serif;
+  letter-spacing: 4px;
+}
+nav #user-nav {
+  float: right;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
+  padding-right: 15px;
+}
+nav #user-nav span {
+  font-size: 12px;
+  font-weight: lighter;
+}
+nav #user-nav img {
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
