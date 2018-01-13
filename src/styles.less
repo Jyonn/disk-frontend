@@ -1,5 +1,29 @@
-@bg-color: #ddd;
-@card-color: #fff;
+@dark-blue: #007FEB;
+@blue: #2699FB;
+@light-blue: #BCE0FD;
+@tiny-blue: #F1F9FF;
+@red: #D04B4B;
+@gray: #CCCCCC;
+
+@main-bg: #eaeaea;
+@card-bg: #f0f0f0;
+@default-bg: @blue;
+@default-text: @tiny-blue;
+@warn-bg: @red;
+@warn-text: white;
+@cancel-bg: @gray;
+@cancel-text: white;
+@sub-card-bg: @gray;
+@sub-text: @gray;
+@inactive-btn-bg: @gray;
+@active-btn-bg: @blue;
+@active-tab-bg: @dark-blue;
+@active-tab-text: @tiny-blue;
+@inactive-tab-bg: white;
+@inactive-tab-text: @blue;
+
+@title-font-size: 16px;
+
 @strong-color: gray;
 @light-color: @strong-color * 1.5;
 
@@ -7,10 +31,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-text-size-adjust:none;
 }
 
 body {
-  background: @bg-color;
+  background: @main-bg;
+}
+
+path {
+  fill: @dark-blue;
+}
+
+.ptr {
+  cursor: pointer;
 }
 
 .light-shadow {
@@ -19,4 +52,11 @@ body {
 
 .strong-shadow {
   box-shadow: 1px 3px 10px 0 @strong-color;
+}
+
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
 }

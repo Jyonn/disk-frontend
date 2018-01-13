@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.woff?76dyxv') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-unlike:before {
+  content: "\e91a";
+}
+.icon-unlogin:before {
+  content: "\e91b";
+}
+.icon-back:before {
+  content: "\e900";
+}
+.icon-box:before {
+  content: "\e901";
+}
+.icon-check:before {
+  content: "\e902";
+}
+.icon-collapse:before {
+  content: "\e903";
+}
+.icon-copy:before {
+  content: "\e904";
+}
+.icon-delete:before {
+  content: "\e905";
+}
+.icon-down:before {
+  content: "\e906";
+}
+.icon-download:before {
+  content: "\e907";
+}
+.icon-file:before {
+  content: "\e908";
+}
+.icon-folder:before {
+  content: "\e909";
+}
+.icon-image:before {
+  content: "\e90a";
+}
+.icon-like:before {
+  content: "\e90b";
+}
+.icon-link:before {
+  content: "\e90c";
+}
+.icon-locked:before {
+  content: "\e90d";
+}
+.icon-modify:before {
+  content: "\e90e";
+}
+.icon-video:before {
+  content: "\e90f";
+}
+.icon-music:before {
+  content: "\e910";
+}
+.icon-play:before {
+  content: "\e911";
+}
+.icon-search:before {
+  content: "\e912";
+}
+.icon-select:before {
+  content: "\e913";
+}
+.icon-setting:before {
+  content: "\e914";
+}
+.icon-share:before {
+  content: "\e915";
+}
+.icon-toggleoff:before {
+  content: "\e916";
+}
+.icon-toggleon:before {
+  content: "\e917";
+}
+.icon-uncheck:before {
+  content: "\e918";
+}
+.icon-upload:before {
+  content: "\e919";
+}

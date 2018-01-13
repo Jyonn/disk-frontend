@@ -2,13 +2,26 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-text-size-adjust: none;
 }
 body {
-  background: #ddd;
+  background: #eaeaea;
+}
+path {
+  fill: #007FEB;
+}
+.ptr {
+  cursor: pointer;
 }
 .light-shadow {
   box-shadow: 1px 3px 10px 0 #c0c0c0;
 }
 .strong-shadow {
   box-shadow: 1px 3px 10px 0 gray;
+}
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
 }

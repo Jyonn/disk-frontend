@@ -1,49 +1,62 @@
 @import "../../styles";
 
-@nav-height: 50px;
-@logo-size: 15.5px;
-@logo-f-size: 20px;
-@nickname-f-size: 12px;
-@user-avatar-size: 30px;
+@nav-text: @dark-blue;
+@nav-height: 64px;
+@avatar-size: 20px;
+@left-btn-size: 20px;
+@normal-padding: 10px;
 
 nav {
-  &:extend(.light-shadow);
-  background: @card-color;
+  //&:extend(.light-shadow);
+  background: none;
   height: @nav-height;
-  #disk-logo-box {
-    float: left;
-    height: @nav-height;
-    line-height: @nav-height;
-    vertical-align: middle;
-    padding-left: 16.5px;
-    img {
-      width: @logo-size;
-      height: @logo-size;
-      vertical-align: middle;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 32px 18px 0;
+  .content {
+    width: 100%;
+    //background: red;
+    height: 22px;
+    position: relative;
+    div.left-btn {
+      &:extend(.ptr);
+      position: absolute;
+      top: 0;
+      left: 0;
+      span {
+        color: @nav-text;
+        font-size: @left-btn-size;
+      }
     }
-    span {
-      margin-left: 5px;
-      font-size: @logo-f-size;
-      font-family: 'Indie Flower', sans-serif;
-      letter-spacing: 4px;
-    }
-  }
-  #user-nav {
-    float: right;
-    height: @nav-height;
-    line-height: @nav-height;
-    vertical-align: middle;
-    padding-right: 15px;
-    span {
-      font-size: @nickname-f-size;
-      font-weight: lighter;
-    }
-    img {
-      margin-left: 5px;
-      width: @user-avatar-size;
-      height: @user-avatar-size;
+    div.right-avatar {
+      &:extend(.ptr);
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: @avatar-size;
+      height: @avatar-size;
       border-radius: 50%;
-      vertical-align: middle;
+      img {
+        width: 100%;
+        height: 100%;
+        //border-radius: 50%;
+      }
+      span.icon-unlogin {
+        color: @dark-blue;
+      }
+    }
+    div.title {
+      width: calc(~"100% - @{avatar-size} - @{left-btn-size} - 2*@{normal-padding}");
+      margin-left: calc(~"@{left-btn-size} + @{normal-padding}");
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: @title-font-size;
+      font-weight: bold;
+      color: @nav-text;
     }
   }
 }

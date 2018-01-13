@@ -1,12 +1,50 @@
 <nav>
-  <div id="disk-logo-box">
-    <img src="../assets/logo.svg">
-    <span>box</span>
-  </div>
-  <div id="user-nav">
-    <span>你好，</span><span class="nickname">齐天大肾余潇洒</span>
-    <img src="../assets/img/andrew-ridley-76547.jpg">
+  <div class="content">
+    <div class="left-btn">
+      <span class="icon-back"></span>
+    </div>
+    <div class="title">{{this.resource.rname}}</div>
+    <div class="right-avatar img-fit" *ngIf="this.has_login" [ngStyle]="{'background-image': this.resource.url_cover}">
+      <!--<img src="../assets/img/jeremy-perkins-281327.jpg">-->
+    </div>
+    <div class="right-avatar" *ngIf="!this.has_login"><span class="icon-unlogin"></span></div>
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<div class="res">
+  <div class="image img-fit" [ngStyle]="{'background-image': this.resource.url_cover}">
+    <!--<img src="{{this.resource.cover}}">-->
+  </div>
+  <div class="tab">
+    <div class="resource active"><span>资源</span></div>
+    <div class="description inactive"><span>说明</span></div>
+  </div>
+  <div class="content">
+    <div class="res-item" *ngFor="let child of this.resource.children">
+      <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}">
+        <!--<img src="../assets/img/francisco-gomes-182329.jpg">-->
+      </div>
+      <div class="res-name">{{child.rname}}</div>
+      <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span></div>
+      <div class="res-type"><span [ngClass]="child.icon"></span></div>
+      <hr/>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="owner">{{this.resource.owner.nickname}}创建于{{this.resource.readable_time}}</span>
+    <div class="avatar"><img src="{{this.resource.owner.avatar}}"></div>
+    <div class="share">{{this.resource.readable_status}}</div>
+  </div>
+</div>
+
+<footer *ngIf="this.has_login">
+  <div class="btn inactive"><span class="icon icon-share"></span><span class="text">分享</span></div>
+  <div class="btn inactive"><span class="icon icon-select"></span><span class="text">多选</span></div>
+  <div class="btn inactive"><span class="icon icon-upload"></span><span class="text">上传</span></div>
+  <div class="btn inactive"><span class="icon icon-modify"></span><span class="text">修改</span></div>
+  <div class="btn inactive"><span class="icon icon-delete"></span><span class="text">删除</span></div>
+</footer>
+
+<footer *ngIf="!this.has_login" class="ptr">
+  <div class="join-us">加入合皿，分享我的乐趣<span class="icon icon-box"></span></div>
+</footer>

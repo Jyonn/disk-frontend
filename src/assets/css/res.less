@@ -1,0 +1,152 @@
+@import "../../styles";
+
+@res-image-height: 180px;
+@res-tab-height: 30px;
+@res-origin-height: 36px;
+@res-item-height: 64px;
+@res-image-size: 44px;
+
+@res-name-color: @blue;
+@res-name-font-size: 12px;
+
+@res-foot-avatar-size: 14px;
+
+div.res {
+  position: fixed;
+  left: 9%;
+  width: 82%;
+  top: 85px;
+  height: calc(~'100% - 170px');
+  div.image {
+    width: 100%;
+    height: @res-image-height;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  div.tab {
+    &:extend(.ptr);
+    width: 100%;
+    height: @res-tab-height;
+    position: relative;
+    div {
+      float: left;
+      //display: inline-block;
+      width: 50%;
+      text-align: center;
+      span {
+        font-size: 12px;
+        height: @res-tab-height;
+        line-height: @res-tab-height;
+        vertical-align: middle;
+      }
+    }
+    div.inactive {
+      background: @inactive-tab-bg;
+      span {
+        color: @inactive-tab-text;
+      }
+    }
+    div.active {
+      background: @active-tab-bg;
+      span {
+        color: @active-tab-text;
+      }
+    }
+  }
+  div.content {
+    background: @card-bg;
+    width: 100%;
+    height: calc(~'100% - @{res-image-height} - @{res-tab-height} - @{res-origin-height}');
+    overflow-y: scroll;
+    div.res-item {
+      position: relative;
+      margin: 0 3%;
+      height: @res-item-height;
+      div.res-image {
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        width: @res-image-size;
+        height: @res-image-size;
+        border-radius: 2px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      div.res-name {
+        position: absolute;
+        left: 60px;
+        top: 10px;
+        width: calc(~'100% - 100px');
+        height: 30px;
+        line-height: 13px;
+        color: @res-name-color;
+        font-size: @res-name-font-size;
+        display: flex;
+        align-items: center;
+      }
+      div.res-info {
+        position: absolute;
+        left: 60px;
+        top: 40px;
+        font-size: 10px;
+        color: @sub-text;
+      }
+      div.res-type {
+        position: absolute;
+        right: 14px;
+        top: 19px;
+        font-size: 14px;
+        color: @active-btn-bg;
+
+      }
+      hr {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        border: none;
+        border-top: 1px solid @main-bg;
+      }
+    }
+  }
+  div.foot {
+    background: @sub-text;
+    width: 100%;
+    height: @res-origin-height;
+    span.owner {
+      font-size: 12px;
+      line-height: @res-origin-height;
+      vertical-align: middle;
+      padding-left: 20px;
+      color: white;
+    }
+    div.avatar {
+      width: @res-foot-avatar-size;
+      height: @res-foot-avatar-size;
+      position: relative;
+      display: inline-block;
+      margin-left: 6px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        line-height: @res-origin-height;
+        vertical-align: middle;
+      }
+    }
+    div.share {
+      float: right;
+      height: @res-origin-height;
+      line-height: @res-origin-height;
+      vertical-align: middle;
+      font-size: 12px;
+      padding-right: 20px;
+      color: white;
+    }
+  }
+}
