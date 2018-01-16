@@ -6,7 +6,6 @@
 @gray: #CCCCCC;
 
 @main-bg: #eaeaea;
-@card-bg: #f0f0f0;
 @default-bg: @blue;
 @default-text: @tiny-blue;
 @warn-bg: @red;
@@ -59,4 +58,43 @@ path {
   background-position: center center;
   background-repeat: no-repeat;
   display: inherit;
+}
+
+.animate {
+  transition: 0.5s;
+}
+
+@nav-height-protrait: 254px;
+@footer-height: 56px;
+@nav-width-landscape: 38.2%;
+
+@media all and (orientation: portrait){
+  nav {
+    width: 100%;
+    height: @nav-height-protrait;
+  }
+  div.res {
+    width: 100%;
+    height: calc(~'100% - @{nav-height-protrait} - @{footer-height}');
+    left: 0;
+    top: @nav-height-protrait;
+  }
+}
+
+@media all and (orientation: landscape){
+  nav {
+    width: @nav-width-landscape;
+    height: calc(~'100% - @{footer-height}');
+  }
+  div.res {
+    width: calc(~'100% - @{nav-width-landscape}');
+    height: calc(~'100% - @{footer-height}');
+    left: @nav-width-landscape;
+    top: 0;
+  }
+}
+
+footer {
+  width: 100%;
+  height: @footer-height;
 }

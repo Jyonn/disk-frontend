@@ -4,6 +4,7 @@ import {User} from "./models/user";
 import {BaseService} from "./services/base.service";
 import {Resource} from "./models/resource";
 import {ClockService} from "./services/clock.service";
+import {ResourceService} from "./services/resource.service";
 
 @Component({
   selector: 'app-root',
@@ -14,112 +15,108 @@ export class AppComponent implements OnInit {
   // title = 'app';
   user: User;
   resource: Resource;
+  children: Resource[] = [];
+  show_list: Resource[] = [];
+
+  resource_search_keyword: string;
+
+  in_searching: boolean;
+
+  foot_btns: Array<any>;
+  foot_btn_active: string;
 
   constructor(
     private userService: UserService,
     private baseService: BaseService,
+    private resService: ResourceService,
     private clockService: ClockService,
   ) {}
   ngOnInit(): void {
     this.userService.api_get_info()
       .then(() => {
         this.user = this.baseService.user;
+        console.log(this.user.url_avatar);
+        if (this.has_login) {
+          this.resService.get_root_res()
+            .then((resp) => {
+              console.log(resp);
+              this.resource = new Resource(resp.info);
+              for (const item of resp.child_list) {
+                item.parent_id = this.resource.res_id;
+                const r_child = new Resource(item);
+                this.children.push(r_child);
+                this.show_list.push(r_child);
+              }
+            });
+        }
       });
     this.clockService.startClock();
-    this.resource = new Resource({
-      rname: '林俊杰 - 伟大的渺小',
-      rtype: Resource.RTYPE_FOLDER,
-      sub_type: Resource.STYPE_FOLDER,
-      description: '“小小的举动，会带来远大的效应”是林俊杰藏在心中多年的一个概念，但也因着还不能完整地呈现而一直搁置。过去的这些日子' +
-      '，林俊杰在体会了来自他身旁人生的体悟与深刻情感后，思想在他的内心渐渐地产生了变化，他深刻地以珍贵的情感与瞬间融入到创作的生命力，' +
-      '也以“真实”为驱动写下了这首歌曲，记录着他内心赤裸的撼动，也献给每一个身边重视的人们。[4] \n\n该曲也与新加坡作词人小寒首度合作。' +
-      '当小寒问起歌词方向的时候，林俊杰团队答道“自由发挥”。她想起在网上看到一个视频“Look Beyond Borders - 4 minutes experiment”' +
-      '，那是一个提高对难民关注的视频，安排多个难民和一般人两两配对，让他们对望四分钟，看他们有何反应。视频的基础是心理学家Arthur ' +
-      'Aron的理论：两个人对望四分钟，能拉近彼此的距离。小寒认为，无论哪个国家的人民，对外来移民总有误解和负面情绪，这是因为对难民的不' +
-      '谅解，于是朝“打破隔阂”的方向创作。同时她也认为每一个渺小的人都是伟大的，没有他们，就像一台机器少了一个螺丝，无法操作，因此为该' +
-      '曲取名《伟大的渺小》，随后该词一次过关，未作任何修改。',
-      cover: '../assets/img/joshua-newton-275881.jpg',
-      owner: {
-        token: null,
-        user_id: 1,
-        username: 'lqj',
-        nickname: '工刀',
-        avatar: '../assets/img/andrew-ridley-76547.jpg',
+    this.resource_search_keyword = '';
+    this.in_searching = false;
+    this.foot_btns = [
+      {
+        icon: 'icon-share',
+        text: '分享',
+        folder: true,
+        file: true,
       },
-      parent_id: 23,
-      status: Resource.STATUS_PRIVATE,
-      create_time: 1515609660,
-      children: [
-        new Resource({
-          rname: '林俊杰 - 全都怪我不该沉默时沉默\n我就是想分两行看看怎么样.mp3',
-          rtype: Resource.RTYPE_FILE,
-          sub_type: Resource.STYPE_MUSIC,
-          description: null,
-          cover: '../assets/img/francisco-gomes-182329.jpg',
-          owner: null,
-          parent_id: null,
-          status: Resource.STATUS_PUBLIC,
-          create_time: 1515631336,
-          children: null,
-          dlcount: 12,
-        }),
-        new Resource({
-          rname: '林俊杰 - 伟大的渺小.mp4',
-          rtype: Resource.RTYPE_FILE,
-          sub_type: Resource.STYPE_VIDEO,
-          description: null,
-          cover: '../assets/img/maxime-valcarce-269439.jpg',
-          owner: null,
-          parent_id: null,
-          status: Resource.STATUS_PUBLIC,
-          create_time: 1515631336,
-          children: null,
-          dlcount: 123,
-        }),
-        new Resource({
-          rname: '你猜我是什么.txt',
-          rtype: Resource.RTYPE_FILE,
-          sub_type: Resource.STYPE_FILE,
-          description: null,
-          cover: '../assets/img/joshua-newton-275881.jpg',
-          owner: null,
-          parent_id: null,
-          status: Resource.STATUS_PUBLIC,
-          create_time: 1515631336,
-          children: null,
-          dlcount: 13,
-        }),
-        new Resource({
-          rname: '林俊杰 - 高清写真.jpg',
-          rtype: Resource.RTYPE_FILE,
-          sub_type: Resource.STYPE_IMAGE,
-          description: null,
-          cover: '../assets/img/osman-rana-263709.jpg',
-          owner: null,
-          parent_id: null,
-          status: Resource.STATUS_PUBLIC,
-          create_time: 1515631336,
-          children: null,
-          dlcount: 33,
-        }),
-        new Resource({
-          rname: '林俊杰 - 西界',
-          rtype: Resource.RTYPE_FOLDER,
-          sub_type: Resource.STYPE_FOLDER,
-          description: null,
-          cover: '../assets/img/seth-doyle-43132.jpg',
-          owner: null,
-          parent_id: null,
-          status: Resource.STATUS_PUBLIC,
-          create_time: 1515631336,
-          children: null,
-          dlcount: 0,
-        }),
-      ],
-      dlcount: 0,
-    });
+      {
+        icon: 'icon-select',
+        text: '多选',
+        folder: true,
+        file: false,
+      },
+      {
+        icon: 'icon-upload',
+        text: '上传',
+        folder: true,
+        file: false,
+      },
+      {
+        icon: 'icon-modify',
+        text: '修改',
+        folder: true,
+        file: true,
+      },
+      {
+        icon: 'icon-delete',
+        text: '删除',
+        folder: true,
+        file: true,
+      }
+    ];
+    this.foot_btn_active = null;
   }
   get has_login() {
-    return this.user && this.user.token;
+    return this.user;
+  }
+
+  resource_search() {
+    this.show_list = [];
+    for (const item of this.children) {
+      if (item.rname.indexOf(this.resource_search_keyword) >= 0) {
+        this.show_list.push(item);
+      }
+    }
+  }
+
+  go_search(searching: boolean) {
+    this.in_searching = searching;
+  }
+
+  get search_class() {
+    return this.in_searching ? 'searching' : '';
+  }
+
+  is_active(icon: string) {
+    return (icon === this.foot_btn_active) ? 'active' : 'inactive';
+  }
+
+  activate_btn(icon: string) {
+    if (this.foot_btn_active === icon) {
+      this.foot_btn_active = null;
+    } else {
+      this.foot_btn_active = icon;
+    }
   }
 }

@@ -1,47 +1,45 @@
 @import "../../styles";
 
-@res-image-height: 180px;
-@res-tab-height: 30px;
+@res-tab-height: 36px;
+@res-tab-font-size: 14px;
+
 @res-origin-height: 36px;
-@res-item-height: 64px;
-@res-image-size: 44px;
+@res-item-box-bg: #f0f0f0;
+@res-item-height: 78px;
+@res-item-image-size: 54px;
 
 @res-name-color: @blue;
-@res-name-font-size: 12px;
+@res-item-name-font-size: 14px;
+@res-item-info-font-size: 12px;
+@res-item-padding: 70px;
+@res-item-margin: 3%;
 
-@res-foot-avatar-size: 14px;
+@res-search-container-padding: 5%;
+@res-search-icon-size: 16px;
+@res-search-box-padding: 3px;
+@res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
 
 div.res {
   position: fixed;
-  left: 9%;
-  width: 82%;
-  top: 85px;
-  height: calc(~'100% - 170px');
-  div.image {
-    width: 100%;
-    height: @res-image-height;
-    position: relative;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
   div.tab {
     &:extend(.ptr);
     width: 100%;
     height: @res-tab-height;
     position: relative;
     div {
+      &:extend(.animate);
       float: left;
       //display: inline-block;
       width: 50%;
       text-align: center;
       span {
-        font-size: 12px;
+        font-size: @res-tab-font-size;
         height: @res-tab-height;
         line-height: @res-tab-height;
         vertical-align: middle;
+        display: block;
       }
+      position: inherit;
     }
     div.inactive {
       background: @inactive-tab-bg;
@@ -55,22 +53,75 @@ div.res {
         color: @active-tab-text;
       }
     }
+    div.resource {
+      div.search-container {
+        position: absolute;
+        top: 0;
+        left: @res-search-container-padding;
+        width: calc(~'100% - 2*@{res-search-container-padding}');
+        height: 100%;
+        span.icon-search {
+          position: absolute;
+          right: 0;
+          font-size: @res-search-icon-size;
+        }
+        div.search-box {
+          filter: opacity(0);
+          position: absolute;
+          left: 0;
+          width: calc(~'100% - @{res-search-icon-size}');
+          height: 100%;
+          padding: @res-search-box-padding 10px @res-search-box-padding 0;
+          input.search {
+            width: 100%;
+            height: 100%;
+            border-radius: @res-search-border-radius;
+            border: none;
+            padding: 0 2*@res-search-border-radius 0 @res-search-border-radius;
+            font-size: @res-tab-font-size;
+          }
+          span.icon-collapse {
+            position: absolute;
+            top: 0;
+            right: @res-search-border-radius + @res-search-box-padding;
+            color: @active-tab-bg;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+  div.tab.searching {
+    div.resource {
+      position: absolute;
+      width: 100%;
+      div.search-container div.search-box {
+        filter: opacity(100%);
+      }
+    }
+    div.description {
+      width: 0;
+      //&:extend(.animate);
+    }
+    div span.text {
+      filter: opacity(0);
+    }
   }
   div.content {
-    background: @card-bg;
+    background: @res-item-box-bg;
     width: 100%;
-    height: calc(~'100% - @{res-image-height} - @{res-tab-height} - @{res-origin-height}');
+    height: calc(~'100% - @{res-tab-height}');
     overflow-y: scroll;
     div.res-item {
       position: relative;
-      margin: 0 3%;
+      margin: 0 @res-item-margin;
       height: @res-item-height;
       div.res-image {
         position: absolute;
         left: 8px;
         top: 10px;
-        width: @res-image-size;
-        height: @res-image-size;
+        width: @res-item-image-size;
+        height: @res-item-image-size;
         border-radius: 2px;
         img {
           width: 100%;
@@ -79,28 +130,30 @@ div.res {
       }
       div.res-name {
         position: absolute;
-        left: 60px;
-        top: 10px;
-        width: calc(~'100% - 100px');
-        height: 30px;
-        line-height: 13px;
+        left: @res-item-padding;
+        top: 12px;
+        width: calc(~'100% - 120px');
+        height: 2*@res-item-name-font-size + 2px;
+        line-height: @res-item-name-font-size + 2px;
         color: @res-name-color;
-        font-size: @res-name-font-size;
-        display: flex;
-        align-items: center;
+        font-size: @res-item-name-font-size;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
       }
       div.res-info {
         position: absolute;
-        left: 60px;
-        top: 40px;
-        font-size: 10px;
+        left: @res-item-padding;
+        top: 49px;
+        font-size: @res-item-info-font-size;
         color: @sub-text;
       }
       div.res-type {
         position: absolute;
         right: 14px;
         top: 19px;
-        font-size: 14px;
+        font-size: 16px;
         color: @active-btn-bg;
 
       }
@@ -112,41 +165,6 @@ div.res {
         border: none;
         border-top: 1px solid @main-bg;
       }
-    }
-  }
-  div.foot {
-    background: @sub-text;
-    width: 100%;
-    height: @res-origin-height;
-    span.owner {
-      font-size: 12px;
-      line-height: @res-origin-height;
-      vertical-align: middle;
-      padding-left: 20px;
-      color: white;
-    }
-    div.avatar {
-      width: @res-foot-avatar-size;
-      height: @res-foot-avatar-size;
-      position: relative;
-      display: inline-block;
-      margin-left: 6px;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        line-height: @res-origin-height;
-        vertical-align: middle;
-      }
-    }
-    div.share {
-      float: right;
-      height: @res-origin-height;
-      line-height: @res-origin-height;
-      vertical-align: middle;
-      font-size: 12px;
-      padding-right: 20px;
-      color: white;
     }
   }
 }

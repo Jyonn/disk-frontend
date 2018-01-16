@@ -26,37 +26,58 @@ div.res div.tab {
   background-repeat: no-repeat;
   display: inherit;
 }
+.animate,
+div.res div.tab div {
+  transition: 0.5s;
+}
+@media all and (orientation: portrait) {
+  nav {
+    width: 100%;
+    height: 254px;
+  }
+  div.res {
+    width: 100%;
+    height: calc(100% - 254px - 56px);
+    left: 0;
+    top: 254px;
+  }
+}
+@media all and (orientation: landscape) {
+  nav {
+    width: 38.2%;
+    height: calc(100% - 56px);
+  }
+  div.res {
+    width: calc(100% - 38.2%);
+    height: calc(100% - 56px);
+    left: 38.2%;
+    top: 0;
+  }
+}
+footer {
+  width: 100%;
+  height: 56px;
+}
 div.res {
   position: fixed;
-  left: 9%;
-  width: 82%;
-  top: 85px;
-  height: calc(100% - 170px);
-}
-div.res div.image {
-  width: 100%;
-  height: 180px;
-  position: relative;
-}
-div.res div.image img {
-  width: 100%;
-  height: 100%;
 }
 div.res div.tab {
   width: 100%;
-  height: 30px;
+  height: 36px;
   position: relative;
 }
 div.res div.tab div {
   float: left;
   width: 50%;
   text-align: center;
+  position: inherit;
 }
 div.res div.tab div span {
-  font-size: 12px;
-  height: 30px;
-  line-height: 30px;
+  font-size: 14px;
+  height: 36px;
+  line-height: 36px;
   vertical-align: middle;
+  display: block;
 }
 div.res div.tab div.inactive {
   background: white;
@@ -70,23 +91,71 @@ div.res div.tab div.active {
 div.res div.tab div.active span {
   color: #F1F9FF;
 }
+div.res div.tab div.resource div.search-container {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: calc(100% - 2*5%);
+  height: 100%;
+}
+div.res div.tab div.resource div.search-container span.icon-search {
+  position: absolute;
+  right: 0;
+  font-size: 16px;
+}
+div.res div.tab div.resource div.search-container div.search-box {
+  filter: opacity(0);
+  position: absolute;
+  left: 0;
+  width: calc(100% - 16px);
+  height: 100%;
+  padding: 3px 10px 3px 0;
+}
+div.res div.tab div.resource div.search-container div.search-box input.search {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  border: none;
+  padding: 0 30px 0 15px;
+  font-size: 14px;
+}
+div.res div.tab div.resource div.search-container div.search-box span.icon-collapse {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  color: #007FEB;
+  font-weight: bold;
+}
+div.res div.tab.searching div.resource {
+  position: absolute;
+  width: 100%;
+}
+div.res div.tab.searching div.resource div.search-container div.search-box {
+  filter: opacity(100%);
+}
+div.res div.tab.searching div.description {
+  width: 0;
+}
+div.res div.tab.searching div span.text {
+  filter: opacity(0);
+}
 div.res div.content {
   background: #f0f0f0;
   width: 100%;
-  height: calc(100% - 180px - 30px - 36px);
+  height: calc(100% - 36px);
   overflow-y: scroll;
 }
 div.res div.content div.res-item {
   position: relative;
   margin: 0 3%;
-  height: 64px;
+  height: 78px;
 }
 div.res div.content div.res-item div.res-image {
   position: absolute;
   left: 8px;
   top: 10px;
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   border-radius: 2px;
 }
 div.res div.content div.res-item div.res-image img {
@@ -95,28 +164,30 @@ div.res div.content div.res-item div.res-image img {
 }
 div.res div.content div.res-item div.res-name {
   position: absolute;
-  left: 60px;
-  top: 10px;
-  width: calc(100% - 100px);
+  left: 70px;
+  top: 12px;
+  width: calc(100% - 120px);
   height: 30px;
-  line-height: 13px;
+  line-height: 16px;
   color: #2699FB;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 div.res div.content div.res-item div.res-info {
   position: absolute;
-  left: 60px;
-  top: 40px;
-  font-size: 10px;
+  left: 70px;
+  top: 49px;
+  font-size: 12px;
   color: #CCCCCC;
 }
 div.res div.content div.res-item div.res-type {
   position: absolute;
   right: 14px;
   top: 19px;
-  font-size: 14px;
+  font-size: 16px;
   color: #2699FB;
 }
 div.res div.content div.res-item hr {
@@ -126,39 +197,4 @@ div.res div.content div.res-item hr {
   height: 1px;
   border: none;
   border-top: 1px solid #eaeaea;
-}
-div.res div.foot {
-  background: #CCCCCC;
-  width: 100%;
-  height: 36px;
-}
-div.res div.foot span.owner {
-  font-size: 12px;
-  line-height: 36px;
-  vertical-align: middle;
-  padding-left: 20px;
-  color: white;
-}
-div.res div.foot div.avatar {
-  width: 14px;
-  height: 14px;
-  position: relative;
-  display: inline-block;
-  margin-left: 6px;
-}
-div.res div.foot div.avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  line-height: 36px;
-  vertical-align: middle;
-}
-div.res div.foot div.share {
-  float: right;
-  height: 36px;
-  line-height: 36px;
-  vertical-align: middle;
-  font-size: 12px;
-  padding-right: 20px;
-  color: white;
 }

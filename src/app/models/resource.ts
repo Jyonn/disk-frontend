@@ -14,6 +14,7 @@ export class Resource {
   public static STYPE_MUSIC = 3;
   public static STYPE_FILE = 4;
   public static STYPE_LINK = 5;
+  res_id: number;
   rname: string;
   rtype: number;
   sub_type: number;
@@ -23,20 +24,23 @@ export class Resource {
   parent_id: number;
   status: number;
   create_time: number;
-  children: Resource[] = [];
   dlcount: number;
 
-  constructor(d: {rname, rtype, sub_type, description, cover, owner, parent_id, status, create_time, children, dlcount}) {
+  constructor(d: {res_id, rname, rtype, sub_type, description, cover, owner, parent_id, status, create_time, dlcount}) {
+    this.res_id = d.res_id;
     this.rname = d.rname;
     this.rtype = d.rtype;
     this.sub_type = d.sub_type;
     this.description = d.description;
     this.cover = d.cover;
-    this.owner = d.owner;
+    if (d.owner instanceof User) {
+      this.owner = d.owner;
+    } else {
+      this.owner = new User(d.owner);
+    }
     this.parent_id = d.parent_id;
     this.status = d.status;
     this.create_time = d.create_time;
-    this.children = d.children;
     this.dlcount = d.dlcount;
   }
 
@@ -70,7 +74,12 @@ export class Resource {
   }
 
   get url_cover() {
-    return `url('${this.cover}')`;
+    if (this.cover) {
+      return `url('${this.cover}')`;
+    } else {
+      return `url('https://unsplash.6-79.cn/random/small')`;
+    }
+    // return `url('${this.cover}')`;
   }
   get icon() {
     switch (this.sub_type) {

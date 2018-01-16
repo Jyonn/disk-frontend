@@ -1,14 +1,20 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
+import {User} from "../models/user";
 
 @Injectable()
 export class UserService {
   constructor(private baseService: BaseService) {
-    const token = window.localStorage.getItem('token');
-    // console.log(token);
-    if (token) {
-      baseService.user.token = token;
-    }
+    // const token = window.localStorage.getItem('token');
+    // if (token) {
+    //   baseService.user.token = token;
+    // }
+    baseService.token =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdmF0YXIiOiJodHRwczovL3Jlcy42LTc5LmNuL2Rpc2svdXNlci8yL2F2YXRhci8x" +
+      "NTE1ODEwMTQ3LjI0MTk2OC9hbmRyZXctcmlkbGV5LTc2NTQ3LmpwZy1zbWFsbD9lPTE1MTYwODgzMDEmdG9rZW49b1g2akptanVkUC0zQ" +
+      "lhISjNBOGxZakVRUmxRSEJjNzA3MzRaeVRSNDpkMVMyOUVOc0ZwLWRxT3B2aGlIVTdhczFhSE09IiwidXNlcl9pZCI6Miwibmlja25hbW" +
+      "UiOiJcdTVkZTVcdTUyMDAiLCJjdGltZSI6MTUxNjA4NDcwMS4xMTEzNDMsImV4cGlyZSI6ODY0MDAsInVzZXJuYW1lIjoiZ29uZ2RhbyJ" +
+      "9.f7417uXwWy3PmirYTpEafC8Z8g3F5M_M7TiWuJbJ-9w";
   }
 
   public api_get_token(username: string, password: string) {
@@ -19,9 +25,9 @@ export class UserService {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
-          this.baseService.user = body;
-          window.localStorage.setItem('token', body.token);
-          return body;
+        this.baseService.user = body;
+        window.localStorage.setItem('token', body.token);
+        return body;
       });
   }
 
@@ -29,12 +35,11 @@ export class UserService {
     return this.baseService
       .get('/api/user/')
       .then(body => {
-          body.token = this.baseService.get_token();
-          this.baseService.user = body;
-          return body;
+        this.baseService.user = new User(body);
+        return this.baseService.user;
       })
       .catch(() => {
-        this.baseService.user.token = null;
+        this.baseService.token = null;
       });
   }
 
@@ -52,7 +57,6 @@ export class UserService {
     return this.baseService
       .post('/api/user/', data)
       .then(body => {
-        console.log(body);
         return body;
       });
   }

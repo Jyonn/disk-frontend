@@ -37,6 +37,11 @@ export class ResourceService {
       .get(`/api/res/${slug}`, data);
   }
 
+  public get_root_res() {
+    return this.baseService
+      .get('/api/res/');
+  }
+
   public create_folder(path: object, folder_name: string, description: string, status: number) {
     const slug = ResourceService.path_to_slug(path);
     const data = {

@@ -1,32 +1,43 @@
 @import "../../styles";
 
-@nav-text: @dark-blue;
-@nav-height: 64px;
 @avatar-size: 20px;
 @left-btn-size: 20px;
 @normal-padding: 10px;
 
+@nav-bg-blur: 8px;
+@nav-main-color: white;
+@nav-foot-height: 36px;
+@nav-foot-avatar-size: 14px;
+@nav-foot-padding: 24px;
+
 nav {
-  //&:extend(.light-shadow);
   background: none;
-  height: @nav-height;
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
-  padding: 32px 18px 0;
+
+  .background {
+    position: absolute;
+    top: -@nav-bg-blur;
+    left: -@nav-bg-blur;
+    width: calc(~'100% + 2*@{nav-bg-blur}');
+    height: calc(~'100% + 2*@{nav-bg-blur}');
+    filter: blur(@nav-bg-blur);
+  }
+
   .content {
-    width: 100%;
-    //background: red;
-    height: 22px;
-    position: relative;
+    width: calc(~'100% - 40px');
+    height: 24px;
+    position: absolute;
+    top: 24px;
+    left: 20px;
     div.left-btn {
       &:extend(.ptr);
       position: absolute;
       top: 0;
       left: 0;
       span {
-        color: @nav-text;
+        color: @nav-main-color;
         font-size: @left-btn-size;
       }
     }
@@ -44,19 +55,58 @@ nav {
         //border-radius: 50%;
       }
       span.icon-unlogin {
-        color: @dark-blue;
+        color: @nav-main-color;
       }
     }
-    div.title {
-      width: calc(~"100% - @{avatar-size} - @{left-btn-size} - 2*@{normal-padding}");
-      margin-left: calc(~"@{left-btn-size} + @{normal-padding}");
-      text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: @title-font-size;
-      font-weight: bold;
-      color: @nav-text;
+  }
+  div.title {
+    position: absolute;
+    left: @nav-foot-padding;
+    bottom: 40px;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    //white-space: nowrap;
+    font-size: @title-font-size;
+    font-weight: bold;
+    color: @nav-main-color;
+    width: calc(~'100% - 2*@{nav-foot-padding}');
+  }
+  div.foot {
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    background: none;
+    width: 100%;
+    height: @nav-foot-height;
+    span.owner {
+      font-size: 12px;
+      line-height: @nav-foot-height;
+      vertical-align: middle;
+      padding-left: @nav-foot-padding;
+      color: white;
+    }
+    div.avatar {
+      width: @nav-foot-avatar-size;
+      height: @nav-foot-avatar-size;
+      position: relative;
+      display: inline-block;
+      margin-left: 6px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        line-height: @nav-foot-height;
+        vertical-align: middle;
+      }
+    }
+    div.share {
+      float: right;
+      height: @nav-foot-height;
+      line-height: @nav-foot-height;
+      vertical-align: middle;
+      font-size: 12px;
+      padding-right: 20px;
+      color: white;
     }
   }
 }

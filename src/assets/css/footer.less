@@ -1,6 +1,5 @@
 @import "../../styles";
 
-@footer-height: 56px;
 @footer-btn-size: 74px;
 @footer-bg: @blue;
 @footer-text: @light-blue;
@@ -30,7 +29,7 @@ footer {
     position: relative;
     span.icon {
       color: @footer-btn-bg;
-      transition: 0.2s;
+      &:extend(.animate);
     }
     span.text {
       color: @footer-btn-bg;
@@ -39,23 +38,23 @@ footer {
       width: 100%;
       left: 0;
       text-align: center;
-      transition: 0.2s;
+      &:extend(.animate);
     }
   }
 
   div.btn.inactive {
     width: @footer-height;
     height: @footer-height;
-    transition: 0.2s;
+    &:extend(.animate);
     span.icon {
       font-size: @footer-btn-font-size;
       filter: opacity(0.3);
-      transition: 0.2s;
+      &:extend(.animate);
     }
     span.text {
       bottom: 0;
       filter: opacity(0);
-      transition: 0.2s;
+      &:extend(.animate);
     }
   }
 
@@ -64,7 +63,7 @@ footer {
     &:extend(.strong-shadow);
     width: @footer-btn-size;
     height: @footer-btn-size;
-    transition: 0.2s;
+    &:extend(.animate);
     span.icon {
       filter: opacity(1.0);
       font-size: @footer-btn-font-size * 1.2;
@@ -73,7 +72,7 @@ footer {
     span.text {
       filter: opacity(1.0);
       bottom: -5px;
-      transition: 0.2s;
+      &:extend(.animate);
     }
   }
 
