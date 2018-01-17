@@ -2,7 +2,7 @@
   <div class="background img-fit" [ngStyle]="{'background-image': this.resource?.url_cover}"></div>
   <div class="content">
     <div class="left-btn">
-      <span class="icon-back"></span>
+      <span class="icon-back" *ngIf="!this.resource?.is_home" (click)="go_parent()"></span>
     </div>
     <div class="right-avatar img-fit" *ngIf="this.userService.has_login" [ngStyle]="{'background-image': this.user?.url_avatar}"></div>
     <div class="right-avatar" *ngIf="!this.userService.has_login"><span class="icon-unlogin"></span></div>
@@ -20,16 +20,16 @@
     <div class="resource active">
       <span class="text">资源</span>
       <div class="search-container">
-        <span class="icon icon-search" (click)="this.search_mode ? resource_search() : go_search(true)"></span>
+        <span class="icon icon-search" *ngIf="this.resource?.is_folder" (click)="this.search_mode ? resource_search() : go_search(true)"></span>
         <div class="search-box">
           <input #searchBox class="search" placeholder="搜索…" [(ngModel)]="resource_search_keyword">
           <span class="icon icon-collapse" (click)="go_search(false)"></span>
         </div>
       </div>
     </div>
-    <div class="description inactive"><span class="text">说明</span></div>
+    <div class="description inactive"><span class="text">介绍</span></div>
   </div>
-  <div class="content">
+  <div class="content" *ngIf="this.resource?.is_folder">
     <div class="res-item" *ngFor="let child of this.show_list" (click)="this.navigate(child.res_id)">
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
       <div class="res-name">{{child.rname}}</div>
@@ -37,6 +37,12 @@
       <div class="res-type"><span [ngClass]="child.icon"></span></div>
       <hr/>
     </div>
+  </div>
+  <div class="content" *ngIf="this.resource && !this.resource?.is_folder">
+    <span class="icon" [ngClass]=this.resource?.icon></span>
+    <div class="file-name">{{this.resource?.rname}}</div>
+    <div class="file-size">{{this.resource?.size}}</div>
+    <div class="round-btn" (click)="this.download()">下载</div>
   </div>
 </div>
 

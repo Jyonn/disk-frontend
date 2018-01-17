@@ -1,7 +1,7 @@
 @import "../../styles";
 
-@res-tab-height: 36px;
-@res-tab-font-size: 14px;
+@res-tab-height: 46px;
+@res-tab-font-size: 16px;
 
 @res-origin-height: 36px;
 @res-item-box-bg: #f0f0f0;
@@ -13,8 +13,12 @@
 @res-item-info-font-size: 12px;
 @res-item-padding: 70px;
 @res-item-margin: 3%;
+@res-file-icon-size: 80px;
+@res-file-name-size: 14px;
+@res-file-size-size: 10px;
+@res-round-btn-width: 70px;
 
-@res-search-container-padding: 10px;
+@res-search-container-padding: 14px;
 @res-search-icon-size: 16px;
 @res-search-box-padding: 4px;
 @res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
@@ -173,6 +177,36 @@ div.res {
         border: none;
         border-top: 1px solid @main-bg;
       }
+    }
+    span.icon {
+      position: absolute;
+      left: calc(~'50% - @{res-file-icon-size} / 2');
+      bottom: calc(~'40% + @{res-file-name-size} + 20px');
+      color: @active-btn-bg;
+      font-size: @res-file-icon-size;
+    }
+    div.file-name {
+      position: absolute;
+      color: #555555;
+      font-size: @res-file-name-size;
+      top: 60%;
+      width: 100%;
+      text-align: center;
+    }
+    div.file-size {
+      position: absolute;
+      width: 100%;
+      color: #888888;
+      font-size: @res-file-size-size;
+      top: calc(~'60% + @{res-file-name-size} + 10px');
+      text-align: center;
+    }
+    div.round-btn {
+      position: absolute;
+      bottom: 0;
+      width: @res-round-btn-width;
+      left: calc(~'50% - @{res-round-btn-width} / 2');
+      top: calc(~'60% + 60px');
     }
   }
 }

@@ -2,6 +2,7 @@ import {User} from "./user";
 import {ClockService} from "../services/clock.service";
 
 export class Resource {
+  public static ROOT_ID = 1;
   public static RTYPE_FILE = 0;
   public static RTYPE_FOLDER = 1;
   public static RTYPE_LINK = 2;
@@ -17,6 +18,7 @@ export class Resource {
   res_id: number;
   rname: string;
   rtype: number;
+  rsize: number;
   sub_type: number;
   description: string;
   cover: string;
@@ -26,10 +28,11 @@ export class Resource {
   create_time: number;
   dlcount: number;
 
-  constructor(d: {res_id, rname, rtype, sub_type, description, cover, owner, parent_id, status, create_time, dlcount}) {
+  constructor(d: {res_id, rname, rtype, rsize, sub_type, description, cover, owner, parent_id, status, create_time, dlcount}) {
     this.res_id = d.res_id;
     this.rname = d.rname;
     this.rtype = d.rtype;
+    this.rsize = d.rsize;
     this.sub_type = d.sub_type;
     this.description = d.description;
     this.cover = d.cover;
@@ -77,7 +80,7 @@ export class Resource {
     if (this.cover) {
       return `url('${this.cover}')`;
     } else {
-      return `url('https://unsplash.6-79.cn/random/small')`;
+      return `url('https://unsplash.6-79.cn/random/thumb')`;
     }
     // return `url('${this.cover}')`;
   }
@@ -93,6 +96,28 @@ export class Resource {
         return 'icon-music';
       default:
         return 'icon-file';
+    }
+  }
+
+  get is_home() {
+    return this.parent_id === Resource.ROOT_ID;
+  }
+
+  get is_folder() {
+    return this.rtype === Resource.RTYPE_FOLDER;
+  }
+
+  get size() {
+    const base = 'BKMGT';
+    let size = this.rsize;
+    if (!this.rsize) {
+      return null;
+    }
+    for (let i = 0; i < base.length; i++) {
+      if (size < 1024) {
+        return `${Math.round(size)} ${base[i]}`;
+      }
+      size /= 1024;
     }
   }
 }

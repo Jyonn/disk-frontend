@@ -17,7 +17,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   ]
 })
 export class ResComponent implements OnInit {
-  slug: null;
+  path: Array<any>;
 
   user: User;
   resource: Resource;
@@ -28,8 +28,9 @@ export class ResComponent implements OnInit {
 
   search_mode: boolean;
 
-  foot_btns: Array<any>;
+  foot_btn_list: Array<any>;
   foot_btn_active: string;
+  visit_key: string;
 
   constructor(
     public userService: UserService,
@@ -40,14 +41,16 @@ export class ResComponent implements OnInit {
   ) {
     this.user = null;
     this.resource = null;
+    this.path = [];
+    this.visit_key = null;
   }
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
-      this.slug = params['slug'];
+      this.path = params['slug'].split('-');
       this.userService.api_get_info()
         .then((user: User) => {
           this.user = user;
-          this.resService.get_res_info(this.slug, null)
+          this.resService.get_res_info(this.path, null)
             .then((resp) => {
               this.children = [];
               this.show_list = [];
@@ -64,7 +67,7 @@ export class ResComponent implements OnInit {
     this.clockService.startClock();
     this.resource_search_keyword = '';
     this.search_mode = false;
-    this.foot_btns = [
+    this.foot_btn_list = [
       {
         icon: 'icon-share',
         text: '分享',
@@ -129,7 +132,32 @@ export class ResComponent implements OnInit {
   }
 
   navigate(res_id) {
-    const link = ['/res', `${this.slug}-${res_id}`];
+    const link = ['/res', `${this.path.join('-')}-${res_id}`];
     this.router.navigate(link);
+  }
+
+  go_parent() {
+    const link = ['/res', this.path.slice(0, -1).join('-')];
+    this.router.navigate(link);
+  }
+
+  get foot_btns() {
+    const _foot_btns = [];
+    for (const foot_btn of this.foot_btn_list) {
+      if (this.resource) {
+        if ((this.resource.is_folder && foot_btn.folder) ||
+            (!this.resource.is_folder && foot_btn.file)) {
+          _foot_btns.push(foot_btn);
+        }
+      }
+    }
+    return _foot_btns;
+  }
+
+  download() {
+    this.resService.get_dl_link(this.path, this.visit_key)
+      .then((resp) => {
+        window.location = resp.link;
+      });
   }
 }

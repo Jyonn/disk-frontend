@@ -64,7 +64,8 @@ path {
   transition: 0.5s;
 }
 
-@nav-height-protrait: 254px;
+//@nav-height-protrait: 254px;
+@nav-height-protrait: 38.2%;
 @footer-height: 56px;
 @nav-width-landscape: 38.2%;
 
@@ -97,4 +98,19 @@ path {
 footer {
   width: 100%;
   height: @footer-height;
+}
+
+@round-btn-height: 30px;
+
+.round-btn {
+  &:extend(.ptr);
+  width: auto;
+  height: @round-btn-height;
+  border-radius: @round-btn-height / 2;
+  background: @blue;
+  color: white;
+  line-height: @round-btn-height;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
 }

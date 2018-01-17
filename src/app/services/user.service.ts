@@ -12,11 +12,11 @@ export class UserService {
     // }
     this.user = null;
     baseService.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdmF0YXIiOiJodHRwczovL3Jlcy42LTc5LmNuL2Rpc2svdXNlci8yL2F2YXRhci8x" +
-      "NTE1ODEwMTQ3LjI0MTk2OC9hbmRyZXctcmlkbGV5LTc2NTQ3LmpwZy1zbWFsbD9lPTE1MTYwODgzMDEmdG9rZW49b1g2akptanVkUC0zQ" +
-      "lhISjNBOGxZakVRUmxRSEJjNzA3MzRaeVRSNDpkMVMyOUVOc0ZwLWRxT3B2aGlIVTdhczFhSE09IiwidXNlcl9pZCI6Miwibmlja25hbW" +
-      "UiOiJcdTVkZTVcdTUyMDAiLCJjdGltZSI6MTUxNjA4NDcwMS4xMTEzNDMsImV4cGlyZSI6ODY0MDAsInVzZXJuYW1lIjoiZ29uZ2RhbyJ" +
-      "9.f7417uXwWy3PmirYTpEafC8Z8g3F5M_M7TiWuJbJ-9w";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImdvbmdkYW8iLCJhdmF0YXIiOiJodHRwczovL3Jlcy42LTc5LmNuL2Rp" +
+      "c2svdXNlci8yL2F2YXRhci8xNTE1ODEwMTQ3LjI0MTk2OC9hbmRyZXctcmlkbGV5LTc2NTQ3LmpwZy1zbWFsbD9lPTE1MTYyMjAzODgmdG9rZ" +
+      "W49b1g2akptanVkUC0zQlhISjNBOGxZakVRUmxRSEJjNzA3MzRaeVRSNDp2MDlJNEdDLTNNQURQYlJuVVNQNTRJWmxKa3c9IiwiY3RpbWUiOj" +
+      "E1MTYyMTY3ODguNDE5NTU1LCJ1c2VyX2lkIjoyLCJuaWNrbmFtZSI6Ilx1NWRlNVx1NTIwMCIsImV4cGlyZSI6NjA0ODAwfQ.dJYOYw87Qyea" +
+      "anmAE0ZoeyRSag7E7mckB0ZECy_AwcE";
   }
 
   public api_get_token(username: string, password: string) {

@@ -11,6 +11,7 @@ path {
   fill: #007FEB;
 }
 .ptr,
+.round-btn,
 div.res div.tab {
   cursor: pointer;
 }
@@ -33,13 +34,13 @@ div.res div.tab div {
 @media all and (orientation: portrait) {
   nav {
     width: 100%;
-    height: 254px;
+    height: 38.2%;
   }
   div.res {
     width: 100%;
-    height: calc(100% - 254px - 56px);
+    height: calc(100% - 38.2% - 56px);
     left: 0;
-    top: 254px;
+    top: 38.2%;
   }
 }
 @media all and (orientation: landscape) {
@@ -58,12 +59,23 @@ footer {
   width: 100%;
   height: 56px;
 }
+.round-btn {
+  width: auto;
+  height: 30px;
+  border-radius: 15px;
+  background: #2699FB;
+  color: white;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+}
 div.res {
   position: fixed;
 }
 div.res div.tab {
   width: 100%;
-  height: 36px;
+  height: 46px;
   position: relative;
 }
 div.res div.tab div {
@@ -73,9 +85,9 @@ div.res div.tab div {
   text-align: center;
 }
 div.res div.tab div span {
-  font-size: 14px;
-  height: 36px;
-  line-height: 36px;
+  font-size: 16px;
+  height: 46px;
+  line-height: 46px;
   vertical-align: middle;
   display: block;
 }
@@ -100,8 +112,8 @@ div.res div.tab div.active span {
 div.res div.tab div.resource div.search-container {
   position: absolute;
   top: 0;
-  left: 10px;
-  width: calc(100% - 2*10px);
+  left: 14px;
+  width: calc(100% - 2*14px);
   height: 100%;
 }
 div.res div.tab div.resource div.search-container span.icon-search {
@@ -115,20 +127,20 @@ div.res div.tab div.resource div.search-container div.search-box {
   left: 0;
   width: calc(100% - 16px);
   height: 100%;
-  padding: 4px 10px 4px 0;
+  padding: 4px 14px 4px 0;
 }
 div.res div.tab div.resource div.search-container div.search-box input.search {
   width: 100%;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 19px;
   border: none;
-  padding: 0 28px 0 14px;
-  font-size: 14px;
+  padding: 0 38px 0 19px;
+  font-size: 16px;
 }
 div.res div.tab div.resource div.search-container div.search-box span.icon-collapse {
   position: absolute;
   top: 0;
-  right: 24px;
+  right: 33px;
   color: #007FEB;
   font-weight: bold;
 }
@@ -148,7 +160,7 @@ div.res div.tab.searching div span.text {
 div.res div.content {
   background: #f0f0f0;
   width: 100%;
-  height: calc(100% - 36px);
+  height: calc(100% - 46px);
   overflow-y: scroll;
 }
 div.res div.content div.res-item {
@@ -203,4 +215,34 @@ div.res div.content div.res-item hr {
   height: 1px;
   border: none;
   border-top: 1px solid #eaeaea;
+}
+div.res div.content span.icon {
+  position: absolute;
+  left: calc(50% - 80px / 2);
+  bottom: calc(40% + 14px + 20px);
+  color: #2699FB;
+  font-size: 80px;
+}
+div.res div.content div.file-name {
+  position: absolute;
+  color: #555555;
+  font-size: 14px;
+  top: 60%;
+  width: 100%;
+  text-align: center;
+}
+div.res div.content div.file-size {
+  position: absolute;
+  width: 100%;
+  color: #888888;
+  font-size: 10px;
+  top: calc(60% + 14px + 10px);
+  text-align: center;
+}
+div.res div.content div.round-btn {
+  position: absolute;
+  bottom: 0;
+  width: 70px;
+  left: calc(50% - 70px / 2);
+  top: calc(60% + 60px);
 }
