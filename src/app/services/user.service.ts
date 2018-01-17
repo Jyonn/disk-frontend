@@ -4,11 +4,13 @@ import {User} from "../models/user";
 
 @Injectable()
 export class UserService {
+  public user: User;
   constructor(private baseService: BaseService) {
     // const token = window.localStorage.getItem('token');
     // if (token) {
     //   baseService.user.token = token;
     // }
+    this.user = null;
     baseService.token =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdmF0YXIiOiJodHRwczovL3Jlcy42LTc5LmNuL2Rpc2svdXNlci8yL2F2YXRhci8x" +
       "NTE1ODEwMTQ3LjI0MTk2OC9hbmRyZXctcmlkbGV5LTc2NTQ3LmpwZy1zbWFsbD9lPTE1MTYwODgzMDEmdG9rZW49b1g2akptanVkUC0zQ" +
@@ -25,20 +27,24 @@ export class UserService {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
-        this.baseService.user = body;
+        this.user = body;
         window.localStorage.setItem('token', body.token);
         return body;
       });
   }
 
   public api_get_info() {
+    if (this.user) {
+      return Promise.resolve(this.user);
+    }
     return this.baseService
       .get('/api/user/')
       .then(body => {
-        this.baseService.user = new User(body);
-        return this.baseService.user;
+        this.user = new User(body);
+        return this.user;
       })
-      .catch(() => {
+      .catch((error) => {
+        // console.log(error);
         this.baseService.token = null;
       });
   }
@@ -76,5 +82,9 @@ export class UserService {
     };
     return this.baseService
       .get('/api/user/avatar', data);
+  }
+
+  get has_login() {
+    return this.user;
   }
 }

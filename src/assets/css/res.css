@@ -67,10 +67,10 @@ div.res div.tab {
   position: relative;
 }
 div.res div.tab div {
-  float: left;
+  position: absolute;
+  top: 0;
   width: 50%;
   text-align: center;
-  position: inherit;
 }
 div.res div.tab div span {
   font-size: 14px;
@@ -78,6 +78,12 @@ div.res div.tab div span {
   line-height: 36px;
   vertical-align: middle;
   display: block;
+}
+div.res div.tab div.resource {
+  left: 0;
+}
+div.res div.tab div.description {
+  right: 0;
 }
 div.res div.tab div.inactive {
   background: white;
@@ -94,8 +100,8 @@ div.res div.tab div.active span {
 div.res div.tab div.resource div.search-container {
   position: absolute;
   top: 0;
-  left: 5%;
-  width: calc(100% - 2*5%);
+  left: 10px;
+  width: calc(100% - 2*10px);
   height: 100%;
 }
 div.res div.tab div.resource div.search-container span.icon-search {
@@ -109,20 +115,20 @@ div.res div.tab div.resource div.search-container div.search-box {
   left: 0;
   width: calc(100% - 16px);
   height: 100%;
-  padding: 3px 10px 3px 0;
+  padding: 4px 10px 4px 0;
 }
 div.res div.tab div.resource div.search-container div.search-box input.search {
   width: 100%;
   height: 100%;
-  border-radius: 15px;
+  border-radius: 14px;
   border: none;
-  padding: 0 30px 0 15px;
+  padding: 0 28px 0 14px;
   font-size: 14px;
 }
 div.res div.tab div.resource div.search-container div.search-box span.icon-collapse {
   position: absolute;
   top: 0;
-  right: 18px;
+  right: 24px;
   color: #007FEB;
   font-weight: bold;
 }

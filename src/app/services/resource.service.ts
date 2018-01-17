@@ -28,8 +28,8 @@ export class ResourceService {
       .get('/api/res/token', data);
   }
 
-  public get_res_info(path: object, visit_key: string) {
-    const slug = ResourceService.path_to_slug(path);
+  public get_res_info(slug: string, visit_key: string) {
+    // const slug = ResourceService.path_to_slug(path);
     const data = {
       visit_key: visit_key,
     };

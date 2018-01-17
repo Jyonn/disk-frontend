@@ -1,3 +1,6 @@
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class ClockService {
   public static ct: number; // current timestamp
   private static time_interval = null;

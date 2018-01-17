@@ -4,10 +4,8 @@
     <div class="left-btn">
       <span class="icon-back"></span>
     </div>
-    <div class="right-avatar img-fit" *ngIf="this.has_login" [ngStyle]="{'background-image': this.user?.url_avatar}">
-      <!--<img src="../assets/img/jeremy-perkins-281327.jpg">-->
-    </div>
-    <div class="right-avatar" *ngIf="!this.has_login"><span class="icon-unlogin"></span></div>
+    <div class="right-avatar img-fit" *ngIf="this.userService.has_login" [ngStyle]="{'background-image': this.user?.url_avatar}"></div>
+    <div class="right-avatar" *ngIf="!this.userService.has_login"><span class="icon-unlogin"></span></div>
   </div>
   <div class="title">{{this.resource?.rname}}</div>
   <div class="foot">
@@ -22,9 +20,9 @@
     <div class="resource active">
       <span class="text">资源</span>
       <div class="search-container">
-        <span class="icon icon-search" (click)="this.in_searching ? resource_search() : go_search(true)"></span>
+        <span class="icon icon-search" (click)="this.search_mode ? resource_search() : go_search(true)"></span>
         <div class="search-box">
-          <input class="search" placeholder="搜索…" [(ngModel)]="resource_search_keyword">
+          <input #searchBox class="search" placeholder="搜索…" [(ngModel)]="resource_search_keyword">
           <span class="icon icon-collapse" (click)="go_search(false)"></span>
         </div>
       </div>
@@ -32,10 +30,8 @@
     <div class="description inactive"><span class="text">说明</span></div>
   </div>
   <div class="content">
-    <div class="res-item" *ngFor="let child of this.show_list">
-      <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}">
-        <!--<img src="../assets/img/francisco-gomes-182329.jpg">-->
-      </div>
+    <div class="res-item" *ngFor="let child of this.show_list" (click)="this.navigate(child.res_id)">
+      <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
       <div class="res-name">{{child.rname}}</div>
       <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span></div>
       <div class="res-type"><span [ngClass]="child.icon"></span></div>
@@ -44,17 +40,13 @@
   </div>
 </div>
 
-<footer *ngIf="this.has_login">
+<footer *ngIf="this.userService.has_login">
   <div *ngFor="let foot_btn of this.foot_btns" class="btn" [ngClass]="is_active(foot_btn.icon)" (click)="activate_btn(foot_btn.icon)">
     <span class="icon" [ngClass]="foot_btn.icon"></span>
     <span class="text">{{foot_btn.text}}</span>
   </div>
-  <!--<div class="btn inactive"><span class="icon icon-select"></span><span class="text">多选</span></div>-->
-  <!--<div class="btn inactive"><span class="icon icon-upload"></span><span class="text">上传</span></div>-->
-  <!--<div class="btn inactive"><span class="icon icon-modify"></span><span class="text">修改</span></div>-->
-  <!--<div class="btn inactive"><span class="icon icon-delete"></span><span class="text">删除</span></div>-->
 </footer>
 
-<footer *ngIf="!this.has_login" class="ptr">
+<footer *ngIf="!this.userService.has_login" class="ptr">
   <div class="join-us">加入合皿，分享我的乐趣<span class="icon icon-box"></span></div>
 </footer>

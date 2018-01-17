@@ -12,10 +12,14 @@ import {UserService} from "./services/user.service";
 import {BaseService} from "./services/base.service";
 import {ClockService} from "./services/clock.service";
 import {ResourceService} from "./services/resource.service";
+import {ResComponent} from "./res.component";
+import {ResHomeComponent} from "./res-home.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    ResComponent,
+    ResHomeComponent,
   ],
   imports: [
     BrowserModule,
