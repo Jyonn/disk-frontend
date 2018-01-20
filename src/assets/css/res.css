@@ -28,30 +28,31 @@ div.res div.tab {
   display: inherit;
 }
 .animate,
-div.res div.tab div {
+div.res div.tab div,
+div.res div.content {
   transition: 0.5s;
 }
 @media all and (orientation: portrait) {
   nav {
     width: 100%;
-    height: 38.2%;
+    height: 38.2vh;
   }
   div.res {
     width: 100%;
-    height: calc(100% - 38.2% - 56px);
+    height: calc(100% - 38.2vh - 56px);
     left: 0;
-    top: 38.2%;
+    top: 38.2vh;
   }
 }
 @media all and (orientation: landscape) {
   nav {
-    width: 38.2%;
+    width: 38.2vw;
     height: calc(100% - 56px);
   }
   div.res {
-    width: calc(100% - 38.2%);
+    width: calc(100% - 38.2vw);
     height: calc(100% - 56px);
-    left: 38.2%;
+    left: 38.2vw;
     top: 0;
   }
 }
@@ -60,7 +61,7 @@ footer {
   height: 56px;
 }
 .round-btn {
-  width: auto;
+  width: 70px;
   height: 30px;
   border-radius: 15px;
   background: #2699FB;
@@ -69,6 +70,10 @@ footer {
   font-size: 14px;
   vertical-align: middle;
   text-align: center;
+  display: inline-block;
+}
+.round-btn.sub {
+  background: #CCCCCC;
 }
 div.res {
   position: fixed;
@@ -97,18 +102,6 @@ div.res div.tab div.resource {
 div.res div.tab div.description {
   right: 0;
 }
-div.res div.tab div.inactive {
-  background: white;
-}
-div.res div.tab div.inactive span {
-  color: #2699FB;
-}
-div.res div.tab div.active {
-  background: #007FEB;
-}
-div.res div.tab div.active span {
-  color: #F1F9FF;
-}
 div.res div.tab div.resource div.search-container {
   position: absolute;
   top: 0;
@@ -123,6 +116,7 @@ div.res div.tab div.resource div.search-container span.icon-search {
 }
 div.res div.tab div.resource div.search-container div.search-box {
   filter: opacity(0);
+  visibility: hidden;
   position: absolute;
   left: 0;
   width: calc(100% - 16px);
@@ -150,25 +144,28 @@ div.res div.tab.searching div.resource {
 }
 div.res div.tab.searching div.resource div.search-container div.search-box {
   filter: opacity(100%);
+  visibility: visible;
 }
 div.res div.tab.searching div.description {
   width: 0;
 }
 div.res div.tab.searching div span.text {
   filter: opacity(0);
+  visibility: hidden;
 }
 div.res div.content {
+  position: absolute;
   background: #f0f0f0;
   width: 100%;
   height: calc(100% - 46px);
   overflow-y: scroll;
 }
-div.res div.content div.res-item {
+div.res div.content.resource div.res-item {
   position: relative;
   margin: 0 3%;
   height: 78px;
 }
-div.res div.content div.res-item div.res-image {
+div.res div.content.resource div.res-item div.res-image {
   position: absolute;
   left: 8px;
   top: 10px;
@@ -176,11 +173,11 @@ div.res div.content div.res-item div.res-image {
   height: 54px;
   border-radius: 2px;
 }
-div.res div.content div.res-item div.res-image img {
+div.res div.content.resource div.res-item div.res-image img {
   width: 100%;
   height: 100%;
 }
-div.res div.content div.res-item div.res-name {
+div.res div.content.resource div.res-item div.res-name {
   position: absolute;
   left: 70px;
   top: 12px;
@@ -194,21 +191,21 @@ div.res div.content div.res-item div.res-name {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-div.res div.content div.res-item div.res-info {
+div.res div.content.resource div.res-item div.res-info {
   position: absolute;
   left: 70px;
   top: 49px;
   font-size: 12px;
   color: #CCCCCC;
 }
-div.res div.content div.res-item div.res-type {
+div.res div.content.resource div.res-item div.res-type {
   position: absolute;
   right: 14px;
   top: 19px;
   font-size: 16px;
   color: #2699FB;
 }
-div.res div.content div.res-item hr {
+div.res div.content.resource div.res-item hr {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -216,33 +213,83 @@ div.res div.content div.res-item hr {
   border: none;
   border-top: 1px solid #eaeaea;
 }
-div.res div.content span.icon {
+div.res div.content.resource span.icon {
   position: absolute;
   left: calc(50% - 80px / 2);
-  bottom: calc(40% + 14px + 20px);
+  bottom: calc(40% + 14px + 30px);
   color: #2699FB;
   font-size: 80px;
 }
-div.res div.content div.file-name {
+div.res div.content.resource div.file-name {
   position: absolute;
   color: #555555;
   font-size: 14px;
-  top: 60%;
+  top: calc(60% - 10px);
   width: 100%;
   text-align: center;
 }
-div.res div.content div.file-size {
+div.res div.content.resource div.file-size {
   position: absolute;
   width: 100%;
   color: #888888;
   font-size: 10px;
-  top: calc(60% + 14px + 10px);
+  top: calc(60% + 14px);
   text-align: center;
 }
-div.res div.content div.round-btn {
+div.res div.content.resource div.round-btn {
   position: absolute;
   bottom: 0;
-  width: 70px;
   left: calc(50% - 70px / 2);
-  top: calc(60% + 60px);
+  top: calc(60% + 50px);
+}
+div.res div.content.description div.pading-div {
+  padding: 10px 3%;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  background: none;
+}
+div.res.resource div.tab div.resource {
+  background: #007FEB;
+}
+div.res.resource div.tab div.resource span {
+  color: #F1F9FF;
+}
+div.res.resource div.tab div.description {
+  background: white;
+}
+div.res.resource div.tab div.description span {
+  color: #2699FB;
+}
+div.res.resource div.content.resource {
+  left: 0;
+}
+div.res.resource div.content.description {
+  left: 100%;
+}
+div.res.description div.tab div.description {
+  background: #007FEB;
+}
+div.res.description div.tab div.description span {
+  color: #F1F9FF;
+}
+div.res.description div.tab div.resource {
+  background: white;
+}
+div.res.description div.tab div.resource span {
+  color: #2699FB;
+}
+@media all and (orientation: portrait) {
+  div.res.description div.content.resource {
+    left: -100%;
+  }
+}
+@media all and (orientation: landscape) {
+  div.res.description div.content.resource {
+    left: -38.2vw;
+    width: 38.2vw;
+  }
+}
+div.res.description div.content.description {
+  left: 0;
 }

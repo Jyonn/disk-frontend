@@ -1,6 +1,5 @@
 @import "../../styles";
 
-@res-tab-height: 46px;
 @res-tab-font-size: 16px;
 
 @res-origin-height: 36px;
@@ -16,12 +15,13 @@
 @res-file-icon-size: 80px;
 @res-file-name-size: 14px;
 @res-file-size-size: 10px;
-@res-round-btn-width: 70px;
 
 @res-search-container-padding: 14px;
 @res-search-icon-size: 16px;
 @res-search-box-padding: 4px;
 @res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
+
+@res-foot-extra-padding: @footer-btn-size - @footer-height;
 
 div.res {
   position: fixed;
@@ -53,18 +53,18 @@ div.res {
     div.description {
       right: 0;
     }
-    div.inactive {
-      background: @inactive-tab-bg;
-      span {
-        color: @inactive-tab-text;
-      }
-    }
-    div.active {
-      background: @active-tab-bg;
-      span {
-        color: @active-tab-text;
-      }
-    }
+    //div.inactive {
+    //  background: @inactive-tab-bg;
+    //  span {
+    //    color: @inactive-tab-text;
+    //  }
+    //}
+    //div.active {
+    //  background: @active-tab-bg;
+    //  span {
+    //    color: @active-tab-text;
+    //  }
+    //}
     div.resource {
       div.search-container {
         position: absolute;
@@ -79,6 +79,7 @@ div.res {
         }
         div.search-box {
           filter: opacity(0);
+          visibility: hidden;
           position: absolute;
           left: 0;
           width: calc(~'100% - @{res-search-icon-size}');
@@ -109,6 +110,7 @@ div.res {
       width: 100%;
       div.search-container div.search-box {
         filter: opacity(100%);
+        visibility: visible;
       }
     }
     div.description {
@@ -117,13 +119,18 @@ div.res {
     }
     div span.text {
       filter: opacity(0);
+      visibility: hidden;
     }
   }
   div.content {
+    &:extend(.animate);
+    position: absolute;
     background: @res-item-box-bg;
     width: 100%;
     height: calc(~'100% - @{res-tab-height}');
     overflow-y: scroll;
+  }
+  div.content.resource {
     div.res-item {
       position: relative;
       margin: 0 @res-item-margin;
@@ -181,7 +188,7 @@ div.res {
     span.icon {
       position: absolute;
       left: calc(~'50% - @{res-file-icon-size} / 2');
-      bottom: calc(~'40% + @{res-file-name-size} + 20px');
+      bottom: calc(~'40% + @{res-file-name-size} + 30px');
       color: @active-btn-bg;
       font-size: @res-file-icon-size;
     }
@@ -189,7 +196,7 @@ div.res {
       position: absolute;
       color: #555555;
       font-size: @res-file-name-size;
-      top: 60%;
+      top: calc(~'60% - 10px');
       width: 100%;
       text-align: center;
     }
@@ -198,15 +205,91 @@ div.res {
       width: 100%;
       color: #888888;
       font-size: @res-file-size-size;
-      top: calc(~'60% + @{res-file-name-size} + 10px');
+      top: calc(~'60% + @{res-file-name-size}');
       text-align: center;
     }
     div.round-btn {
       position: absolute;
       bottom: 0;
-      width: @res-round-btn-width;
-      left: calc(~'50% - @{res-round-btn-width} / 2');
-      top: calc(~'60% + 60px');
+      left: calc(~'50% - @{round-btn-width} / 2');
+      top: calc(~'60% + 50px');
     }
+  }
+  div.content.description {
+    div.pading-div {
+      padding: 10px 3%;
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+      background: none;
+    }
+    //div.modify-box {
+    //  height: calc(~'100% - @{res-foot-extra-padding}');
+    //  textarea {
+    //    background: none;
+    //    border: none;
+    //    resize: none;
+    //    outline: none;
+    //    width: 100%;
+    //    height: calc(~'100% - @{round-btn-height}');
+    //    font-size: 14px;
+    //  }
+    //  div.round-btn {
+    //    //float: right;
+    //  }
+    //}
+  }
+}
+
+div.res.resource {
+  div.tab {
+    div.resource {
+      background: @active-tab-bg;
+      span {
+        color: @active-tab-text;
+      }
+    }
+    div.description {
+      background: @inactive-tab-bg;
+      span {
+        color: @inactive-tab-text;
+      }
+    }
+  }
+  div.content.resource {
+    left: 0;
+  }
+  div.content.description {
+    left: 100%;
+  }
+}
+div.res.description {
+  div.tab {
+    div.description {
+      background: @active-tab-bg;
+      span {
+        color: @active-tab-text;
+      }
+    }
+    div.resource {
+      background: @inactive-tab-bg;
+      span {
+        color: @inactive-tab-text;
+      }
+    }
+  }
+  @media all and (orientation: portrait) {
+    div.content.resource {
+      left: -100%;
+    }
+  }
+  @media all and (orientation: landscape){
+    div.content.resource {
+      left: -@nav-width-landscape;
+      width: @nav-width-landscape;
+    }
+  }
+  div.content.description {
+    left: 0;
   }
 }

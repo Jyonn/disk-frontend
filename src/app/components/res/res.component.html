@@ -1,0 +1,74 @@
+<nav>
+  <div class="background img-fit" [ngStyle]="{'background-image': resource?.url_cover}"></div>
+  <div class="content">
+    <div class="left-btn">
+      <span class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent()"></span>
+    </div>
+    <div class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': user?.url_avatar}"></div>
+    <div class="right-avatar" *ngIf="!userService.has_login"><span class="icon-unlogin"></span></div>
+  </div>
+  <div class="title">{{resource?.rname}}</div>
+  <div class="foot">
+    <span class="owner">{{nav_foot_owner}}创建于{{resource?.readable_time}}</span>
+    <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar}}"></div>
+    <div class="share">{{resource?.readable_status}}</div>
+  </div>
+</nav>
+
+<div class="res" [ngClass]="tab_mode">
+  <div class="tab" [ngClass]="search_class">
+    <div class="resource" (click)="switch_tab_mode('resource')">
+      <span class="text">资源</span>
+      <div class="search-container">
+        <span class="icon icon-search" *ngIf="show_search_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
+        <div class="search-box">
+          <input #searchBox class="search" placeholder="搜索…" [(ngModel)]="resource_search_keyword">
+          <span class="icon icon-collapse" (click)="go_search(false)"></span>
+        </div>
+      </div>
+    </div>
+    <div class="description" (click)="switch_tab_mode('description')"><span class="text">介绍</span></div>
+  </div>
+  <div class="content resource" *ngIf="resource?.is_folder">
+    <div class="res-item" *ngFor="let child of show_list" (click)="navigate(child.res_id)">
+      <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
+      <div class="res-name">{{child.rname}}</div>
+      <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span></div>
+      <div class="res-type"><span [ngClass]="child.icon"></span></div>
+      <hr/>
+    </div>
+  </div>
+  <div class="content resource" *ngIf="resource && !resource?.is_folder">
+    <span class="icon" [ngClass]=resource?.icon></span>
+    <div class="file-name">{{resource?.rname}}</div>
+    <div class="file-size">{{resource?.size}}</div>
+    <div class="round-btn" (click)="download()">下载</div>
+  </div>
+  <div class="content description">
+    <div class="pading-div">
+      <!--<div class="modify-box" *ngIf="is_modifying">-->
+        <!--<textarea [(ngModel)]="description"></textarea>-->
+        <!--<div class="round-btn">更新</div>-->
+        <!--<div class="round-btn sub">恢复</div>-->
+      <!--</div>-->
+      <markdown [data]="description"></markdown>
+    </div>
+  </div>
+</div>
+
+<div class="operation-block" [ngClass]="start_mask">
+  <div class="mask">
+
+  </div>
+</div>
+
+<footer *ngIf="userService.has_login">
+  <div *ngFor="let foot_btn of foot_btns" class="btn" [ngClass]="is_active(foot_btn)" (click)="activate_btn(foot_btn)">
+    <span class="icon" [ngClass]="foot_btn.icon"></span>
+    <span class="text">{{foot_btn.text}}</span>
+  </div>
+</footer>
+
+<footer *ngIf="!userService.has_login" class="ptr">
+  <div class="join-us">加入合皿，分享我的乐趣<span class="icon icon-box"></span></div>
+</footer>

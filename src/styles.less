@@ -26,6 +26,8 @@
 @strong-color: gray;
 @light-color: @strong-color * 1.5;
 
+@round-btn-width: 70px;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -64,10 +66,11 @@ path {
   transition: 0.5s;
 }
 
-//@nav-height-protrait: 254px;
-@nav-height-protrait: 38.2%;
+@nav-height-protrait: 38.2vh;
 @footer-height: 56px;
-@nav-width-landscape: 38.2%;
+@footer-btn-size: 74px;
+@nav-width-landscape: 38.2vw;
+@res-tab-height: 46px;
 
 @media all and (orientation: portrait){
   nav {
@@ -104,7 +107,7 @@ footer {
 
 .round-btn {
   &:extend(.ptr);
-  width: auto;
+  width: @round-btn-width;
   height: @round-btn-height;
   border-radius: @round-btn-height / 2;
   background: @blue;
@@ -113,4 +116,9 @@ footer {
   font-size: 14px;
   vertical-align: middle;
   text-align: center;
+  display: inline-block;
+}
+
+.round-btn.sub {
+  background: @inactive-btn-bg;
 }

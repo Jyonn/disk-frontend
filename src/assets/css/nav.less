@@ -1,6 +1,6 @@
 @import "../../styles";
 
-@avatar-size: 20px;
+@avatar-size: 24px;
 @left-btn-size: 20px;
 @normal-padding: 10px;
 
@@ -16,7 +16,7 @@ nav {
   left: 0;
   top: 0;
 
-  .background {
+  div.background {
     position: absolute;
     top: -@nav-bg-blur;
     left: -@nav-bg-blur;
@@ -25,16 +25,16 @@ nav {
     filter: blur(@nav-bg-blur);
   }
 
-  .content {
+  div.content {
     width: calc(~'100% - 40px');
-    height: 24px;
+    height: @res-tab-height;
     position: absolute;
-    top: 24px;
+    top: 0;
     left: 20px;
     div.left-btn {
       &:extend(.ptr);
       position: absolute;
-      top: 0;
+      top: calc(~'@{res-tab-height} / 2 - @{left-btn-size} / 2');
       left: 0;
       span {
         color: @nav-main-color;
@@ -44,7 +44,7 @@ nav {
     div.right-avatar {
       &:extend(.ptr);
       position: absolute;
-      top: 0;
+      top: calc(~'@{res-tab-height} / 2 - @{avatar-size} / 2');
       right: 0;
       width: @avatar-size;
       height: @avatar-size;

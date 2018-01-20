@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MarkdownModule } from "ngx-markdown";
 
 import { AppComponent } from './app.component';
 
@@ -12,8 +13,8 @@ import {UserService} from "./services/user.service";
 import {BaseService} from "./services/base.service";
 import {ClockService} from "./services/clock.service";
 import {ResourceService} from "./services/resource.service";
-import {ResComponent} from "./res.component";
-import {ResHomeComponent} from "./res-home.component";
+import {ResComponent} from "./components/res/res.component";
+import {ResHomeComponent} from "./components/res/res-home.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {ResHomeComponent} from "./res-home.component";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    MarkdownModule.forRoot(),
   ],
   providers: [
     DiskService,
