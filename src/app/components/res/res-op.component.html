@@ -1,0 +1,20 @@
+<div class="operation-block" [ngClass]="footBtnService.foot_btn_active?.mask ? 'active' : 'inactive'">
+  <div class="mask" (click)="footBtnService.inactivate()"></div>
+  <div class="container" [ngClass]="footBtnService.is_sharing">
+    <div class="title-box">
+      <div class="title">分享资源</div>
+      <app-loading></app-loading>
+    </div>
+    <div class="radio-list">
+      <div class="radio-btn"
+           *ngFor="let btn of share_btns"
+           [ngClass]="is_active(btn) ? 'active' : 'inactive'"
+           (click)="share_status_change(btn)">
+        <span class="icon" [ngClass]="is_active(btn) ? 'icon-check' : 'icon-uncheck'"></span>
+        <span class="text">{{btn.text}}</span>
+      </div>
+    </div>
+    <input [value]="share_show_text" readonly>
+    <div class="round-btn" ngxClipboard [cbContent]="share_show_text">复制</div>
+  </div>
+</div>

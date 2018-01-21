@@ -29,6 +29,12 @@
     </div>
     <div class="description" (click)="switch_tab_mode('description')"><span class="text">介绍</span></div>
   </div>
+  <div class="tab selecting" [ngClass]="footBtnService.is_selecting">
+    <div class="tab-btn select-all">全选</div>
+    <div class="tab-btn select-adverse">反选</div>
+    <div class="tab-btn cancel">取消</div>
+    <div class="tab-btn delete">删除</div>
+  </div>
   <div class="content resource" *ngIf="resource?.is_folder">
     <div class="res-item" *ngFor="let child of show_list" (click)="navigate(child.res_id)">
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
@@ -46,24 +52,18 @@
   </div>
   <div class="content description">
     <div class="pading-div">
-      <!--<div class="modify-box" *ngIf="is_modifying">-->
-        <!--<textarea [(ngModel)]="description"></textarea>-->
-        <!--<div class="round-btn">更新</div>-->
-        <!--<div class="round-btn sub">恢复</div>-->
-      <!--</div>-->
       <markdown [data]="description"></markdown>
     </div>
   </div>
 </div>
 
-<div class="operation-block" [ngClass]="start_mask">
-  <div class="mask">
-
-  </div>
-</div>
+<app-res-op [resource]="resource" [path]="path"></app-res-op>
 
 <footer *ngIf="userService.has_login">
-  <div *ngFor="let foot_btn of foot_btns" class="btn" [ngClass]="is_active(foot_btn)" (click)="activate_btn(foot_btn)">
+  <div *ngFor="let foot_btn of foot_btns"
+    class="btn"
+    [ngClass]="footBtnService.is_active(foot_btn)"
+    (click)="activate_btn(foot_btn)">
     <span class="icon" [ngClass]="foot_btn.icon"></span>
     <span class="text">{{foot_btn.text}}</span>
   </div>

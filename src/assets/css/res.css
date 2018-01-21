@@ -12,7 +12,8 @@ path {
 }
 .ptr,
 .round-btn,
-div.res div.tab {
+div.res div.tab,
+div.res div.tab.selecting div.tab-btn {
   cursor: pointer;
 }
 .light-shadow {
@@ -29,6 +30,7 @@ div.res div.tab {
 }
 .animate,
 div.res div.tab div,
+div.res div.tab.selecting,
 div.res div.content {
   transition: 0.5s;
 }
@@ -81,7 +83,9 @@ div.res {
 div.res div.tab {
   width: 100%;
   height: 46px;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 div.res div.tab div {
   position: absolute;
@@ -153,11 +157,44 @@ div.res div.tab.searching div span.text {
   filter: opacity(0);
   visibility: hidden;
 }
+div.res div.tab.selecting div.tab-btn {
+  position: relative;
+  float: left;
+  width: 25%;
+  height: 46px;
+  line-height: 46px;
+  vertical-align: middle;
+}
+div.res div.tab.selecting div.select-all {
+  background: #2699FB;
+  color: #F1F9FF;
+}
+div.res div.tab.selecting div.select-adverse {
+  background: white;
+  color: #555555;
+}
+div.res div.tab.selecting div.cancel {
+  background: #CCCCCC;
+  color: white;
+}
+div.res div.tab.selecting div.delete {
+  background: #D04B4B;
+  color: white;
+}
+div.res div.tab.selecting.active {
+  filter: opacity(1);
+  visibility: visible;
+}
+div.res div.tab.selecting.inactive {
+  filter: opacity(0);
+  visibility: hidden;
+}
 div.res div.content {
   position: absolute;
   background: #f0f0f0;
   width: 100%;
   height: calc(100% - 46px);
+  top: 46px;
   overflow-y: scroll;
 }
 div.res div.content.resource div.res-item {

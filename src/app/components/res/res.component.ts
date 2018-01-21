@@ -5,6 +5,7 @@ import {Resource} from "../../models/resource";
 import {ClockService} from "../../services/clock.service";
 import {ResourceService} from "../../services/resource.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FootBtnService} from "../../services/foot-btn.service";
 import {FootBtn} from "../../models/foot-btn";
 
 @Component({
@@ -12,10 +13,10 @@ import {FootBtn} from "../../models/foot-btn";
   templateUrl: './res.component.html',
   styleUrls: [
     '../../../assets/css/icon-fonts.css',
-    '../assets/css/nav.less',
-    '../assets/css/footer.less',
-    '../assets/css/res.less'
-  ]
+    '../../../assets/css/nav.less',
+    '../../../assets/css/footer.less',
+    '../../../assets/css/res.less'
+  ],
 })
 export class ResComponent implements OnInit {
   path: Array<any>;
@@ -30,13 +31,6 @@ export class ResComponent implements OnInit {
   search_mode: boolean;
   tab_mode: string;
 
-  foot_btn_share: FootBtn;
-  foot_btn_select: FootBtn;
-  foot_btn_upload: FootBtn;
-  foot_btn_modify: FootBtn;
-  foot_btn_delete: FootBtn;
-  foot_btn_list: Array<FootBtn>;
-  foot_btn_active: FootBtn;
   visit_key: string;
 
   description: string;
@@ -45,6 +39,7 @@ export class ResComponent implements OnInit {
     public userService: UserService,
     public resService: ResourceService,
     public clockService: ClockService,
+    public footBtnService: FootBtnService,
     private activateRoute: ActivatedRoute,
     private router: Router,
   ) {
@@ -78,45 +73,6 @@ export class ResComponent implements OnInit {
     this.resource_search_keyword = '';
     this.search_mode = false;
     this.tab_mode = 'resource';
-
-    this.foot_btn_share = new FootBtn({
-      icon: 'icon-share',
-      text: '分享',
-      folder: true,
-      file: true,
-    });
-    this.foot_btn_select = new FootBtn({
-      icon: 'icon-select',
-      text: '多选',
-      folder: true,
-      file: false,
-    });
-    this.foot_btn_upload = new FootBtn({
-      icon: 'icon-upload',
-      text: '上传',
-      folder: true,
-      file: false,
-    });
-    this.foot_btn_modify = new FootBtn({
-      icon: 'icon-modify',
-      text: '修改',
-      folder: true,
-      file: true,
-    });
-    this.foot_btn_delete = new FootBtn({
-      icon: 'icon-delete',
-      text: '删除',
-      folder: true,
-      file: true,
-    });
-    this.foot_btn_list = [
-      this.foot_btn_share,
-      this.foot_btn_select,
-      this.foot_btn_upload,
-      this.foot_btn_modify,
-      this.foot_btn_delete
-    ];
-    this.foot_btn_active = null;
   }
 
   resource_search() {
@@ -136,38 +92,6 @@ export class ResComponent implements OnInit {
     return this.search_mode ? 'searching' : '';
   }
 
-  is_active(btn: FootBtn) {
-    return (btn === this.foot_btn_active) ? 'active' : 'inactive';
-  }
-
-  get is_sharing() {
-    return this.foot_btn_active === this.foot_btn_share;
-  }
-
-  get is_selecting() {
-    return this.foot_btn_active === this.foot_btn_select;
-  }
-
-  get is_uploading() {
-    return this.foot_btn_active === this.foot_btn_upload;
-  }
-
-  get is_modifying() {
-    return this.foot_btn_active === this.foot_btn_modify;
-  }
-
-  get is_deleting() {
-    return this.foot_btn_active === this.foot_btn_delete;
-  }
-
-  activate_btn(btn: FootBtn) {
-    if (this.foot_btn_active === btn) {
-      this.foot_btn_active = null;
-    } else {
-      this.foot_btn_active = btn;
-    }
-  }
-
   navigate(res_id) {
     const link = ['/res', `${this.path.join('-')}-${res_id}`];
     this.router.navigate(link);
@@ -180,10 +104,10 @@ export class ResComponent implements OnInit {
 
   get foot_btns() {
     const _foot_btns = [];
-    for (const foot_btn of this.foot_btn_list) {
+    for (const foot_btn of this.footBtnService.foot_btn_list) {
       if (this.resource) {
         if ((this.resource.is_folder && foot_btn.folder) ||
-            (!this.resource.is_folder && foot_btn.file)) {
+          (!this.resource.is_folder && foot_btn.file)) {
           _foot_btns.push(foot_btn);
         }
       }
@@ -206,7 +130,7 @@ export class ResComponent implements OnInit {
   }
 
   download() {
-    this.resService.get_dl_link(this.path, this.visit_key)
+    this.resService.get_dl_link(this.path, {visit_key: this.visit_key})
       .then((resp) => {
         window.open(resp.link);
       });
@@ -220,8 +144,10 @@ export class ResComponent implements OnInit {
     return this.resource && this.resource.is_folder && this.tab_mode === 'resource';
   }
 
-  get start_mask() {
-    return [this.foot_btn_share, this.foot_btn_upload, this.foot_btn_delete]
-      .findIndex(v => v === this.foot_btn_active) >= 0 ? 'active' : 'inactive';
+  activate_btn(btn: FootBtn) {
+    this.footBtnService.activate_btn(btn);
+    if (this.footBtnService.foot_btn_active === this.footBtnService.foot_btn_select) {
+      this.tab_mode = "resource";
+    }
   }
 }

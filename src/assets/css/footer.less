@@ -6,7 +6,6 @@
 @footer-btn-font-size: 20px;
 @footer-text-font-size: 10px;
 
-
 footer {
   position: fixed;
   left: 0;
@@ -86,25 +85,4 @@ footer {
       font-size: 16px;
     }
   }
-}
-
-div.operation-block {
-  &:extend(.animate);
-  div.mask {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: calc(~'100% - @{footer-height}');
-    background: rgba(0, 0, 0, 0.8);
-  }
-}
-
-div.operation-block.active {
-  filter: opacity(1);
-  visibility: visible;
-}
-div.operation-block.inactive {
-  filter: opacity(0);
-  visibility: hidden;
 }

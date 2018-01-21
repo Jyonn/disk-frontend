@@ -19,11 +19,7 @@ export class UserService {
       "anmAE0ZoeyRSag7E7mckB0ZECy_AwcE";
   }
 
-  public api_get_token(username: string, password: string) {
-    const data = {
-      username: username,
-      password: password,
-    };
+  public api_get_token(data: {username: string, password: string}) {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
@@ -54,12 +50,7 @@ export class UserService {
       .get(`/api/user/${user_id}`);
   }
 
-  public api_create_user(username: string, password: string, nickname: string) {
-    const data = {
-      username: username,
-      password: password,
-      nickname: nickname,
-    };
+  public api_create_user(data: {username: string, password: string, nickname: string}) {
     return this.baseService
       .post('/api/user/', data)
       .then(body => {
@@ -67,19 +58,12 @@ export class UserService {
       });
   }
 
-  public api_change_password(password: string, old_password: string) {
-    const data = {
-      password: password,
-      old_password: old_password,
-    };
+  public api_change_password(data: {password: string, old_password: string}) {
     return this.baseService
       .put('/api/user/', data);
   }
 
-  public api_get_avatar_token(filename: string) {
-    const data = {
-      filename: filename,
-    };
+  public api_get_avatar_token(data: {filename: string}) {
     return this.baseService
       .get('/api/user/avatar', data);
   }

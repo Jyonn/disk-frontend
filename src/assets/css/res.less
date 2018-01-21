@@ -29,7 +29,9 @@ div.res {
     &:extend(.ptr);
     width: 100%;
     height: @res-tab-height;
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
     div {
       &:extend(.animate);
       //float: left;
@@ -53,18 +55,6 @@ div.res {
     div.description {
       right: 0;
     }
-    //div.inactive {
-    //  background: @inactive-tab-bg;
-    //  span {
-    //    color: @inactive-tab-text;
-    //  }
-    //}
-    //div.active {
-    //  background: @active-tab-bg;
-    //  span {
-    //    color: @active-tab-text;
-    //  }
-    //}
     div.resource {
       div.search-container {
         position: absolute;
@@ -122,12 +112,51 @@ div.res {
       visibility: hidden;
     }
   }
+  div.tab.selecting {
+    &:extend(.animate);
+    div.tab-btn {
+      &:extend(.ptr);
+      position: relative;
+      float: left;
+      width: 25%;
+      height: @res-tab-height;
+      line-height: @res-tab-height;
+      vertical-align: middle;
+    }
+    div.select-all {
+      background: @default-bg;
+      color: @default-text;
+    }
+    div.select-adverse {
+      background: @adverse-bg;
+      color: @adverse-text;
+    }
+    div.cancel {
+      background: @cancel-bg;
+      color: @cancel-text;
+    }
+    div.delete {
+      background: @warn-bg;
+      color: @warn-text;
+    }
+  }
+  div.tab.selecting.active {
+    filter: opacity(1.0);
+    visibility: visible;
+    //left: 0;
+  }
+  div.tab.selecting.inactive {
+    filter: opacity(0);
+    visibility: hidden;
+    //left: 100%;
+  }
   div.content {
     &:extend(.animate);
     position: absolute;
     background: @res-item-box-bg;
     width: 100%;
     height: calc(~'100% - @{res-tab-height}');
+    top: @res-tab-height;
     overflow-y: scroll;
   }
   div.content.resource {

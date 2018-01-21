@@ -1,0 +1,11 @@
+div.loading {
+  transition: 0.5s;
+}
+div.loading.active {
+  filter: opacity(1);
+  visibility: visible;
+}
+div.loading.inactive {
+  filter: opacity(0);
+  visibility: hidden;
+}

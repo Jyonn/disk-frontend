@@ -35,8 +35,7 @@ footer div.btn.inactive,
 footer div.btn.inactive span.icon,
 footer div.btn.inactive span.text,
 footer div.btn.active,
-footer div.btn.active span.text,
-div.operation-block {
+footer div.btn.active span.text {
   transition: 0.5s;
 }
 @media all and (orientation: portrait) {
@@ -147,20 +146,4 @@ footer div.join-us {
 footer div.join-us span.icon-box {
   margin-left: 6px;
   font-size: 16px;
-}
-div.operation-block div.mask {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: calc(100% - 56px);
-  background: rgba(0, 0, 0, 0.8);
-}
-div.operation-block.active {
-  filter: opacity(1);
-  visibility: visible;
-}
-div.operation-block.inactive {
-  filter: opacity(0);
-  visibility: hidden;
 }

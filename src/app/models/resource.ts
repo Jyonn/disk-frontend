@@ -27,8 +27,9 @@ export class Resource {
   status: number;
   create_time: number;
   dlcount: number;
+  visit_key: string;
 
-  constructor(d: {res_id, rname, rtype, rsize, sub_type, description, cover, owner, parent_id, status, create_time, dlcount}) {
+  constructor(d: {res_id, rname, rtype, rsize, sub_type, description, cover, owner, parent_id, status, create_time, dlcount, visit_key}) {
     this.res_id = d.res_id;
     this.rname = d.rname;
     this.rtype = d.rtype;
@@ -45,6 +46,7 @@ export class Resource {
     this.status = d.status;
     this.create_time = d.create_time;
     this.dlcount = d.dlcount;
+    this.visit_key = d.visit_key;
   }
 
   get readable_time() {
