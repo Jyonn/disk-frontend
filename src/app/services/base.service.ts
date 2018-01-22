@@ -2,18 +2,23 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Resp} from "../models/resp";
 import {Observable} from "rxjs/Observable";
+import {Subject} from "rxjs/Subject";
+import {Info} from "../models/info";
 
 @Injectable()
 export class BaseService {
-  public static asyc_working: number = 0;
+  public static asyc_working = 0;
+  public static info_center = new Subject<Info>();
   public token: string;
   public front_host: string;
   private host: string;
+  private qn_host: string;
   constructor(
     private http: HttpClient,
   ) {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
+    this.qn_host = "https://upload.qiniu.com";
     this.token = null;
   }
   private static handleError(error: any): Promise<any> {
@@ -24,7 +29,8 @@ export class BaseService {
     return o.toPromise()
       .then((resp: Resp) => {
         if (resp.code !== 0) {
-          return BaseService.handleError(resp.msg);
+          // return BaseService.handleError(resp.msg);
+          BaseService.info_center.next(new Info({text: resp.msg, type: Info.TYPE_WARN}));
         } else {
           BaseService.asyc_working -= 1;
           return resp.body;
@@ -61,5 +67,9 @@ export class BaseService {
   }
   get is_loading() {
     return BaseService.asyc_working > 0;
+  }
+  post_qn(data) {
+    BaseService.asyc_working += 1;
+    return BaseService.handleHTTP(this.http.post(this.qn_host, data));
   }
 }

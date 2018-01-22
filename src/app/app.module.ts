@@ -19,7 +19,8 @@ import { BaseService } from "./services/base.service";
 import { ClockService } from "./services/clock.service";
 import { ResourceService } from "./services/resource.service";
 import { FootBtnService } from "./services/foot-btn.service";
-import { ResLoadingComponent } from "./components/res/res-loading.component";
+import { LoadingComponent } from "./components/base/loading.component";
+import { InfoComponent } from "./components/base/info.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ResLoadingComponent } from "./components/res/res-loading.component";
     ResComponent,
     ResHomeComponent,
     ResOpComponent,
-    ResLoadingComponent,
+    LoadingComponent,
+    InfoComponent,
   ],
   imports: [
     BrowserModule,

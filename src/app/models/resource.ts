@@ -28,6 +28,7 @@ export class Resource {
   create_time: number;
   dlcount: number;
   visit_key: string;
+  selected: boolean;
 
   constructor(d: {res_id, rname, rtype, rsize, sub_type, description, cover, owner, parent_id, status, create_time, dlcount, visit_key}) {
     this.res_id = d.res_id;
@@ -47,6 +48,7 @@ export class Resource {
     this.create_time = d.create_time;
     this.dlcount = d.dlcount;
     this.visit_key = d.visit_key;
+    this.selected = false;
   }
 
   get readable_time() {
@@ -82,7 +84,7 @@ export class Resource {
     if (this.cover) {
       return `url('${this.cover}')`;
     } else {
-      return `url('https://unsplash.6-79.cn/random/thumb')`;
+      return `url('https://unsplash.6-79.cn/random/thumb?r=${this.rname}')`;
     }
     // return `url('${this.cover}')`;
   }
@@ -98,6 +100,14 @@ export class Resource {
         return 'icon-music';
       default:
         return 'icon-file';
+    }
+  }
+
+  get icon_select() {
+    if (this.selected) {
+      return 'icon-check';
+    } else {
+      return 'icon-uncheck';
     }
   }
 

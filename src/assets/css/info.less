@@ -1,0 +1,47 @@
+@import "../../styles";
+
+@info-container-height: 56px;
+
+div.info-container {
+  &:extend(.animate);
+  position: fixed;
+  width: 100%;
+  height: @info-container-height;
+  left: 0;
+  z-index: 3;
+  div.text {
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    left: 6.5%;
+    line-height: @info-container-height;
+    vertical-align: middle;
+    width: calc(~'90% - 50px');
+    overflow: hidden;
+  }
+  span.icon-collapse {
+    &:extend(.ptr);
+    font-size: 16px;
+    color: @main-bg;
+    position: absolute;
+    right: calc(~'3% + 14px');
+    line-height: @info-container-height;
+    vertical-align: middle;
+    font-weight: bold;
+  }
+}
+
+div.info-container.warn {
+  background: @warn-bg;
+}
+div.info-container.success {
+  background: @blue;
+}
+
+div.info-container.active {
+  top: 0;
+}
+
+div.info-container.inactive {
+  top: -@info-container-height;
+}

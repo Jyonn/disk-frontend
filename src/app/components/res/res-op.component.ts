@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FootBtnService} from "../../services/foot-btn.service";
 import {Resource} from "../../models/resource";
 import {ResourceService} from "../../services/resource.service";
-import {ResShareBtn} from "../../models/res-share-btn";
+import {RadioBtn} from "../../models/res-share-btn";
 import {BaseService} from "../../services/base.service";
+import {Info} from "../../models/info";
 
 @Component({
   selector: 'app-res-op',
@@ -16,39 +17,72 @@ import {BaseService} from "../../services/base.service";
 export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
   @Input() path: Array<any>;
+  @Output() onUploaded = new EventEmitter<Resource>();
+
   constructor(
     public footBtnService: FootBtnService,
     public resService: ResourceService,
     public baseService: BaseService,
   ) {}
 
-  share_private: ResShareBtn;
-  share_protect: ResShareBtn;
-  share_public: ResShareBtn;
-  share_btns: Array<ResShareBtn>;
+  // foot btn share
+  share_private: RadioBtn;
+  share_protect: RadioBtn;
+  share_public: RadioBtn;
+  share_btns: Array<RadioBtn>;
+
+  // foot btn upload
+  upload_file: RadioBtn;
+  upload_folder: RadioBtn;
+  upload_btns: Array<RadioBtn>;
+  upload_active: number;
+  res_files: FileList;
+  folder_name: string;
 
   initShare() {
-    this.share_private = new ResShareBtn({
+    this.share_private = new RadioBtn({
       text: '私有资源',
-      status: Resource.STATUS_PRIVATE,
+      value: Resource.STATUS_PRIVATE,
     });
-    this.share_protect = new ResShareBtn({
+    this.share_protect = new RadioBtn({
       text: '加密分享',
-      status: Resource.STATUS_PROTECT,
+      value: Resource.STATUS_PROTECT,
     });
-    this.share_public = new ResShareBtn({
+    this.share_public = new RadioBtn({
       text: '公开分享',
-      status: Resource.STATUS_PUBLIC,
+      value: Resource.STATUS_PUBLIC,
     });
     this.share_btns = [this.share_private, this.share_protect, this.share_public];
   }
 
-  is_active(btn: ResShareBtn) {
-    return this.resource && this.resource.status === btn.status;
+  initUpload() {
+    this.upload_file = new RadioBtn({
+      text: '上传文件',
+      value: Resource.RTYPE_FILE,
+    });
+    this.upload_folder = new RadioBtn({
+      text: '创建文件夹',
+      value: Resource.RTYPE_FOLDER,
+    });
+    this.upload_btns = [this.upload_file, this.upload_folder];
+    this.upload_active = Resource.RTYPE_FILE;
+
+    this.folder_name = null;
   }
 
-  share_status_change(btn: ResShareBtn) {
-    this.resService.modify_res_info(this.path, {status: btn.status, description: null, visit_key: null, rname: null})
+  is_active(foot_btn_str: string, btn: RadioBtn) {
+    if (foot_btn_str === 'share') {
+      return this.resource && this.resource.status === btn.value;
+    } else if (foot_btn_str === 'upload') {
+      return this.upload_active === btn.value;
+    }
+  }
+
+  share_status_change(btn: RadioBtn) {
+    if (this.resource.status === btn.value) {
+      return;
+    }
+    this.resService.modify_res_info(this.path, {status: btn.value, description: null, visit_key: null, rname: null})
       .then((resp) => {
         this.resource.status = resp.status;
         this.resource.visit_key = resp.visit_key;
@@ -69,7 +103,52 @@ export class ResOpComponent implements OnInit {
     }
   }
 
+  get upload_res_text() {
+    if (this.res_files && this.res_files[0]) {
+      return this.res_files[0].name;
+    } else {
+      return null;
+    }
+  }
+
+  upload_file_action() {
+    const res_name = this.upload_res_text;
+    if (!res_name) {
+      return;
+    }
+    this.resService.get_upload_token(this.resource.res_id, {filename: res_name})
+      .then((resp) => {
+        this.resService.upload_file(resp.key, resp.upload_token, this.res_files[0])
+          .then((resp_) => {
+            this.onUploaded.emit(new Resource(resp_));
+            this.res_files = null;
+            this.footBtnService.foot_btn_active = null;
+          });
+      });
+  }
+
+  create_folder_action() {
+    if (!this.folder_name) {
+      return;
+    }
+    this.resService.create_folder(this.resource.res_id, {folder_name: this.folder_name})
+      .then((resp) => {
+        this.onUploaded.emit(new Resource((resp)));
+        this.folder_name = null;
+        this.footBtnService.foot_btn_active = null;
+      });
+  }
+
+  copy_error() {
+    BaseService.info_center.next(new Info({text: '复制失败', type: Info.TYPE_WARN}));
+  }
+
+  copy_succ() {
+    BaseService.info_center.next(new Info({text: '复制成功', type: Info.TYPE_SUCC}));
+  }
+
   ngOnInit() {
     this.initShare();
+    this.initUpload();
   }
 }

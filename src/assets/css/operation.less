@@ -63,6 +63,7 @@ div.operation-block {
         display: inline-block;
         margin-right: 32px;
         span.icon {
+          &:extend(.animate);
           line-height: @radio-list-height;
           vertical-align: middle;
           font-size: 20px;
@@ -97,6 +98,9 @@ div.operation-block {
       &:hover, &:focus {
         border: 1px solid @active-check-btn;
       }
+    }
+    input[type='file'] {
+      filter: opacity(0);
     }
     div.round-btn {
       position: absolute;

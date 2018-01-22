@@ -5,9 +5,18 @@ import {BaseService} from "./base.service";
 export class ResourceService {
   constructor(private baseService: BaseService) {}
 
-  public get_upload_token(data: {filename: string, parent_id: number, status: number}) {
+  public upload_file(key: string, token: string, file: File) {
+    const fd = new FormData();
+    fd.append('key', key);
+    fd.append('token', token);
+    fd.append('file', file);
     return this.baseService
-      .get('/api/res/token', data);
+      .post_qn(fd);
+  }
+
+  public get_upload_token(res_id: number, data: {filename: string}) {
+    return this.baseService
+      .get(`/api/res/${res_id}/token`, data);
   }
 
   public get_res_info(path: Array<any>, data: {visit_key: string}) {
@@ -21,10 +30,9 @@ export class ResourceService {
       .get('/api/res/');
   }
 
-  public create_folder(path: Array<any>, data: {folder_name: string, description: string, status: number}) {
-    const slug = BaseService.path_to_slug(path);
+  public create_folder(res_id: number, data: {folder_name: string}) {
     return this.baseService
-      .post(`/api/res/${slug}`, data);
+      .post(`/api/res/${res_id}/folder`, data);
   }
 
   public get_visit_key(res_id: number) {

@@ -32,7 +32,8 @@ div.operation-block div.container div.radio-list div.radio-btn {
 div.operation-block,
 div.operation-block div.mask,
 div.operation-block div.container,
-div.operation-block div.container div.title-box app-loading {
+div.operation-block div.container div.title-box app-loading,
+div.operation-block div.container div.radio-list div.radio-btn span.icon {
   transition: 0.5s;
 }
 @media all and (orientation: portrait) {
@@ -160,6 +161,9 @@ div.operation-block div.container input {
 div.operation-block div.container input:hover,
 div.operation-block div.container input:focus {
   border: 1px solid #2699FB;
+}
+div.operation-block div.container input[type='file'] {
+  filter: opacity(0);
 }
 div.operation-block div.container div.round-btn {
   position: absolute;

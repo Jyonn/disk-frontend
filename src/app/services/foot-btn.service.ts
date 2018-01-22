@@ -62,22 +62,37 @@ export class FootBtnService {
   }
 
   get is_sharing() {
+    return this.foot_btn_active === this.foot_btn_share;
+  }
+  get active_share() {
     return (this.foot_btn_active === this.foot_btn_share) ? 'active' : 'inactive';
   }
 
   get is_selecting() {
+    return this.foot_btn_active === this.foot_btn_select;
+  }
+  get active_select() {
     return (this.foot_btn_active === this.foot_btn_select) ? 'active' : 'inactive';
   }
 
   get is_uploading() {
+    return this.foot_btn_active === this.foot_btn_upload;
+  }
+  get active_upload() {
     return (this.foot_btn_active === this.foot_btn_upload) ? 'active' : 'inactive';
   }
 
   get is_modifying() {
+    return this.foot_btn_active === this.foot_btn_modify;
+  }
+  get active_modify() {
     return (this.foot_btn_active === this.foot_btn_modify) ? 'active' : 'inactive';
   }
 
   get is_deleting() {
+    return this.foot_btn_active === this.foot_btn_delete;
+  }
+  get active_delete() {
     return (this.foot_btn_active === this.foot_btn_delete) ? 'active' : 'inactive';
   }
 

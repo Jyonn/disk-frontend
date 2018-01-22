@@ -203,7 +203,12 @@ div.res {
         top: 19px;
         font-size: 16px;
         color: @active-btn-bg;
-
+        span {
+          &:extend(.animate);
+        }
+        span.icon-uncheck {
+          color: @inactive-btn-bg;
+        }
       }
       hr {
         position: absolute;
@@ -215,9 +220,10 @@ div.res {
       }
     }
     span.icon {
+      width: 100%;
+      text-align: center;
       position: absolute;
-      left: calc(~'50% - @{res-file-icon-size} / 2');
-      bottom: calc(~'40% + @{res-file-name-size} + 30px');
+      bottom: calc(~'50%');
       color: @active-btn-bg;
       font-size: @res-file-icon-size;
     }

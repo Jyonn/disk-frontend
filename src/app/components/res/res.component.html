@@ -1,3 +1,5 @@
+<app-info></app-info>
+
 <nav>
   <div class="background img-fit" [ngStyle]="{'background-image': resource?.url_cover}"></div>
   <div class="content">
@@ -29,18 +31,20 @@
     </div>
     <div class="description" (click)="switch_tab_mode('description')"><span class="text">介绍</span></div>
   </div>
-  <div class="tab selecting" [ngClass]="footBtnService.is_selecting">
-    <div class="tab-btn select-all">全选</div>
-    <div class="tab-btn select-adverse">反选</div>
-    <div class="tab-btn cancel">取消</div>
-    <div class="tab-btn delete">删除</div>
+  <div class="tab selecting" [ngClass]="footBtnService.active_select">
+    <div class="tab-btn select-all" (click)="select_res_help('all')">全选</div>
+    <div class="tab-btn select-adverse" (click)="select_res_help('adverse')">反选</div>
+    <div class="tab-btn cancel" (click)="select_res_help('cancel')">取消</div>
+    <div class="tab-btn delete" (click)="select_res_help('delete')">删除</div>
   </div>
   <div class="content resource" *ngIf="resource?.is_folder">
-    <div class="res-item" *ngFor="let child of show_list" (click)="navigate(child.res_id)">
+    <div class="res-item"
+         *ngFor="let child of search_list"
+         (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_id)">
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
       <div class="res-name">{{child.rname}}</div>
       <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span></div>
-      <div class="res-type"><span [ngClass]="child.icon"></span></div>
+      <div class="res-type"><span [ngClass]="footBtnService.is_selecting ? child.icon_select : child.icon"></span></div>
       <hr/>
     </div>
   </div>
@@ -57,7 +61,7 @@
   </div>
 </div>
 
-<app-res-op [resource]="resource" [path]="path"></app-res-op>
+<app-res-op [resource]="resource" [path]="path" (onUploaded)="onUploaded($event)"></app-res-op>
 
 <footer *ngIf="userService.has_login">
   <div *ngFor="let foot_btn of foot_btns"
@@ -70,5 +74,5 @@
 </footer>
 
 <footer *ngIf="!userService.has_login" class="ptr">
-  <div class="join-us">加入合皿，分享我的乐趣<span class="icon icon-box"></span></div>
+  <div class="join-us">炭诗酒，岁寒三友<span class="icon icon-box"></span></div>
 </footer>

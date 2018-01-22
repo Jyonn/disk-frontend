@@ -1,10 +1,10 @@
 import {Resource} from "./resource";
 
-export class ResShareBtn {
+export class RadioBtn {
   text: string;
-  status: number;
-  constructor(d: {text, status}) {
+  value: number;
+  constructor(d: {text, value}) {
     this.text = d.text;
-    this.status = d.status;
+    this.value = d.value;
   }
 }

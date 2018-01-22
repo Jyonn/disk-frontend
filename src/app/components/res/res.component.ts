@@ -23,8 +23,9 @@ export class ResComponent implements OnInit {
 
   user: User;
   resource: Resource;
-  children: Resource[] = [];
-  show_list: Resource[] = [];
+  children: Resource[];
+  search_list: Resource[];
+  // show_list: Resource[];
 
   resource_search_keyword: string;
 
@@ -47,6 +48,9 @@ export class ResComponent implements OnInit {
     this.resource = null;
     this.path = [];
     this.visit_key = null;
+    this.children = [];
+    this.search_list = [];
+    // this.show_list = [];
   }
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
@@ -57,15 +61,14 @@ export class ResComponent implements OnInit {
           this.resService.get_res_info(this.path, null)
             .then((resp) => {
               this.children = [];
-              this.show_list = [];
               this.resource = new Resource(resp.info);
-              this.description = this.resource.description;
+              this.description = this.resource.description || '暂无介绍资料';
               for (const item of resp.child_list) {
                 item.parent_id = this.resource.res_id;
                 const r_child = new Resource(item);
                 this.children.push(r_child);
-                this.show_list.push(r_child);
               }
+              this.search_list = this.children.concat();
             });
         });
     });
@@ -76,11 +79,33 @@ export class ResComponent implements OnInit {
   }
 
   resource_search() {
-    this.show_list = [];
+    this.search_list = [];
     for (const item of this.children) {
       if (item.rname.indexOf(this.resource_search_keyword) >= 0) {
-        this.show_list.push(item);
+        this.search_list.push(item);
       }
+    }
+  }
+
+  select_res(res: Resource) {
+    res.selected = !res.selected;
+  }
+
+  select_res_help(help: string) {
+    if (help === 'all') {
+      for (const item of this.search_list) {
+        item.selected = true;
+      }
+    } else if (help === 'adverse') {
+      for (const item of this.search_list) {
+        item.selected = !item.selected;
+      }
+    } else if (help === 'cancel') {
+      for (const item of this.search_list) {
+        item.selected = false;
+      }
+    } else if (help === 'delete') {
+      // TODO: delete
     }
   }
 
@@ -149,5 +174,10 @@ export class ResComponent implements OnInit {
     if (this.footBtnService.foot_btn_active === this.footBtnService.foot_btn_select) {
       this.tab_mode = "resource";
     }
+  }
+
+  onUploaded(res: Resource) {
+    this.children.push(res);
+    this.resource_search();
   }
 }

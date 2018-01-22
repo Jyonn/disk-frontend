@@ -1,6 +1,6 @@
 <div class="operation-block" [ngClass]="footBtnService.foot_btn_active?.mask ? 'active' : 'inactive'">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
-  <div class="container" [ngClass]="footBtnService.is_sharing">
+  <div class="container" [ngClass]="footBtnService.active_share">
     <div class="title-box">
       <div class="title">分享资源</div>
       <app-loading></app-loading>
@@ -8,13 +8,36 @@
     <div class="radio-list">
       <div class="radio-btn"
            *ngFor="let btn of share_btns"
-           [ngClass]="is_active(btn) ? 'active' : 'inactive'"
+           [ngClass]="is_active('share', btn) ? 'active' : 'inactive'"
            (click)="share_status_change(btn)">
-        <span class="icon" [ngClass]="is_active(btn) ? 'icon-check' : 'icon-uncheck'"></span>
+        <span class="icon" [ngClass]="is_active('share', btn) ? 'icon-check' : 'icon-uncheck'"></span>
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
     <input [value]="share_show_text" readonly>
-    <div class="round-btn" ngxClipboard [cbContent]="share_show_text">复制</div>
+    <div class="round-btn" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+  </div>
+  <div class="container" [ngClass]="footBtnService.active_upload">
+    <div class="title-box">
+      <div class="title">上传资源</div>
+      <app-loading></app-loading>
+    </div>
+    <div class="radio-list">
+      <div class="radio-btn"
+           *ngFor="let btn of upload_btns"
+           [ngClass]="is_active('upload', btn) ? 'active' : 'inactive'" (click)="upload_active=btn.value">
+        <span class="icon" [ngClass]="is_active('upload', btn) ? 'icon-check' : 'icon-uncheck'"></span>
+        <span class="text">{{btn.text}}</span>
+      </div>
+    </div>
+    <div *ngIf="upload_active===upload_file.value">
+      <input [value]="upload_res_text" readonly placeholder="选择文件…">
+      <input type="file" (change)="res_files = $event.target.files">
+      <div class="round-btn" (click)="upload_file_action()">上传</div>
+    </div>
+    <div *ngIf="upload_active===upload_folder.value">
+      <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
+      <div class="round-btn" (click)="create_folder_action()">创建</div>
+    </div>
   </div>
 </div>
