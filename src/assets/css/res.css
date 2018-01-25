@@ -84,6 +84,9 @@ footer {
 .round-btn.warn {
   background: #D04B4B;
 }
+.round-btn.long {
+  width: 100px;
+}
 div.res {
   position: fixed;
 }
@@ -112,6 +115,22 @@ div.res div.tab div.resource {
 }
 div.res div.tab div.description {
   right: 0;
+}
+div.res div.tab div.description div.modify-btn {
+  width: 50%;
+  float: left;
+  position: relative;
+}
+div.res div.tab div.description div.cancel {
+  background: #CCCCCC;
+  color: white;
+}
+div.res div.tab div.description div.modify {
+  background: #2699FB;
+  color: #F1F9FF;
+}
+div.res div.tab div.description.inactive {
+  right: -50%;
 }
 div.res div.tab div.resource div.search-container {
   position: absolute;
@@ -292,12 +311,27 @@ div.res div.content.resource div.round-btn {
   left: calc(50% - 70px / 2);
   top: calc(60% + 50px);
 }
-div.res div.content.description div.pading-div {
+div.res div.content.description div.padding-div {
   padding: 10px 3%;
   width: 100%;
   height: 100%;
   font-size: 14px;
   background: none;
+}
+div.res div.content.description div.padding-div div.round-btn {
+  position: absolute;
+  width: 140px;
+  left: calc(50% - 70px);
+  top: calc(50% - 30px / 2);
+}
+div.res div.content.description div.padding-div textarea {
+  background: none;
+  border: none;
+  resize: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
 }
 div.res.resource div.tab div.resource {
   background: #007FEB;

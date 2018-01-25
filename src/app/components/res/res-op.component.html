@@ -1,11 +1,11 @@
-<div class="operation-block" [ngClass]="footBtnService.foot_btn_active?.mask ? 'active' : 'inactive'">
+<div class="operation-block" [ngClass]="active_block ? 'active' : 'inactive'">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
   <div class="container" [ngClass]="footBtnService.active_share">
     <div class="title-box">
       <div class="title">分享资源</div>
       <app-loading></app-loading>
     </div>
-    <div class="radio-list">
+    <div class="radio-list first">
       <div class="radio-btn"
            *ngFor="let btn of share_btns"
            [ngClass]="is_active('share', btn) ? 'active' : 'inactive'"
@@ -14,17 +14,18 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <div class="ele-box">
+    <div class="ele-box second">
       <input [value]="share_show_text" readonly>
       <div class="round-btn" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
     </div>
   </div>
+
   <div class="container" [ngClass]="footBtnService.active_upload">
     <div class="title-box">
       <div class="title">上传资源</div>
       <app-loading></app-loading>
     </div>
-    <div class="radio-list">
+    <div class="radio-list first">
       <div class="radio-btn"
            *ngFor="let btn of upload_btns"
            [ngClass]="is_active('upload', btn) ? 'active' : 'inactive'" (click)="upload_active=btn.value">
@@ -32,23 +33,40 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <div *ngIf="upload_active===upload_file.value" class="ele-box">
+    <div *ngIf="upload_active===upload_file.value" class="ele-box second">
       <input [value]="upload_res_text" readonly placeholder="选择文件…">
       <input type="file" (change)="res_files = $event.target.files">
       <div class="round-btn" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
     </div>
-    <div *ngIf="upload_active===upload_folder.value" class="ele-box">
+    <div *ngIf="upload_active===upload_folder.value" class="ele-box second">
       <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
       <div class="round-btn" (click)="create_folder_action()">创建</div>
     </div>
   </div>
+
+  <div class="container" [ngClass]="footBtnService.is_modifying && tab_mode==='resource' ? 'active' : 'inactive'">
+    <div class="title-box">
+      <div class="title">修改资源信息<span>（选择“介绍”，按修改可进入编辑）</span></div>
+      <app-loading></app-loading>
+    </div>
+    <div class="ele-box first long-btn">
+      <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
+      <div class="round-btn long" (click)="modify_res_name_action()">更新资源名</div>
+    </div>
+    <div class="ele-box second long-btn">
+      <input [value]="res_cover_name" readonly placeholder="选择封面…">
+      <input type="file" (change)="res_cover_files = $event.target.files">
+      <div class="round-btn long" (click)="modify_res_cover_action()">更新封面</div>
+    </div>
+  </div>
+
   <div class="container" [ngClass]="footBtnService.active_delete">
     <div class="title-box">
       <div class="title">删除资源</div>
       <app-loading></app-loading>
     </div>
-    <div class="delete-text">{{delete_text}}</div>
-    <div class="ele-box">
+    <div class="delete-text first">{{delete_text}}</div>
+    <div class="ele-box second">
       <div class="round-btn warn" (click)="delete_res_action()">删除</div>
       <div class="round-btn sub" (click)="footBtnService.foot_btn_active=null">取消</div>
     </div>

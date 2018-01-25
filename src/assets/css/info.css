@@ -80,6 +80,9 @@ footer {
 .round-btn.warn {
   background: #D04B4B;
 }
+.round-btn.long {
+  width: 100px;
+}
 div.info-container {
   position: fixed;
   width: 100%;

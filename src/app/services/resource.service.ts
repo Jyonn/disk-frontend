@@ -19,6 +19,11 @@ export class ResourceService {
       .get(`/api/res/${res_id}/token`, data);
   }
 
+  public get_cover_token(res_id: number, data: {filename: string}) {
+    return this.baseService
+      .get(`/api/res/${res_id}/cover`, data);
+  }
+
   public get_res_info(path: Array<any>, data: {visit_key: string}) {
     const slug = BaseService.path_to_slug(path);
     return this.baseService

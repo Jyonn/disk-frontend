@@ -80,6 +80,9 @@ footer {
 .round-btn.warn {
   background: #D04B4B;
 }
+.round-btn.long {
+  width: 100px;
+}
 nav {
   background: none;
   position: fixed;
@@ -92,7 +95,7 @@ nav div.background {
   left: -8px;
   width: calc(100% + 2*8px);
   height: calc(100% + 2*8px);
-  filter: blur(8px);
+  filter: brightness(70%) blur(8px);
 }
 nav div.content {
   width: calc(100% - 40px);

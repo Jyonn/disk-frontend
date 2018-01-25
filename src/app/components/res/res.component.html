@@ -32,6 +32,10 @@
       </div>
     </div>
     <div class="description" (click)="switch_tab_mode('description')"><span class="text">介绍</span></div>
+    <div class="description" [ngClass]="is_modifying_desc ? 'active' : 'inactive'">
+      <div class="modify-btn cancel"><span class="text" (click)="cancel_modify_desc()">取消</span></div>
+      <div class="modify-btn modify"><span class="text" (click)="modify_desc_action()">修改</span></div>
+    </div>
   </div>
   <div class="tab selecting" [ngClass]="footBtnService.active_select">
     <div class="tab-btn select-all" (click)="select_res_help('all')">全选</div>
@@ -57,13 +61,17 @@
     <a [href]="dl_link" target="_blank"><div class="round-btn">下载</div></a>
   </div>
   <div class="content description">
-    <div class="pading-div">
-      <markdown [data]="description"></markdown>
+    <div class="padding-div">
+      <markdown [data]="description" *ngIf="description && !is_modifying_desc"></markdown>
+      <textarea [(ngModel)]="description" *ngIf="is_modifying_desc"></textarea>
+      <!--<div class="add-desc">-->
+        <div class="round-btn" *ngIf="!description && !is_modifying_desc">填写介绍资料</div>
+      <!--</div>-->
     </div>
   </div>
 </div>
 
-<app-res-op [resource]="resource" [path]="path" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()"></app-res-op>
+<app-res-op [resource]="resource" [path]="path" [tab_mode]="tab_mode" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()"></app-res-op>
 
 <footer *ngIf="userService.has_login">
   <div *ngFor="let foot_btn of foot_btns"

@@ -17,6 +17,7 @@ import {Info} from "../../models/info";
 export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
   @Input() path: Array<any>;
+  @Input() tab_mode: string;
   @Output() onUploaded = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
 
@@ -40,6 +41,11 @@ export class ResOpComponent implements OnInit {
   res_files: FileList;
   folder_name: string;
   is_uploading: boolean;
+
+  // foot btn modify
+  // res_name: string;
+  res_cover_files: FileList;
+  is_modifying: boolean;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -71,6 +77,10 @@ export class ResOpComponent implements OnInit {
 
     this.folder_name = null;
     this.is_uploading = false;
+  }
+
+  initModify() {
+    this.is_modifying = false;
   }
 
   is_active(foot_btn_str: string, btn: RadioBtn) {
@@ -114,6 +124,14 @@ export class ResOpComponent implements OnInit {
     }
   }
 
+  get res_cover_name() {
+    if (this.res_cover_files && this.res_cover_files[0]) {
+      return this.res_cover_files[0].name;
+    } else {
+      return null;
+    }
+  }
+
   upload_file_action() {
     if (this.is_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
@@ -137,6 +155,29 @@ export class ResOpComponent implements OnInit {
       });
   }
 
+  modify_res_cover_action() {
+    if (this.is_modifying) {
+      BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
+      return;
+    }
+    const res_cover = this.res_cover_name;
+    if (!res_cover) {
+      BaseService.info_center.next(new Info({text: '没有选择图片', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.is_modifying = true;
+    this.resService.get_cover_token(this.resource.res_id, {filename: res_cover})
+      .then((resp) => {
+        this.resService.upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
+          .then((resp_) => {
+            this.resource.update(resp_);
+            // this.res_cover_files = null;
+            this.footBtnService.foot_btn_active = null;
+            this.is_modifying = false;
+          });
+      });
+  }
+
   create_folder_action() {
     if (this.is_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
@@ -146,12 +187,31 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '文件夹名不能为空', type: Info.TYPE_WARN}));
       return;
     }
+    this.is_uploading = true;
     this.resService.create_folder(this.resource.res_id, {folder_name: this.folder_name})
       .then((resp) => {
         this.onUploaded.emit(new Resource((resp)));
         this.folder_name = null;
         this.footBtnService.foot_btn_active = null;
         this.is_uploading = false;
+      });
+  }
+
+  modify_res_name_action() {
+    if (this.is_modifying) {
+      BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
+      return;
+    }
+    if (!this.res_name) {
+      BaseService.info_center.next(new Info({text: '资源名不能为空', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.is_modifying = true;
+    this.resService.modify_res_info(this.path, {status: null, visit_key: null, description: null, rname: this.res_name})
+      .then((resp) => {
+        this.resource.update(resp);
+        this.footBtnService.foot_btn_active = null;
+        this.is_modifying = false;
       });
   }
 
@@ -180,8 +240,33 @@ export class ResOpComponent implements OnInit {
       });
   }
 
+  get res_name() {
+    if (this.resource) {
+      return this.resource.rname;
+    } else {
+      return null;
+    }
+  }
+
+  set res_name(r: string) {
+    if (this.resource) {
+      this.resource.rname = r;
+    }
+  }
+
+  get active_block() {
+    if (!this.footBtnService.foot_btn_active) {
+      return false;
+    }
+    if (!this.footBtnService.foot_btn_active.mask) {
+      return false;
+    }
+    return !(this.footBtnService.is_modifying && this.tab_mode === 'description');
+  }
+
   ngOnInit() {
     this.initShare();
     this.initUpload();
+    this.initModify();
   }
 }

@@ -87,6 +87,9 @@ footer {
 .round-btn.warn {
   background: #D04B4B;
 }
+.round-btn.long {
+  width: 100px;
+}
 footer {
   position: fixed;
   left: 0;

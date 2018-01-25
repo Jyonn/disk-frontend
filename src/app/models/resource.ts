@@ -51,6 +51,15 @@ export class Resource {
     this.selected = false;
   }
 
+  update(d: {rname, cover, status, dlcount, visit_key, description}) {
+    this.rname = d.rname;
+    this.cover = d.cover;
+    this.status = d.status;
+    this.dlcount = d.dlcount;
+    this.visit_key = d.visit_key;
+    this.description = d.description;
+  }
+
   get readable_time() {
     let time_str = '';
     const offset = ClockService.ct - this.create_time;
@@ -84,7 +93,7 @@ export class Resource {
     if (this.cover) {
       return `url('${this.cover}')`;
     } else {
-      return `url('https://unsplash.6-79.cn/random/thumb?r=${this.rname}')`;
+      return `url('https://unsplash.6-79.cn/random/thumb?r=${this.create_time}')`;
     }
     // return `url('${this.cover}')`;
   }

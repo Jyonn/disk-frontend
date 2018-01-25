@@ -85,6 +85,9 @@ footer {
 .round-btn.warn {
   background: #D04B4B;
 }
+.round-btn.long {
+  width: 100px;
+}
 div.operation-block {
   position: fixed;
   left: 0;
@@ -120,6 +123,12 @@ div.operation-block div.container div.title-box div.title {
   line-height: 22px;
   vertical-align: middle;
 }
+div.operation-block div.container div.title-box div.title span {
+  font-weight: normal;
+  font-size: 0.6em;
+  vertical-align: bottom;
+  line-height: 22px;
+}
 div.operation-block div.container div.title-box app-loading {
   height: 22px;
   width: 22px;
@@ -127,9 +136,14 @@ div.operation-block div.container div.title-box app-loading {
   vertical-align: middle;
   display: inline-flex;
 }
+div.operation-block div.container div.first {
+  top: 54px;
+}
+div.operation-block div.container div.second {
+  top: 90px;
+}
 div.operation-block div.container div.radio-list {
   position: absolute;
-  top: 54px;
   left: calc(5% + 30px);
   height: 20px;
 }
@@ -153,9 +167,11 @@ div.operation-block div.container div.radio-list div.radio-btn.active span {
 div.operation-block div.container div.radio-list div.radio-btn.inactive span {
   color: #CCCCCC;
 }
+div.operation-block div.container div.ele-box.long-btn input {
+  width: calc(100% - 100px - 20px);
+}
 div.operation-block div.container div.ele-box {
   position: absolute;
-  top: 90px;
   left: calc(5% + 30px);
   width: calc(100% - 5% * 2 - 60px);
   height: 30px;
@@ -166,15 +182,19 @@ div.operation-block div.container div.ele-box input {
   border-radius: 15px;
   border: 1px solid #CCCCCC;
   padding: 0 15px;
-  color: #CCCCCC;
+  color: #555555;
 }
 div.operation-block div.container div.ele-box input:hover,
 div.operation-block div.container div.ele-box input:focus {
   border: 1px solid #2699FB;
 }
+div.operation-block div.container div.ele-box input[readonly] {
+  color: #CCCCCC;
+}
 div.operation-block div.container div.ele-box input[type='file'] {
   filter: opacity(0);
   position: absolute;
+  top: 0;
 }
 div.operation-block div.container div.ele-box div.round-btn {
   float: right;
@@ -182,7 +202,6 @@ div.operation-block div.container div.ele-box div.round-btn {
 }
 div.operation-block div.container div.delete-text {
   position: absolute;
-  top: 54px;
   left: calc(5% + 30px);
   height: 20px;
   font-size: 14px;

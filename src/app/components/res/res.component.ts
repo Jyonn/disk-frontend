@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {BaseService} from "../../services/base.service";
+import {Info} from "../../models/info";
 
 @Component({
   selector: 'app-res',
@@ -71,7 +72,7 @@ export class ResComponent implements OnInit {
             .then((resp) => {
               this.children = [];
               this.resource = new Resource(resp.info);
-              this.description = this.resource.description || '暂无介绍资料';
+              this.description = this.resource.description;
               for (const item of resp.child_list) {
                 item.parent_id = this.resource.res_id;
                 const r_child = new Resource(item);
@@ -190,13 +191,7 @@ export class ResComponent implements OnInit {
     const slug = BaseService.path_to_slug(this.path);
     return `${this.baseService.host}/api/res/${slug}/dl?token=${this.baseService.token}&visit_key=${this.resource.visit_key}`;
   }
-  // download() {
-  //   this.resService.get_dl_link(this.path, {visit_key: this.visit_key})
-  //     .then((resp) => {
-  //       window.open(resp.link);
-  //     });
-  // }
-  //
+
   switch_tab_mode(tm: string) {
     this.tab_mode = tm;
   }
@@ -210,6 +205,28 @@ export class ResComponent implements OnInit {
     if (this.footBtnService.foot_btn_active === this.footBtnService.foot_btn_select) {
       this.tab_mode = "resource";
     }
+  }
+
+  get is_modifying_desc() {
+    return this.footBtnService.is_modifying && this.tab_mode === 'description';
+  }
+
+  cancel_modify_desc() {
+    if (this.resource) {
+      this.description = this.resource.description;
+    } else {
+      this.description = '';
+    }
+    this.footBtnService.foot_btn_active = null;
+  }
+
+  modify_desc_action() {
+    this.resService.modify_res_info(this.path, {rname: null, description: this.description, visit_key: null, status: null})
+      .then((resp) => {
+        this.resource.update(resp);
+        this.description = this.resource.description;
+        this.footBtnService.foot_btn_active = null;
+      });
   }
 
   onUploaded(res: Resource) {

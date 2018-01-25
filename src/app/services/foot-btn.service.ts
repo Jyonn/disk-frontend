@@ -38,7 +38,7 @@ export class FootBtnService {
       text: '修改',
       folder: true,
       file: true,
-      mask: false,
+      mask: true,
     });
     this.foot_btn_delete = new FootBtn({
       icon: 'icon-delete',

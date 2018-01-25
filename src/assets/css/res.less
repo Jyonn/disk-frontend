@@ -54,6 +54,22 @@ div.res {
     }
     div.description {
       right: 0;
+      div.modify-btn {
+        width: 50%;
+        float: left;
+        position: relative;
+      }
+      div.cancel {
+        background: @cancel-bg;
+        color: @cancel-text;
+      }
+      div.modify {
+        background: @default-bg;
+        color: @default-text;
+      }
+    }
+    div.description.inactive {
+      right: -50%;
     }
     div.resource {
       div.search-container {
@@ -252,28 +268,28 @@ div.res {
     }
   }
   div.content.description {
-    div.pading-div {
+    div.padding-div {
       padding: 10px 3%;
       width: 100%;
       height: 100%;
       font-size: 14px;
       background: none;
+      div.round-btn {
+        position: absolute;
+        width: 140px;
+        left: calc(~'50% - 70px');
+        top: calc(~'50% - @{round-btn-height} / 2');
+      }
+      textarea {
+        background: none;
+        border: none;
+        resize: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+      }
     }
-    //div.modify-box {
-    //  height: calc(~'100% - @{res-foot-extra-padding}');
-    //  textarea {
-    //    background: none;
-    //    border: none;
-    //    resize: none;
-    //    outline: none;
-    //    width: 100%;
-    //    height: calc(~'100% - @{round-btn-height}');
-    //    font-size: 14px;
-    //  }
-    //  div.round-btn {
-    //    //float: right;
-    //  }
-    //}
   }
 }
 
