@@ -51,4 +51,10 @@ export class ResourceService {
     return this.baseService
       .put(`/api/res/${slug}`, data);
   }
+
+  public delete_res(path: Array<any>) {
+    const slug = BaseService.path_to_slug(path);
+    return this.baseService
+      .del(`/api/res/${slug}`);
+  }
 }

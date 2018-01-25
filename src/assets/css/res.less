@@ -62,7 +62,7 @@ div.res {
         left: @res-search-container-padding;
         width: calc(~'100% - 2*@{res-search-container-padding}');
         height: 100%;
-        span.icon-search {
+        span.icon-search, span.icon-collapse {
           position: absolute;
           right: 0;
           font-size: @res-search-icon-size;
@@ -80,15 +80,16 @@ div.res {
             height: 100%;
             border-radius: @res-search-border-radius;
             border: none;
-            padding: 0 2*@res-search-border-radius 0 @res-search-border-radius;
+            padding: 0 1.5*@res-search-border-radius 0 @res-search-border-radius;
             font-size: @res-tab-font-size;
           }
-          span.icon-collapse {
+          span.clear-keyword {
             position: absolute;
             top: 0;
-            right: @res-search-border-radius + @res-search-container-padding;
+            right: @res-search-border-radius / 2 + @res-search-container-padding;
             color: @active-tab-bg;
             font-weight: bold;
+            width: 20px;
           }
         }
       }

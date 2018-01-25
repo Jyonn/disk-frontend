@@ -11,7 +11,7 @@ export class BaseService {
   public static info_center = new Subject<Info>();
   public token: string;
   public front_host: string;
-  private host: string;
+  public host: string;
   private qn_host: string;
   constructor(
     private http: HttpClient,
@@ -31,6 +31,7 @@ export class BaseService {
         if (resp.code !== 0) {
           // return BaseService.handleError(resp.msg);
           BaseService.info_center.next(new Info({text: resp.msg, type: Info.TYPE_WARN}));
+          return Promise.reject(resp.msg);
         } else {
           BaseService.asyc_working -= 1;
           return resp.body;

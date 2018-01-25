@@ -75,8 +75,14 @@ footer {
   text-align: center;
   display: inline-block;
 }
+.round-btn.disabled {
+  background: #CCCCCC;
+}
 .round-btn.sub {
   background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
 }
 div.res {
   position: fixed;
@@ -114,7 +120,8 @@ div.res div.tab div.resource div.search-container {
   width: calc(100% - 2*14px);
   height: 100%;
 }
-div.res div.tab div.resource div.search-container span.icon-search {
+div.res div.tab div.resource div.search-container span.icon-search,
+div.res div.tab div.resource div.search-container span.icon-collapse {
   position: absolute;
   right: 0;
   font-size: 16px;
@@ -133,15 +140,16 @@ div.res div.tab div.resource div.search-container div.search-box input.search {
   height: 100%;
   border-radius: 19px;
   border: none;
-  padding: 0 38px 0 19px;
+  padding: 0 28.5px 0 19px;
   font-size: 16px;
 }
-div.res div.tab div.resource div.search-container div.search-box span.icon-collapse {
+div.res div.tab div.resource div.search-container div.search-box span.clear-keyword {
   position: absolute;
   top: 0;
-  right: 33px;
+  right: 23.5px;
   color: #007FEB;
   font-weight: bold;
+  width: 20px;
 }
 div.res div.tab.searching div.resource {
   position: absolute;

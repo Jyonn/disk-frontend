@@ -14,8 +14,10 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <input [value]="share_show_text" readonly>
-    <div class="round-btn" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+    <div class="ele-box">
+      <input [value]="share_show_text" readonly>
+      <div class="round-btn" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+    </div>
   </div>
   <div class="container" [ngClass]="footBtnService.active_upload">
     <div class="title-box">
@@ -30,14 +32,25 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <div *ngIf="upload_active===upload_file.value">
+    <div *ngIf="upload_active===upload_file.value" class="ele-box">
       <input [value]="upload_res_text" readonly placeholder="选择文件…">
       <input type="file" (change)="res_files = $event.target.files">
-      <div class="round-btn" (click)="upload_file_action()">上传</div>
+      <div class="round-btn" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
     </div>
-    <div *ngIf="upload_active===upload_folder.value">
+    <div *ngIf="upload_active===upload_folder.value" class="ele-box">
       <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
       <div class="round-btn" (click)="create_folder_action()">创建</div>
+    </div>
+  </div>
+  <div class="container" [ngClass]="footBtnService.active_delete">
+    <div class="title-box">
+      <div class="title">删除资源</div>
+      <app-loading></app-loading>
+    </div>
+    <div class="delete-text">{{delete_text}}</div>
+    <div class="ele-box">
+      <div class="round-btn warn" (click)="delete_res_action()">删除</div>
+      <div class="round-btn sub" (click)="footBtnService.foot_btn_active=null">取消</div>
     </div>
   </div>
 </div>

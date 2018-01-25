@@ -71,8 +71,14 @@ footer {
   text-align: center;
   display: inline-block;
 }
+.round-btn.disabled {
+  background: #CCCCCC;
+}
 .round-btn.sub {
   background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
 }
 div.info-container {
   position: fixed;
@@ -85,7 +91,7 @@ div.info-container div.text {
   font-size: 16px;
   color: white;
   position: absolute;
-  left: 6.5%;
+  left: 5%;
   line-height: 56px;
   vertical-align: middle;
   width: calc(90% - 50px);
@@ -95,7 +101,7 @@ div.info-container span.icon-collapse {
   font-size: 16px;
   color: #eaeaea;
   position: absolute;
-  right: calc(3% + 14px);
+  right: 5%;
   line-height: 56px;
   vertical-align: middle;
   font-weight: bold;

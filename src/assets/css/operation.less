@@ -9,6 +9,13 @@
 @active-check-btn: @blue;
 @inactive-check-btn: @gray;
 
+@op-title-padding: 5%;
+@op-content-padding: calc(~'@{op-title-padding} + 30px');
+@op-ele-box-width: calc(~'100% - @{op-title-padding} * 2 - 60px');
+@op-ele-box-height: 30px;
+@op-input-width: calc(~'100% - @{op-title-padding} * 2 - 60px - @{round-btn-width} - 10px');
+@op-ele-margin: 20px;
+
 div.operation-block {
   &:extend(.animate);
   position: fixed;
@@ -35,7 +42,7 @@ div.operation-block {
     div.title-box {
       position: absolute;
       top: 16px;
-      left: 5%;
+      left: @op-title-padding;
       div.title {
         display: inline-flex;
         color: @op-title-color;
@@ -56,7 +63,7 @@ div.operation-block {
     div.radio-list {
       position: absolute;
       top: 54px;
-      left: 12%;
+      left: @op-content-padding;
       height: @radio-list-height;
       div.radio-btn {
         &:extend(.ptr);
@@ -85,27 +92,41 @@ div.operation-block {
         }
       }
     }
-    input {
+    div.ele-box {
       position: absolute;
       top: 90px;
-      left: 12%;
-      height: 30px;
-      width: calc(~'76% - @{round-btn-width} - 10px');
-      border-radius: 15px;
-      border: 1px solid @inactive-check-btn;
-      padding: 0 15px;
-      color: @inactive-check-btn;
-      &:hover, &:focus {
-        border: 1px solid @active-check-btn;
+      left: @op-content-padding;
+      width: @op-ele-box-width;
+      height: @op-ele-box-height;
+      input {
+        width: calc(~'100% - @{round-btn-width} - @{op-ele-margin}');
+        height: @op-ele-box-height;
+        border-radius: 15px;
+        border: 1px solid @inactive-check-btn;
+        padding: 0 15px;
+        color: @inactive-check-btn;
+        &:hover, &:focus {
+          border: 1px solid @active-check-btn;
+        }
+      }
+      input[type='file'] {
+        filter: opacity(0);
+        position: absolute;
+      }
+      div.round-btn {
+        float: right;
+        margin-left: @op-ele-margin;
+      }
+      div.round-btn.sub {
       }
     }
-    input[type='file'] {
-      filter: opacity(0);
-    }
-    div.round-btn {
+    div.delete-text {
       position: absolute;
-      top: 90px;
-      right: 12%;
+      top: 54px;
+      left: @op-content-padding;
+      height: @radio-list-height;
+      font-size: 14px;
+      color: @active-check-btn;
     }
   }
   div.container.active {

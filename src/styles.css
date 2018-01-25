@@ -69,6 +69,12 @@ footer {
   text-align: center;
   display: inline-block;
 }
+.round-btn.disabled {
+  background: #CCCCCC;
+}
 .round-btn.sub {
   background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
 }

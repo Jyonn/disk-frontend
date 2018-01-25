@@ -76,8 +76,14 @@ footer {
   text-align: center;
   display: inline-block;
 }
+.round-btn.disabled {
+  background: #CCCCCC;
+}
 .round-btn.sub {
   background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
 }
 div.operation-block {
   position: fixed;
@@ -124,7 +130,7 @@ div.operation-block div.container div.title-box app-loading {
 div.operation-block div.container div.radio-list {
   position: absolute;
   top: 54px;
-  left: 12%;
+  left: calc(5% + 30px);
   height: 20px;
 }
 div.operation-block div.container div.radio-list div.radio-btn {
@@ -147,28 +153,40 @@ div.operation-block div.container div.radio-list div.radio-btn.active span {
 div.operation-block div.container div.radio-list div.radio-btn.inactive span {
   color: #CCCCCC;
 }
-div.operation-block div.container input {
+div.operation-block div.container div.ele-box {
   position: absolute;
   top: 90px;
-  left: 12%;
+  left: calc(5% + 30px);
+  width: calc(100% - 5% * 2 - 60px);
   height: 30px;
-  width: calc(76% - 70px - 10px);
+}
+div.operation-block div.container div.ele-box input {
+  width: calc(100% - 70px - 20px);
+  height: 30px;
   border-radius: 15px;
   border: 1px solid #CCCCCC;
   padding: 0 15px;
   color: #CCCCCC;
 }
-div.operation-block div.container input:hover,
-div.operation-block div.container input:focus {
+div.operation-block div.container div.ele-box input:hover,
+div.operation-block div.container div.ele-box input:focus {
   border: 1px solid #2699FB;
 }
-div.operation-block div.container input[type='file'] {
+div.operation-block div.container div.ele-box input[type='file'] {
   filter: opacity(0);
-}
-div.operation-block div.container div.round-btn {
   position: absolute;
-  top: 90px;
-  right: 12%;
+}
+div.operation-block div.container div.ele-box div.round-btn {
+  float: right;
+  margin-left: 20px;
+}
+div.operation-block div.container div.delete-text {
+  position: absolute;
+  top: 54px;
+  left: calc(5% + 30px);
+  height: 20px;
+  font-size: 14px;
+  color: #2699FB;
 }
 div.operation-block div.container.active {
   bottom: 0;

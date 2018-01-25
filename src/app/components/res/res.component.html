@@ -23,9 +23,11 @@
       <span class="text">资源</span>
       <div class="search-container">
         <span class="icon icon-search" *ngIf="show_search_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
+        <span class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
         <div class="search-box">
-          <input #searchBox class="search" placeholder="搜索…" [(ngModel)]="resource_search_keyword">
-          <span class="icon icon-collapse" (click)="go_search(false)"></span>
+          <input #searchBox class="search" placeholder="搜索…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
+          <!--<span class="icon icon-collapse" (click)="go_search(false)">️</span>-->
+          <span class="clear-keyword" (click)="clear_search()">×</span>
         </div>
       </div>
     </div>
@@ -52,7 +54,7 @@
     <span class="icon" [ngClass]=resource?.icon></span>
     <div class="file-name">{{resource?.rname}}</div>
     <div class="file-size">{{resource?.size}}</div>
-    <div class="round-btn" (click)="download()">下载</div>
+    <a [href]="dl_link" target="_blank"><div class="round-btn">下载</div></a>
   </div>
   <div class="content description">
     <div class="pading-div">
@@ -61,13 +63,13 @@
   </div>
 </div>
 
-<app-res-op [resource]="resource" [path]="path" (onUploaded)="onUploaded($event)"></app-res-op>
+<app-res-op [resource]="resource" [path]="path" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()"></app-res-op>
 
 <footer *ngIf="userService.has_login">
   <div *ngFor="let foot_btn of foot_btns"
-    class="btn"
-    [ngClass]="footBtnService.is_active(foot_btn)"
-    (click)="activate_btn(foot_btn)">
+       class="btn"
+       [ngClass]="footBtnService.is_active(foot_btn)"
+       (click)="activate_btn(foot_btn)">
     <span class="icon" [ngClass]="foot_btn.icon"></span>
     <span class="text">{{foot_btn.text}}</span>
   </div>

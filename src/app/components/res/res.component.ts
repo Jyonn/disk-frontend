@@ -7,6 +7,12 @@ import {ResourceService} from "../../services/resource.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FootBtnService} from "../../services/foot-btn.service";
 import {FootBtn} from "../../models/foot-btn";
+import {Subject} from "rxjs/Subject";
+
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import {BaseService} from "../../services/base.service";
 
 @Component({
   selector: 'app-res',
@@ -27,7 +33,8 @@ export class ResComponent implements OnInit {
   search_list: Resource[];
   // show_list: Resource[];
 
-  resource_search_keyword: string;
+  search_value: string;
+  search_terms: Subject<string>;
 
   search_mode: boolean;
   tab_mode: string;
@@ -37,6 +44,7 @@ export class ResComponent implements OnInit {
   description: string;
 
   constructor(
+    public baseService: BaseService,
     public userService: UserService,
     public resService: ResourceService,
     public clockService: ClockService,
@@ -50,6 +58,7 @@ export class ResComponent implements OnInit {
     this.visit_key = null;
     this.children = [];
     this.search_list = [];
+    this.search_value = null;
     // this.show_list = [];
   }
   ngOnInit(): void {
@@ -73,20 +82,34 @@ export class ResComponent implements OnInit {
         });
     });
     this.clockService.startClock();
-    this.resource_search_keyword = '';
     this.search_mode = false;
     this.tab_mode = 'resource';
+    this.search_terms = new Subject<string>();
+    this.search_terms
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe(keyword => this.resource_search(keyword));
   }
 
-  resource_search() {
+  resource_search(keyword: string = null) {
+    if (!keyword) {
+      keyword = "";
+    }
+    if (this.search_value) {
+      keyword = this.search_value;
+    }
     this.search_list = [];
     for (const item of this.children) {
-      if (item.rname.indexOf(this.resource_search_keyword) >= 0) {
+      if (item.rname.indexOf(keyword) >= 0) {
         this.search_list.push(item);
       }
     }
   }
 
+  // do_search(term: string) {
+  //   this.search_terms.next(term);
+  // }
+  //
   select_res(res: Resource) {
     res.selected = !res.selected;
   }
@@ -104,6 +127,7 @@ export class ResComponent implements OnInit {
       for (const item of this.search_list) {
         item.selected = false;
       }
+      this.footBtnService.foot_btn_active = null;
     } else if (help === 'delete') {
       // TODO: delete
     }
@@ -111,6 +135,11 @@ export class ResComponent implements OnInit {
 
   go_search(searching: boolean) {
     this.search_mode = searching;
+  }
+
+  clear_search() {
+    this.search_value = null;
+    this.resource_search();
   }
 
   get search_class() {
@@ -133,6 +162,9 @@ export class ResComponent implements OnInit {
       if (this.resource) {
         if ((this.resource.is_folder && foot_btn.folder) ||
           (!this.resource.is_folder && foot_btn.file)) {
+          if (foot_btn === this.footBtnService.foot_btn_delete && this.resource.is_home) {
+            continue;
+          }
           _foot_btns.push(foot_btn);
         }
       }
@@ -154,19 +186,23 @@ export class ResComponent implements OnInit {
     return owner;
   }
 
-  download() {
-    this.resService.get_dl_link(this.path, {visit_key: this.visit_key})
-      .then((resp) => {
-        window.open(resp.link);
-      });
+  get dl_link() {
+    const slug = BaseService.path_to_slug(this.path);
+    return `${this.baseService.host}/api/res/${slug}/dl?token=${this.baseService.token}&visit_key=${this.resource.visit_key}`;
   }
-
+  // download() {
+  //   this.resService.get_dl_link(this.path, {visit_key: this.visit_key})
+  //     .then((resp) => {
+  //       window.open(resp.link);
+  //     });
+  // }
+  //
   switch_tab_mode(tm: string) {
     this.tab_mode = tm;
   }
 
   get show_search_icon() {
-    return this.resource && this.resource.is_folder && this.tab_mode === 'resource';
+    return this.resource && this.resource.is_folder && this.tab_mode === 'resource' && !this.search_mode;
   }
 
   activate_btn(btn: FootBtn) {
@@ -179,5 +215,9 @@ export class ResComponent implements OnInit {
   onUploaded(res: Resource) {
     this.children.push(res);
     this.resource_search();
+  }
+
+  onDeleted() {
+    this.go_parent();
   }
 }

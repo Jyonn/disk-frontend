@@ -18,6 +18,7 @@ export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
   @Input() path: Array<any>;
   @Output() onUploaded = new EventEmitter<Resource>();
+  @Output() onDeleted = new EventEmitter();
 
   constructor(
     public footBtnService: FootBtnService,
@@ -38,6 +39,7 @@ export class ResOpComponent implements OnInit {
   upload_active: number;
   res_files: FileList;
   folder_name: string;
+  is_uploading: boolean;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -68,6 +70,7 @@ export class ResOpComponent implements OnInit {
     this.upload_active = Resource.RTYPE_FILE;
 
     this.folder_name = null;
+    this.is_uploading = false;
   }
 
   is_active(foot_btn_str: string, btn: RadioBtn) {
@@ -112,10 +115,16 @@ export class ResOpComponent implements OnInit {
   }
 
   upload_file_action() {
-    const res_name = this.upload_res_text;
-    if (!res_name) {
+    if (this.is_uploading) {
+      BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
+    const res_name = this.upload_res_text;
+    if (!res_name) {
+      BaseService.info_center.next(new Info({text: '没有选择文件', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.is_uploading = true;
     this.resService.get_upload_token(this.resource.res_id, {filename: res_name})
       .then((resp) => {
         this.resService.upload_file(resp.key, resp.upload_token, this.res_files[0])
@@ -123,12 +132,18 @@ export class ResOpComponent implements OnInit {
             this.onUploaded.emit(new Resource(resp_));
             this.res_files = null;
             this.footBtnService.foot_btn_active = null;
+            this.is_uploading = false;
           });
       });
   }
 
   create_folder_action() {
+    if (this.is_uploading) {
+      BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
+      return;
+    }
     if (!this.folder_name) {
+      BaseService.info_center.next(new Info({text: '文件夹名不能为空', type: Info.TYPE_WARN}));
       return;
     }
     this.resService.create_folder(this.resource.res_id, {folder_name: this.folder_name})
@@ -136,6 +151,7 @@ export class ResOpComponent implements OnInit {
         this.onUploaded.emit(new Resource((resp)));
         this.folder_name = null;
         this.footBtnService.foot_btn_active = null;
+        this.is_uploading = false;
       });
   }
 
@@ -145,6 +161,23 @@ export class ResOpComponent implements OnInit {
 
   copy_succ() {
     BaseService.info_center.next(new Info({text: '复制成功', type: Info.TYPE_SUCC}));
+  }
+
+  get delete_text() {
+    if (this.resource && this.resource.rtype === Resource.RTYPE_FILE) {
+      return '删除此资源且无法恢复。';
+    } else {
+      return '删除此文件夹下的所有资源和子文件夹且无法恢复。';
+    }
+  }
+
+  delete_res_action() {
+    this.resService.delete_res(this.path)
+      .then((resp) => {
+        BaseService.info_center.next(new Info({text: '删除成功', type: Info.TYPE_SUCC}));
+        this.footBtnService.foot_btn_active = null;
+        this.onDeleted.emit();
+      });
   }
 
   ngOnInit() {
