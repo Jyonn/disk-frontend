@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+}
+body {
+  background: #eaeaea;
+}
+path {
+  fill: #007FEB;
+}
+.ptr,
+.round-btn,
+footer div.btn {
+  cursor: pointer;
+}
+.light-shadow {
+  box-shadow: 1px 3px 10px 0 #c0c0c0;
+}
+.strong-shadow,
+footer div.btn.active {
+  box-shadow: 1px 3px 10px 0 gray;
+}
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
+}
+.animate,
+footer div.btn span.icon,
+footer div.btn span.text,
+footer div.btn.inactive,
+footer div.btn.inactive span.icon,
+footer div.btn.inactive span.text,
+footer div.btn.active,
+footer div.btn.active span.text {
+  transition: 0.5s;
+}
+@media all and (orientation: portrait) {
+  nav {
+    width: 100%;
+    height: 38.2vh;
+  }
+  div.res {
+    width: 100%;
+    height: calc(100% - 38.2vh - 56px);
+    left: 0;
+    top: 38.2vh;
+  }
+}
+@media all and (orientation: landscape) {
+  nav {
+    width: 38.2vw;
+    height: calc(100% - 56px);
+  }
+  div.res {
+    width: calc(100% - 38.2vw);
+    height: calc(100% - 56px);
+    left: 38.2vw;
+    top: 0;
+  }
+}
+footer {
+  width: 100%;
+  height: 56px;
+}
+.round-btn {
+  width: 70px;
+  height: 30px;
+  border-radius: 15px;
+  background: #2699FB;
+  color: white;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+}
+.round-btn.disabled {
+  background: #CCCCCC;
+}
+.round-btn.sub {
+  background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
+}
+.round-btn.long {
+  width: 100px;
+}
+footer {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  height: 56px;
+  background: #2699FB;
+  text-align: center;
+}
+footer div.btn {
+  display: inline-block;
+  line-height: 56px;
+  vertical-align: middle;
+  margin: 0 5px;
+  transition: 0.2s;
+  background: #2699FB;
+  position: relative;
+}
+footer div.btn span.icon {
+  color: white;
+}
+footer div.btn span.text {
+  color: white;
+  font-size: 10px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+}
+footer div.btn.inactive {
+  width: 56px;
+  height: 56px;
+}
+footer div.btn.inactive span.icon {
+  font-size: 20px;
+  filter: opacity(0.3);
+}
+footer div.btn.inactive span.text {
+  bottom: 0;
+  filter: opacity(0);
+}
+footer div.btn.active {
+  margin-top: calc(56px - 74px);
+  width: 74px;
+  height: 74px;
+}
+footer div.btn.active span.icon {
+  filter: opacity(1);
+  font-size: 24px;
+  transition: 0.2s;
+}
+footer div.btn.active span.text {
+  filter: opacity(1);
+  bottom: -5px;
+}
+footer div.join-us {
+  height: 56px;
+  line-height: 56px;
+  font-size: 14px;
+  color: #BCE0FD;
+  vertical-align: middle;
+}
+footer div.join-us span.icon-box {
+  margin-left: 6px;
+  font-size: 16px;
+}
