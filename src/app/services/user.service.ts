@@ -12,8 +12,8 @@ export class UserService {
     // }
     this.user = null;
     baseService.token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOjYwNDgwMCwidXNlcl9pZCI6MiwiY3RpbWUiOjE1MTY4MjM1OTAuMTQyNT" +
-      "cyfQ.UT2NVe7i2uQw6FqrBtVgf-xVkMULsc5Rf1OM_FtkXvk";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTUxNzQ2MTg3OS4yODg2NDQsImV4cGlyZSI6NjA0ODAwLCJ1c2VyX2lkIjo" +
+      "yfQ.7wwH-eeAQnQ6r_2fHzoPdr_wWKf3qrxQXBlUqtOvURk";
   }
 
   public api_get_token(data: {username: string, password: string}) {

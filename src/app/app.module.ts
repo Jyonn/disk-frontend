@@ -21,12 +21,14 @@ import { ResourceService } from "./services/resource.service";
 import { FootBtnService } from "./services/foot-btn.service";
 import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
+import { ResNavComponent } from "./components/res/res-nav.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     ResComponent,
     ResHomeComponent,
+    ResNavComponent,
     ResOpComponent,
     LoadingComponent,
     InfoComponent,

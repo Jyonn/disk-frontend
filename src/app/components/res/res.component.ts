@@ -28,7 +28,7 @@ import {Info} from "../../models/info";
 export class ResComponent implements OnInit {
   path: Array<any>;
 
-  user: User;
+  // user: User;
   resource: Resource;
   children: Resource[];
   search_list: Resource[];
@@ -53,7 +53,7 @@ export class ResComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.user = null;
+    // this.user = null;
     this.resource = null;
     this.path = [];
     this.visit_key = null;
@@ -67,14 +67,14 @@ export class ResComponent implements OnInit {
       this.path = params['slug'].split('-');
       this.userService.api_get_info()
         .then((user: User) => {
-          this.user = user;
+          // this.user = user;
           this.resService.get_res_info(this.path, null)
             .then((resp) => {
               this.children = [];
               this.resource = new Resource(resp.info);
               this.description = this.resource.description;
               for (const item of resp.child_list) {
-                item.parent_id = this.resource.res_id;
+                item.parent_str_id = this.resource.res_str_id;
                 const r_child = new Resource(item);
                 this.children.push(r_child);
               }
@@ -173,20 +173,6 @@ export class ResComponent implements OnInit {
     return _foot_btns;
   }
 
-  get is_mine() {
-    return this.resource && this.user && this.user.user_id === this.resource.owner.user_id;
-  }
-  get nav_foot_owner() {
-    let owner = null;
-    if (this.resource) {
-      owner = this.resource.owner;
-    }
-    if (this.is_mine) {
-      owner = '我';
-    }
-    return owner;
-  }
-
   get dl_link() {
     const slug = BaseService.path_to_slug(this.path);
     return `${this.baseService.host}/api/res/${slug}/dl?token=${this.baseService.token}&visit_key=${this.resource.visit_key}`;
@@ -209,6 +195,10 @@ export class ResComponent implements OnInit {
 
   get is_modifying_desc() {
     return this.footBtnService.is_modifying && this.tab_mode === 'description';
+  }
+
+  go_modify_desc() {
+    this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_modify;
   }
 
   cancel_modify_desc() {
@@ -236,5 +226,19 @@ export class ResComponent implements OnInit {
 
   onDeleted() {
     this.go_parent();
+  }
+
+  get resource_title() {
+    if (this.search_value) {
+      let _v = '';
+      if (this.search_value.length > 2) {
+        _v = this.search_value.substr(0, 2) + '…';
+      }
+      else {
+        _v = this.search_value;
+      }
+      return `搜索“${_v}”的结果`;
+    }
+    return '资源';
   }
 }

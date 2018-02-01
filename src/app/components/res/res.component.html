@@ -1,26 +1,11 @@
 <app-info></app-info>
 
-<nav>
-  <div class="background img-fit" [ngStyle]="{'background-image': resource?.url_cover}"></div>
-  <div class="content">
-    <div class="left-btn">
-      <span class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent()"></span>
-    </div>
-    <div class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': user?.url_avatar}"></div>
-    <div class="right-avatar" *ngIf="!userService.has_login"><span class="icon-unlogin"></span></div>
-  </div>
-  <div class="title">{{resource?.rname}}</div>
-  <div class="foot">
-    <span class="owner">{{nav_foot_owner}}创建于{{resource?.readable_time}}</span>
-    <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar}}"></div>
-    <div class="share">{{resource?.readable_status}}</div>
-  </div>
-</nav>
+<app-res-nav [resource]="resource" (onGoParent)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="tab_mode">
   <div class="tab" [ngClass]="search_class">
     <div class="resource" (click)="switch_tab_mode('resource')">
-      <span class="text">资源</span>
+      <span class="text">{{resource_title}}</span>
       <div class="search-container">
         <span class="icon icon-search" *ngIf="show_search_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
         <span class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
@@ -46,7 +31,7 @@
   <div class="content resource" *ngIf="resource?.is_folder">
     <div class="res-item"
          *ngFor="let child of search_list"
-         (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_id)">
+         (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover}"></div>
       <div class="res-name">{{child.rname}}</div>
       <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span></div>
@@ -63,9 +48,9 @@
   <div class="content description">
     <div class="padding-div">
       <markdown [data]="description" *ngIf="description && !is_modifying_desc"></markdown>
-      <textarea [(ngModel)]="description" *ngIf="is_modifying_desc"></textarea>
+      <textarea [(ngModel)]="description" *ngIf="is_modifying_desc" placeholder="在此处填写资源介绍资料…"></textarea>
       <!--<div class="add-desc">-->
-        <div class="round-btn" *ngIf="!description && !is_modifying_desc">填写介绍资料</div>
+        <div class="round-btn" *ngIf="!description && !is_modifying_desc" (click)="go_modify_desc()">填写介绍资料</div>
       <!--</div>-->
     </div>
   </div>

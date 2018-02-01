@@ -143,7 +143,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.get_upload_token(this.resource.res_id, {filename: res_name})
+    this.resService.get_upload_token(this.resource.res_str_id, {filename: res_name})
       .then((resp) => {
         this.resService.upload_file(resp.key, resp.upload_token, this.res_files[0])
           .then((resp_) => {
@@ -151,7 +151,13 @@ export class ResOpComponent implements OnInit {
             this.res_files = null;
             this.footBtnService.foot_btn_active = null;
             this.is_uploading = false;
+          })
+          .catch(() => {
+            this.is_uploading = false;
           });
+      })
+      .catch(() => {
+        this.is_uploading = false;
       });
   }
 
@@ -166,7 +172,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_modifying = true;
-    this.resService.get_cover_token(this.resource.res_id, {filename: res_cover})
+    this.resService.get_cover_token(this.resource.res_str_id, {filename: res_cover})
       .then((resp) => {
         this.resService.upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
           .then((resp_) => {
@@ -174,7 +180,13 @@ export class ResOpComponent implements OnInit {
             // this.res_cover_files = null;
             this.footBtnService.foot_btn_active = null;
             this.is_modifying = false;
+          })
+          .catch(() => {
+            this.is_modifying = false;
           });
+      })
+      .catch(() => {
+        this.is_modifying = false;
       });
   }
 
@@ -188,11 +200,14 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.create_folder(this.resource.res_id, {folder_name: this.folder_name})
+    this.resService.create_folder(this.resource.res_str_id, {folder_name: this.folder_name})
       .then((resp) => {
         this.onUploaded.emit(new Resource((resp)));
         this.folder_name = null;
         this.footBtnService.foot_btn_active = null;
+        this.is_uploading = false;
+      })
+      .catch(() => {
         this.is_uploading = false;
       });
   }
@@ -211,6 +226,9 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.resource.update(resp);
         this.footBtnService.foot_btn_active = null;
+        this.is_modifying = false;
+      })
+      .catch(() => {
         this.is_modifying = false;
       });
   }
