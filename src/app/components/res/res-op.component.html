@@ -1,8 +1,8 @@
 <div class="operation-block" [ngClass]="active_block ? 'active' : 'inactive'">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
-  <div class="container" [ngClass]="footBtnService.active_share">
+  <div class="container" [ngClass]="[footBtnService.active_share, is_protect ? 'long' : '']">
     <div class="title-box">
-      <div class="title">分享资源</div>
+      <div class="title">分享资源<span *ngIf="resource && !resource.is_secure_env" class="warn" (click)="show_insecure_info()">（风险提示？）</span></div>
       <app-loading></app-loading>
     </div>
     <div class="radio-list first">
@@ -14,9 +14,13 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <div class="ele-box second">
+    <div class="ele-box second long-btn">
       <input [value]="share_show_text" readonly>
-      <div class="round-btn" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+      <div class="round-btn long" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+    </div>
+    <div class="ele-box third long-btn" *ngIf="is_protect">
+      <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…">
+      <div class="round-btn long" (click)="modify_res_visit_key_action()">更新密码</div>
     </div>
   </div>
 
@@ -44,16 +48,19 @@
     </div>
   </div>
 
-  <div class="container" [ngClass]="footBtnService.is_modifying && tab_mode==='resource' ? 'active' : 'inactive'">
+  <div class="container long" [ngClass]="footBtnService.is_modifying && tab_mode==='resource' ? 'active' : 'inactive'">
     <div class="title-box">
       <div class="title">修改资源信息<span>（选择“介绍”，按修改可进入编辑）</span></div>
       <app-loading></app-loading>
     </div>
-    <div class="ele-box first long-btn">
+    <div class="ele-box first">
+      <span class="text">{{right_bubble_text}}</span><span class="icon" [(ngClass)]="right_bubble_class" (click)="modify_bubble_action()"></span>
+    </div>
+    <div class="ele-box second long-btn">
       <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
       <div class="round-btn long" (click)="modify_res_name_action()">更新资源名</div>
     </div>
-    <div class="ele-box second long-btn">
+    <div class="ele-box third long-btn">
       <input [value]="res_cover_name" readonly placeholder="选择封面…">
       <input type="file" (change)="res_cover_files = $event.target.files">
       <div class="round-btn long" (click)="modify_res_cover_action()">更新封面</div>

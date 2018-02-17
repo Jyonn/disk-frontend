@@ -1,6 +1,7 @@
 @import "../../styles";
 
 @op-container-height: 150px;
+@op-container-height-long: 186px;
 @op-title-color: @dark-blue;
 @op-title-font-size: 16px;
 
@@ -32,6 +33,9 @@ div.operation-block {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
   }
+  div.container.long {
+    height: @op-container-height-long;
+  }
   div.container {
     &:extend(.animate);
     position: absolute;
@@ -56,6 +60,9 @@ div.operation-block {
           vertical-align: bottom;
           line-height: 22px;
         }
+        span.warn {
+          color: @warn-bg;
+        }
       }
       app-loading {
         &:extend(.animate);
@@ -71,6 +78,9 @@ div.operation-block {
     }
     div.second {
       top: 90px;
+    }
+    div.third {
+      top: 126px;
     }
     div.radio-list {
       position: absolute;
@@ -138,6 +148,22 @@ div.operation-block {
       }
       div.round-btn.sub {
       }
+      span {
+        color: @blue;
+      }
+      span.text {
+        margin-left: 15px;
+        font-size: 14px;
+        line-height: @op-ele-box-height;
+        vertical-align: middle;
+        font-weight: bold;
+      }
+      span.icon {
+        margin-left: 20px;
+        font-size: 30px;
+        line-height: @op-ele-box-height;
+        vertical-align: middle;
+      }
     }
     div.delete-text {
       position: absolute;
@@ -151,7 +177,7 @@ div.operation-block {
     bottom: 0;
   }
   div.container.inactive {
-    bottom: -@op-container-height;
+    bottom: -@op-container-height-long;
   }
 }
 

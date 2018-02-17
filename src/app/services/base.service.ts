@@ -9,7 +9,8 @@ import {Info} from "../models/info";
 export class BaseService {
   public static asyc_working = 0;
   public static info_center = new Subject<Info>();
-  public token: string;
+  public static token: string = null;
+  // public static token_center = new Subject<string>();
   public front_host: string;
   public host: string;
   private qn_host: string;
@@ -19,7 +20,7 @@ export class BaseService {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
     this.qn_host = "https://upload.qiniu.com";
-    this.token = null;
+    // this.token = null;
   }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;
@@ -43,7 +44,8 @@ export class BaseService {
     return path.join('-');
   }
   get_option(data = {}) {
-    const httpHeaders = new HttpHeaders({'Token': this.token});
+    // console.log('base token: ' + BaseService.token);
+    const httpHeaders = new HttpHeaders({'Token': BaseService.token || ''});
     // httpHeaders.append('Token', this.get_token());
     return {
       headers: httpHeaders,

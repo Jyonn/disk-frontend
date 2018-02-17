@@ -14,7 +14,7 @@ import {Info} from "../../models/info";
 })
 export class ResNavComponent {
   @Input() resource: Resource;
-  // @Input() user: User;
+  @Input() is_mine: boolean;
   @Output() onGoParent = new EventEmitter();
   is_showing: boolean;
 
@@ -40,15 +40,18 @@ export class ResNavComponent {
     }
   }
 
+  show_insecure_info($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    BaseService.info_center.next(new Info({text: this.resource.secure_info, type: Info.TYPE_WARN}));
+  }
+
   go_parent($event) {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.onGoParent.emit();
   }
 
-  get is_mine() {
-    return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
-  }
   get nav_foot_owner() {
     let owner = null;
     if (this.resource) {

@@ -65,6 +65,10 @@ path {
   display: inherit;
 }
 
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
+
 .animate {
   transition: 0.5s;
 }
@@ -133,4 +137,19 @@ footer {
 }
 .round-btn.long {
   width: @round-btn-width-long;
+}
+
+@bg-blur: 8px;
+.bg-blur {
+  position: absolute;
+  top: -@bg-blur;
+  left: -@bg-blur;
+  width: calc(~'100% + 2*@{bg-blur}');
+  height: calc(~'100% + 2*@{bg-blur}');
+  filter: brightness(70%) blur(@bg-blur);
+  background-color: black;
+}
+
+.bg-blur-darker {
+  filter: brightness(40%) blur(@bg-blur);
 }

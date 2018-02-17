@@ -28,11 +28,9 @@ import {Info} from "../../models/info";
 export class ResComponent implements OnInit {
   path: Array<any>;
 
-  // user: User;
   resource: Resource;
   children: Resource[];
   search_list: Resource[];
-  // show_list: Resource[];
 
   search_value: string;
   search_terms: Subject<string>;
@@ -53,26 +51,26 @@ export class ResComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private router: Router,
   ) {
-    // this.user = null;
     this.resource = null;
     this.path = [];
     this.visit_key = null;
     this.children = [];
     this.search_list = [];
     this.search_value = null;
-    // this.show_list = [];
   }
-  ngOnInit(): void {
-    this.activateRoute.params.subscribe((params) => {
-      this.path = params['slug'].split('-');
-      this.userService.api_get_info()
-        .then((user: User) => {
-          // this.user = user;
-          this.resService.get_res_info(this.path, null)
+  initResource() {
+    this.resService.api_get_base_res_info(this.path)
+      .then((base_resp) => {
+        // console.log(resp);
+        if (base_resp.readable) {
+          this.resService.api_get_res_info(this.path, null)
             .then((resp) => {
               this.children = [];
               this.resource = new Resource(resp.info);
               this.description = this.resource.description;
+              if (!this.description && !this.is_mine) {
+                this.description = '暂无介绍资料';
+              }
               for (const item of resp.child_list) {
                 item.parent_str_id = this.resource.res_str_id;
                 const r_child = new Resource(item);
@@ -80,7 +78,24 @@ export class ResComponent implements OnInit {
               }
               this.search_list = this.children.concat();
             });
-        });
+        } else {
+          base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
+          this.resource = new Resource(base_resp.info);
+          this.description = '无法查看介绍资料';
+          this.children = [];
+          this.search_list = this.children.concat();
+        }
+      });
+      // .catch(msg => console.log(msg));
+  }
+  ngOnInit(): void {
+    this.activateRoute.params.subscribe((params) => {
+      this.path = params['slug'].split('-');
+      // this.userService.user_update_center.asObservable()
+      //   .subscribe((user: User) => {
+      //     this.initResource();
+      //   });
+      this.initResource();
     });
     this.clockService.startClock();
     this.search_mode = false;
@@ -107,10 +122,6 @@ export class ResComponent implements OnInit {
     }
   }
 
-  // do_search(term: string) {
-  //   this.search_terms.next(term);
-  // }
-  //
   select_res(res: Resource) {
     res.selected = !res.selected;
   }
@@ -147,8 +158,8 @@ export class ResComponent implements OnInit {
     return this.search_mode ? 'searching' : '';
   }
 
-  navigate(res_id) {
-    const link = ['/res', `${this.path.join('-')}-${res_id}`];
+  navigate(res_str_id) {
+    const link = ['/res', `${this.path.join('-')}-${res_str_id}`];
     this.router.navigate(link);
   }
 
@@ -175,7 +186,7 @@ export class ResComponent implements OnInit {
 
   get dl_link() {
     const slug = BaseService.path_to_slug(this.path);
-    return `${this.baseService.host}/api/res/${slug}/dl?token=${this.baseService.token}&visit_key=${this.resource.visit_key}`;
+    return `${this.baseService.host}/api/res/${slug}/dl?token=${BaseService.token}&visit_key=${this.resource.visit_key}`;
   }
 
   switch_tab_mode(tm: string) {
@@ -211,7 +222,8 @@ export class ResComponent implements OnInit {
   }
 
   modify_desc_action() {
-    this.resService.modify_res_info(this.path, {rname: null, description: this.description, visit_key: null, status: null})
+    this.resService.api_modify_res_info(this.path,
+      {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null})
       .then((resp) => {
         this.resource.update(resp);
         this.description = this.resource.description;
@@ -233,12 +245,19 @@ export class ResComponent implements OnInit {
       let _v = '';
       if (this.search_value.length > 2) {
         _v = this.search_value.substr(0, 2) + '…';
-      }
-      else {
+      } else {
         _v = this.search_value;
       }
       return `搜索“${_v}”的结果`;
     }
     return '资源';
+  }
+
+  get is_mine() {
+    return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
+  }
+
+  go_login() {
+    this.router.navigate(['/user', 'login', 'next', this.router.url]);
   }
 }

@@ -1,22 +1,24 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
 import {User} from "../models/user";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class UserService {
   public user: User;
+  public user_update_center = new Subject<User>();
   constructor(private baseService: BaseService) {
-    // const token = window.localStorage.getItem('token');
-    // if (token) {
-    //   baseService.user.token = token;
-    // }
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      BaseService.token = token;
+    }
     this.user = null;
-    baseService.token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTUxNzQ2MTg3OS4yODg2NDQsImV4cGlyZSI6NjA0ODAwLCJ1c2VyX2lkIjo" +
-      "yfQ.7wwH-eeAQnQ6r_2fHzoPdr_wWKf3qrxQXBlUqtOvURk";
+    // BaseService.token =
+    //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTUxNzQ2MTg3OS4yODg2NDQsImV4cGlyZSI6NjA0ODAwLCJ1c2VyX2lkIjo" +
+    //   "yfQ.7wwH-eeAQnQ6r_2fHzoPdr_wWKf3qrxQXBlUqtOvURk";
   }
 
-  public api_get_token(data: {username: string, password: string}) {
+  public get_token(data: {username: string, password: string}) {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
@@ -27,18 +29,21 @@ export class UserService {
   }
 
   public api_get_info() {
-    if (this.user) {
-      return Promise.resolve(this.user);
-    }
+    // if (this.user) {
+    //   return Promise.resolve(this.user);
+    // }
     return this.baseService
       .get('/api/user/')
       .then(body => {
         this.user = new User(body);
+        this.user_update_center.next(this.user);
         return this.user;
       })
       .catch((error) => {
         // console.log(error);
-        this.baseService.token = null;
+        BaseService.token = null;
+        this.user_update_center.next(null);
+        // BaseService.token_center.next(null);
       });
   }
 

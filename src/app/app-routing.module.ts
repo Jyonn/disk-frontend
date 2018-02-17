@@ -2,8 +2,11 @@ import { NgModule} from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ResComponent } from "./components/res/res.component";
 import {ResHomeComponent} from "./components/res/res-home.component";
+import {LoginComponent} from "./components/user/login.component";
 
 const routes: Routes = [
+  { path: 'user/:mode/next/:next', component: LoginComponent},
+  { path: 'user/:mode', component: LoginComponent},
   { path: 'res', component: ResHomeComponent},
   { path: 'res/:slug', component: ResComponent},
 ];

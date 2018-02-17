@@ -22,6 +22,7 @@ import { FootBtnService } from "./services/foot-btn.service";
 import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
+import { LoginComponent } from "./components/user/login.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ResNavComponent } from "./components/res/res-nav.component";
     ResOpComponent,
     LoadingComponent,
     InfoComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

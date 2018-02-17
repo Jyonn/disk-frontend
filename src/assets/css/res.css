@@ -28,6 +28,9 @@ div.res div.tab.selecting div.tab-btn {
   background-repeat: no-repeat;
   display: inherit;
 }
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
 .animate,
 div.res div.tab div,
 div.res div.tab.selecting,
@@ -86,6 +89,18 @@ footer {
 }
 .round-btn.long {
   width: 100px;
+}
+.bg-blur {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2*8px);
+  height: calc(100% + 2*8px);
+  filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
 }
 div.res {
   position: fixed;

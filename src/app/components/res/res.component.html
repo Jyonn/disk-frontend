@@ -1,6 +1,6 @@
 <app-info></app-info>
 
-<app-res-nav [resource]="resource" (onGoParent)="go_parent()"></app-res-nav>
+<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="tab_mode">
   <div class="tab" [ngClass]="search_class">
@@ -39,12 +39,13 @@
       <hr/>
     </div>
   </div>
-  <div class="content resource" *ngIf="resource && !resource?.is_folder">
+  <div class="content resource" *ngIf="resource?.is_file">
     <span class="icon" [ngClass]=resource?.icon></span>
     <div class="file-name">{{resource?.rname}}</div>
     <div class="file-size">{{resource?.size}}</div>
     <a [href]="dl_link" target="_blank"><div class="round-btn">下载</div></a>
   </div>
+  <div class="content resource" *ngIf="resource?.is_encrypt"></div>
   <div class="content description">
     <div class="padding-div">
       <markdown [data]="description" *ngIf="description && !is_modifying_desc"></markdown>
@@ -68,6 +69,6 @@
   </div>
 </footer>
 
-<footer *ngIf="!userService.has_login" class="ptr">
+<footer *ngIf="!userService.has_login" class="ptr" (click)="go_login()">
   <div class="join-us">炭诗酒，岁寒三友<span class="icon icon-box"></span></div>
 </footer>

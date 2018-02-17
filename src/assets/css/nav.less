@@ -4,7 +4,6 @@
 @left-btn-size: 20px;
 @normal-padding: 10px;
 
-@nav-bg-blur: 8px;
 @nav-main-color: white;
 @nav-foot-height: 36px;
 @nav-foot-avatar-size: 14px;
@@ -17,14 +16,14 @@ nav {
   left: 0;
   top: 0;
 
-  div.background {
-    position: absolute;
-    top: -@nav-bg-blur;
-    left: -@nav-bg-blur;
-    width: calc(~'100% + 2*@{nav-bg-blur}');
-    height: calc(~'100% + 2*@{nav-bg-blur}');
-    filter: brightness(70%) blur(@nav-bg-blur);
-  }
+  //div.background {
+  //  position: absolute;
+  //  top: -@bg-blur;
+  //  left: -@bg-blur;
+  //  width: calc(~'100% + 2*@{bg-blur}');
+  //  height: calc(~'100% + 2*@{bg-blur}');
+  //  filter: brightness(70%) blur(@bg-blur);
+  //}
 
   div.content {
     width: calc(~'100% - 40px');
@@ -108,6 +107,9 @@ nav {
       font-size: 12px;
       padding-right: 20px;
       color: white;
+      span.warn {
+        color: @warn-bg;
+      }
     }
   }
 }
@@ -115,7 +117,7 @@ nav.showing {
   width: 100%;
   height: 100%;
   z-index: 3;
-  div.background {
+  div.bg-blur {
     filter: brightness(70%);
   }
 }

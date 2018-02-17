@@ -28,6 +28,9 @@ nav div.content div.right-avatar {
   background-repeat: no-repeat;
   display: inherit;
 }
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
 .animate,
 nav {
   transition: 0.5s;
@@ -84,19 +87,23 @@ footer {
 .round-btn.long {
   width: 100px;
 }
-nav {
-  background: none;
-  position: fixed;
-  left: 0;
-  top: 0;
-}
-nav div.background {
+.bg-blur {
   position: absolute;
   top: -8px;
   left: -8px;
   width: calc(100% + 2*8px);
   height: calc(100% + 2*8px);
   filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
+}
+nav {
+  background: none;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 nav div.content {
   width: calc(100% - 40px);
@@ -176,11 +183,14 @@ nav div.foot div.share {
   padding-right: 20px;
   color: white;
 }
+nav div.foot div.share span.warn {
+  color: #D04B4B;
+}
 nav.showing {
   width: 100%;
   height: 100%;
   z-index: 3;
 }
-nav.showing div.background {
+nav.showing div.bg-blur {
   filter: brightness(70%);
 }

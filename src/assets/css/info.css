@@ -27,6 +27,9 @@ div.info-container span.icon-collapse {
   background-repeat: no-repeat;
   display: inherit;
 }
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
 .animate,
 div.info-container {
   transition: 0.5s;
@@ -83,28 +86,42 @@ footer {
 .round-btn.long {
   width: 100px;
 }
+.bg-blur {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2*8px);
+  height: calc(100% + 2*8px);
+  filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
+}
 div.info-container {
   position: fixed;
   width: 100%;
-  height: 56px;
+  min-height: 56px;
   left: 0;
   z-index: 3;
 }
 div.info-container div.text {
   font-size: 16px;
   color: white;
-  position: absolute;
-  left: 5%;
-  line-height: 56px;
+  padding-left: 5%;
+  display: inline-block;
+  line-height: 20px;
   vertical-align: middle;
-  width: calc(90% - 50px);
+  width: calc(90% - 10px);
   overflow: hidden;
+  margin: 20px 0;
 }
 div.info-container span.icon-collapse {
   font-size: 16px;
   color: #eaeaea;
   position: absolute;
   right: 5%;
+  top: 0;
   line-height: 56px;
   vertical-align: middle;
   font-weight: bold;
@@ -119,5 +136,5 @@ div.info-container.active {
   top: 0;
 }
 div.info-container.inactive {
-  top: -56px;
+  top: -100px;
 }

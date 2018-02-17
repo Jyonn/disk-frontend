@@ -13,16 +13,24 @@ export class ResHomeComponent implements OnInit {
     private resService: ResourceService,
     private router: Router,
   ) {}
+
+  jump_user_home(user) {
+    if (user) {
+      this.resService.api_get_root_res()
+        .then((resp) => {
+          const link = ['/res', resp.info.res_str_id];
+          this.router.navigate(link);
+        });
+    }
+  }
+
   ngOnInit() {
-    this.userService.api_get_info()
-      .then((user: User) => {
-        if (user) {
-          this.resService.get_root_res()
-            .then((resp) => {
-              const link = ['/res', resp.info.res_str_id];
-              this.router.navigate(link);
-            });
-        }
+    if (this.userService.user) {
+      this.jump_user_home(this.userService.user);
+    }
+    this.userService.user_update_center.asObservable()
+      .subscribe((user: User) => {
+        this.jump_user_home(user);
       });
   }
 }

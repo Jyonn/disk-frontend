@@ -6,18 +6,21 @@ div.info-container {
   &:extend(.animate);
   position: fixed;
   width: 100%;
-  height: @info-container-height;
+  min-height: @info-container-height;
   left: 0;
   z-index: 3;
   div.text {
     font-size: 16px;
     color: white;
-    position: absolute;
-    left: 5%;
-    line-height: @info-container-height;
+    //position: absolute;
+    //left: 5%;
+    padding-left: 5%;
+    display: inline-block;
+    line-height: 20px;
     vertical-align: middle;
-    width: calc(~'90% - 50px');
+    width: calc(~'90% - 10px');
     overflow: hidden;
+    margin: 20px 0;
   }
   span.icon-collapse {
     &:extend(.ptr);
@@ -25,6 +28,7 @@ div.info-container {
     color: @main-bg;
     position: absolute;
     right: 5%;
+    top: 0;
     line-height: @info-container-height;
     vertical-align: middle;
     font-weight: bold;
@@ -43,5 +47,5 @@ div.info-container.active {
 }
 
 div.info-container.inactive {
-  top: -@info-container-height;
+  top: -100px;
 }

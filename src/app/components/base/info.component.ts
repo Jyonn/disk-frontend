@@ -23,7 +23,8 @@ export class InfoComponent implements OnInit {
         this.info_text = info.text;
         this.info_class = info.type;
         clearTimeout(this.interval);
-        this.interval = setTimeout(() => {this.info_text = null}, 3000);
+        const t = this.info_text.length * 250;
+        this.interval = setTimeout(() => {this.info_text = null}, t);
         console.log(this.info_text);
       });
   }
