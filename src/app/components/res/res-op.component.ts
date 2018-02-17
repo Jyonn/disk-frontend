@@ -355,7 +355,7 @@ export class ResOpComponent implements OnInit {
 
   get right_bubble_class() {
     if (!this.resource) {
-      return null;
+      return '';
     }
     return this.resource.right_bubble ? 'icon-toggleon' : 'icon-toggleoff';
   }

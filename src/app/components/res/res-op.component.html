@@ -54,7 +54,7 @@
       <app-loading></app-loading>
     </div>
     <div class="ele-box first">
-      <span class="text">{{right_bubble_text}}</span><span class="icon" [(ngClass)]="right_bubble_class" (click)="modify_bubble_action()"></span>
+      <span class="text">{{right_bubble_text}}</span><span class="icon" [ngClass]="right_bubble_class" (click)="modify_bubble_action()"></span>
     </div>
     <div class="ele-box second long-btn">
       <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
