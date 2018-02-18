@@ -1,0 +1,73 @@
+<app-info></app-info>
+
+<nav class="full">
+  <!--<div class="bg-blur img-fit random-img-thumb"></div>-->
+  <div class="bg-blur img-fit" [ngStyle]="{'background-image': userService.user?.url_avatar}"></div>
+  <div class="container">
+    <div class="left-btn" (click)="go_back()">
+      <span class="icon-back"></span>
+    </div>
+    <!--<div class="right-btn">-->
+      <!--<span class="icon-box"></span>-->
+    <!--</div>-->
+  </div>
+  <div class="user-box">
+    <div class="avatar img-fit" [ngStyle]="{'background-image': userService.user?.url_avatar}"></div>
+    <div class="nickname">{{userService.user?.nickname}}</div>
+  </div>
+</nav>
+<div class="res full">
+  <div class="modify-container">
+    <div class="modify-item" *ngFor="let b of profileBtnService.b_list" (click)="modify_activate(b)">
+      <div class="modify-name">{{b}}</div>
+      <div class="modify-next-btn">
+        <span class="icon-back"></span>
+      </div>
+      <hr/>
+    </div>
+  </div>
+  <div class="modify-container sub" [ngClass]="profileBtnService.is_active('修改昵称')">
+    <div class="modify-item">
+      <div class="title">修改昵称</div>
+      <hr/>
+    </div>
+    <div class="modify-item">
+      <input type="text" [(ngModel)]="nickname" placeholder="在此输入新昵称…">
+    </div>
+    <div class="btn-list">
+      <div class="btn modify" (click)="modify_nickname()">完成</div>
+      <div class="btn cancel" (click)="cancel_modify()">取消</div>
+    </div>
+  </div>
+  <div class="modify-container sub" [ngClass]="profileBtnService.is_active('修改头像')">
+    <div class="modify-item">
+      <div class="title">修改头像</div>
+      <hr/>
+    </div>
+    <div class="modify-item">
+      <input type="text" placeholder="选择头像…" readonly [value]="avatar_name">
+      <input type="file" (change)="avatar_files = $event.target.files">
+    </div>
+    <div class="btn-list">
+      <div class="btn modify" (click)="modify_avatar()">完成</div>
+      <div class="btn cancel" (click)="cancel_modify()">取消</div>
+    </div>
+  </div>
+  <div class="modify-container sub" [ngClass]="profileBtnService.is_active('修改密码')">
+    <div class="modify-item">
+      <div class="title">修改密码</div>
+      <hr/>
+    </div>
+    <div class="modify-item">
+      <input type="password" placeholder="在此输入旧密码…" [(ngModel)]="old_password">
+    </div>
+    <div class="modify-item">
+      <input type="password" placeholder="在此输入新密码…" [(ngModel)]="new_password">
+    </div>
+    <div class="btn-list">
+      <div class="btn modify" (click)="modify_password()">完成</div>
+      <div class="btn cancel" (click)="cancel_modify()">取消</div>
+    </div>
+  </div>
+
+</div>

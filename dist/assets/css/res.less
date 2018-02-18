@@ -73,7 +73,6 @@ div.res {
     }
     div.resource {
       div.search-container {
-        position: absolute;
         top: 0;
         left: @res-search-container-padding;
         width: calc(~'100% - 2*@{res-search-container-padding}');
@@ -82,6 +81,7 @@ div.res {
           position: absolute;
           right: 0;
           font-size: @res-search-icon-size;
+          width: @res-search-icon-size;
         }
         div.search-box {
           filter: opacity(0);

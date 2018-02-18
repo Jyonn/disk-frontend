@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
-import {Resource} from "../../models/resource";
+import {User} from "../../models/user/user";
+import {Resource} from "../../models/res/resource";
 import {ClockService} from "../../services/clock.service";
 import {ResourceService} from "../../services/resource.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FootBtnService} from "../../services/foot-btn.service";
-import {FootBtn} from "../../models/foot-btn";
+import {FootBtn} from "../../models/res/foot-btn";
 import {Subject} from "rxjs/Subject";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {BaseService} from "../../services/base.service";
-import {Info} from "../../models/info";
+import {Info} from "../../models/base/info";
 
 @Component({
   selector: 'app-res',
@@ -54,9 +54,9 @@ export class ResComponent implements OnInit {
     this.resource = null;
     this.path = [];
     this.visit_key = null;
-    this.children = [];
     this.search_list = [];
     this.search_value = null;
+    this.search_mode = false;
   }
   initResource() {
     this.resService.api_get_base_res_info(this.path)
@@ -76,7 +76,11 @@ export class ResComponent implements OnInit {
                 const r_child = new Resource(item);
                 this.children.push(r_child);
               }
-              this.search_list = this.children.concat();
+              // this.search_list = this.children.concat();
+              // if (this.resource.rtype !== Resource.RTYPE_FOLDER) {
+              //   this.search_value = '';
+              // }
+              this.resource_search();
             });
         } else {
           base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
@@ -92,15 +96,12 @@ export class ResComponent implements OnInit {
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
       this.path = params['slug'].split('-');
-      // this.userService.user_update_center.asObservable()
-      //   .subscribe((user: User) => {
-      //     this.initResource();
-      //   });
+
       this.initResource();
+      this.clockService.startClock();
+      this.search_mode = false;
+      this.tab_mode = 'resource';
     });
-    this.clockService.startClock();
-    this.search_mode = false;
-    this.tab_mode = 'resource';
     this.search_terms = new Subject<string>();
     this.search_terms
       .debounceTime(300)
@@ -244,7 +245,7 @@ export class ResComponent implements OnInit {
   }
 
   get resource_title() {
-    if (this.search_value) {
+    if (this.search_value && this.resource && this.resource.rtype === Resource.RTYPE_FOLDER) {
       let _v = '';
       if (this.search_value.length > 2) {
         _v = this.search_value.substr(0, 2) + '…';
@@ -258,9 +259,5 @@ export class ResComponent implements OnInit {
 
   get is_mine() {
     return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
-  }
-
-  go_login() {
-    this.router.navigate(['/user', 'login', 'next', this.router.url]);
   }
 }

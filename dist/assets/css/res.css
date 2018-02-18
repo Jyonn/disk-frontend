@@ -49,17 +49,26 @@ div.res div.content.resource div.res-item div.res-type span {
     left: 0;
     top: 38.2vh;
   }
+  div.res.full {
+    height: calc(100% - 38.2vh);
+  }
 }
 @media all and (orientation: landscape) {
   nav {
     width: 38.2vw;
     height: calc(100% - 56px);
   }
+  nav.full {
+    height: 100%;
+  }
   div.res {
     width: calc(100% - 38.2vw);
     height: calc(100% - 56px);
     left: 38.2vw;
     top: 0;
+  }
+  div.res.full {
+    height: 100%;
   }
 }
 footer {
@@ -148,7 +157,6 @@ div.res div.tab div.description.inactive {
   right: -50%;
 }
 div.res div.tab div.resource div.search-container {
-  position: absolute;
   top: 0;
   left: 14px;
   width: calc(100% - 2*14px);
@@ -159,6 +167,7 @@ div.res div.tab div.resource div.search-container span.icon-collapse {
   position: absolute;
   right: 0;
   font-size: 16px;
+  width: 16px;
 }
 div.res div.tab div.resource div.search-container div.search-box {
   filter: opacity(0);

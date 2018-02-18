@@ -90,6 +90,9 @@ path {
     left: 0;
     top: @nav-height-protrait;
   }
+  div.res.full {
+    height: calc(~'100% - @{nav-height-protrait}');
+  }
 }
 
 @media all and (orientation: landscape){
@@ -97,11 +100,17 @@ path {
     width: @nav-width-landscape;
     height: calc(~'100% - @{footer-height}');
   }
+  nav.full {
+    height: 100%;
+  }
   div.res {
     width: calc(~'100% - @{nav-width-landscape}');
     height: calc(~'100% - @{footer-height}');
     left: @nav-width-landscape;
     top: 0;
+  }
+  div.res.full {
+    height: 100%;
   }
 }
 

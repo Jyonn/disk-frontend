@@ -45,17 +45,26 @@ div.container div.main-container div.form-box {
     left: 0;
     top: 38.2vh;
   }
+  div.res.full {
+    height: calc(100% - 38.2vh);
+  }
 }
 @media all and (orientation: landscape) {
   nav {
     width: 38.2vw;
     height: calc(100% - 56px);
   }
+  nav.full {
+    height: 100%;
+  }
   div.res {
     width: calc(100% - 38.2vw);
     height: calc(100% - 56px);
     left: 38.2vw;
     top: 0;
+  }
+  div.res.full {
+    height: 100%;
   }
 }
 footer {

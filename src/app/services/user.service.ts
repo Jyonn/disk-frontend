@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
-import {User} from "../models/user";
+import {User} from "../models/user/user";
 import {Subject} from "rxjs/Subject";
 
 @Injectable()
@@ -13,16 +13,13 @@ export class UserService {
       BaseService.token = token;
     }
     this.user = null;
-    // BaseService.token =
-    //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTUxNzQ2MTg3OS4yODg2NDQsImV4cGlyZSI6NjA0ODAwLCJ1c2VyX2lkIjo" +
-    //   "yfQ.7wwH-eeAQnQ6r_2fHzoPdr_wWKf3qrxQXBlUqtOvURk";
   }
 
   public get_token(data: {username: string, password: string}) {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
-        this.user = body;
+        this.user = new User(body);
         window.localStorage.setItem('token', body.token);
         return body;
       });
@@ -68,6 +65,11 @@ export class UserService {
   public api_get_avatar_token(data: {filename: string}) {
     return this.baseService
       .get('/api/user/avatar', data);
+  }
+
+  public api_modify_user(data: {password: string, old_password: string, nickname: string}) {
+    return this.baseService
+      .put('/api/user/', data);
   }
 
   get has_login() {

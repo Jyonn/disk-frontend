@@ -6,11 +6,15 @@ export class User {
 
   constructor(d: {user_id, username, nickname, avatar} = null) {
     if (d) {
-      this.user_id = d.user_id;
-      this.username = d.username;
-      this.nickname = d.nickname;
-      this.avatar = d.avatar;
+      this.update(d);
     }
+  }
+
+  update(d: {user_id, username, nickname, avatar}) {
+    this.user_id = d.user_id;
+    this.username = d.username;
+    this.nickname = d.nickname;
+    this.avatar = d.avatar;
   }
 
   get url_avatar() {
@@ -19,6 +23,5 @@ export class User {
     } else {
       return `url('https://unsplash.6-79.cn/random/small')`;
     }
-    // return `url(${this.avatar})`;
   }
 }

@@ -23,7 +23,7 @@
       <div class="item-box">
         <div class="item-name">密码</div>
         <div class="back-box"></div>
-        <input type="password" [(ngModel)]="password">
+        <input type="password" [(ngModel)]="password" (keydown)="check_enter($event)">
       </div>
       <div class="item-box">
         <div class="button" (click)="user_login()">登录</div>

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
-import {Resource} from "../models/resource";
+import {Resource} from "../models/res/resource";
 
 @Injectable()
 export class ResourceService {

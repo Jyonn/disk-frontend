@@ -24,6 +24,8 @@ import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
 import { LoginComponent } from "./components/user/login.component";
 import { JumpingComponent } from "./components/base/jumping.component";
+import { ProfileComponent } from "./components/user/profile.component";
+import { ProfileBtnService } from "./services/profile-btn.service";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { JumpingComponent } from "./components/base/jumping.component";
     JumpingComponent,
     InfoComponent,
     LoginComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { JumpingComponent } from "./components/base/jumping.component";
     ClockService,
     ResourceService,
     FootBtnService,
+    ProfileBtnService,
   ],
   bootstrap: [AppComponent]
 })

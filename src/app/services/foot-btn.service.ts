@@ -1,5 +1,5 @@
-import {Injectable, OnInit} from "@angular/core";
-import {FootBtn} from "../models/foot-btn";
+import {Injectable} from "@angular/core";
+import {FootBtn} from "../models/res/foot-btn";
 
 @Injectable()
 export class FootBtnService {

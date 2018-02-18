@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {ClockService} from "../services/clock.service";
+import {User} from "../user/user";
+import {ClockService} from "../../services/clock.service";
 
 export class Resource {
   public static ROOT_ID = 1;

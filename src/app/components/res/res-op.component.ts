@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FootBtnService} from "../../services/foot-btn.service";
-import {Resource} from "../../models/resource";
+import {Resource} from "../../models/res/resource";
 import {ResourceService} from "../../services/resource.service";
-import {RadioBtn} from "../../models/res-share-btn";
+import {RadioBtn} from "../../models/res/res-share-btn";
 import {BaseService} from "../../services/base.service";
-import {Info} from "../../models/info";
+import {Info} from "../../models/base/info";
 
 @Component({
   selector: 'app-res-op',
@@ -145,7 +145,7 @@ export class ResOpComponent implements OnInit {
     this.is_uploading = true;
     this.resService.api_get_upload_token(this.resource.res_str_id, {filename: res_name})
       .then((resp) => {
-        this.resService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
+        this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
           .then((resp_) => {
             this.onUploaded.emit(new Resource(resp_));
             this.res_files = null;
@@ -174,7 +174,7 @@ export class ResOpComponent implements OnInit {
     this.is_modifying = true;
     this.resService.api_get_cover_token(this.resource.res_str_id, {filename: res_cover})
       .then((resp) => {
-        this.resService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
+        this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
           .then((resp_) => {
             this.resource.update(resp_);
             // this.res_cover_files = null;

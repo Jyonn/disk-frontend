@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {UserService} from "../../services/user.service";
-import {Resource} from "../../models/resource";
+import {Resource} from "../../models/res/resource";
 import {BaseService} from "../../services/base.service";
-import {Info} from "../../models/info";
+import {Info} from "../../models/base/info";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-res-nav',
@@ -16,13 +17,15 @@ export class ResNavComponent {
   @Input() resource: Resource;
   @Input() is_mine: boolean;
   @Output() onGoParent = new EventEmitter();
+  @Output() onGoLogin = new EventEmitter();
   is_showing: boolean;
 
   constructor(
     public userService: UserService,
     public baseService: BaseService,
+    public router: Router,
   ) {
-    this.is_showing = false;
+    this.is_showing = true;
   }
 
   get show_mode() {
@@ -50,6 +53,18 @@ export class ResNavComponent {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.onGoParent.emit();
+  }
+
+  go_login($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    this.router.navigate(['/user', 'login', 'next', this.router.url]);
+  }
+
+  go_profile($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    this.router.navigate(['/user', 'profile', 'next', this.router.url]);
   }
 
   get nav_foot_owner() {

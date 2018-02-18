@@ -4,8 +4,8 @@
     <div class="left-btn">
       <span class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent($event)"></span>
     </div>
-    <div class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user?.url_avatar}"></div>
-    <div class="right-avatar" *ngIf="!userService.has_login"><span class="icon-unlogin"></span></div>
+    <div class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user.url_avatar}" (click)="go_profile($event)"></div>
+    <div class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
   </div>
   <div class="title">{{resource?.rname}}</div>
   <div class="foot">

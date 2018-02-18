@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Resp} from "../models/resp";
+import {Resp} from "../models/base/resp";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
-import {Info} from "../models/info";
+import {Info} from "../models/base/info";
 
 @Injectable()
 export class BaseService {
@@ -72,6 +72,14 @@ export class BaseService {
   }
   get is_loading() {
     return BaseService.asyc_working > 0;
+  }
+
+  public api_upload_file(key: string, token: string, file: File) {
+    const fd = new FormData();
+    fd.append('key', key);
+    fd.append('token', token);
+    fd.append('file', file);
+    return this.post_qn(fd);
   }
   post_qn(data) {
     BaseService.asyc_working += 1;
