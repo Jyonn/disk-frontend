@@ -158,11 +158,11 @@
 
 /* Spinner 6 starts here */
 .spinner6 {
-  background: #4DB6AC;
+  background: white;
   border-radius: 50%;
-  height: 1em;
-  margin: .1em;
-  width: 1em;
+  height: 12px;
+  width: 12px;
+  margin: 2px;
 }
 
 .p1 {

@@ -1,4 +1,4 @@
-<div class="info-container" [ngClass]="{'active' : info_text, 'inactive': !info_text, 'warn': info_class==='warn', 'success': info_class==='success'}">
+<div class="info-container" [ngClass]="{'active' : info_text, 'inactive': !info_text, 'warn': info_class==='warn', 'success': info_class==='success'}" (click)="clear_info()">
   <div class="text">{{info_text}}</div>
-  <span class="icon icon-collapse" (click)="clear_info()"></span>
+  <span class="icon icon-collapse"></span>
 </div>

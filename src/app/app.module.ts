@@ -23,6 +23,7 @@ import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
 import { LoginComponent } from "./components/user/login.component";
+import { JumpingComponent } from "./components/base/jumping.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { LoginComponent } from "./components/user/login.component";
     ResNavComponent,
     ResOpComponent,
     LoadingComponent,
+    JumpingComponent,
     InfoComponent,
     LoginComponent,
   ],

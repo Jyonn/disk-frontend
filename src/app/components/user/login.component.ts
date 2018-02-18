@@ -35,6 +35,10 @@ export class LoginComponent implements OnInit {
     if (this.userService.user) {
       this.navigate();
     }
+    this.userService.user_update_center.asObservable()
+      .subscribe((user) => {
+        this.navigate();
+      });
   }
 
   is_active(mode) {

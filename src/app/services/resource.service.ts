@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
+import {Resource} from "../models/resource";
 
 @Injectable()
 export class ResourceService {
@@ -46,25 +47,16 @@ export class ResourceService {
       .post(`/api/res/${res_str_id}/folder`, data);
   }
 
-  public api_get_visit_key(res_str_id: number) {
-    return this.baseService
-      .get(`/api/res/${res_str_id}/vk`, null);
-  }
-
-  public api_get_dl_link(path: Array<any>, data: {visit_key: string}) {
-    const slug = BaseService.path_to_slug(path);
-    return this.baseService
-      .get(`/api/res/${slug}/dl`, data);
-  }
-
   public api_modify_res_info(path: Array<any>,
                              data: {rname: string, status: number, description: string, visit_key: string, right_bubble: boolean}) {
+    const res_str_id = path[path.length - 1];
     const slug = BaseService.path_to_slug(path);
     return this.baseService
       .put(`/api/res/${slug}`, data);
   }
 
   public api_delete_res(path: Array<any>) {
+    const res_str_id = path[path.length - 1];
     const slug = BaseService.path_to_slug(path);
     return this.baseService
       .del(`/api/res/${slug}`);

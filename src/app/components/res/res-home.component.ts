@@ -30,7 +30,9 @@ export class ResHomeComponent implements OnInit {
     }
     this.userService.user_update_center.asObservable()
       .subscribe((user: User) => {
-        this.jump_user_home(user);
+        if (user) {
+          this.jump_user_home(user);
+        }
       });
   }
 }

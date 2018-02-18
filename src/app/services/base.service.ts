@@ -14,6 +14,7 @@ export class BaseService {
   public front_host: string;
   public host: string;
   private qn_host: string;
+  public is_jumping: boolean;
   constructor(
     private http: HttpClient,
   ) {
@@ -21,6 +22,7 @@ export class BaseService {
     this.host = "https://disk.6-79.cn";
     this.qn_host = "https://upload.qiniu.com";
     // this.token = null;
+    this.is_jumping = false;
   }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;

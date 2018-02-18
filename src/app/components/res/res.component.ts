@@ -85,6 +85,7 @@ export class ResComponent implements OnInit {
           this.children = [];
           this.search_list = this.children.concat();
         }
+        this.baseService.is_jumping = false;
       });
       // .catch(msg => console.log(msg));
   }
@@ -160,11 +161,13 @@ export class ResComponent implements OnInit {
 
   navigate(res_str_id) {
     const link = ['/res', `${this.path.join('-')}-${res_str_id}`];
+    this.baseService.is_jumping = true;
     this.router.navigate(link);
   }
 
   go_parent() {
     const link = ['/res', this.path.slice(0, -1).join('-')];
+    this.baseService.is_jumping = true;
     this.router.navigate(link);
   }
 
