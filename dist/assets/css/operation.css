@@ -173,7 +173,7 @@ div.operation-block div.container div.radio-list {
 }
 div.operation-block div.container div.radio-list div.radio-btn {
   display: inline-block;
-  margin-right: 32px;
+  margin-right: 10px;
 }
 div.operation-block div.container div.radio-list div.radio-btn span.icon {
   line-height: 20px;
