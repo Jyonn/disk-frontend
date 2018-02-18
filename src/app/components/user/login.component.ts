@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {BaseService} from "../../services/base.service";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-login',
@@ -36,8 +37,10 @@ export class LoginComponent implements OnInit {
       this.navigate();
     }
     this.userService.user_update_center.asObservable()
-      .subscribe((user) => {
-        this.navigate();
+      .subscribe((user: User) => {
+        if (user) {
+          this.navigate();
+        }
       });
   }
 
