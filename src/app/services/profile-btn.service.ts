@@ -12,7 +12,7 @@ export class ProfileBtnService {
   b_list: Array<string>;
 
   constructor() {
-    this.b_enter_box = "进入我的浑天盒";
+    this.b_enter_box = "进入我的浑天匣";
     this.b_modify_nickname = "修改昵称";
     this.b_modify_avatar = "修改头像";
     this.b_modify_password = "修改密码";
