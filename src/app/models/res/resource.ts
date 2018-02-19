@@ -131,13 +131,17 @@ export class Resource {
   }
 
   get url_cover() {
-    if (this.cover) {
-      return `url('${this.cover}')`;
-    } else {
-      return `url('https://unsplash.6-79.cn/random/regular?r=${this.create_time}')`;
-    }
-    // return `url('${this.cover}')`;
+    return `url('${this.raw_cover}')`;
   }
+
+  get raw_cover() {
+    if (this.cover) {
+      return this.cover;
+    } else {
+      return `https://unsplash.6-79.cn/random/regular?r=${this.create_time}`;
+    }
+  }
+
   get icon() {
     switch (this.sub_type) {
       case Resource.STYPE_FOLDER:
