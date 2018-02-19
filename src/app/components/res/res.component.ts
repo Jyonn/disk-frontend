@@ -14,6 +14,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
+import {Meta} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-res',
@@ -50,6 +51,7 @@ export class ResComponent implements OnInit {
     public footBtnService: FootBtnService,
     private activateRoute: ActivatedRoute,
     private router: Router,
+    private meta: Meta,
   ) {
     this.resource = null;
     this.path = [];
@@ -71,6 +73,7 @@ export class ResComponent implements OnInit {
       this.children.push(r_child);
     }
     this.resource_search();
+    this.meta.addTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
   }
   initResLose(base_resp) {
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
