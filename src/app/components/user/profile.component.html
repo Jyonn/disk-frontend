@@ -35,8 +35,8 @@
       <input type="text" [(ngModel)]="nickname" placeholder="在此输入新昵称…">
     </div>
     <div class="btn-list">
-      <div class="btn modify" (click)="modify_nickname()">完成</div>
       <div class="btn cancel" (click)="cancel_modify()">取消</div>
+      <div class="btn modify" (click)="modify_nickname()">完成</div>
     </div>
   </div>
   <div class="modify-container sub" [ngClass]="profileBtnService.is_active('修改头像')">
@@ -49,8 +49,8 @@
       <input type="file" (change)="avatar_files = $event.target.files">
     </div>
     <div class="btn-list">
-      <div class="btn modify" (click)="modify_avatar()">完成</div>
       <div class="btn cancel" (click)="cancel_modify()">取消</div>
+      <div class="btn modify" (click)="modify_avatar()">完成</div>
     </div>
   </div>
   <div class="modify-container sub" [ngClass]="profileBtnService.is_active('修改密码')">
@@ -65,9 +65,8 @@
       <input type="password" placeholder="在此输入新密码…" [(ngModel)]="new_password">
     </div>
     <div class="btn-list">
-      <div class="btn modify" (click)="modify_password()">完成</div>
       <div class="btn cancel" (click)="cancel_modify()">取消</div>
+      <div class="btn modify" (click)="modify_password()">完成</div>
     </div>
   </div>
-
 </div>

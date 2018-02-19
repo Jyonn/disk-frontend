@@ -134,7 +134,7 @@ export class Resource {
     if (this.cover) {
       return `url('${this.cover}')`;
     } else {
-      return `url('https://unsplash.6-79.cn/random/thumb?r=${this.create_time}')`;
+      return `url('https://unsplash.6-79.cn/random/regular?r=${this.create_time}')`;
     }
     // return `url('${this.cover}')`;
   }
@@ -185,5 +185,13 @@ export class Resource {
       }
       size /= 1024;
     }
+  }
+
+  get is_protected() {
+    return this.status === Resource.STATUS_PROTECT;
+  }
+
+  get is_private() {
+    return this.status === Resource.STATUS_PRIVATE;
   }
 }

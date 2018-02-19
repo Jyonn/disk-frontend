@@ -36,11 +36,12 @@ export class ResNavComponent {
     }
   }
   switch_show_mode() {
-    if (this.resource && this.resource.cover) {
-      this.is_showing = !this.is_showing;
-    } else {
-      BaseService.info_center.next(new Info({text: '无法放大随机封面', type: Info.TYPE_WARN}));
-    }
+    // if (this.resource && this.resource.cover) {
+    //   this.is_showing = !this.is_showing;
+    // } else {
+    //   BaseService.info_center.next(new Info({text: '无法放大随机封面', type: Info.TYPE_WARN}));
+    // }
+    this.is_showing = !this.is_showing;
   }
 
   show_insecure_info($event) {

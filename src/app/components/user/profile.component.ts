@@ -43,6 +43,9 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/res']);
     } else if (b === this.profileBtnService.b_code) {
       window.open('https://github.com/lqj679ssn/disk-frontend');
+    } else if (b === this.profileBtnService.b_exit) {
+      this.userService.exit();
+      this.go_back();
     } else {
       this.profileBtnService.b_active = b;
     }
@@ -70,9 +73,7 @@ export class ProfileComponent implements OnInit {
       .then(() => {
         BaseService.info_center.next(new Info({text: '密码修改成功，需要重新登录', type: Info.TYPE_SUCC}));
         this.profileBtnService.b_active = null;
-        setTimeout(() => {
-          this.router.navigate(['/user', 'login', 'next', this.router.url]);
-        }, 3000);
+        this.router.navigate(['/user', 'login', 'next', this.router.url]);
       });
   }
 

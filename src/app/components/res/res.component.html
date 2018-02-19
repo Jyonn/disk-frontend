@@ -46,7 +46,24 @@
     <div class="file-size">{{resource?.size}}</div>
     <a [href]="dl_link" target="_blank"><div class="round-btn">下载</div></a>
   </div>
-  <div class="content resource" *ngIf="resource?.is_encrypt"></div>
+  <div class="content resource" *ngIf="resource?.is_encrypt">
+    <div class="suggestion-box" *ngIf="resource?.is_protected">
+      <div class="title">此资源为加密资源，请输入密码</div>
+      <div class="input-box">
+        <input placeholder="在此输入资源密码" [(ngModel)]="visit_key">
+        <div class="round-btn" (click)="check_visit_key()">进入</div>
+      </div>
+    </div>
+    <div class="suggestion-box" *ngIf="!userService.has_login">
+      <div class="title">此资源非公开资源，请登录查看</div>
+      <div class="input-box">
+        <div class="round-btn" (click)="go_login()">登录</div>
+      </div>
+    </div>
+    <div class="suggestion-box" *ngIf="userService.has_login && resource?.is_private">
+      <div class="title">此资源为私有资源，您无权查看:(</div>
+    </div>
+  </div>
   <div class="content description">
     <div class="padding-div">
       <markdown [data]="description" *ngIf="description && !is_modifying_desc"></markdown>

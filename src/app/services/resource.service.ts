@@ -6,6 +6,18 @@ import {Resource} from "../models/res/resource";
 export class ResourceService {
   constructor(private baseService: BaseService) {}
 
+  public static storeVK(path: Array<any>, visit_key) {
+    window.localStorage.setItem(`vk-${path[path.length - 1]}`, visit_key);
+  }
+
+  public static loadVK(path: Array<any>) {
+    return window.localStorage.getItem(`vk-${path[path.length - 1]}`);
+  }
+
+  public static clearVK(path: Array<any>) {
+    window.localStorage.removeItem(`vk-${path[path.length - 1]}`);
+  }
+
   public api_upload_file(key: string, token: string, file: File) {
     const fd = new FormData();
     fd.append('key', key);

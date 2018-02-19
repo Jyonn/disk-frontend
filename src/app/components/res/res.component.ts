@@ -58,36 +58,43 @@ export class ResComponent implements OnInit {
     this.search_value = null;
     this.search_mode = false;
   }
+  baseInitResource(resp) {
+    this.children = [];
+    this.resource = new Resource(resp.info);
+    this.description = this.resource.description;
+    if (!this.description && !this.is_mine) {
+      this.description = '暂无介绍资料';
+    }
+    for (const item of resp.child_list) {
+      item.parent_str_id = this.resource.res_str_id;
+      const r_child = new Resource(item);
+      this.children.push(r_child);
+    }
+    this.resource_search();
+  }
+  initResLose(base_resp) {
+    base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
+    this.resource = new Resource(base_resp.info);
+    this.description = '无法查看介绍资料';
+    this.children = [];
+    this.search_list = this.children.concat();
+  }
   initResource() {
+    const vkey = ResourceService.loadVK(this.path);
     this.resService.api_get_base_res_info(this.path)
       .then((base_resp) => {
         // console.log(resp);
-        if (base_resp.readable) {
-          this.resService.api_get_res_info(this.path, null)
+        if (base_resp.readable || vkey) {
+          this.resService.api_get_res_info(this.path, {visit_key: vkey})
             .then((resp) => {
-              this.children = [];
-              this.resource = new Resource(resp.info);
-              this.description = this.resource.description;
-              if (!this.description && !this.is_mine) {
-                this.description = '暂无介绍资料';
-              }
-              for (const item of resp.child_list) {
-                item.parent_str_id = this.resource.res_str_id;
-                const r_child = new Resource(item);
-                this.children.push(r_child);
-              }
-              // this.search_list = this.children.concat();
-              // if (this.resource.rtype !== Resource.RTYPE_FOLDER) {
-              //   this.search_value = '';
-              // }
-              this.resource_search();
+              this.baseInitResource(resp);
+            })
+            .catch(() => {
+              ResourceService.clearVK(this.path);
+              this.initResLose(base_resp);
             });
         } else {
-          base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
-          this.resource = new Resource(base_resp.info);
-          this.description = '无法查看介绍资料';
-          this.children = [];
-          this.search_list = this.children.concat();
+          this.initResLose(base_resp);
         }
         this.baseService.is_jumping = false;
       });
@@ -259,5 +266,18 @@ export class ResComponent implements OnInit {
 
   get is_mine() {
     return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
+  }
+
+  go_login() {
+    this.router.navigate(['/user', 'login', 'next', this.router.url]);
+  }
+
+  check_visit_key() {
+    this.resService.api_get_res_info(this.path, {visit_key: this.visit_key})
+      .then((resp) => {
+        ResourceService.storeVK(this.path, this.visit_key);
+        this.baseInitResource(resp);
+        BaseService.info_center.next(new Info({text: '成功获取资源', type: Info.TYPE_SUCC}));
+      });
   }
 }

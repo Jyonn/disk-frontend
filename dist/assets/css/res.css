@@ -335,6 +335,37 @@ div.res div.content.resource div.round-btn {
   left: calc(50% - 70px / 2);
   top: calc(60% + 50px);
 }
+div.res div.content.resource div.suggestion-box {
+  position: relative;
+  width: 94%;
+  margin: 0 3%;
+  height: 88px;
+}
+div.res div.content.resource div.suggestion-box div.title {
+  margin-top: 30px;
+}
+div.res div.content.resource div.suggestion-box div.input-box {
+  position: absolute;
+  top: 40px;
+  text-align: center;
+  left: calc(50% - 140px);
+}
+div.res div.content.resource div.suggestion-box div.input-box input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  border: none;
+  height: 30px;
+  border-radius: 15px;
+  padding: 0 15px;
+  width: 200px;
+}
+div.res div.content.resource div.suggestion-box div.input-box div.round-btn {
+  position: absolute;
+  top: 0;
+  left: 220px;
+}
 div.res div.content.description div.padding-div {
   padding: 10px 30px;
   width: 100%;

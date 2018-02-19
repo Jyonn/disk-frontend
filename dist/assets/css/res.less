@@ -23,6 +23,9 @@
 
 @res-foot-extra-padding: @footer-btn-size - @footer-height;
 
+@res-suggestion-box-height: 88px;
+@suggestion-input-height: 30px;
+
 div.res {
   position: fixed;
   div.tab {
@@ -265,6 +268,37 @@ div.res {
       bottom: 0;
       left: calc(~'50% - @{round-btn-width} / 2');
       top: calc(~'60% + 50px');
+    }
+    div.suggestion-box {
+      position: relative;
+      width: 94%;
+      margin: 0 3%;
+      height: @res-suggestion-box-height;
+      div.title {
+        margin-top: 30px;
+      }
+      div.input-box {
+        position: absolute;
+        top: 40px;
+        text-align: center;
+        left: calc(~'50% - 140px');
+        input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: white;
+          border: none;
+          height: @suggestion-input-height;
+          border-radius: @suggestion-input-height / 2;
+          padding: 0 @suggestion-input-height / 2;
+          width: 200px;
+        }
+        div.round-btn {
+          position: absolute;
+          top: 0;
+          left: 220px;
+        }
+      }
     }
   }
   div.content.description {

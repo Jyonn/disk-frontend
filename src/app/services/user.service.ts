@@ -15,12 +15,19 @@ export class UserService {
     this.user = null;
   }
 
+  public exit() {
+    window.localStorage.removeItem('token');
+    this.user = null;
+    BaseService.token = null;
+  }
+
   public get_token(data: {username: string, password: string}) {
     return this.baseService
       .post('/api/user/token', data)
       .then(body => {
         this.user = new User(body);
         window.localStorage.setItem('token', body.token);
+        BaseService.token = body.token;
         return body;
       });
   }
