@@ -26,6 +26,7 @@ import { LoginComponent } from "./components/user/login.component";
 import { JumpingComponent } from "./components/base/jumping.component";
 import { ProfileComponent } from "./components/user/profile.component";
 import { ProfileBtnService } from "./services/profile-btn.service";
+import { RedirectComponent } from "./components/base/redirect.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ProfileBtnService } from "./services/profile-btn.service";
     InfoComponent,
     LoginComponent,
     ProfileComponent,
+    RedirectComponent,
   ],
   imports: [
     BrowserModule,

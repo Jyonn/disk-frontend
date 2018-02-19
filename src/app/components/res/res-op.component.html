@@ -1,6 +1,6 @@
 <div class="operation-block" [ngClass]="active_block ? 'active' : 'inactive'">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
-  <div class="container" [ngClass]="[footBtnService.active_share, is_protect ? 'long' : '']">
+  <div class="container" [ngClass]="[footBtnService.active_share, is_protect ? 'long' : '', is_public ? 'long' : '']">
     <div class="title-box">
       <div class="title">分享资源<span *ngIf="resource && !resource.is_secure_env" class="warn" (click)="show_insecure_info()">（风险提示？）</span></div>
       <app-loading></app-loading>
@@ -17,6 +17,10 @@
     <div class="ele-box second long-btn">
       <input [value]="share_show_text" readonly>
       <div class="round-btn long" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+    </div>
+    <div class="ele-box third long-btn" *ngIf="is_public">
+      <input [value]="share_direct_link" readonly>
+      <div class="round-btn long" ngxClipboard [cbContent]="share_direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_link_succ()">获取直链</div>
     </div>
     <div class="ele-box third long-btn" *ngIf="is_protect">
       <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…">

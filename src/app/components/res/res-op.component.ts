@@ -125,6 +125,11 @@ export class ResOpComponent implements OnInit {
     }
   }
 
+  get share_direct_link() {
+    const res_str_id = this.path[this.path.length - 1];
+    return `${this.baseService.front_host}/s/${res_str_id}`;
+  }
+
   get upload_res_text() {
     if (this.res_files && this.res_files[0]) {
       return this.res_files[0].name;
@@ -311,7 +316,7 @@ export class ResOpComponent implements OnInit {
       })
       .catch(() => {
         this.is_modifying = false;
-      })
+      });
   }
 
   copy_error() {
@@ -320,6 +325,10 @@ export class ResOpComponent implements OnInit {
 
   copy_succ() {
     BaseService.info_center.next(new Info({text: '复制成功', type: Info.TYPE_SUCC}));
+  }
+
+  copy_link_succ() {
+    BaseService.info_center.next(new Info({text: '复制成功，支持在链接后加扩展名（如.mp3）', type: Info.TYPE_SUCC}));
   }
 
   get delete_text() {
@@ -379,6 +388,10 @@ export class ResOpComponent implements OnInit {
 
   get is_protect() {
     return this.resource && this.resource.status === Resource.STATUS_PROTECT;
+  }
+
+  get is_public() {
+    return this.resource && this.resource.status === Resource.STATUS_PUBLIC;
   }
 
   show_insecure_info() {
