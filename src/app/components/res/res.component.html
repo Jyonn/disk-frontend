@@ -40,6 +40,11 @@
       <hr/>
     </div>
   </div>
+  <div class="content resource" *ngIf="resource?.is_link">
+    <span class="icon icon-link"></span>
+    <div class="file-name">{{resource?.rname}}</div>
+    <a [href]="dl_link" target="_blank"><div class="round-btn">前往</div></a>
+  </div>
   <div class="content resource" *ngIf="resource?.is_file">
     <span class="icon" [ngClass]=resource?.icon></span>
     <div class="file-name">{{resource?.rname}}</div>

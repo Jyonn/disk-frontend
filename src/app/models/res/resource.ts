@@ -152,6 +152,8 @@ export class Resource {
         return 'icon-video';
       case Resource.STYPE_MUSIC:
         return 'icon-music';
+      case Resource.STYPE_LINK:
+        return 'icon-link';
       default:
         return 'icon-file';
     }
@@ -171,6 +173,10 @@ export class Resource {
 
   get is_file() {
     return this.rtype === Resource.RTYPE_FILE;
+  }
+
+  get is_link() {
+    return this.rtype === Resource.RTYPE_LINK;
   }
 
   get is_encrypt() {

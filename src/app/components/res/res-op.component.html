@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="container" [ngClass]="footBtnService.active_upload">
+  <div class="container" [ngClass]="[footBtnService.active_upload, is_active('upload', upload_link) ? 'long' : '']">
     <div class="title-box">
       <div class="title">上传资源</div>
       <app-loading></app-loading>
@@ -37,14 +37,21 @@
         <span class="text">{{btn.text}}</span>
       </div>
     </div>
-    <div *ngIf="upload_active===upload_file.value" class="ele-box second">
+    <div *ngIf="is_active('upload', upload_file)" class="ele-box second">
       <input [value]="upload_res_text" readonly placeholder="选择文件…">
       <input type="file" (change)="res_files = $event.target.files">
       <div class="round-btn" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
     </div>
-    <div *ngIf="upload_active===upload_folder.value" class="ele-box second">
+    <div *ngIf="is_active('upload', upload_folder)" class="ele-box second">
       <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
       <div class="round-btn" (click)="create_folder_action()">创建</div>
+    </div>
+    <div *ngIf="is_active('upload', upload_link)" class="ele-box second">
+      <input [(ngModel)]="link_name" placeholder="在此输入链接名称…">
+    </div>
+    <div *ngIf="is_active('upload', upload_link)" class="ele-box third">
+      <input [(ngModel)]="link_url" placeholder="在此输入链接…">
+      <div class="round-btn" (click)="create_link_action()">创建</div>
     </div>
   </div>
 

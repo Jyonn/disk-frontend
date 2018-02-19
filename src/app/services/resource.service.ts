@@ -59,6 +59,11 @@ export class ResourceService {
       .post(`/api/res/${res_str_id}/folder`, data);
   }
 
+  public api_create_link(res_str_id: number, data: {link_name: string, link: string}) {
+    return this.baseService
+      .post(`/api/res/${res_str_id}/link`, data);
+  }
+
   public api_modify_res_info(path: Array<any>,
                              data: {rname: string, status: number, description: string, visit_key: string, right_bubble: boolean}) {
     const res_str_id = path[path.length - 1];

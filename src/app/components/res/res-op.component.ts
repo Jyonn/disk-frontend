@@ -36,11 +36,14 @@ export class ResOpComponent implements OnInit {
   // foot btn upload
   upload_file: RadioBtn;
   upload_folder: RadioBtn;
+  upload_link: RadioBtn;
   upload_btns: Array<RadioBtn>;
   upload_active: number;
   res_files: FileList;
   folder_name: string;
   is_uploading: boolean;
+  link_name: string;
+  link_url: string;
 
   // foot btn modify
   // res_name: string;
@@ -72,10 +75,16 @@ export class ResOpComponent implements OnInit {
       text: '创建文件夹',
       value: Resource.RTYPE_FOLDER,
     });
-    this.upload_btns = [this.upload_file, this.upload_folder];
+    this.upload_link = new RadioBtn({
+      text: '创建链接',
+      value: Resource.RTYPE_LINK,
+    });
+    this.upload_btns = [this.upload_file, this.upload_folder, this.upload_link];
     this.upload_active = Resource.RTYPE_FILE;
 
     this.folder_name = null;
+    this.link_name = null;
+    this.link_url = null;
     this.is_uploading = false;
   }
 
@@ -208,6 +217,29 @@ export class ResOpComponent implements OnInit {
         this.footBtnService.foot_btn_active = null;
         this.is_uploading = false;
         BaseService.info_center.next(new Info({text: '创建文件夹成功', type: Info.TYPE_SUCC}));
+      })
+      .catch(() => {
+        this.is_uploading = false;
+      });
+  }
+
+  create_link_action() {
+    if (this.is_uploading) {
+      BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
+      return;
+    }
+    if (!this.link_name) {
+      BaseService.info_center.next(new Info({text: '链接名不能为空', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.is_uploading = true;
+    this.resService.api_create_link(this.resource.res_str_id, {link_name: this.link_name, link: this.link_url})
+      .then((resp) => {
+        this.onUploaded.emit(new Resource((resp)));
+        this.link_name = null;
+        this.footBtnService.foot_btn_active = null;
+        this.is_uploading = false;
+        BaseService.info_center.next(new Info({text: '创建链接成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
         this.is_uploading = false;
