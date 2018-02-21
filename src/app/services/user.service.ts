@@ -32,6 +32,17 @@ export class UserService {
       });
   }
 
+  public api_register(data: {username: string, password: string, beta_code: string}) {
+    return this.baseService
+      .post('/api/user/', data)
+      .then(body => {
+        this.user = new User(body);
+        window.localStorage.setItem('token', body.token);
+        BaseService.token = body.token;
+        return body;
+      });
+  }
+
   public api_get_info() {
     // if (this.user) {
     //   return Promise.resolve(this.user);

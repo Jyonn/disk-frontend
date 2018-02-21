@@ -77,7 +77,7 @@ export class Resource {
     } else {
       this.owner = new User(d.owner);
     }
-    if (d.secure_env === true) {
+    if (d.secure_env === true || !d.secure_env) {
       this.is_secure_env = true;
     } else {
       this.is_secure_env = false;

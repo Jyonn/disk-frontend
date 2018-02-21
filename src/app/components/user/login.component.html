@@ -43,7 +43,12 @@
         <input type="password" [(ngModel)]="password">
       </div>
       <div class="item-box">
-        <div class="button">注册</div>
+        <div class="item-name">内测码</div>
+        <div class="back-box"></div>
+        <input type="text" [(ngModel)]="beta_code">
+      </div>
+      <div class="item-box">
+        <div class="button" (click)="user_register()">注册</div>
       </div>
     </div>
   </div>

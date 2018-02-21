@@ -147,11 +147,12 @@ div.container div.main-container {
   position: relative;
   width: 100%;
   max-width: 414px;
-  height: 100%;
-  overflow: hidden;
+  height: calc(100% - 56px - 20px);
+  overflow-y: scroll;
   display: inline-block;
   text-align: left;
-  margin-top: calc(50vh - 200px);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 div.container div.main-container div.title-box {
   position: absolute;

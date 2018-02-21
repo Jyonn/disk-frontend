@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   next_url: string;
   username: string;
   password: string;
+  beta_code: string;
   constructor(
     public baseService: BaseService,
     public userService: UserService,
@@ -59,5 +60,12 @@ export class LoginComponent implements OnInit {
     if ($event.keyCode === 13) {
       this.user_login();
     }
+  }
+
+  user_register() {
+    this.userService.api_register({username: this.username, password: this.password, beta_code: this.beta_code})
+      .then(() => {
+        this.navigate();
+      });
   }
 }

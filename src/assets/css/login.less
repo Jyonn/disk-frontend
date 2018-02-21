@@ -7,6 +7,7 @@
 @item-height: 40px;
 @item-name-width: 80px;
 @item-border-radius: 3px;
+@margin-height: 20px;
 
 div.nav {
   position: fixed;
@@ -48,11 +49,12 @@ div.container {
     position: relative;
     width: 100%;
     max-width: 414px;
-    height: 100%;
-    overflow: hidden;
+    height: calc(~'100% - @{nav-height} - @{margin-height}');
+    overflow-y: scroll;
     display: inline-block;
     text-align: left;
-    margin-top: calc(~'50vh - 200px');
+    margin-top: @margin-height;
+    margin-bottom: @margin-height;
     div.title-box {
       position: absolute;
       top: 20px;
