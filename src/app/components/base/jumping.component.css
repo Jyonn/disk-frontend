@@ -2,25 +2,33 @@ div.container {
   position: fixed;
   z-index: 999;
   height: 100%;
+  width: 100%;
   top: 0;
   left: 0;
   /*background: #2699FB;*/
   transition: 0.5s;
 }
 
+div.container div.canvas-box {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 @media all and (orientation: portrait){
-  div.container {
+  div.container div.canvas-box {
     width: 100%;
   }
 }
 
 @media all and (orientation: landscape){
-  div.container {
+  div.container div.canvas-box {
     width: 38.2vw;
   }
 }
 
-div.container div.canvas {
+div.container div.canvas-box div.canvas {
   margin-top: 18px;
 }
 
