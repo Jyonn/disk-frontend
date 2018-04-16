@@ -20,7 +20,7 @@ export class BaseService {
   ) {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
-    this.qn_host = "https://upload.qiniu.com";
+    this.qn_host = "https://up.qiniup.com";
     // this.token = null;
     this.is_jumping = false;
   }
