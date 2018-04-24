@@ -8,10 +8,7 @@ export class UserService {
   public user: User;
   public user_update_center = new Subject<User>();
   constructor(private baseService: BaseService) {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      BaseService.token = token;
-    }
+    BaseService.token = BaseService.loadToken();
     this.user = null;
   }
 
@@ -88,6 +85,11 @@ export class UserService {
   public api_modify_user(data: {password: string, old_password: string, nickname: string}) {
     return this.baseService
       .put('/api/user/', data);
+  }
+
+  public api_qtb_oauth_check(data: {code: string}) {
+    return this.baseService
+      .get('/api/oauth/qtb/callback', data);
   }
 
   get has_login() {

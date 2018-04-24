@@ -27,6 +27,7 @@ import { JumpingComponent } from "./components/base/jumping.component";
 import { ProfileComponent } from "./components/user/profile.component";
 import { ProfileBtnService } from "./services/profile-btn.service";
 import { RedirectComponent } from "./components/base/redirect.component";
+import { OauthComponent } from "./components/user/oauth.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { RedirectComponent } from "./components/base/redirect.component";
     LoginComponent,
     ProfileComponent,
     RedirectComponent,
+    OauthComponent,
   ],
   imports: [
     BrowserModule,

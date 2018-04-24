@@ -114,7 +114,7 @@ export class ProfileComponent implements OnInit {
     if (this.next_url) {
       this.router.navigate([this.next_url]);
     } else {
-      this.router.navigate(['/res']);
+      this.router.navigate(['/res', this.userService.user.root_res]);
     }
   }
 }

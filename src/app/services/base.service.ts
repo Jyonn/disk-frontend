@@ -24,6 +24,15 @@ export class BaseService {
     // this.token = null;
     this.is_jumping = false;
   }
+  static saveToken(token) {
+    window.localStorage.setItem('token', token);
+    this.token = token;
+  }
+  static loadToken() {
+    const token = window.localStorage.getItem('token');
+    this.token = token;
+    return token;
+  }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;
     return Promise.reject(error);
