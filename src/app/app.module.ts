@@ -28,6 +28,7 @@ import { ProfileComponent } from "./components/user/profile.component";
 import { ProfileBtnService } from "./services/profile-btn.service";
 import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
+import { RefreshComponent } from "./components/user/refresh.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { OauthComponent } from "./components/user/oauth.component";
     ProfileComponent,
     RedirectComponent,
     OauthComponent,
+    RefreshComponent,
   ],
   imports: [
     BrowserModule,

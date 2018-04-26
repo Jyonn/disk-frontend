@@ -9,6 +9,7 @@ import {User} from "../../models/user/user";
 })
 export class OauthComponent implements OnInit {
   code: string;
+  state: string;
 
   constructor(
     public activateRoute: ActivatedRoute,
@@ -17,11 +18,13 @@ export class OauthComponent implements OnInit {
     public router: Router,
   ) {
     this.code = null;
+    this.state = null;
   }
 
   ngOnInit() {
     this.activateRoute.queryParams.subscribe((params) => {
       this.code = params['code'];
+      this.state = params['state'];
 
       this.userService
         .api_qtb_oauth_check({code: this.code})
@@ -29,7 +32,11 @@ export class OauthComponent implements OnInit {
           BaseService.saveToken(resp.token);
           this.userService.api_get_info()
             .then((user: User) => {
-              this.router.navigate(['/res', user.root_res]);
+              if (this.state) {
+                this.router.navigate([this.state]);
+              } else {
+                this.router.navigate(['/res', user.root_res]);
+              }
             });
         });
     });

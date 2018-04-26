@@ -59,7 +59,8 @@ export class ResNavComponent {
   go_login($event) {
     $event.cancelBubble = true;
     $event.stopPropagation();
-    this.router.navigate(['/user', 'login', 'next', this.router.url]);
+    // this.router.navigate(['/user', 'login', 'next', this.router.url]);
+    window.location.href = this.userService.oauth_uri + '&state=' + encodeURI(this.router.url);
   }
 
   go_profile($event) {

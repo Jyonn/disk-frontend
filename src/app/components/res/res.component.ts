@@ -273,7 +273,8 @@ export class ResComponent implements OnInit {
   }
 
   go_login() {
-    this.router.navigate(['/user', 'login', 'next', this.router.url]);
+    // this.router.navigate(['/user', 'login', 'next', this.router.url]);
+    window.location.href = this.userService.oauth_uri + '&state=' + encodeURI(this.router.url);
   }
 
   check_visit_key() {

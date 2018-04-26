@@ -14,7 +14,7 @@ export class ProfileBtnService {
 
   constructor() {
     this.b_enter_box = "进入我的浑天匣";
-    this.b_modify_info = "修改个人信息";
+    this.b_modify_info = "个人信息";
     // this.b_modify_nickname = "修改昵称";
     // this.b_modify_avatar = "修改头像";
     // this.b_modify_password = "修改密码";
