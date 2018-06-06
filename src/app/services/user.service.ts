@@ -56,6 +56,7 @@ export class UserService {
         // console.log(error);
         BaseService.token = null;
         this.user_update_center.next(null);
+        throw error;
         // BaseService.token_center.next(null);
       });
   }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "./services/user.service";
 import {BaseService} from "./services/base.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,21 @@ export class AppComponent implements OnInit {
   constructor(
     public userService: UserService,
     public baseService: BaseService,
+    private router: Router,
   ) {}
   ngOnInit() {
     // BaseService.token_center.asObservable()
     //   .subscribe(() => {
     this.userService.api_get_info()
-      .then();
+      .then((body) => {
+        if (this.router.url === '/') {
+          this.router.navigate(['/res', body.root_res]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        window.location.href = this.userService.oauth_uri;
+      });
       // });
   }
 }
