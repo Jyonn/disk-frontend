@@ -17,17 +17,7 @@ export class AppComponent implements OnInit {
     // BaseService.token_center.asObservable()
     //   .subscribe(() => {
     this.userService.api_get_info()
-      .then((body) => {
-        if (this.router.url === '/') {
-          this.router.navigate(['/res', body.root_res]);
-        }
-      })
-      .catch((err) => {
-        if (this.router.url !== '/oauth/qtb/callback') {
-          console.log(err);
-          window.location.href = this.userService.oauth_uri;
-        }
-      });
+      .then();
       // });
   }
 }
