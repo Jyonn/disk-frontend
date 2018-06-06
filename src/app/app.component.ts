@@ -23,8 +23,10 @@ export class AppComponent implements OnInit {
         }
       })
       .catch((err) => {
-        console.log(err);
-        window.location.href = this.userService.oauth_uri;
+        if (this.router.url !== '/oauth/qtb/callback') {
+          console.log(err);
+          window.location.href = this.userService.oauth_uri;
+        }
       });
       // });
   }
