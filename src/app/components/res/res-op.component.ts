@@ -392,8 +392,9 @@ export class ResOpComponent implements OnInit {
 
   get is_public() {
     return this.resource
-      && this.resource.status === Resource.STATUS_PUBLIC
-      && (this.resource.rtype === Resource.RTYPE_FILE || this.resource.rtype === Resource.RTYPE_LINK);
+      && (this.resource.rtype === Resource.RTYPE_FILE || this.resource.rtype === Resource.RTYPE_LINK)
+      && (this.resource.status === Resource.STATUS_PUBLIC ||
+        (this.resource.status === Resource.STATUS_PRIVATE && !this.resource.is_secure_env));
   }
 
   show_insecure_info() {
