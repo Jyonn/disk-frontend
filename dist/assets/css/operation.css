@@ -211,6 +211,7 @@ div.operation-block div.container div.ele-box {
 }
 div.operation-block div.container div.ele-box input {
   width: calc(100% - 70px - 20px);
+  left: 0;
   height: 30px;
   border-radius: 15px;
   border: 1px solid #CCCCCC;
