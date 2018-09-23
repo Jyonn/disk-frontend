@@ -22,7 +22,7 @@ export class BaseService {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
     this.qn_host = "https://up.qiniup.com";
-    this.short_link_host = "https://s.6-79.cn/";
+    this.short_link_host = "https://s.6-79.cn";
     // this.token = null;
     this.is_jumping = false;
   }
