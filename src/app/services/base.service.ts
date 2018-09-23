@@ -13,6 +13,7 @@ export class BaseService {
   // public static token_center = new Subject<string>();
   public front_host: string;
   public host: string;
+  public short_link_host: string;
   private qn_host: string;
   public is_jumping: boolean;
   constructor(
@@ -21,6 +22,7 @@ export class BaseService {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
     this.qn_host = "https://up.qiniup.com";
+    this.short_link_host = "https://s.6-79.cn/";
     // this.token = null;
     this.is_jumping = false;
   }

@@ -127,7 +127,7 @@ export class ResOpComponent implements OnInit {
 
   get share_direct_link() {
     const res_str_id = this.path[this.path.length - 1];
-    return `${this.baseService.host}/s/${res_str_id}`;
+    return `${this.baseService.short_link_host}/${res_str_id}`;
   }
 
   get upload_res_text() {
