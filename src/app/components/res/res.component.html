@@ -6,7 +6,7 @@
 <div class="res" [ngClass]="tab_mode">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
-      <span class="icon icon-sort" (click)="toggle_sort_mode()"></span>
+      <span class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
       <div class="sort-container">
         <div class="sort-item" (click)="sort_by(false, 'time')">按时间排序</div>
         <div class="sort-item" (click)="sort_by(false, 'name')">按名称排序</div>
@@ -14,7 +14,7 @@
       </div>
       <span class="text">{{resource_title}}</span>
       <div class="search-container">
-        <span class="icon icon-search" *ngIf="show_search_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
+        <span class="icon icon-search" *ngIf="show_side_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
         <span class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
         <div class="search-box">
           <input #searchBox class="search" placeholder="搜索…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">

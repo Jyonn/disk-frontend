@@ -278,7 +278,7 @@ export class ResComponent implements OnInit {
     this.sort_mode = false;
   }
 
-  get show_search_icon() {
+  get show_side_icon() {
     return this.resource && this.resource.is_folder && this.tab_mode === 'resource' && !this.search_mode;
   }
 
