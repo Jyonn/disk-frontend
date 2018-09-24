@@ -40,6 +40,7 @@ export class ResOpComponent implements OnInit {
   upload_btns: Array<RadioBtn>;
   upload_active: number;
   res_files: FileList;
+  file_name: string;
   folder_name: string;
   is_uploading: boolean;
   link_name: string;
@@ -157,7 +158,8 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.api_get_upload_token(this.resource.res_str_id, {filename: res_name})
+    console.log(this.file_name);
+    this.resService.api_get_upload_token(this.resource.res_str_id, {filename: this.file_name})
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
           .then((resp_) => {
@@ -165,9 +167,11 @@ export class ResOpComponent implements OnInit {
             this.res_files = null;
             this.footBtnService.foot_btn_active = null;
             this.is_uploading = false;
+            this.file_name = '';
           })
           .catch(() => {
             this.is_uploading = false;
+            this.file_name = '';
           });
       })
       .catch(() => {
@@ -192,7 +196,7 @@ export class ResOpComponent implements OnInit {
           .then((resp_) => {
             this.resource.update(resp_);
             // this.res_cover_files = null;
-            this.footBtnService.foot_btn_active = null;
+            // this.footBtnService.foot_btn_active = null;
             this.is_modifying = false;
             BaseService.info_center.next(new Info({text: '更新封面成功', type: Info.TYPE_SUCC}));
           })
@@ -265,7 +269,7 @@ export class ResOpComponent implements OnInit {
       {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null})
       .then((resp) => {
         this.resource.update(resp);
-        this.footBtnService.foot_btn_active = null;
+        // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源名成功', type: Info.TYPE_SUCC}));
       })
@@ -310,7 +314,7 @@ export class ResOpComponent implements OnInit {
       {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
       .then((resp) => {
         this.resource.update(resp);
-        this.footBtnService.foot_btn_active = null;
+        // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改成功', type: Info.TYPE_SUCC}));
       })
