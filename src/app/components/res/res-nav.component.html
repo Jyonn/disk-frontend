@@ -10,7 +10,7 @@
   <div class="title">{{resource?.rname}}</div>
   <div class="foot">
     <span class="owner">{{nav_foot_owner}}创建于{{resource?.readable_time}}</span>
-    <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar}}"></div>
+    <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar || 'https://unsplash.6-79.cn/random/small'}}"></div>
     <div class="share">{{resource?.readable_status}}<span class="warn" (click)="show_insecure_info($event)">{{resource?.secure_word}}</span></div>
   </div>
 </nav>
