@@ -191,7 +191,7 @@ div.res {
         position: absolute;
         width: 100% + 100 * @res-item-margin / (50% - @res-item-margin);
         height: @res-item-height;
-        left: -@res-item-margin;
+        left: -100 * @res-item-margin / (100% - 2 * @res-item-margin);
       }
       div.res-image {
         position: absolute;
