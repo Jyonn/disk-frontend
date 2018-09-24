@@ -1,0 +1,254 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+}
+body {
+  background: #eaeaea;
+}
+path {
+  fill: #007FEB;
+}
+.ptr,
+.round-btn,
+nav.full div.container div.left-btn,
+nav.full div.container div.right-btn,
+div.res.full div.modify-container div.modify-item,
+div.res.full div.modify-container div.btn-list div.btn {
+  cursor: pointer;
+}
+.light-shadow {
+  box-shadow: 1px 3px 10px 0 #c0c0c0;
+}
+.strong-shadow {
+  box-shadow: 1px 3px 10px 0 gray;
+}
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
+}
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
+.animate,
+div.res.full div.modify-container.sub {
+  transition: 0.5s;
+}
+@media all and (orientation: portrait) {
+  nav {
+    width: 100%;
+    height: 38.2vh;
+  }
+  div.res {
+    width: 100%;
+    height: calc(100% - 38.2vh - 56px);
+    left: 0;
+    top: 38.2vh;
+  }
+  div.res.full {
+    height: calc(100% - 38.2vh);
+  }
+}
+@media all and (orientation: landscape) {
+  nav {
+    width: 38.2vw;
+    height: calc(100% - 56px);
+  }
+  nav.full {
+    height: 100%;
+  }
+  div.res {
+    width: calc(100% - 38.2vw);
+    height: calc(100% - 56px);
+    left: 38.2vw;
+    top: 0;
+  }
+  div.res.full {
+    height: 100%;
+  }
+}
+footer {
+  width: 100%;
+  height: 56px;
+}
+.round-btn {
+  width: 70px;
+  height: 30px;
+  border-radius: 15px;
+  background: #2699FB;
+  color: white;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+}
+.round-btn.disabled {
+  background: #CCCCCC;
+}
+.round-btn.sub {
+  background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
+}
+.round-btn.long {
+  width: 100px;
+}
+.bg-blur {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2*8px);
+  height: calc(100% + 2*8px);
+  filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
+}
+nav.full {
+  position: fixed;
+}
+nav.full div.container {
+  width: calc(100% - 40px);
+  height: 46px;
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+nav.full div.container div.left-btn {
+  position: absolute;
+  top: calc(46px / 2 - 20px / 2);
+  left: 0;
+}
+nav.full div.container div.left-btn span {
+  color: white;
+  font-size: 20px;
+}
+nav.full div.container div.right-btn {
+  position: absolute;
+  top: calc(46px / 2 - 20px / 2);
+  right: 0;
+}
+nav.full div.container div.right-btn span {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+nav.full div.user-box {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 25%;
+}
+nav.full div.user-box div.avatar {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+nav.full div.user-box div.nickname {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+div.res.full {
+  position: fixed;
+  z-index: 2;
+  background: #f0f0f0;
+}
+div.res.full div.modify-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background: #f0f0f0;
+}
+div.res.full div.modify-container div.modify-item {
+  position: relative;
+  height: 60px;
+  width: 94%;
+  margin: 0 3%;
+}
+div.res.full div.modify-container div.modify-item div.modify-name {
+  position: absolute;
+  line-height: 60px;
+  vertical-align: middle;
+  top: 0;
+  left: 20px;
+}
+div.res.full div.modify-container div.modify-item div.modify-next-btn {
+  position: absolute;
+  transform: rotate(180deg);
+  right: 0;
+  width: 60px;
+  top: 0;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align: center;
+}
+div.res.full div.modify-container div.modify-item hr {
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  border: none;
+  border-top: 1px solid #eaeaea;
+}
+div.res.full div.modify-container div.btn-list {
+  position: absolute;
+  bottom: 0;
+  height: 44px;
+  width: 100%;
+}
+div.res.full div.modify-container div.btn-list div.btn {
+  float: left;
+  height: 44px;
+  line-height: 44px;
+  width: 50%;
+  vertical-align: middle;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+}
+div.res.full div.modify-container div.btn-list div.btn.modify {
+  background: #2699FB;
+}
+div.res.full div.modify-container div.btn-list div.btn.cancel {
+  background: #D04B4B;
+}
+div.res.full div.modify-container div.modify-item div.title {
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 60px;
+  vertical-align: middle;
+}
+div.res.full div.modify-container div.modify-item input {
+  position: absolute;
+  top: 30px;
+  background: none;
+  border: none;
+  width: 100%;
+  height: 30px;
+  padding: 0 3%;
+  letter-spacing: 2px;
+}
+div.res.full div.modify-container div.modify-item input[type="file"] {
+  filter: opacity(0);
+}
+div.res.full div.modify-container div.modify-item hr {
+  border-top: 1px solid #CCCCCC;
+}
+div.res.full div.modify-container.sub.inactive {
+  left: 100%;
+}
+div.res.full div.modify-container.sub.active {
+  left: 0;
+}

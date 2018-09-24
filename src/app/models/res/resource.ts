@@ -16,6 +16,15 @@ export class Resource {
   public static STYPE_MUSIC = 3;
   public static STYPE_FILE = 4;
   public static STYPE_LINK = 5;
+  public static COLORS = [
+    '#cbcbcb',
+    '#e5879c',
+    '#9489e2',
+    '#75cddd',
+    '#e6ab70',
+    '#91dd7a'
+  ];
+
   res_str_id: number;
   rname: string;
   rtype: number;
@@ -104,6 +113,10 @@ export class Resource {
     return time_str;
   }
 
+  get color() {
+    return Resource.COLORS[(Math.floor(this.create_time) % Resource.COLORS.length)];
+  }
+
   get chinese_status() {
     if (this.status === Resource.STATUS_PRIVATE) {
       return '私有';
@@ -130,7 +143,23 @@ export class Resource {
     return `由于目录“${this.insecure_parent}”设置了公开，此${this.readable_status}仍然公开。若不想公开此资源，可进入“修改”设置为独立资源，或修改父元素权限为加密或私有。`;
   }
 
+  get first_letter() {
+    if (this.cover) {
+      return '';
+    } else {
+      return this.rname[0].toUpperCase();
+    }
+  }
+
   get url_cover() {
+    if (this.cover) {
+      return `url('${this.cover}')`;
+    } else {
+      return null;
+    }
+  }
+
+  get url_cover_random() {
     return `url('${this.raw_cover}')`;
   }
 
