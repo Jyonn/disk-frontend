@@ -143,9 +143,44 @@ export class Resource {
     return `由于目录“${this.insecure_parent}”设置了公开，此${this.readable_status}仍然公开。若不想公开此资源，可进入“修改”设置为独立资源，或修改父元素权限为加密或私有。`;
   }
 
+  get is_emoji() {
+    const c = this.rname.charCodeAt(0);
+    if (0xd800 <= c && c <= 0xdbff) {
+      if (this.rname.length > 1) {
+        const ls = this.rname.charCodeAt(1);
+        const uc = ((c - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+        if (0x1d000 <= uc && uc <= 0x1f77f) {
+          return true;
+        }
+      }
+    } else if (this.rname.length > 1) {
+      const ls = this.rname.charCodeAt(1);
+      if (ls === 0x20e3) {
+        return true;
+      }
+    } else {
+      if (0x2100 <= c && c <= 0x27ff) {
+        return true;
+      } else if (0x2B05 <= c && c <= 0x2b07) {
+        return true;
+      } else if (0x2934 <= c && c <= 0x2935) {
+        return true;
+      } else if (0x3297 <= c && c <= 0x3299) {
+        return true;
+      } else if (c === 0xa9 || c === 0xae || c === 0x303d || c === 0x3030
+        || c === 0x2b55 || c === 0x2b1c || c === 0x2b1b
+        || c === 0x2b50) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   get first_letter() {
     if (this.cover) {
       return '';
+    } else if (this.is_emoji) {
+      return this.rname[0] + this.rname[1];
     } else {
       return this.rname[0].toUpperCase();
     }
