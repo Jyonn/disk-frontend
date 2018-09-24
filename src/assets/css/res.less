@@ -4,6 +4,7 @@
 
 @res-origin-height: 36px;
 @res-item-box-bg: #f0f0f0;
+@res-item-box-cover-bg: #dddddd;
 @res-item-height: 78px;
 @res-item-image-size: 54px;
 
@@ -184,6 +185,14 @@ div.res {
       position: relative;
       margin: 0 @res-item-margin;
       height: @res-item-height;
+      transition: 0.2s;
+
+      div.res-hover-mask {
+        position: absolute;
+        width: 100% + 100 * @res-item-margin / (50% - @res-item-margin);
+        height: @res-item-height;
+        left: -@res-item-margin;
+      }
       div.res-image {
         position: absolute;
         left: 8px;
@@ -242,6 +251,11 @@ div.res {
         height: 1px;
         border: none;
         border-top: 1px solid @main-bg;
+      }
+    }
+    div.res-item:hover {
+      div.res-hover-mask {
+        background-color: @res-item-box-cover-bg;
       }
     }
     span.icon {

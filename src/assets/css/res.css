@@ -253,6 +253,13 @@ div.res div.content.resource div.res-item {
   position: relative;
   margin: 0 3%;
   height: 78px;
+  transition: 0.2s;
+}
+div.res div.content.resource div.res-item div.res-hover-mask {
+  position: absolute;
+  width: 106.38297872%;
+  height: 78px;
+  left: -3%;
 }
 div.res div.content.resource div.res-item div.res-image {
   position: absolute;
@@ -309,6 +316,9 @@ div.res div.content.resource div.res-item hr {
   height: 1px;
   border: none;
   border-top: 1px solid #eaeaea;
+}
+div.res div.content.resource div.res-item:hover div.res-hover-mask {
+  background-color: #dddddd;
 }
 div.res div.content.resource span.icon {
   width: 100%;
