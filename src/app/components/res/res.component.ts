@@ -27,6 +27,9 @@ import {Meta} from "@angular/platform-browser";
   ],
 })
 export class ResComponent implements OnInit {
+  static sort_accord = 'time';
+  static sort_ascend = true;
+
   path: Array<any>;
 
   resource: Resource;
@@ -38,6 +41,8 @@ export class ResComponent implements OnInit {
 
   search_mode: boolean;
   tab_mode: string;
+
+  sort_mode: boolean;
 
   visit_key: string;
 
@@ -59,6 +64,7 @@ export class ResComponent implements OnInit {
     this.search_list = [];
     this.search_value = null;
     this.search_mode = false;
+    this.sort_mode = false;
   }
   baseInitResource(resp) {
     this.children = [];
@@ -133,6 +139,7 @@ export class ResComponent implements OnInit {
         this.search_list.push(item);
       }
     }
+    this.sort_by(true);
   }
 
   select_res(res: Resource) {
@@ -171,6 +178,10 @@ export class ResComponent implements OnInit {
     return this.search_mode ? 'searching' : '';
   }
 
+  get sort_class() {
+    return this.sort_mode ? 'sorting' : '';
+  }
+
   navigate(res_str_id) {
     const link = ['/res', `${this.path.join('-')}-${res_str_id}`];
     this.baseService.is_jumping = true;
@@ -206,6 +217,65 @@ export class ResComponent implements OnInit {
 
   switch_tab_mode(tm: string) {
     this.tab_mode = tm;
+  }
+
+  sort_by_time(ra: Resource, rb: Resource) {
+    if (ResComponent.sort_ascend) {
+      return ra.create_time - rb.create_time;
+    } else {
+      return rb.create_time - ra.create_time;
+    }
+  }
+
+  sort_by_type(ra: Resource, rb: Resource) {
+    if (ResComponent.sort_ascend) {
+      return ra.sub_type - rb.sub_type;
+    } else {
+      return rb.sub_type - ra.sub_type;
+    }
+  }
+
+  sort_by_name(ra: Resource, rb: Resource) {
+    let res = 0;
+    if (ra.rname > rb.rname) {
+      res = 1;
+    } else if (ra.rname < rb.rname) {
+      res = -1;
+    }
+    if (ResComponent.sort_ascend) {
+      return res;
+    } else {
+      return -res;
+    }
+  }
+
+  toggle_sort_mode() {
+    this.sort_mode = !this.sort_mode;
+  }
+
+  sort_by(follow_last, accord = null) {
+    if (!follow_last) {
+      if (ResComponent.sort_accord === accord) {
+        ResComponent.sort_ascend = !ResComponent.sort_ascend;
+      } else {
+        ResComponent.sort_accord = accord;
+        ResComponent.sort_ascend = true;
+      }
+    }
+    switch (ResComponent.sort_accord) {
+      case 'time':
+        this.search_list.sort(this.sort_by_time);
+        break;
+      case 'name':
+        this.search_list.sort(this.sort_by_name);
+        break;
+      case 'type':
+        this.search_list.sort(this.sort_by_type);
+        break;
+      default:
+        break;
+    }
+    this.sort_mode = false;
   }
 
   get show_search_icon() {

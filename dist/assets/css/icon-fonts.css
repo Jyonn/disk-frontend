@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.woff?76dyxv') format('woff');
+  src:  url('../fonts/icomoon.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -20,12 +20,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-unlike:before {
-  content: "\e91a";
-}
-.icon-unlogin:before {
-  content: "\e91b";
-}
 .icon-back:before {
   content: "\e900";
 }
@@ -92,15 +86,24 @@
 .icon-share:before {
   content: "\e915";
 }
-.icon-toggleoff:before {
+.icon-sort:before {
   content: "\e916";
 }
-.icon-toggleon:before {
+.icon-toggleoff:before {
   content: "\e917";
 }
-.icon-uncheck:before {
+.icon-toggleon:before {
   content: "\e918";
 }
-.icon-upload:before {
+.icon-uncheck:before {
   content: "\e919";
+}
+.icon-unlike:before {
+  content: "\e91a";
+}
+.icon-unlogin:before {
+  content: "\e91b";
+}
+.icon-upload:before {
+  content: "\e91c";
 }

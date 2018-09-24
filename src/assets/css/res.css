@@ -16,7 +16,8 @@ div.res div.tab,
 div.res div.tab.selecting div.tab-btn {
   cursor: pointer;
 }
-.light-shadow {
+.light-shadow,
+div.res div.tab div.resource div.sort-container {
   box-shadow: 1px 3px 10px 0 #c0c0c0;
 }
 .strong-shadow {
@@ -156,6 +157,36 @@ div.res div.tab div.description div.modify {
 div.res div.tab div.description.inactive {
   right: -50%;
 }
+div.res div.tab div.resource span.icon-sort {
+  position: absolute;
+  left: 14px;
+  height: 100%;
+  font-size: 16px;
+  width: 16px;
+  z-index: 1;
+}
+div.res div.tab div.resource div.sort-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 1;
+  height: 0;
+  transition: 0.2s;
+  overflow: hidden;
+}
+div.res div.tab div.resource div.sort-container div.sort-item {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  color: #555555;
+}
+div.res div.tab div.resource div.sort-container div.sort-item:hover {
+  background: #dddddd;
+}
 div.res div.tab div.resource div.search-container {
   top: 0;
   left: 14px;
@@ -193,6 +224,9 @@ div.res div.tab div.resource div.search-container div.search-box span.clear-keyw
   color: #007FEB;
   font-weight: bold;
   width: 20px;
+}
+div.res div.tab.sorting div.resource div.sort-container {
+  height: 90px;
 }
 div.res div.tab.searching div.resource {
   position: absolute;

@@ -22,6 +22,8 @@
 @res-search-box-padding: 4px;
 @res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
 
+@res-sort-item-height: 30px;
+
 @res-foot-extra-padding: @footer-btn-size - @footer-height;
 
 @res-suggestion-box-height: 88px;
@@ -76,6 +78,37 @@ div.res {
       right: -50%;
     }
     div.resource {
+      span.icon-sort {
+        position: absolute;
+        left: @res-search-container-padding;
+        height: 100%;
+        font-size: @res-search-icon-size;
+        width: @res-search-icon-size;
+        z-index: 1;
+      }
+      div.sort-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        z-index: 1;
+        height: 0;
+        transition: 0.2s;
+        overflow: hidden;
+        &:extend(.light-shadow);
+        div.sort-item {
+          position: relative;
+          width: 100%;
+          height: @res-sort-item-height;
+          line-height: @res-sort-item-height;
+          font-size: 14px;
+          color: #555555;
+        }
+        div.sort-item:hover {
+          background: @res-item-box-cover-bg;
+        }
+      }
       div.search-container {
         top: 0;
         left: @res-search-container-padding;
@@ -112,6 +145,13 @@ div.res {
             width: 20px;
           }
         }
+      }
+    }
+  }
+  div.tab.sorting {
+    div.resource {
+      div.sort-container {
+        height: 3 * @res-sort-item-height;
       }
     }
   }

@@ -4,8 +4,14 @@
 <app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="tab_mode">
-  <div class="tab" [ngClass]="search_class">
+  <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
+      <span class="icon icon-sort" (click)="toggle_sort_mode()"></span>
+      <div class="sort-container">
+        <div class="sort-item" (click)="sort_by(false, 'time')">按时间排序</div>
+        <div class="sort-item" (click)="sort_by(false, 'name')">按名称排序</div>
+        <div class="sort-item" (click)="sort_by(false, 'type')">按类型排序</div>
+      </div>
       <span class="text">{{resource_title}}</span>
       <div class="search-container">
         <span class="icon icon-search" *ngIf="show_search_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
