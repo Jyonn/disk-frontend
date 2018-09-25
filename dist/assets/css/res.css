@@ -179,8 +179,8 @@ div.res div.tab div.resource div.sort-container {
 div.res div.tab div.resource div.sort-container div.sort-item {
   position: relative;
   width: 100%;
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
   font-size: 14px;
   color: #555555;
 }
@@ -226,7 +226,7 @@ div.res div.tab div.resource div.search-container div.search-box span.clear-keyw
   width: 20px;
 }
 div.res div.tab.sorting div.resource div.sort-container {
-  height: 90px;
+  height: 120px;
 }
 div.res div.tab.searching div.resource {
   position: absolute;
@@ -242,6 +242,9 @@ div.res div.tab.searching div.description {
 div.res div.tab.searching div span.text {
   filter: opacity(0);
   visibility: hidden;
+}
+div.res div.tab.selecting {
+  z-index: 2;
 }
 div.res div.tab.selecting div.tab-btn {
   position: relative;

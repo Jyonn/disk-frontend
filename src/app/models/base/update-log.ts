@@ -1,5 +1,14 @@
 export class UpdateLog {
   public static logs = [{
+    time: '180925',
+    version: '3.7.1',
+    updates: [
+      '优化排序框显示，增加行高',
+      '修复多选模式下仍然显示排序按钮的错误',
+      '优化封面图片未加载完成时的黑色显示，以随机纯色封面取代',
+      '支持点击所有者头像时跳转到所有者主目录',
+    ],
+  }, {
     time: '180924',
     version: '3.5.8',
     updates: [

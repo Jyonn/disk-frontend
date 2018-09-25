@@ -25,7 +25,7 @@ export class ResNavComponent {
     public baseService: BaseService,
     public router: Router,
   ) {
-    this.is_showing = false;
+    this.is_showing = true;
   }
 
   get show_mode() {
@@ -67,6 +67,15 @@ export class ResNavComponent {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.router.navigate(['/user', 'profile', 'next', this.router.url]);
+  }
+
+  go_owner_home($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    if (this.resource) {
+      const link = ['/res', this.resource.owner.root_res];
+      this.router.navigate(link);
+    }
   }
 
   get nav_foot_owner() {

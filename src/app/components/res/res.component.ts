@@ -236,16 +236,10 @@ export class ResComponent implements OnInit {
   }
 
   sort_by_name(ra: Resource, rb: Resource) {
-    let res = 0;
-    if (ra.rname > rb.rname) {
-      res = 1;
-    } else if (ra.rname < rb.rname) {
-      res = -1;
-    }
     if (ResComponent.sort_ascend) {
-      return res;
+      return ra.rname.localeCompare(rb.rname, 'zh');
     } else {
-      return -res;
+      return -ra.rname.localeCompare(rb.rname, 'zh');
     }
   }
 

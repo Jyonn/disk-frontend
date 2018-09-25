@@ -16,11 +16,8 @@ export class ResHomeComponent implements OnInit {
 
   jump_user_home(user) {
     if (user) {
-      this.resService.api_get_root_res()
-        .then((resp) => {
-          const link = ['/res', resp.info.res_str_id];
-          this.router.navigate(link);
-        });
+        const link = ['/res', user.root_res];
+        this.router.navigate(link);
     }
   }
 
