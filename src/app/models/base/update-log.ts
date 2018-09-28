@@ -1,5 +1,11 @@
 export class UpdateLog {
   public static logs = [{
+    time: '180928',
+    version: '3.8.0',
+    updates: [
+      '全新logo',
+    ]
+  }, {
     time: '180925',
     version: '3.7.2',
     updates: [
