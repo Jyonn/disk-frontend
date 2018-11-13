@@ -68,14 +68,14 @@ export class ResComponent implements OnInit {
   }
   baseInitResource(resp) {
     this.children = [];
-    this.resource = new Resource(resp.info);
+    this.resource = new Resource(this.baseService, resp.info);
     this.description = this.resource.description;
     if (!this.description && !this.is_mine) {
       this.description = '暂无介绍资料';
     }
     for (const item of resp.child_list) {
       item.parent_str_id = this.resource.res_str_id;
-      const r_child = new Resource(item);
+      const r_child = new Resource(this.baseService, item);
       this.children.push(r_child);
     }
     this.resource_search();
@@ -84,7 +84,7 @@ export class ResComponent implements OnInit {
   }
   initResLose(base_resp) {
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
-    this.resource = new Resource(base_resp.info);
+    this.resource = new Resource(this.baseService, base_resp.info);
     this.description = '无法查看介绍资料';
     this.children = [];
     this.search_list = this.children.concat();
@@ -304,7 +304,7 @@ export class ResComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(resp);
+        this.resource.update(this.baseService, resp);
         this.description = this.resource.description;
         this.footBtnService.foot_btn_active = null;
       });

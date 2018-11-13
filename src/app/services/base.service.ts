@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHandler, HttpHeaders} from "@angular/common/http";
 import {Resp} from "../models/base/resp";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
@@ -80,6 +80,9 @@ export class BaseService {
   del(url: string) {
     BaseService.asyc_working += 1;
     return BaseService.handleHTTP(this.http.delete(this.host + url, this.get_option()));
+  }
+  random_image() {
+    return BaseService.handleHTTP(this.http.get('https://unsplash.6-79.cn/random/info'));
   }
   get is_loading() {
     return BaseService.asyc_working > 0;

@@ -108,7 +108,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: btn.value, description: null, visit_key: null, rname: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(resp);
+        this.resource.update(this.baseService, resp);
       });
   }
 
@@ -163,7 +163,7 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
           .then((resp_) => {
-            this.onUploaded.emit(new Resource(resp_));
+            this.onUploaded.emit(new Resource(this.baseService, resp_));
             this.res_files = null;
             this.footBtnService.foot_btn_active = null;
             this.is_uploading = false;
@@ -194,7 +194,7 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
           .then((resp_) => {
-            this.resource.update(resp_);
+            this.resource.update(this.baseService, resp_);
             // this.res_cover_files = null;
             // this.footBtnService.foot_btn_active = null;
             this.is_modifying = false;
@@ -221,7 +221,7 @@ export class ResOpComponent implements OnInit {
     this.is_uploading = true;
     this.resService.api_create_folder(this.resource.res_str_id, {folder_name: this.folder_name})
       .then((resp) => {
-        this.onUploaded.emit(new Resource((resp)));
+        this.onUploaded.emit(new Resource(this.baseService, resp));
         this.folder_name = null;
         this.footBtnService.foot_btn_active = null;
         this.is_uploading = false;
@@ -244,7 +244,7 @@ export class ResOpComponent implements OnInit {
     this.is_uploading = true;
     this.resService.api_create_link(this.resource.res_str_id, {link_name: this.link_name, link: this.link_url})
       .then((resp) => {
-        this.onUploaded.emit(new Resource((resp)));
+        this.onUploaded.emit(new Resource(this.baseService, resp));
         this.link_name = null;
         this.footBtnService.foot_btn_active = null;
         this.is_uploading = false;
@@ -268,7 +268,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null})
       .then((resp) => {
-        this.resource.update(resp);
+        this.resource.update(this.baseService, resp);
         // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源名成功', type: Info.TYPE_SUCC}));
@@ -291,7 +291,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(resp);
+        this.resource.update(this.baseService, resp);
         this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源访问密码成功', type: Info.TYPE_SUCC}));
@@ -313,7 +313,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
       .then((resp) => {
-        this.resource.update(resp);
+        this.resource.update(this.baseService, resp);
         // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改成功', type: Info.TYPE_SUCC}));

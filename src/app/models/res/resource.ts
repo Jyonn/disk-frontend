@@ -1,5 +1,6 @@
 import {User} from "../user/user";
 import {ClockService} from "../../services/clock.service";
+import {BaseService} from "../../services/base.service";
 
 export class Resource {
   public static ROOT_ID = 1;
@@ -17,12 +18,14 @@ export class Resource {
   public static STYPE_FILE = 4;
   public static STYPE_LINK = 5;
   public static COLORS = [
-    '#cbcbcb',
-    '#e5879c',
-    '#9489e2',
-    '#75cddd',
-    '#e6ab70',
-    '#91dd7a'
+    ['#4CA1AF', '#C4E0E5'],
+    ['#EECDA3', '#EF629F'],
+    ['#4B79A1', '#283E51'],
+    ['#CCCCB2', '#757519'],
+    ['#F1F2B5', '#135058'],
+    ['#6441A5', '#2a0845'],
+    ['#FFA17F', '#00223E'],
+
   ];
 
   res_str_id: number;
@@ -32,6 +35,7 @@ export class Resource {
   sub_type: number;
   description: string;
   cover: string;
+  cover_small: string;
   owner: User;
   parent_str_id: number;
   status: number;
@@ -43,8 +47,11 @@ export class Resource {
   right_bubble: boolean;
   is_secure_env: boolean;
   insecure_parent: string;
+  load_cover: boolean;
+  loaded_class: boolean;
+  is_random: boolean;
 
-  constructor(d: {
+  constructor(baseService: BaseService, d: {
     res_str_id, // 资源唯一随机ID
     rname, // 资源名称
     rtype, // 资源类型（RTYPE_FILE, RTYPE_FOLDER, RTYPE_LINK）
@@ -52,6 +59,7 @@ export class Resource {
     sub_type, // 资源子类型（STYPE_FOLDER, STYPE_IMAGE, STYPE_VIDEO, STYPE_MUSIC, STYPE_FILE, STYPE_LINK）
     description, // 资源介绍
     cover, // 资源封面
+    cover_small,  // 封面缩略图
     owner, // 资源拥有者
     parent_str_id, // 资源所在目录
     status, // 资源加密状态
@@ -70,17 +78,20 @@ export class Resource {
     this.create_time = d.create_time;
     this.selected = false;
     this.is_home = d.is_home;
-    this.update(d);
+    this.update(baseService, d);
   }
 
-  update(d: {rname, cover, status, dlcount, visit_key, description, right_bubble, owner, secure_env}) {
+  update(baseService: BaseService,
+         d: {rname, cover, cover_small, status, dlcount, visit_key, description, right_bubble, owner, secure_env}) {
     this.rname = d.rname;
     this.cover = d.cover;
+    this.cover_small = d.cover_small;
     this.status = d.status;
     this.dlcount = d.dlcount;
     this.visit_key = d.visit_key;
     this.description = d.description;
     this.right_bubble = d.right_bubble;
+
     if (d.owner instanceof User) {
       this.owner = d.owner;
     } else {
@@ -92,6 +103,36 @@ export class Resource {
       this.is_secure_env = false;
       this.insecure_parent = d.secure_env;
     }
+
+    this.load_cover = false;
+    this.loaded_class = false;
+    if (!d.cover) {
+      this.is_random = true;
+      baseService.random_image().then((resp) => {
+        this.cover_small = resp.thumb;
+        this.cover = resp.regular;
+        this.pre_load_cover();
+      });
+    } else {
+      this.is_random = false;
+      this.pre_load_cover();
+    }
+  }
+
+  pre_load_cover() {
+    const cover_load = new Image();
+    const this_ = this;
+    cover_load.src = this.cover;
+    cover_load.onload = function () {
+      this_.load_cover = true;
+      setTimeout(() => {
+        this_.loaded_class = true;
+      }, 1000);
+    };
+  }
+
+  get load_cover_class() {
+    return this.loaded_class ? 'loaded' : '';
   }
 
   get readable_time() {
@@ -114,7 +155,8 @@ export class Resource {
   }
 
   get color() {
-    return Resource.COLORS[(Math.floor(this.create_time) % Resource.COLORS.length)];
+    const index = Math.floor(this.create_time) % Resource.COLORS.length;
+    return `linear-gradient(to bottom left, ${Resource.COLORS[index][0]}, ${Resource.COLORS[index][1]})`;
   }
 
   get chinese_status() {
@@ -177,7 +219,7 @@ export class Resource {
   }
 
   get first_letter() {
-    if (this.cover) {
+    if (!this.is_random) {
       return '';
     } else if (this.is_emoji) {
       return this.rname[0] + this.rname[1];
@@ -187,22 +229,18 @@ export class Resource {
   }
 
   get url_cover() {
-    if (this.cover) {
+    if (!this.is_random) {
       return `url('${this.cover}')`;
     } else {
-      return null;
+      return this.color;
     }
   }
 
   get url_cover_random() {
-    return `url('${this.raw_cover}')`;
-  }
-
-  get raw_cover() {
-    if (this.cover) {
-      return this.cover;
+    if (this.load_cover) {
+      return `url('${this.cover}')`;
     } else {
-      return `https://unsplash.6-79.cn/random/regular?r=${this.create_time}`;
+      return `url('${this.cover_small}')`;
     }
   }
 

@@ -196,6 +196,9 @@ nav div.foot div.share span.warn {
   color: #D04B4B;
 }
 nav div.bg-blur {
+  transition: 0.8s;
+}
+nav div.bg-blur.loaded {
   filter: brightness(70%);
 }
 nav.showing {
