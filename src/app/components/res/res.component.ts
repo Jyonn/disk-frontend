@@ -27,7 +27,7 @@ import {Meta} from "@angular/platform-browser";
   ],
 })
 export class ResComponent implements OnInit {
-  static sort_accord = 'time';
+  static sort_accord = 'name';
   static sort_ascend = true;
 
   path: Array<any>;
