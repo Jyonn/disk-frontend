@@ -82,6 +82,7 @@ export class BaseService {
     return BaseService.handleHTTP(this.http.delete(this.host + url, this.get_option()));
   }
   random_image() {
+    BaseService.asyc_working += 1;
     return BaseService.handleHTTP(this.http.get('https://unsplash.6-79.cn/random/info'));
   }
   get is_loading() {
