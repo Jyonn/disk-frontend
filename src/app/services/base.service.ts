@@ -16,6 +16,7 @@ export class BaseService {
   public short_link_host: string;
   private qn_host: string;
   public is_jumping: boolean;
+
   constructor(
     private http: HttpClient,
   ) {

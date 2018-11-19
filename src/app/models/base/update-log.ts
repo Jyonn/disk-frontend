@@ -1,10 +1,25 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181119',
+    version: '3.9.4',
+    updates: [
+      '修改随机图片事件触发时间',
+      '修改未登录状态的logo和slogan',
+      '添加资源封面缩略图加载前的渐变背景',
+    ],
+  }, {
+    time: '181114',
+    version: '3.9.2',
+    updates: [
+      '优化资源封面显示方式，缩略图模糊',
+      '子资源随机纯色改为随机渐变色',
+    ],
+  }, {
     time: '180928',
     version: '3.8.0',
     updates: [
       '全新logo',
-    ]
+    ],
   }, {
     time: '180925',
     version: '3.7.2',

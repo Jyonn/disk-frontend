@@ -1,5 +1,5 @@
 <nav [ngClass]="show_mode" (click)="switch_show_mode()" xmlns="http://www.w3.org/1999/html">
-  <div class="bg-blur img-fit {{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random, 'background-color': resource?.color}"></div>
+  <div class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
   <div class="content">
     <div class="left-btn">
       <span class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent($event)"></span>

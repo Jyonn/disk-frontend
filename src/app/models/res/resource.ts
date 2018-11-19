@@ -48,6 +48,7 @@ export class Resource {
   is_secure_env: boolean;
   insecure_parent: string;
   load_cover: boolean;
+  load_small_cover: boolean;
   loaded_class: boolean;
   is_random: boolean;
 
@@ -104,6 +105,7 @@ export class Resource {
       this.insecure_parent = d.secure_env;
     }
 
+    this.load_small_cover = false;
     this.load_cover = false;
     this.loaded_class = false;
     if (!d.cover) {
@@ -122,14 +124,21 @@ export class Resource {
   }
 
   pre_load_cover() {
+    const small_cover_load = new Image();
     const cover_load = new Image();
     const this_ = this;
-    cover_load.src = this.cover;
-    cover_load.onload = function () {
-      this_.load_cover = true;
-      setTimeout(() => {
-        this_.loaded_class = true;
-      }, 1000);
+
+    small_cover_load.src = this.cover_small;
+    small_cover_load.onload = function () {
+      this_.load_small_cover = true;
+
+      cover_load.src = this_.cover;
+      cover_load.onload = function () {
+        this_.load_cover = true;
+        setTimeout(() => {
+          this_.loaded_class = true;
+        }, 1000);
+      };
     };
   }
 
@@ -241,8 +250,10 @@ export class Resource {
   get url_cover_random() {
     if (this.load_cover) {
       return `url('${this.cover}')`;
-    } else {
+    } else if (this.load_small_cover) {
       return `url('${this.cover_small}')`;
+    } else {
+      return this.color;
     }
   }
 
