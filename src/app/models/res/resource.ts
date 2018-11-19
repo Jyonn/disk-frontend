@@ -108,11 +108,13 @@ export class Resource {
     this.loaded_class = false;
     if (!d.cover) {
       this.is_random = true;
-      baseService.random_image().then((resp) => {
-        this.cover_small = resp.thumb;
-        this.cover = resp.regular;
-        this.pre_load_cover();
-      });
+      if (baseService) {
+        baseService.random_image().then((resp) => {
+          this.cover_small = resp.thumb;
+          this.cover = resp.regular;
+          this.pre_load_cover();
+        });
+      }
     } else {
       this.is_random = false;
       this.pre_load_cover();

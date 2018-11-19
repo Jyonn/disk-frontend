@@ -20,6 +20,7 @@ import {Meta} from "@angular/platform-browser";
   selector: 'app-res',
   templateUrl: './res.component.html',
   styleUrls: [
+    '../../../assets/css/mywebicon.css',
     '../../../assets/css/icon-fonts.css',
     '../../../assets/css/nav.less',
     '../../../assets/css/footer.less',
@@ -75,7 +76,7 @@ export class ResComponent implements OnInit {
     }
     for (const item of resp.child_list) {
       item.parent_str_id = this.resource.res_str_id;
-      const r_child = new Resource(this.baseService, item);
+      const r_child = new Resource(null, item);
       this.children.push(r_child);
     }
     this.resource_search();
@@ -90,12 +91,12 @@ export class ResComponent implements OnInit {
     this.search_list = this.children.concat();
   }
   initResource() {
-    const vkey = ResourceService.loadVK(this.path);
+    const v_key = ResourceService.loadVK(this.path);
     this.resService.api_get_base_res_info(this.path)
       .then((base_resp) => {
         // console.log(resp);
-        if (base_resp.readable || vkey) {
-          this.resService.api_get_res_info(this.path, {visit_key: vkey})
+        if (base_resp.readable || v_key) {
+          this.resService.api_get_res_info(this.path, {visit_key: v_key})
             .then((resp) => {
               this.baseInitResource(resp);
             })
@@ -304,7 +305,7 @@ export class ResComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(this.baseService, resp);
+        this.resource.update(null, resp);
         this.description = this.resource.description;
         this.footBtnService.foot_btn_active = null;
       });

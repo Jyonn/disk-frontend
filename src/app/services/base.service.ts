@@ -37,6 +37,7 @@ export class BaseService {
   }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;
+    console.error(error);
     return Promise.reject(error);
   }
   private static handleHTTP(o: Observable<Object>) {

@@ -73,7 +73,6 @@ export class ResourceService {
   }
 
   public api_delete_res(path: Array<any>) {
-    const res_str_id = path[path.length - 1];
     const slug = BaseService.path_to_slug(path);
     return this.baseService
       .del(`/api/res/${slug}`);

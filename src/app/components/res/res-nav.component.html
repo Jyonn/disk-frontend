@@ -1,4 +1,4 @@
-<nav [ngClass]="show_mode" (click)="switch_show_mode()">
+<nav [ngClass]="show_mode" (click)="switch_show_mode()" xmlns="http://www.w3.org/1999/html">
   <div class="bg-blur img-fit {{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random, 'background-color': resource?.color}"></div>
   <div class="content">
     <div class="left-btn">
@@ -9,7 +9,7 @@
   </div>
   <div class="title">{{resource?.rname}}</div>
   <div class="foot">
-    <span class="owner">{{nav_foot_owner}}创建于{{resource?.readable_time}}</span>
+    <span class="owner"><strong>{{nav_foot_owner}}</strong>创建于{{resource?.readable_time}}</span>
     <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar || 'https://unsplash.6-79.cn/random/small'}}" (click)="go_owner_home($event)"></div>
     <div class="share">{{resource?.readable_status}}<span class="warn" (click)="show_insecure_info($event)">{{resource?.secure_word}}</span></div>
   </div>

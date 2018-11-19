@@ -108,7 +108,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: btn.value, description: null, visit_key: null, rname: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(this.baseService, resp);
+        this.resource.update(null, resp);
       });
   }
 
@@ -194,7 +194,7 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
           .then((resp_) => {
-            this.resource.update(this.baseService, resp_);
+            this.resource.update(null, resp_);
             // this.res_cover_files = null;
             // this.footBtnService.foot_btn_active = null;
             this.is_modifying = false;
@@ -268,7 +268,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null})
       .then((resp) => {
-        this.resource.update(this.baseService, resp);
+        this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源名成功', type: Info.TYPE_SUCC}));
@@ -291,7 +291,7 @@ export class ResOpComponent implements OnInit {
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null})
       .then((resp) => {
-        this.resource.update(this.baseService, resp);
+        this.resource.update(null, resp);
         this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源访问密码成功', type: Info.TYPE_SUCC}));
@@ -310,15 +310,17 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '资源尚未加载', type: Info.TYPE_WARN}));
     }
     const right_bubble = !this.resource.right_bubble;
+    console.log('start modify');
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
       .then((resp) => {
-        this.resource.update(this.baseService, resp);
+        this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
         BaseService.info_center.next(new Info({text: '修改成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
+        console.log('not modified');
         this.is_modifying = false;
       });
   }
