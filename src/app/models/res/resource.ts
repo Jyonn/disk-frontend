@@ -28,7 +28,7 @@ export class Resource {
 
   ];
 
-  res_str_id: number;
+  res_str_id: string;
   rname: string;
   rtype: number;
   rsize: number;

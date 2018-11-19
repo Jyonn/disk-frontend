@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {User} from "../../models/user/user";
 import {Resource} from "../../models/res/resource";
 import {ClockService} from "../../services/clock.service";
 import {ResourceService} from "../../services/resource.service";
@@ -15,6 +14,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {Meta} from "@angular/platform-browser";
+import {DeleteResItem} from "../../models/res/delete-res-item";
 
 @Component({
   selector: 'app-res',
@@ -43,11 +43,16 @@ export class ResComponent implements OnInit {
   search_mode: boolean;
   tab_mode: string;
 
-  sort_mode: boolean;
+  sort_mode: boolean;  // 排序模式 分为name time type
 
-  visit_key: string;
+  visit_key: string;  // 资源密钥
 
-  description: string;
+  description: string;  // 资源描述
+
+  total_del_num: number;  // 所有待删除的资源数目
+  current_del_num: number;  // 当前正在删除的数目
+  current_path: string;  // 当前删除的路径
+  // is_real_deleting: boolean; // 是否进入删除画面
 
   constructor(
     public baseService: BaseService,
@@ -66,6 +71,9 @@ export class ResComponent implements OnInit {
     this.search_value = null;
     this.search_mode = false;
     this.sort_mode = false;
+    this.current_del_num = 0;
+    this.total_del_num = 0;
+    // this.is_real_deleting = 0;
   }
   baseInitResource(resp) {
     this.children = [];
@@ -125,6 +133,50 @@ export class ResComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(keyword => this.resource_search(keyword));
+
+    this.deleteListHandler();
+  }
+
+  deleteListHandler() {
+  }
+
+  get del_percent() {
+    return Math.floor(this.current_del_num / this.total_del_num * 100) + '%';
+  }
+
+  async recursiveDelete(deleteResList: Array<DeleteResItem>) {
+    for (let index = 0; index < deleteResList.length; index++) {
+      const deleteResItem = deleteResList[index];
+      const resp = await this.resService.api_get_res_info(deleteResItem.path, null);
+      if (resp.info.sub_type === Resource.STYPE_FOLDER) {
+        this.total_del_num += resp.child_list.length;
+        for (let i = 0; i < resp.child_list.length; i++) {
+          const childPath = deleteResItem.path.concat(resp.child_list[i].res_str_id);
+          const childReadablePath = deleteResItem.readablePath + "   /   " + resp.child_list[i].rname;
+          if (resp.child_list[i].sub_type === Resource.STYPE_FOLDER) {
+            await this.recursiveDelete([new DeleteResItem({
+              path: childPath,
+              readablePath: childReadablePath,
+            })]);
+          } else {
+            // console.log(childPath);
+            this.current_del_num += 1;
+            this.current_path = childReadablePath;
+            await this.resService.api_delete_res(childPath);
+            // await this.resService.api_get_base_res_info(childPath);
+          }
+        }
+      }
+      this.current_del_num += 1;
+      this.current_path = deleteResItem.readablePath;
+      await this.resService.api_delete_res(deleteResItem.path);
+      // await this.resService.api_get_base_res_info(deleteResItem.path);
+      // console.log(deleteResItem.path);
+    }
+  }
+
+  get is_real_deleting() {
+    return this.current_del_num < this.total_del_num;
   }
 
   resource_search(keyword: string = null) {
@@ -162,8 +214,40 @@ export class ResComponent implements OnInit {
       }
       this.footBtnService.foot_btn_active = null;
     } else if (help === 'delete') {
-      // TODO: delete
+      const delete_list = [];
+      for (const item of this.search_list) {
+        if (item.selected) {
+          delete_list.push(new DeleteResItem({
+            path: this.path.concat(item.res_str_id),
+            readablePath: this.resource.rname + '   /   ' + item.rname,
+          }));
+        }
+      }
+      // this.is_real_deleting = true;
+      this.footBtnService.foot_btn_active = null;
+      this.start_delete(delete_list, () => {
+        this.resService.api_get_res_info(this.path, null)
+          .then((resp) => {
+            this.baseInitResource(resp);
+          });
+      });
     }
+  }
+
+  start_delete(delete_list: Array<DeleteResItem>, callback) {
+    this.current_del_num = 0;
+    this.total_del_num = delete_list.length;
+    this.recursiveDelete(delete_list)
+      .then(() => {
+        BaseService.info_center.next(new Info({text: '批量删除成功', type: Info.TYPE_SUCC}));
+        if (callback) {
+          callback();
+        }
+      });
+  }
+
+  get active_real_deleting() {
+    return this.is_real_deleting ? 'active' : 'inactive';
   }
 
   go_search(searching: boolean) {
@@ -317,7 +401,10 @@ export class ResComponent implements OnInit {
   }
 
   onDeleted() {
-    this.go_parent();
+    const delete_list = [new DeleteResItem({path: this.path, readablePath: this.resource.rname})];
+    this.start_delete(delete_list, () => {
+      this.go_parent();
+    });
   }
 
   get resource_title() {

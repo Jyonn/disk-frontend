@@ -1,8 +1,9 @@
 export class UpdateLog {
   public static logs = [{
     time: '181119',
-    version: '3.9.4',
+    version: '4.0.0 beta',
     updates: [
+      '支持批量删除资源，使用async-await新特性',
       '修改随机图片事件触发时间',
       '修改未登录状态的logo和slogan',
       '添加资源封面缩略图加载前的渐变背景',

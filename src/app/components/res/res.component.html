@@ -85,6 +85,17 @@
       <!--</div>-->
     </div>
   </div>
+  <div class="content deleting" [ngClass]="active_real_deleting">
+    <div class="deleting-bar">
+      <div class="deleting-process" [ngStyle]="{'width': del_percent}"></div>
+    </div>
+    <div class="center-desc-above">
+      <div class="deleting-text">正在删除…（{{current_del_num}}/{{total_del_num}}）</div>
+    </div>
+    <div class="center-desc-below">
+      <div class="current-delete-res">{{current_path}}</div>
+    </div>
+  </div>
 </div>
 
 <app-res-op [resource]="resource" [path]="path" [tab_mode]="tab_mode" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()"></app-res-op>

@@ -25,7 +25,7 @@ export class ResNavComponent {
     public baseService: BaseService,
     public router: Router,
   ) {
-    this.is_showing = true;
+    this.is_showing = false;
   }
 
   get show_mode() {

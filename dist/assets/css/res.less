@@ -385,6 +385,63 @@ div.res {
       }
     }
   }
+  div.content.deleting.inactive {
+    top: 100%;
+  }
+  div.content.deleting {
+    transition: 0.2s;
+    z-index: 1;
+    @bar-width: 60%;
+    @bar-height: 10px;
+    @bar-border: 2px;
+    div.deleting-bar {
+      position: absolute;
+      width: @bar-width;
+      height: @bar-height;
+      left: calc(~'50% - @{bar-width} / 2');
+      top: calc(~'50% - @{bar-height} / 2 - 10px');
+      border-radius: (@bar-height + @bar-border) / 2;
+      //border: 1px solid rgba(0, 0, 0, 0.5);
+      background: white;
+      border: 2px solid white;
+      box-sizing: content-box;
+      div.deleting-process {
+        transition: 0.2s;
+        height: @bar-height;
+        background: @red;
+        border-radius: @bar-height / 2;
+      }
+    }
+    div.center-desc-above {
+      position: absolute;
+      width: @bar-width;
+      left: calc(~'50% - @{bar-width} / 2');
+      top: calc(~'50% - @{bar-height} / 2 - 30px');
+      div.deleting-text {
+        font-size: 12px;
+        color: @red;
+        font-weight: bold;
+      }
+    }
+    div.center-desc-below {
+      position: absolute;
+      width: @bar-width;
+      left: calc(~'50% - @{bar-width} / 2');
+      top: calc(~'50% + @{bar-height} / 2');
+      div.current-delete-res {
+        direction: rtl;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
+        span {
+          //font-weight: bold;
+          margin: 0 3px;
+        }
+      }
+    }
+  }
 }
 
 div.res.resource {

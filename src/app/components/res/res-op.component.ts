@@ -346,12 +346,13 @@ export class ResOpComponent implements OnInit {
   }
 
   delete_res_action() {
-    this.resService.api_delete_res(this.path)
-      .then((resp) => {
-        BaseService.info_center.next(new Info({text: '删除成功', type: Info.TYPE_SUCC}));
-        this.footBtnService.foot_btn_active = null;
-        this.onDeleted.emit();
-      });
+    this.footBtnService.foot_btn_active = null;
+    this.onDeleted.emit();
+    // this.resService.api_delete_res(this.path)
+    //   .then((resp) => {
+    //     BaseService.info_center.next(new Info({text: '删除成功', type: Info.TYPE_SUCC}));
+    //     this.footBtnService.foot_btn_active = null;
+    //   });
   }
 
   get res_name() {
