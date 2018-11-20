@@ -31,11 +31,11 @@ import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
 
-export class MyHammerConfig extends HammerGestureConfig  {
-  overrides = <any>{
-    'swipe': {velocity: 0.4, threshold: 20} // override default settings
-  };
-}
+// export class MyHammerConfig extends HammerGestureConfig  {
+//   overrides = <any>{
+//     'swipe': {velocity: 0.4, threshold: 20} // override default settings
+//   };
+// }
 
 @NgModule({
   declarations: [
@@ -71,7 +71,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
     ProfileBtnService,
     {
       provide: HAMMER_GESTURE_CONFIG,
-      useClass: MyHammerConfig
+      useClass: HammerGestureConfig
     }
   ],
   bootstrap: [AppComponent]
