@@ -52,7 +52,7 @@ export class ResComponent implements OnInit {
   total_del_num: number;  // 所有待删除的资源数目
   current_del_num: number;  // 当前正在删除的数目
   current_path: string;  // 当前删除的路径
-  // is_real_deleting: boolean; // 是否进入删除画面
+  show_deleting_process: boolean; // 是否进入删除画面
 
   constructor(
     public baseService: BaseService,
@@ -73,7 +73,7 @@ export class ResComponent implements OnInit {
     this.sort_mode = false;
     this.current_del_num = 0;
     this.total_del_num = 0;
-    // this.is_real_deleting = 0;
+    this.show_deleting_process = false;
   }
   baseInitResource(resp) {
     this.children = [];
@@ -133,11 +133,6 @@ export class ResComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(keyword => this.resource_search(keyword));
-
-    this.deleteListHandler();
-  }
-
-  deleteListHandler() {
   }
 
   get del_percent() {
@@ -159,25 +154,31 @@ export class ResComponent implements OnInit {
               readablePath: childReadablePath,
             })]);
           } else {
-            // console.log(childPath);
             this.current_del_num += 1;
+            // console.log(childPath);
             this.current_path = childReadablePath;
-            await this.resService.api_delete_res(childPath);
-            // await this.resService.api_get_base_res_info(childPath);
+            // await this.resService.api_delete_res(childPath);
+            await this.fake_wait();
           }
         }
       }
       this.current_del_num += 1;
       this.current_path = deleteResItem.readablePath;
-      await this.resService.api_delete_res(deleteResItem.path);
-      // await this.resService.api_get_base_res_info(deleteResItem.path);
+      // await this.resService.api_delete_res(deleteResItem.path);
+      await this.fake_wait();
       // console.log(deleteResItem.path);
     }
   }
 
-  get is_real_deleting() {
-    return this.current_del_num < this.total_del_num;
+  fake_wait() {
+    return new Promise((resolve, object) => {
+      setTimeout(() => resolve(), 2000);
+    });
   }
+
+  // get show_deleting_process() {
+  //   return this.current_del_num < this.total_del_num;
+  // }
 
   resource_search(keyword: string = null) {
     if (!keyword) {
@@ -223,7 +224,7 @@ export class ResComponent implements OnInit {
           }));
         }
       }
-      // this.is_real_deleting = true;
+      // this.show_deleting_process = true;
       this.footBtnService.foot_btn_active = null;
       this.start_delete(delete_list, () => {
         this.resService.api_get_res_info(this.path, null)
@@ -235,6 +236,7 @@ export class ResComponent implements OnInit {
   }
 
   start_delete(delete_list: Array<DeleteResItem>, callback) {
+    this.show_deleting_process = true;
     this.current_del_num = 0;
     this.total_del_num = delete_list.length;
     this.recursiveDelete(delete_list)
@@ -243,11 +245,14 @@ export class ResComponent implements OnInit {
         if (callback) {
           callback();
         }
+        setTimeout(() => {
+          this.show_deleting_process = false;
+        }, 300);
       });
   }
 
   get active_real_deleting() {
-    return this.is_real_deleting ? 'active' : 'inactive';
+    return this.show_deleting_process ? 'active' : 'inactive';
   }
 
   go_search(searching: boolean) {
@@ -273,7 +278,13 @@ export class ResComponent implements OnInit {
     this.router.navigate(link);
   }
 
-  go_parent() {
+  go_parent($event = null) {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    if (this.resource.is_home) {
+      return;
+    }
     const link = ['/res', this.path.slice(0, -1).join('-')];
     this.baseService.is_jumping = true;
     this.router.navigate(link);

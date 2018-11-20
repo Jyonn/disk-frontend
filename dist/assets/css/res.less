@@ -385,6 +385,19 @@ div.res {
       }
     }
   }
+  @keyframes animate-shine {
+    0% {
+      opacity: 0;
+      width: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+      width: 100%;
+    }
+  }
   div.content.deleting.inactive {
     top: 100%;
   }
@@ -406,10 +419,21 @@ div.res {
       border: 2px solid white;
       box-sizing: content-box;
       div.deleting-process {
-        transition: 0.2s;
+        position: inherit;
+        transition: 0.5s;
         height: @bar-height;
         background: @red;
         border-radius: @bar-height / 2;
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background: white;
+          animation: animate-shine 2s ease-out infinite;
+        }
       }
     }
     div.center-desc-above {

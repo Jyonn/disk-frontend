@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
@@ -29,6 +30,12 @@ import { ProfileBtnService } from "./services/profile-btn.service";
 import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
+
+export class MyHammerConfig extends HammerGestureConfig  {
+  overrides = <any>{
+    'swipe': {velocity: 0.4, threshold: 20} // override default settings
+  };
+}
 
 @NgModule({
   declarations: [
@@ -62,6 +69,10 @@ import { RefreshComponent } from "./components/user/refresh.component";
     ResourceService,
     FootBtnService,
     ProfileBtnService,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: MyHammerConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

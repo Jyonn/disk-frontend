@@ -440,6 +440,19 @@ div.res div.content.description div.padding-div textarea {
   height: 100%;
   font-size: 14px;
 }
+@keyframes animate-shine {
+  0% {
+    opacity: 0;
+    width: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    width: 100%;
+  }
+}
 div.res div.content.deleting.inactive {
   top: 100%;
 }
@@ -459,10 +472,21 @@ div.res div.content.deleting div.deleting-bar {
   box-sizing: content-box;
 }
 div.res div.content.deleting div.deleting-bar div.deleting-process {
-  transition: 0.2s;
+  position: inherit;
+  transition: 0.5s;
   height: 10px;
   background: #D04B4B;
   border-radius: 5px;
+}
+div.res div.content.deleting div.deleting-bar div.deleting-process:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  animation: animate-shine 2s ease-out infinite;
 }
 div.res div.content.deleting div.center-desc-above {
   position: absolute;

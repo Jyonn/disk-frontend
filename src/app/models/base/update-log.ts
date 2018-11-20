@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181120',
+    version: '4.0.4 beta',
+    updates: [
+      '优化批量删除时的进度条显示',
+      '支持右滑返回父目录',
+    ]
+  }, {
     time: '181119',
     version: '4.0.0 beta',
     updates: [
