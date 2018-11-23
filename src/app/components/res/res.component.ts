@@ -157,15 +157,15 @@ export class ResComponent implements OnInit {
             this.current_del_num += 1;
             // console.log(childPath);
             this.current_path = childReadablePath;
-            // await this.resService.api_delete_res(childPath);
-            await this.fake_wait();
+            await this.resService.api_delete_res(childPath);
+            // await this.fake_wait();
           }
         }
       }
       this.current_del_num += 1;
       this.current_path = deleteResItem.readablePath;
-      // await this.resService.api_delete_res(deleteResItem.path);
-      await this.fake_wait();
+      await this.resService.api_delete_res(deleteResItem.path);
+      // await this.fake_wait();
       // console.log(deleteResItem.path);
     }
   }
