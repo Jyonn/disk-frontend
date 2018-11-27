@@ -31,7 +31,7 @@ export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
 
-  path: Array<any>;
+  path: string;
 
   resource: Resource;
   children: Resource[];
@@ -65,7 +65,7 @@ export class ResComponent implements OnInit {
     private meta: Meta,
   ) {
     this.resource = null;
-    this.path = [];
+    this.path = '';
     this.visit_key = null;
     this.search_list = [];
     this.search_value = null;
@@ -121,7 +121,7 @@ export class ResComponent implements OnInit {
   }
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
-      this.path = params['slug'].split('-');
+      this.path = params['slug'];
 
       this.initResource();
       this.clockService.startClock();
@@ -219,7 +219,7 @@ export class ResComponent implements OnInit {
       for (const item of this.search_list) {
         if (item.selected) {
           delete_list.push(new DeleteResItem({
-            path: this.path.concat(item.res_str_id),
+            path: item.res_str_id,
             readablePath: this.resource.rname + '   /   ' + item.rname,
           }));
         }
@@ -248,6 +248,11 @@ export class ResComponent implements OnInit {
         setTimeout(() => {
           this.show_deleting_process = false;
         }, 300);
+      })
+      .catch(() => {
+        setTimeout(() => {
+          this.show_deleting_process = false;
+        }, 300);
       });
   }
 
@@ -273,7 +278,7 @@ export class ResComponent implements OnInit {
   }
 
   navigate(res_str_id) {
-    const link = ['/res', `${this.path.join('-')}-${res_str_id}`];
+    const link = ['/res', res_str_id];
     this.baseService.is_jumping = true;
     this.router.navigate(link);
   }
@@ -285,7 +290,7 @@ export class ResComponent implements OnInit {
     if (this.resource.is_home) {
       return;
     }
-    const link = ['/res', this.path.slice(0, -1).join('-')];
+    const link = ['/res', this.resource.parent_str_id];
     this.baseService.is_jumping = true;
     this.router.navigate(link);
   }
@@ -306,9 +311,13 @@ export class ResComponent implements OnInit {
     return _foot_btns;
   }
 
+  get show_op_footer() {
+    return this.userService.user && this.resource && this.userService.user.user_id === this.resource.owner.user_id;
+  }
+
   get dl_link() {
-    const slug = BaseService.path_to_slug(this.path);
-    return `${this.baseService.host}/api/res/${slug}/dl?token=${BaseService.token}&visit_key=${this.resource.visit_key}`;
+    return `${this.baseService.host}/api/res/${this.resource.res_str_id}/dl?` +
+      `token=${BaseService.token}&visit_key=${this.resource.visit_key}`;
   }
 
   switch_tab_mode(tm: string) {
@@ -436,8 +445,11 @@ export class ResComponent implements OnInit {
   }
 
   go_login() {
-    // this.router.navigate(['/user', 'login', 'next', this.router.url]);
-    window.location.href = this.userService.oauth_uri + '&state=' + encodeURI(this.router.url);
+    if (this.userService.user) {
+      this.router.navigate(['/res']);
+    } else {
+      window.location.href = this.userService.oauth_uri + '&state=' + encodeURI(this.router.url);
+    }
   }
 
   check_visit_key() {

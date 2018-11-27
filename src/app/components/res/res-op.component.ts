@@ -16,7 +16,7 @@ import {Info} from "../../models/base/info";
 })
 export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
-  @Input() path: Array<any>;
+  @Input() path: string;
   @Input() tab_mode: string;
   @Output() onUploaded = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
@@ -113,7 +113,7 @@ export class ResOpComponent implements OnInit {
   }
 
   get share_show_text() {
-    const url = `${this.baseService.front_host}/res/${BaseService.path_to_slug(this.path)}`;
+    const url = `${this.baseService.front_host}/res/${this.path}`;
     if (!this.resource) {
       return;
     }
@@ -158,7 +158,6 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    console.log(this.file_name);
     this.resService.api_get_upload_token(this.resource.res_str_id, {filename: this.file_name})
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
@@ -310,7 +309,6 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '资源尚未加载', type: Info.TYPE_WARN}));
     }
     const right_bubble = !this.resource.right_bubble;
-    console.log('start modify');
     this.resService.api_modify_res_info(this.path,
       {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
       .then((resp) => {
@@ -320,7 +318,6 @@ export class ResOpComponent implements OnInit {
         BaseService.info_center.next(new Info({text: '修改成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        console.log('not modified');
         this.is_modifying = false;
       });
   }

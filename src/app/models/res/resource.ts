@@ -18,7 +18,7 @@ export class Resource {
   public static STYPE_FILE = 4;
   public static STYPE_LINK = 5;
   public static COLORS = [
-    ['#4CA1AF', '#C4E0E5'],
+    ['#C4E0E5', '#4CA1AF'],
     ['#EECDA3', '#EF629F'],
     ['#4B79A1', '#283E51'],
     ['#CCCCB2', '#757519'],
@@ -128,7 +128,7 @@ export class Resource {
     const cover_load = new Image();
     const this_ = this;
 
-    small_cover_load.src = this.cover_small;
+    small_cover_load.src = this.cover_small || null;
     small_cover_load.onload = function () {
       this_.load_small_cover = true;
 

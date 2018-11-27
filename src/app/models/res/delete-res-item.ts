@@ -1,6 +1,6 @@
 export class DeleteResItem {
   readablePath: string;
-  path: Array<string>;
+  path: string;
 
   constructor(d: {path, readablePath}) {
     this.path = d.path;

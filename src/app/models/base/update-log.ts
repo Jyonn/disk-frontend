@@ -1,5 +1,16 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181127',
+    version: '4.2.0 beta',
+    updates: [
+      '取消slug的资源祖先链设计，改用资源ID定位资源',
+      '修复当删除资源失败时删除界面没有消失的问题',
+      '优化判断用户登录逻辑',
+      '优化蓝白渐变色的先后顺序',
+      '给非目录资源的按钮预留按钮组',
+      '删除2.X版本登录组件等冗余代码',
+    ]
+  }, {
     time: '181120',
     version: '4.0.4 beta',
     updates: [

@@ -23,7 +23,6 @@ import { FootBtnService } from "./services/foot-btn.service";
 import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
-import { LoginComponent } from "./components/user/login.component";
 import { JumpingComponent } from "./components/base/jumping.component";
 import { ProfileComponent } from "./components/user/profile.component";
 import { ProfileBtnService } from "./services/profile-btn.service";
@@ -47,7 +46,6 @@ import { RefreshComponent } from "./components/user/refresh.component";
     LoadingComponent,
     JumpingComponent,
     InfoComponent,
-    LoginComponent,
     ProfileComponent,
     RedirectComponent,
     OauthComponent,

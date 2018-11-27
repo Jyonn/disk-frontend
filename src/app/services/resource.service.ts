@@ -6,16 +6,16 @@ import {Resource} from "../models/res/resource";
 export class ResourceService {
   constructor(private baseService: BaseService) {}
 
-  public static storeVK(path: Array<any>, visit_key) {
-    window.localStorage.setItem(`vk-${path[path.length - 1]}`, visit_key);
+  public static storeVK(path: string, visit_key) {
+    window.localStorage.setItem(`vk-${path}`, visit_key);
   }
 
-  public static loadVK(path: Array<any>) {
-    return window.localStorage.getItem(`vk-${path[path.length - 1]}`);
+  public static loadVK(path: string) {
+    return window.localStorage.getItem(`vk-${path}`);
   }
 
-  public static clearVK(path: Array<any>) {
-    window.localStorage.removeItem(`vk-${path[path.length - 1]}`);
+  public static clearVK(path: string) {
+    window.localStorage.removeItem(`vk-${path}`);
   }
 
   public api_upload_file(key: string, token: string, file: File) {
@@ -37,16 +37,14 @@ export class ResourceService {
       .get(`/api/res/${res_str_id}/cover`, data);
   }
 
-  public api_get_base_res_info(path: Array<any>) {
-    const slug = BaseService.path_to_slug(path);
+  public api_get_base_res_info(path: string) {
     return this.baseService
-      .get(`/api/res/${slug}/base`);
+      .get(`/api/res/${path}/base`);
   }
 
-  public api_get_res_info(path: Array<any>, data: {visit_key: string}) {
-    const slug = BaseService.path_to_slug(path);
+  public api_get_res_info(path: string, data: {visit_key: string}) {
     return this.baseService
-      .get(`/api/res/${slug}`, data);
+      .get(`/api/res/${path}`, data);
   }
 
   public api_get_root_res() {
@@ -64,17 +62,15 @@ export class ResourceService {
       .post(`/api/res/${res_str_id}/link`, data);
   }
 
-  public api_modify_res_info(path: Array<any>,
+  public api_modify_res_info(path: string,
                              data: {rname: string, status: number, description: string, visit_key: string, right_bubble: boolean}) {
     // const res_str_id = path[path.length - 1];
-    const slug = BaseService.path_to_slug(path);
     return this.baseService
-      .put(`/api/res/${slug}`, data);
+      .put(`/api/res/${path}`, data);
   }
 
-  public api_delete_res(path: Array<any>) {
-    const slug = BaseService.path_to_slug(path);
+  public api_delete_res(path: string) {
     return this.baseService
-      .del(`/api/res/${slug}`);
+      .del(`/api/res/${path}`);
   }
 }

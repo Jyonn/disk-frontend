@@ -381,11 +381,12 @@ div.res div.content.resource div.file-size {
   top: calc(60% + 14px);
   text-align: center;
 }
-div.res div.content.resource div.round-btn {
+div.res div.content.resource div.btn-box {
   position: absolute;
-  bottom: 0;
-  left: calc(50% - 70px / 2);
   top: calc(60% + 50px);
+  left: 0;
+  width: 100%;
+  text-align: center;
 }
 div.res div.content.resource div.suggestion-box {
   position: relative;
