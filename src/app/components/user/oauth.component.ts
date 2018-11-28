@@ -38,6 +38,9 @@ export class OauthComponent implements OnInit {
                 this.router.navigate(['/res', user.root_res]);
               }
             });
+        })
+        .catch((resp) => {
+          console.log(resp);
         });
     });
   }

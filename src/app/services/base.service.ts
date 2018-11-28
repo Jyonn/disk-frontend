@@ -10,6 +10,7 @@ export class BaseService {
   public static asyc_working = 0;
   public static info_center = new Subject<Info>();
   public static token: string = null;
+  public static relogin_warn = '应用权限变更，需要重新授权';
   // public static token_center = new Subject<string>();
   public front_host: string;
   public host: string;

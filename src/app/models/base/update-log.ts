@@ -1,5 +1,11 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181128',
+    version: '4.2.1 beta',
+    updates: [
+      '增加对应用权限的检查，以及需要重新授权的判断和跳转',
+    ]
+  }, {
     time: '181127',
     version: '4.2.0 beta',
     updates: [
