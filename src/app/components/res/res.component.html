@@ -104,7 +104,9 @@
 
 <app-res-op [resource]="resource" [path]="path" [tab_mode]="tab_mode" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()"></app-res-op>
 
-<footer *ngIf="show_op_footer">
+<footer></footer>
+
+<footer *ngIf="show_op_footer" (swiperight)="footer_swipe($event)" (swipeleft)="footer_swipe($event)" [ngStyle]="{marginLeft: margin_left + 'px'}">
   <div *ngFor="let foot_btn of foot_btns"
        class="btn"
        [ngClass]="footBtnService.is_active(foot_btn)"

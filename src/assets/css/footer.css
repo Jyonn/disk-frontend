@@ -75,8 +75,9 @@ footer div.btn.active span.text {
   }
 }
 footer {
-  width: 100%;
+  width: max-content;
   height: 56px;
+  min-width: 100%;
 }
 .round-btn {
   width: 70px;
@@ -117,11 +118,13 @@ footer {
 footer {
   position: fixed;
   left: 0;
-  width: 100%;
+  width: max-content;
   bottom: 0;
   height: 56px;
   background: #2699FB;
+  white-space: nowrap;
   text-align: center;
+  transition: ease-in-out 0.2s;
 }
 footer div.btn {
   display: inline-block;

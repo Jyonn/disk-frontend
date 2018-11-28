@@ -15,6 +15,7 @@ import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {Meta} from "@angular/platform-browser";
 import {DeleteResItem} from "../../models/res/delete-res-item";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-res',
@@ -30,6 +31,7 @@ import {DeleteResItem} from "../../models/res/delete-res-item";
 export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
+  static icon_width = 66;
 
   path: string;
 
@@ -54,6 +56,8 @@ export class ResComponent implements OnInit {
   current_path: string;  // 当前删除的路径
   show_deleting_process: boolean; // 是否进入删除画面
 
+  margin_left: number;
+
   constructor(
     public baseService: BaseService,
     public userService: UserService,
@@ -74,6 +78,7 @@ export class ResComponent implements OnInit {
     this.current_del_num = 0;
     this.total_del_num = 0;
     this.show_deleting_process = false;
+    this.margin_left = 0;
   }
   baseInitResource(resp) {
     this.children = [];
@@ -133,6 +138,28 @@ export class ResComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe(keyword => this.resource_search(keyword));
+    Observable.fromEvent(window, 'resize')
+      .debounceTime(300)
+      .subscribe(() => {
+        this.do_swipe(0);
+      });
+  }
+
+  do_swipe(delta) {
+    const total_width = Math.max(this.foot_btns.length * ResComponent.icon_width, window.innerWidth);
+    let margin_left = this.margin_left + delta;
+    if (margin_left > 0) {
+      margin_left = 0;
+    }
+    if (-margin_left + window.innerWidth > total_width) {
+      margin_left = window.innerWidth - total_width;
+    }
+    this.margin_left = margin_left;
+  }
+
+  footer_swipe($event) {
+    const delta = $event.deltaX * 2;
+    this.do_swipe(delta);
   }
 
   get del_percent() {

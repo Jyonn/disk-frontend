@@ -73,8 +73,9 @@ div.operation-block div.container div.radio-list div.radio-btn span.icon {
   }
 }
 footer {
-  width: 100%;
+  width: max-content;
   height: 56px;
+  min-width: 100%;
 }
 .round-btn {
   width: 70px;

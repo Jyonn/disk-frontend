@@ -68,8 +68,9 @@ div.container div.main-container div.form-box {
   }
 }
 footer {
-  width: 100%;
+  width: max-content;
   height: 56px;
+  min-width: 100%;
 }
 .round-btn {
   width: 70px;

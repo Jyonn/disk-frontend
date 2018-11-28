@@ -9,16 +9,19 @@
 footer {
   position: fixed;
   left: 0;
-  width: 100%;
+  width: max-content;
   bottom: 0;
   height: @footer-height;
   background: @footer-bg;
+  white-space: nowrap;
 
   text-align: center;
+  transition: ease-in-out 0.2s;
 
   div.btn {
     &:extend(.ptr);
     display: inline-block;
+    //display: table-cell;
     line-height: @footer-height;
     vertical-align: middle;
     margin: 0 5px;
