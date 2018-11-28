@@ -4,6 +4,7 @@ export class UpdateLog {
     version: '4.2.1 beta',
     updates: [
       '增加对应用权限的检查，以及需要重新授权的判断和跳转',
+      '修复无法删除的错误',
     ]
   }, {
     time: '181127',

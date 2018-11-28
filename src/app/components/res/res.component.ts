@@ -146,7 +146,7 @@ export class ResComponent implements OnInit {
       if (resp.info.sub_type === Resource.STYPE_FOLDER) {
         this.total_del_num += resp.child_list.length;
         for (let i = 0; i < resp.child_list.length; i++) {
-          const childPath = deleteResItem.path.concat(resp.child_list[i].res_str_id);
+          const childPath = resp.child_list[i].res_str_id;
           const childReadablePath = deleteResItem.readablePath + "   /   " + resp.child_list[i].rname;
           if (resp.child_list[i].sub_type === Resource.STYPE_FOLDER) {
             await this.recursiveDelete([new DeleteResItem({
