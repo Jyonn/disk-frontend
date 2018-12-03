@@ -20,10 +20,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-back:before {
+.icon-tips:before {
   content: "\e900";
 }
-.icon-box:before {
+.icon-back:before {
   content: "\e901";
 }
 .icon-check:before {
@@ -32,78 +32,69 @@
 .icon-collapse:before {
   content: "\e903";
 }
-.icon-copy:before {
+.icon-delete:before {
   content: "\e904";
 }
-.icon-delete:before {
+.icon-down:before {
   content: "\e905";
 }
-.icon-down:before {
+.icon-file:before {
   content: "\e906";
 }
-.icon-download:before {
+.icon-folder:before {
   content: "\e907";
 }
-.icon-file:before {
+.icon-image:before {
   content: "\e908";
 }
-.icon-folder:before {
+.icon-like:before {
   content: "\e909";
 }
-.icon-image:before {
+.icon-link:before {
   content: "\e90a";
 }
-.icon-like:before {
+.icon-modify:before {
   content: "\e90b";
 }
-.icon-link:before {
+.icon-movie:before {
   content: "\e90c";
 }
-.icon-locked:before {
+.icon-music:before {
   content: "\e90d";
 }
-.icon-modify:before {
+.icon-play:before {
   content: "\e90e";
 }
-.icon-video:before {
+.icon-search:before {
   content: "\e90f";
 }
-.icon-music:before {
+.icon-select:before {
   content: "\e910";
 }
-.icon-play:before {
+.icon-setting:before {
   content: "\e911";
 }
-.icon-search:before {
+.icon-share:before {
   content: "\e912";
 }
-.icon-select:before {
+.icon-sort:before {
   content: "\e913";
 }
-.icon-setting:before {
+.icon-toggleoff:before {
   content: "\e914";
 }
-.icon-share:before {
+.icon-toggleon:before {
   content: "\e915";
 }
-.icon-sort:before {
+.icon-uncheck:before {
   content: "\e916";
 }
-.icon-toggleoff:before {
+.icon-unlike:before {
   content: "\e917";
 }
-.icon-toggleon:before {
+.icon-unlogin:before {
   content: "\e918";
 }
-.icon-uncheck:before {
-  content: "\e919";
-}
-.icon-unlike:before {
-  content: "\e91a";
-}
-.icon-unlogin:before {
-  content: "\e91b";
-}
 .icon-upload:before {
-  content: "\e91c";
+  content: "\e919";
 }

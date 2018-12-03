@@ -323,7 +323,7 @@ export class ResComponent implements OnInit {
   get foot_btns() {
     const _foot_btns = [];
     for (const foot_btn of this.footBtnService.foot_btn_list) {
-      if (this.resource) {
+      if (this.resource && !foot_btn.hide) {
         if ((this.resource.is_folder && foot_btn.folder) ||
           (!this.resource.is_folder && foot_btn.file)) {
           if (foot_btn === this.footBtnService.foot_btn_delete && this.resource.is_home) {

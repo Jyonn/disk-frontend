@@ -3,6 +3,7 @@ export class FootBtn {
   text: string;
   file: boolean;
   folder: boolean;
+  hide: boolean;
   mask: boolean;
 
   constructor(d: {icon, text, file, folder, mask}) {
