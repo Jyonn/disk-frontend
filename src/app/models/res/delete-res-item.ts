@@ -1,9 +1,9 @@
 export class DeleteResItem {
-  readablePath: string;
-  path: string;
+  readable_path: string;
+  res_id: string;
 
-  constructor(d: {path, readablePath}) {
-    this.path = d.path;
-    this.readablePath = d.readablePath;
+  constructor(d: {res_str_id, readable_path}) {
+    this.res_id = d.res_str_id;
+    this.readable_path = d.readable_path;
   }
 }

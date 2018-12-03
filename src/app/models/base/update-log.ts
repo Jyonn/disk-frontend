@@ -1,5 +1,15 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181203',
+    version: '4.3.0 beta',
+    updates: [
+      '优化操作界面，绝对布局替换为相对布局',
+      '优化单选条样式，优化按钮样式',
+      '支持资源封面类型选择',
+      '子资源列表不再返回封面原图，节省流量',
+      '优化代码结构，统一代码风格',
+    ]
+  }, {
     time: '181128',
     version: '4.2.4 beta',
     updates: [

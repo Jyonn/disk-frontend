@@ -16,7 +16,7 @@ import {Info} from "../../models/base/info";
 })
 export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
-  @Input() path: string;
+  @Input() res_str_id: string;
   @Input() tab_mode: string;
   @Output() onUploaded = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
@@ -39,6 +39,14 @@ export class ResOpComponent implements OnInit {
   upload_link: RadioBtn;
   upload_btns: Array<RadioBtn>;
   upload_active: number;
+
+  // foot btn modify
+  cover_random: RadioBtn;
+  cover_upload: RadioBtn;
+  cover_father: RadioBtn;
+  cover_outlnk: RadioBtn;
+  cover_btns: Array<RadioBtn>;
+
   res_files: FileList;
   file_name: string;
   folder_name: string;
@@ -89,8 +97,32 @@ export class ResOpComponent implements OnInit {
     this.is_uploading = false;
   }
 
+  initCover() {
+    this.cover_random = new RadioBtn({
+      text: '随机图片',
+      value: Resource.COVER_RANDOM,
+    });
+    this.cover_upload = new RadioBtn({
+      text: '本地上传',
+      value: Resource.COVER_UPLOAD,
+    });
+    this.cover_father = new RadioBtn({
+      text: '与父目录相同',
+      value: Resource.COVER_FATHER,
+    });
+    this.cover_outlnk = new RadioBtn({
+      text: '外部链接',
+      value: Resource.COVER_OUTLNK,
+    });
+    this.cover_btns = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk];
+  }
+
   initModify() {
     this.is_modifying = false;
+  }
+
+  b2s(b: boolean) {
+    return b ? 'active' : 'inactive';
   }
 
   is_active(foot_btn_str: string, btn: RadioBtn) {
@@ -98,6 +130,8 @@ export class ResOpComponent implements OnInit {
       return this.resource && this.resource.status === btn.value;
     } else if (foot_btn_str === 'upload') {
       return this.upload_active === btn.value;
+    } else if (foot_btn_str === 'cover') {
+      return this.resource && this.resource.cover_type === btn.value;
     }
   }
 
@@ -105,15 +139,38 @@ export class ResOpComponent implements OnInit {
     if (this.resource.status === btn.value) {
       return;
     }
-    this.resService.api_modify_res_info(this.path,
+    this.resService.modify_res_info(this.res_str_id,
       {status: btn.value, description: null, visit_key: null, rname: null, right_bubble: null})
       .then((resp) => {
         this.resource.update(null, resp);
       });
   }
 
+  cover_type_change(btn: RadioBtn) {
+    if (this.resource.cover_type === btn.value) {
+      return;
+    }
+    // 只有random 和 father才立即修改
+    if (btn.value !== Resource.COVER_FATHER && btn.value !== Resource.COVER_RANDOM) {
+      this.resource.cover_type = btn.value;
+      return;
+    }
+
+    if (btn.value === Resource.COVER_FATHER && this.resource.is_home) {
+      BaseService.info_center.next(new Info({text: '根目录无法设置封面与父目录一致', type: Info.TYPE_WARN}));
+      return;
+    }
+
+    this.resService.modify_res_cover(this.res_str_id,
+      {cover: '', cover_type: btn.value})
+      .then((resp) => {
+        this.resource.update(this.baseService, resp);
+        BaseService.info_center.next(new Info({text: '更新封面成功', type: Info.TYPE_SUCC}));
+      });
+  }
+
   get share_show_text() {
-    const url = `${this.baseService.front_host}/res/${this.path}`;
+    const url = `${this.baseService.front_host}/res/${this.res_str_id}`;
     if (!this.resource) {
       return;
     }
@@ -127,7 +184,7 @@ export class ResOpComponent implements OnInit {
   }
 
   get share_direct_link() {
-    const res_str_id = this.path;
+    const res_str_id = this.res_str_id;
     return `${this.baseService.short_link_host}/${res_str_id}`;
   }
 
@@ -158,7 +215,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.api_get_upload_token(this.resource.res_str_id, {filename: this.file_name})
+    this.resService.get_upload_token(this.resource.res_str_id, {filename: this.file_name})
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
           .then((resp_) => {
@@ -189,12 +246,12 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_modifying = true;
-    this.resService.api_get_cover_token(this.resource.res_str_id, {filename: res_cover})
+    this.resService.get_cover_token(this.res_str_id, {filename: res_cover})
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
           .then((resp_) => {
             this.resource.update(null, resp_);
-            // this.res_cover_files = null;
+            this.res_cover_files = null;
             // this.footBtnService.foot_btn_active = null;
             this.is_modifying = false;
             BaseService.info_center.next(new Info({text: '更新封面成功', type: Info.TYPE_SUCC}));
@@ -208,6 +265,20 @@ export class ResOpComponent implements OnInit {
       });
   }
 
+  modify_res_cover_link() {
+    const res_cover = this.res_cover_value;
+    if (!res_cover) {
+      BaseService.info_center.next(new Info({text: '外部链接不能为空', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.resService.modify_res_cover(this.res_str_id,
+      {cover: res_cover, cover_type: Resource.COVER_OUTLNK})
+      .then((resp) => {
+        this.resource.update(this.baseService, resp);
+        BaseService.info_center.next(new Info({text: '更新封面为外部链接', type: Info.TYPE_SUCC}));
+      });
+  }
+
   create_folder_action() {
     if (this.is_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
@@ -218,7 +289,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.api_create_folder(this.resource.res_str_id, {folder_name: this.folder_name})
+    this.resService.create_folder(this.resource.res_str_id, {folder_name: this.folder_name})
       .then((resp) => {
         this.onUploaded.emit(new Resource(this.baseService, resp));
         this.folder_name = null;
@@ -241,7 +312,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_uploading = true;
-    this.resService.api_create_link(this.resource.res_str_id, {link_name: this.link_name, link: this.link_url})
+    this.resService.create_link(this.resource.res_str_id, {link_name: this.link_name, link: this.link_url})
       .then((resp) => {
         this.onUploaded.emit(new Resource(this.baseService, resp));
         this.link_name = null;
@@ -264,7 +335,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_modifying = true;
-    this.resService.api_modify_res_info(this.path,
+    this.resService.modify_res_info(this.res_str_id,
       {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null})
       .then((resp) => {
         this.resource.update(null, resp);
@@ -287,7 +358,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.is_modifying = true;
-    this.resService.api_modify_res_info(this.path,
+    this.resService.modify_res_info(this.res_str_id,
       {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null})
       .then((resp) => {
         this.resource.update(null, resp);
@@ -309,7 +380,7 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '资源尚未加载', type: Info.TYPE_WARN}));
     }
     const right_bubble = !this.resource.right_bubble;
-    this.resService.api_modify_res_info(this.path,
+    this.resService.modify_res_info(this.res_str_id,
       {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
       .then((resp) => {
         this.resource.update(null, resp);
@@ -345,11 +416,20 @@ export class ResOpComponent implements OnInit {
   delete_res_action() {
     this.footBtnService.foot_btn_active = null;
     this.onDeleted.emit();
-    // this.resService.api_delete_res(this.path)
-    //   .then((resp) => {
-    //     BaseService.info_center.next(new Info({text: '删除成功', type: Info.TYPE_SUCC}));
-    //     this.footBtnService.foot_btn_active = null;
-    //   });
+  }
+
+  get res_cover_value() {
+    if (this.resource) {
+      return this.resource.cover_for_outlnk;
+    } else {
+      return null;
+    }
+  }
+
+  set res_cover_value(c: string) {
+    if (this.resource) {
+      this.resource.cover_for_outlnk = c;
+    }
   }
 
   get res_name() {
@@ -405,13 +485,6 @@ export class ResOpComponent implements OnInit {
     BaseService.info_center.next({text: this.resource.secure_info, type: Info.TYPE_WARN});
   }
 
-  get right_bubble_class() {
-    if (!this.resource) {
-      return '';
-    }
-    return this.resource.right_bubble ? 'icon-toggleon' : 'icon-toggleoff';
-  }
-
   get right_bubble_text() {
     if (!this.resource) {
       return null;
@@ -426,6 +499,7 @@ export class ResOpComponent implements OnInit {
   ngOnInit() {
     this.initShare();
     this.initUpload();
+    this.initCover();
     this.initModify();
   }
 }

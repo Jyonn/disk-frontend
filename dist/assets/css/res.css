@@ -373,6 +373,10 @@ div.res div.content.resource div.file-name {
   top: calc(60% - 10px);
   width: 100%;
   text-align: center;
+  padding: 0 5%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 div.res div.content.resource div.file-size {
   position: absolute;

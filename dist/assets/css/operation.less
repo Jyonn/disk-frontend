@@ -17,6 +17,9 @@
 @op-input-width: calc(~'100% - @{op-title-padding} * 2 - 60px - @{round-btn-width} - 10px');
 @op-ele-margin: 20px;
 
+@container-lr-padding: 5%;
+@container-ele-margin: 10px;
+
 div.operation-block {
   &:extend(.animate);
   position: fixed;
@@ -36,17 +39,23 @@ div.operation-block {
   div.container.long {
     height: @op-container-height-long;
   }
-  div.container {
-    &:extend(.animate);
+  div.flex-container {
     position: absolute;
     left: 0;
     width: 100%;
-    height: @op-container-height;
+    bottom: 0;
     background: white;
+    height: max-content;
+    padding: 16px @container-lr-padding 30px;
+    max-height: calc(~'100vh - @{footer-height}');
+    overflow-y: scroll;
+    .animate();
     div.title-box {
-      position: absolute;
-      top: 16px;
-      left: @op-title-padding;
+      //margin-top: 16px;
+      //margin-left: @op-title-padding;
+      white-space: nowrap;
+      overflow-x: scroll;
+      margin-bottom: @container-ele-margin;
       div.title {
         display: inline-flex;
         color: @op-title-color;
@@ -73,112 +82,138 @@ div.operation-block {
         display: inline-flex;
       }
     }
-    div.first {
-      top: 54px;
-    }
-    div.second {
-      top: 90px;
-    }
-    div.third {
-      top: 126px;
-    }
-    div.radio-list {
-      position: absolute;
-      left: @op-content-padding;
-      height: @radio-list-height;
-      div.radio-btn {
-        &:extend(.ptr);
+    div.choose-bar {
+      width: 100%;
+      font-size: 0;
+      white-space: nowrap;
+      overflow-x: scroll;
+      text-align: right;
+      margin-bottom: @container-ele-margin;
+      user-select: none;
+      div.choose-item {
+        .ptr();
+        .animate();
+        position: relative;
         display: inline-block;
-        margin-right: 10px;
-        span.icon {
-          &:extend(.animate);
-          line-height: @radio-list-height;
-          vertical-align: middle;
-          font-size: 20px;
-        }
-        span.text {
-          line-height: @radio-list-height;
-          vertical-align: middle;
-          font-size: 14px;
-        }
+        font-size: 14px;
+        padding: 2px 12px;
+        border-bottom: 1px solid @blue;
       }
-      div.radio-btn.active {
-        span {
-          color: @active-check-btn;
-        }
+      div.choose-item.inactive {
+        color: @gray;
       }
-      div.radio-btn.inactive {
-        span {
+      div.choose-item.active {
+        color: white;
+        background: @blue;
+      }
+    }
+    div.input-box {
+      width: 100%;
+      margin-top: @container-ele-margin;
+      overflow-y: hidden;
+      .animate();
+      max-height: 200px;
+      div.title {
+        border-left: 3px solid @blue;
+        color: @blue;
+        font-size: 14px;
+        padding-left: 8px;
+        margin-bottom: 8px;
+      }
+      @input-btn-line-height: 30px;
+      div.input-btn-line {
+        position: relative;
+        font-size: 0;
+        width: 100%;
+        height: @input-btn-line-height;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 10px;
+        input {
+          border-top-left-radius: @input-btn-line-height / 2;
+          border-bottom-left-radius: @input-btn-line-height / 2;
+          display: inline-block;
+          height: @input-btn-line-height;
+          border: 1px solid @inactive-check-btn;
+          border-right: none;
+          color: @adverse-text;
+          .animate();
+          padding: 0 @input-btn-line-height / 2;
+          font-size: 12px;
+          width: stretch;
+          outline: none;
+          &:hover, &:focus {
+            border: 1px solid @active-check-btn;
+            border-right: none;
+          }
+        }
+        input[readonly] {
           color: @inactive-check-btn;
         }
-      }
-    }
-    div.ele-box.long-btn {
-      input {
-        width: calc(~'100% - @{round-btn-width-long} - @{op-ele-margin}');
-      }
-    }
-    div.ele-box {
-      position: absolute;
-      left: @op-content-padding;
-      width: @op-ele-box-width;
-      height: @op-ele-box-height;
-      input {
-        width: calc(~'100% - @{round-btn-width} - @{op-ele-margin}');
-        left: 0;
-        height: @op-ele-box-height;
-        border-radius: 15px;
-        border: 1px solid @inactive-check-btn;
-        padding: 0 15px;
-        color: @adverse-text;
-        &:hover, &:focus {
-          border: 1px solid @active-check-btn;
+        input[type='file'] {
+          display: none;
+        }
+        div.btn {
+          font-size: 14px;
+          display: inline-block;
+          .ptr();
+          height: @input-btn-line-height;
+          line-height: @input-btn-line-height;
+          vertical-align: middle;
+          padding: 0 20px;
+          text-align: center;
+          white-space: nowrap;
+          width: fit-content;
+          background: @cancel-bg;
+          color: white;
+          letter-spacing: 1px;
+          .animate();
+        }
+        div.btn.action {
+          background: @purple;
+        }
+        div.btn.succ {
+          background: @blue;
+        }
+        div.btn.warn {
+          background: @red;
+        }
+        *:last-child {
+          border-top-right-radius: @input-btn-line-height / 2;
+          border-bottom-right-radius: @input-btn-line-height / 2;
+          border: 1px solid @inactive-check-btn;
+          &:hover, &:focus {
+            border: 1px solid @active-check-btn;
+          }
+        }
+        *:first-child {
+          border-top-left-radius: @input-btn-line-height / 2;
+          border-bottom-left-radius: @input-btn-line-height / 2;
+        }
+        div:last-child {
+          border: none;
+          &:hover, &:focus {
+            border: none;
+          }
         }
       }
-      input[readonly] {
-        color: @inactive-check-btn;
-      }
-      input[type='file'] {
-        filter: opacity(0);
-        position: absolute;
-        top: 0;
-      }
-      div.round-btn {
-        float: right;
-        margin-left: @op-ele-margin;
-      }
-      div.round-btn.sub {
-      }
-      span {
-        color: @blue;
-      }
-      span.text {
-        margin-left: 15px;
-        font-size: 14px;
-        line-height: @op-ele-box-height;
-        vertical-align: middle;
-        font-weight: bold;
-      }
-      span.icon {
-        margin-left: 20px;
-        font-size: 30px;
-        line-height: @op-ele-box-height;
-        vertical-align: middle;
+      div.input-btn-line.right {
+        justify-content: flex-end;
       }
     }
-    div.delete-text {
-      position: absolute;
-      left: @op-content-padding;
-      height: @radio-list-height;
-      font-size: 14px;
-      color: @active-check-btn;
+    div.input-box.inactive {
+      max-height: 0px;
+      margin: 0px;
+      overflow-y: hidden;
+      filter: opacity(0);
     }
   }
-  div.container.active {
+  div.flex-container.active {
     bottom: 0;
   }
-  div.container.inactive {
-    bottom: -@op-container-height-long;
+  div.flex-container.inactive {
+    bottom: calc(~'-100vh + @{footer-height}');;
   }
 }
 

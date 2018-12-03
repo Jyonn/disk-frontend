@@ -17,6 +17,10 @@ export class Resource {
   public static STYPE_MUSIC = 3;
   public static STYPE_FILE = 4;
   public static STYPE_LINK = 5;
+  public static COVER_RANDOM = 0;
+  public static COVER_UPLOAD = 1;
+  public static COVER_FATHER = 2;
+  public static COVER_OUTLNK = 3;
   public static COLORS = [
     ['#C4E0E5', '#4CA1AF'],
     ['#EECDA3', '#EF629F'],
@@ -30,12 +34,15 @@ export class Resource {
 
   res_str_id: string;
   rname: string;
+  former_rname: string;
   rtype: number;
   rsize: number;
   sub_type: number;
   description: string;
   cover: string;
   cover_small: string;
+  cover_type: number;
+  cover_for_outlnk: string;
   owner: User;
   parent_str_id: number;
   status: number;
@@ -61,6 +68,7 @@ export class Resource {
     description, // 资源介绍
     cover, // 资源封面
     cover_small,  // 封面缩略图
+    cover_type, // 封面类型（COVER_UOLOAD, COVER_FATHER, COVER_OUTLNK）
     owner, // 资源拥有者
     parent_str_id, // 资源所在目录
     status, // 资源加密状态
@@ -83,10 +91,13 @@ export class Resource {
   }
 
   update(baseService: BaseService,
-         d: {rname, cover, cover_small, status, dlcount, visit_key, description, right_bubble, owner, secure_env}) {
+         d: {rname, cover, cover_small, cover_type, status, dlcount, visit_key, description, right_bubble, owner, secure_env}) {
     this.rname = d.rname;
+    this.former_rname = d.rname;
     this.cover = d.cover;
+    this.cover_type = d.cover_type;
     this.cover_small = d.cover_small;
+    this.cover_for_outlnk = d.cover_type === Resource.COVER_OUTLNK ? d.cover : null;
     this.status = d.status;
     this.dlcount = d.dlcount;
     this.visit_key = d.visit_key;
@@ -108,7 +119,7 @@ export class Resource {
     this.load_small_cover = false;
     this.load_cover = false;
     this.loaded_class = false;
-    if (!d.cover) {
+    if (!d.cover_small || d.cover_small === '' || d.cover_type === Resource.COVER_RANDOM) {
       this.is_random = true;
       if (baseService) {
         baseService.random_image().then((resp) => {
@@ -128,17 +139,19 @@ export class Resource {
     const cover_load = new Image();
     const this_ = this;
 
-    small_cover_load.src = this.cover_small || null;
+    small_cover_load.src = this.cover_small;
     small_cover_load.onload = function () {
       this_.load_small_cover = true;
 
-      cover_load.src = this_.cover;
-      cover_load.onload = function () {
-        this_.load_cover = true;
-        setTimeout(() => {
-          this_.loaded_class = true;
-        }, 1000);
-      };
+      if (this_.cover) {
+        cover_load.src = this_.cover;
+        cover_load.onload = function () {
+          this_.load_cover = true;
+          setTimeout(() => {
+            this_.loaded_class = true;
+          }, 1000);
+        };
+      }
     };
   }
 
@@ -242,6 +255,14 @@ export class Resource {
   get url_cover() {
     if (!this.is_random) {
       return `url('${this.cover}')`;
+    } else {
+      return this.color;
+    }
+  }
+
+  get url_cover_small() {
+    if (!this.is_random) {
+      return `url('${this.cover_small}')`;
     } else {
       return this.color;
     }

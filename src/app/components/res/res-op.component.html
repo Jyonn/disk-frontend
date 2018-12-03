@@ -1,95 +1,136 @@
-<div class="operation-block" [ngClass]="active_block ? 'active' : 'inactive'">
+<div class="operation-block" [ngClass]="b2s(active_block)">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
-  <div class="container" [ngClass]="[footBtnService.active_share, is_protect ? 'long' : '', is_public ? 'long' : '']">
+  <div class="flex-container" [ngClass]="[footBtnService.active_share]">
     <div class="title-box">
       <div class="title">分享资源<span *ngIf="resource && !resource.is_secure_env" class="warn" (click)="show_insecure_info()">（风险提示？）</span></div>
       <app-loading></app-loading>
     </div>
-    <div class="radio-list first">
-      <div class="radio-btn"
+    <div class="choose-bar">
+      <div class="choose-item"
            *ngFor="let btn of share_btns"
-           [ngClass]="is_active('share', btn) ? 'active' : 'inactive'"
-           (click)="share_status_change(btn)">
-        <span class="icon" [ngClass]="is_active('share', btn) ? 'icon-check' : 'icon-uncheck'"></span>
-        <span class="text">{{btn.text}}</span>
+           [ngClass]="b2s(is_active('share', btn))"
+           (click)="share_status_change(btn)">{{btn.text}}</div>
+    </div>
+    <div class="input-box">
+      <div class="title">分享本页面链接</div>
+      <div class="input-btn-line">
+        <input [value]="share_show_text" readonly>
+        <div class="btn succ" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
       </div>
     </div>
-    <div class="ele-box second long-btn">
-      <input [value]="share_show_text" readonly>
-      <div class="round-btn long" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
+    <div class="input-box" [ngClass]="b2s(is_public)">
+      <div class="title">分享直链（打开链接即可下载资源）</div>
+      <div class="input-btn-line">
+        <input [value]="share_direct_link" readonly>
+        <div class="btn succ" ngxClipboard [cbContent]="share_direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_link_succ()">复制</div>
+      </div>
     </div>
-    <div class="ele-box third long-btn" *ngIf="is_public">
-      <input [value]="share_direct_link" readonly>
-      <div class="round-btn long" ngxClipboard [cbContent]="share_direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_link_succ()">获取直链</div>
-    </div>
-    <div class="ele-box third long-btn" *ngIf="is_protect">
-      <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…">
-      <div class="round-btn long" (click)="modify_res_visit_key_action()">更新密码</div>
+    <div class="input-box" [ngClass]="b2s(is_protect)">
+      <div class="title">更新资源密钥</div>
+      <div class="input-btn-line">
+        <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…" maxlength="16">
+        <div class="btn" [ngClass]="(res_visit_key && (res_visit_key.length >= 16 || res_visit_key.length < 3)) ? 'warn' : 'default'">{{res_visit_key && res_visit_key.length}}/16</div>
+        <div class="btn succ" (click)="modify_res_visit_key_action()">更新</div>
+      </div>
     </div>
   </div>
 
-  <div class="container" [ngClass]="[footBtnService.active_upload, is_active('upload', upload_link) || is_active('upload', upload_file)? 'long' : '']">
+  <div class="flex-container" [ngClass]="[footBtnService.active_upload]">
     <div class="title-box">
       <div class="title">上传资源</div>
       <app-loading></app-loading>
     </div>
-    <div class="radio-list first">
-      <div class="radio-btn"
+    <div class="choose-bar">
+      <div class="choose-item"
            *ngFor="let btn of upload_btns"
-           [ngClass]="is_active('upload', btn) ? 'active' : 'inactive'" (click)="upload_active=btn.value">
-        <span class="icon" [ngClass]="is_active('upload', btn) ? 'icon-check' : 'icon-uncheck'"></span>
-        <span class="text">{{btn.text}}</span>
+           [ngClass]="b2s(is_active('upload', btn))"
+           (click)="upload_active=btn.value">{{btn.text}}</div>
+    </div>
+    <div [ngClass]="b2s(is_active('upload', upload_file))" class="input-box">
+      <div class="input-btn-line">
+        <input type="file" (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
+        <input [(ngModel)]="file_name" placeholder="在此输入文件名称…">
+        <div class="btn action" (click)="choose_file.click()">选择</div>
+        <div class="btn" (click)="this.res_files = file_name = null">重置</div>
+        <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
       </div>
     </div>
-    <div *ngIf="is_active('upload', upload_file)" class="ele-box second">
-      <input [value]="upload_res_text" readonly placeholder="选择文件…">
-      <input type="file" (change)="res_files = $event.target.files; file_name = res_files[0].name;">
+    <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
+      <div class="input-btn-line">
+        <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
+        <div class="btn succ" (click)="create_folder_action()">创建</div>
+      </div>
     </div>
-    <div *ngIf="is_active('upload', upload_file)" class="ele-box third">
-      <input [(ngModel)]="file_name" placeholder="在此输入文件名称…">
-      <div class="round-btn" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
-    </div>
-    <div *ngIf="is_active('upload', upload_folder)" class="ele-box second">
-      <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
-      <div class="round-btn" (click)="create_folder_action()">创建</div>
-    </div>
-    <div *ngIf="is_active('upload', upload_link)" class="ele-box second">
-      <input [(ngModel)]="link_name" placeholder="在此输入链接名称…">
-    </div>
-    <div *ngIf="is_active('upload', upload_link)" class="ele-box third">
-      <input [(ngModel)]="link_url" placeholder="在此输入链接…">
-      <div class="round-btn" (click)="create_link_action()">创建</div>
+    <div [ngClass]="b2s(is_active('upload', upload_link))" class="input-box">
+      <div class="input-btn-line">
+        <input [(ngModel)]="link_name" placeholder="在此输入链接名称…">
+      </div>
+      <div class="input-btn-line">
+        <input [(ngModel)]="link_url" placeholder="在此输入链接…">
+        <div class="btn" (click)="link_name = link_url = null">重置</div>
+        <div class="btn succ" (click)="create_link_action()">创建</div>
+      </div>
     </div>
   </div>
 
-  <div class="container long" [ngClass]="footBtnService.is_modifying && tab_mode==='resource' ? 'active' : 'inactive'">
+  <div class="flex-container" [ngClass]="b2s(footBtnService.is_modifying && tab_mode==='resource')">
     <div class="title-box">
       <div class="title">修改资源信息<span>（选择“介绍”，按修改可进入编辑）</span></div>
       <app-loading></app-loading>
     </div>
-    <div class="ele-box first">
-      <span class="text">{{right_bubble_text}}</span><span class="icon" [ngClass]="right_bubble_class" (click)="modify_bubble_action()"></span>
+    <div class="input-box">
+      <div class="title">更新资源名称</div>
+      <div class="input-btn-line">
+        <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
+        <div class="btn" (click)="res_name = resource?.former_rname">重置</div>
+        <div class="btn succ" (click)="modify_res_name_action()">更新</div>
+      </div>
     </div>
-    <div class="ele-box second long-btn">
-      <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
-      <div class="round-btn long" (click)="modify_res_name_action()">更新资源名</div>
+    <div class="input-box">
+      <div class="title">选择封面类型</div>
+      <div class="choose-bar">
+        <div class="choose-item"
+             *ngFor="let btn of cover_btns"
+             [ngClass]="b2s(is_active('cover', btn))"
+             (click)="cover_type_change(btn)">{{btn.text}}</div>
+      </div>
     </div>
-    <div class="ele-box third long-btn">
-      <input [value]="res_cover_name" readonly placeholder="选择封面…">
-      <input type="file" (change)="res_cover_files = $event.target.files">
-      <div class="round-btn long" (click)="modify_res_cover_action()">更新封面</div>
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_upload))">
+      <div class="input-btn-line">
+        <input type="file" (change)="res_cover_files = $event.target.files" #choose_cover>
+        <input [value]="res_cover_name" readonly placeholder="选择封面…" (click)="choose_cover.click()">
+        <div class="btn action" (click)="choose_cover.click()">选择</div>
+        <div class="btn" (click)="res_cover_files = null">重置</div>
+        <div class="btn succ" (click)="modify_res_cover_action()">更新</div>
+      </div>
+    </div>
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_outlnk))">
+      <div class="input-btn-line">
+        <input [(ngModel)]="res_cover_value" placeholder="在此输入封面链接…">
+        <div class="btn" (click)="res_cover_value = null">重置</div>
+        <div class="btn succ" (click)="modify_res_cover_link()">提交</div>
+      </div>
+    </div>
+    <div class="input-box">
+      <div class="title">{{right_bubble_text}}</div>
+      <div class="input-btn-line right">
+        <div class="btn" [ngClass]="resource?.right_bubble ? 'succ' : ''" (click)="modify_bubble_action()">附属模式</div>
+        <div class="btn" [ngClass]="resource?.right_bubble ? '' : 'succ'" (click)="modify_bubble_action()">独立模式</div>
+      </div>
     </div>
   </div>
 
-  <div class="container" [ngClass]="footBtnService.active_delete">
+  <div class="flex-container" [ngClass]="footBtnService.active_delete">
     <div class="title-box">
       <div class="title">删除资源</div>
       <app-loading></app-loading>
     </div>
-    <div class="delete-text first">{{delete_text}}</div>
-    <div class="ele-box second">
-      <div class="round-btn warn" (click)="delete_res_action()">删除</div>
-      <div class="round-btn sub" (click)="footBtnService.foot_btn_active=null">取消</div>
+    <div class="input-box">
+      <div class="title">{{delete_text}}</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="footBtnService.foot_btn_active=null">取消</div>
+        <div class="btn warn" (click)="delete_res_action()">删除</div>
+      </div>
     </div>
   </div>
 </div>

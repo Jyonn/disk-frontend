@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../services/user.service";
-import {Resource} from "../../models/res/resource";
-import {ClockService} from "../../services/clock.service";
-import {ResourceService} from "../../services/resource.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FootBtnService} from "../../services/foot-btn.service";
-import {FootBtn} from "../../models/res/foot-btn";
-import {Subject} from "rxjs/Subject";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../services/user.service";
+import { Resource } from "../../models/res/resource";
+import { ClockService } from "../../services/clock.service";
+import { ResourceService } from "../../services/resource.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FootBtnService } from "../../services/foot-btn.service";
+import { FootBtn } from "../../models/res/foot-btn";
+import { Subject } from "rxjs/Subject";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {BaseService} from "../../services/base.service";
-import {Info} from "../../models/base/info";
-import {Meta} from "@angular/platform-browser";
-import {DeleteResItem} from "../../models/res/delete-res-item";
-import {Observable} from "rxjs";
+import { BaseService } from "../../services/base.service";
+import { Info } from "../../models/base/info";
+import { Meta } from "@angular/platform-browser";
+import { DeleteResItem } from "../../models/res/delete-res-item";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-res',
@@ -33,7 +33,7 @@ export class ResComponent implements OnInit {
   static sort_ascend = true;
   static icon_width = 66;
 
-  path: string;
+  res_str_id: string;
 
   resource: Resource;
   children: Resource[];
@@ -69,7 +69,7 @@ export class ResComponent implements OnInit {
     private meta: Meta,
   ) {
     this.resource = null;
-    this.path = '';
+    this.res_str_id = '';
     this.visit_key = null;
     this.search_list = [];
     this.search_value = null;
@@ -104,17 +104,17 @@ export class ResComponent implements OnInit {
     this.search_list = this.children.concat();
   }
   initResource() {
-    const v_key = ResourceService.loadVK(this.path);
-    this.resService.api_get_base_res_info(this.path)
+    const v_key = ResourceService.loadVK(this.res_str_id);
+    this.resService.get_base_res_info(this.res_str_id)
       .then((base_resp) => {
         // console.log(resp);
         if (base_resp.readable || v_key) {
-          this.resService.api_get_res_info(this.path, {visit_key: v_key})
+          this.resService.get_res_info(this.res_str_id, {visit_key: v_key})
             .then((resp) => {
               this.baseInitResource(resp);
             })
             .catch(() => {
-              ResourceService.clearVK(this.path);
+              ResourceService.clearVK(this.res_str_id);
               this.initResLose(base_resp);
             });
         } else {
@@ -126,7 +126,7 @@ export class ResComponent implements OnInit {
   }
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
-      this.path = params['slug'];
+      this.res_str_id = params['slug'];
 
       this.initResource();
       this.clockService.startClock();
@@ -166,32 +166,32 @@ export class ResComponent implements OnInit {
     return Math.floor(this.current_del_num / this.total_del_num * 100) + '%';
   }
 
-  async recursiveDelete(deleteResList: Array<DeleteResItem>) {
-    for (let index = 0; index < deleteResList.length; index++) {
-      const deleteResItem = deleteResList[index];
-      const resp = await this.resService.api_get_res_info(deleteResItem.path, null);
+  async recursiveDelete(delete_res_list: Array<DeleteResItem>) {
+    for (let index = 0; index < delete_res_list.length; index++) {
+      const delete_res_item = delete_res_list[index];
+      const resp = await this.resService.get_res_info(delete_res_item.res_id, null);
       if (resp.info.sub_type === Resource.STYPE_FOLDER) {
         this.total_del_num += resp.child_list.length;
         for (let i = 0; i < resp.child_list.length; i++) {
-          const childPath = resp.child_list[i].res_str_id;
-          const childReadablePath = deleteResItem.readablePath + "   /   " + resp.child_list[i].rname;
+          const child_res_id = resp.child_list[i].res_str_id;
+          const child_readable_path = delete_res_item.readable_path + "   /   " + resp.child_list[i].rname;
           if (resp.child_list[i].sub_type === Resource.STYPE_FOLDER) {
             await this.recursiveDelete([new DeleteResItem({
-              path: childPath,
-              readablePath: childReadablePath,
+              res_str_id: child_res_id,
+              readable_path: child_readable_path,
             })]);
           } else {
             this.current_del_num += 1;
-            // console.log(childPath);
-            this.current_path = childReadablePath;
-            await this.resService.api_delete_res(childPath);
+            // console.log(child_res_id);
+            this.current_path = child_readable_path;
+            await this.resService.delete_res(child_res_id);
             // await this.fake_wait();
           }
         }
       }
       this.current_del_num += 1;
-      this.current_path = deleteResItem.readablePath;
-      await this.resService.api_delete_res(deleteResItem.path);
+      this.current_path = delete_res_item.readable_path;
+      await this.resService.delete_res(delete_res_item.res_id);
       // await this.fake_wait();
       // console.log(deleteResItem.path);
     }
@@ -202,10 +202,6 @@ export class ResComponent implements OnInit {
       setTimeout(() => resolve(), 2000);
     });
   }
-
-  // get show_deleting_process() {
-  //   return this.current_del_num < this.total_del_num;
-  // }
 
   resource_search(keyword: string = null) {
     if (!keyword) {
@@ -246,15 +242,15 @@ export class ResComponent implements OnInit {
       for (const item of this.search_list) {
         if (item.selected) {
           delete_list.push(new DeleteResItem({
-            path: item.res_str_id,
-            readablePath: this.resource.rname + '   /   ' + item.rname,
+            res_str_id: item.res_str_id,
+            readable_path: this.resource.rname + '   /   ' + item.rname,
           }));
         }
       }
       // this.show_deleting_process = true;
       this.footBtnService.foot_btn_active = null;
       this.start_delete(delete_list, () => {
-        this.resService.api_get_res_info(this.path, null)
+        this.resService.get_res_info(this.res_str_id, null)
           .then((resp) => {
             this.baseInitResource(resp);
           });
@@ -307,7 +303,8 @@ export class ResComponent implements OnInit {
   navigate(res_str_id) {
     const link = ['/res', res_str_id];
     this.baseService.is_jumping = true;
-    this.router.navigate(link);
+    this.router.navigate(link)
+      .then();
   }
 
   go_parent($event = null) {
@@ -319,7 +316,8 @@ export class ResComponent implements OnInit {
     }
     const link = ['/res', this.resource.parent_str_id];
     this.baseService.is_jumping = true;
-    this.router.navigate(link);
+    this.router.navigate(link)
+      .then();
   }
 
   get foot_btns() {
@@ -433,7 +431,7 @@ export class ResComponent implements OnInit {
   }
 
   modify_desc_action() {
-    this.resService.api_modify_res_info(this.path,
+    this.resService.modify_res_info(this.res_str_id,
       {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null})
       .then((resp) => {
         this.resource.update(null, resp);
@@ -448,7 +446,7 @@ export class ResComponent implements OnInit {
   }
 
   onDeleted() {
-    const delete_list = [new DeleteResItem({path: this.path, readablePath: this.resource.rname})];
+    const delete_list = [new DeleteResItem({res_str_id: this.res_str_id, readable_path: this.resource.rname})];
     this.start_delete(delete_list, () => {
       this.go_parent();
     });
@@ -480,9 +478,9 @@ export class ResComponent implements OnInit {
   }
 
   check_visit_key() {
-    this.resService.api_get_res_info(this.path, {visit_key: this.visit_key})
+    this.resService.get_res_info(this.res_str_id, {visit_key: this.visit_key})
       .then((resp) => {
-        ResourceService.storeVK(this.path, this.visit_key);
+        ResourceService.storeVK(this.res_str_id, this.visit_key);
         this.baseInitResource(resp);
         BaseService.info_center.next(new Info({text: '成功获取资源', type: Info.TYPE_SUCC}));
       });
