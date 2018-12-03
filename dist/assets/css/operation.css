@@ -134,7 +134,7 @@ div.operation-block div.flex-container {
   width: 100%;
   bottom: 0;
   background: white;
-  height: max-content;
+  height: auto;
   padding: 16px 5% 30px;
   max-height: calc(100vh - 56px);
   overflow-y: scroll;
@@ -219,8 +219,7 @@ div.operation-block div.flex-container div.input-box div.input-btn-line {
   margin-bottom: 10px;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line input {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  border-radius: 15px 0 0 15px;
   display: inline-block;
   height: 30px;
   border: 1px solid #CCCCCC;
@@ -242,6 +241,14 @@ div.operation-block div.flex-container div.input-box div.input-btn-line input[re
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line input[type='file'] {
   display: none;
+}
+div.operation-block div.flex-container div.input-box div.input-btn-line input.alone {
+  border-radius: 15px;
+  border: 1px solid 30px;
+}
+div.operation-block div.flex-container div.input-box div.input-btn-line input.alone:hover,
+div.operation-block div.flex-container div.input-box div.input-btn-line input.alone:focus {
+  border: 1px solid #2699FB;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line div.btn {
   font-size: 14px;
@@ -268,20 +275,13 @@ div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.
 div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.warn {
   background: #D04B4B;
 }
-div.operation-block div.flex-container div.input-box div.input-btn-line *:last-child {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border: 1px solid #CCCCCC;
-}
-div.operation-block div.flex-container div.input-box div.input-btn-line *:last-child:hover,
-div.operation-block div.flex-container div.input-box div.input-btn-line *:last-child:focus {
-  border: 1px solid #2699FB;
-}
-div.operation-block div.flex-container div.input-box div.input-btn-line *:first-child {
+div.operation-block div.flex-container div.input-box div.input-btn-line div:first-child {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line div:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
   border: none;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line div:last-child:hover,

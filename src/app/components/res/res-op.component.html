@@ -50,8 +50,7 @@
       <div class="input-btn-line">
         <input type="file" (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
         <input [(ngModel)]="file_name" placeholder="在此输入文件名称…">
-        <div class="btn action" (click)="choose_file.click()">选择</div>
-        <div class="btn" (click)="this.res_files = file_name = null">重置</div>
+        <div class="btn" (click)="choose_file.click()">选择</div>
         <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
       </div>
     </div>
@@ -64,10 +63,11 @@
     <div [ngClass]="b2s(is_active('upload', upload_link))" class="input-box">
       <div class="input-btn-line">
         <input [(ngModel)]="link_name" placeholder="在此输入链接名称…">
+        <div class="btn" (click)="link_name = null">重置</div>
       </div>
       <div class="input-btn-line">
         <input [(ngModel)]="link_url" placeholder="在此输入链接…">
-        <div class="btn" (click)="link_name = link_url = null">重置</div>
+        <div class="btn" (click)="link_url = null">重置</div>
         <div class="btn succ" (click)="create_link_action()">创建</div>
       </div>
     </div>
@@ -99,8 +99,7 @@
       <div class="input-btn-line">
         <input type="file" (change)="res_cover_files = $event.target.files" #choose_cover>
         <input [value]="res_cover_name" readonly placeholder="选择封面…" (click)="choose_cover.click()">
-        <div class="btn action" (click)="choose_cover.click()">选择</div>
-        <div class="btn" (click)="res_cover_files = null">重置</div>
+        <div class="btn" (click)="choose_cover.click()">选择</div>
         <div class="btn succ" (click)="modify_res_cover_action()">更新</div>
       </div>
     </div>
