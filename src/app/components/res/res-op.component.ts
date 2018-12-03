@@ -6,6 +6,7 @@ import {RadioBtn} from "../../models/res/res-share-btn";
 import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {TipsService} from "../../services/tips.service";
+import {UpdateService} from "../../services/update.service";
 
 @Component({
   selector: 'app-res-op',
@@ -27,6 +28,7 @@ export class ResOpComponent implements OnInit {
     public resService: ResourceService,
     public baseService: BaseService,
     public tipsService: TipsService,
+    public updateService: UpdateService,
   ) {}
 
   // foot btn share

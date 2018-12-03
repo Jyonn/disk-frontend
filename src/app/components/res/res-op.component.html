@@ -148,6 +148,17 @@
 
   <div class="flex-container" [ngClass]="footBtnService.active_tips">
     <div class="title-box">
+      <div class="title">更新日志<span>（{{updateService.version}}）</span></div>
+    </div>
+    <div class="input-box">
+      <div class="title" *ngFor="let log of updateService.crt_logs">{{log}}</div>
+      <div class="input-btn-line right">
+        <div class="btn succ" (click)="updateService.go_last()">上一个</div>
+        <div class="btn">{{updateService.current_index + 1}}/{{updateService.length}}</div>
+        <div class="btn succ" (click)="updateService.go_next()">下一个</div>
+      </div>
+    </div>
+    <div class="title-box">
       <div class="title">使用小贴士</div>
     </div>
     <div class="input-box">

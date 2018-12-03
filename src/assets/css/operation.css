@@ -199,7 +199,7 @@ div.operation-block div.flex-container div.input-box {
   margin-top: 10px;
   overflow-y: hidden;
   transition: 0.5s;
-  max-height: 200px;
+  max-height: 500px;
 }
 div.operation-block div.flex-container div.input-box div.title {
   border-left: 3px solid #2699FB;

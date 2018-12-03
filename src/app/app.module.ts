@@ -30,6 +30,7 @@ import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
 import { TipsService } from "./services/tips.service";
+import { UpdateService } from "./services/update.service";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{
@@ -69,6 +70,7 @@ import { TipsService } from "./services/tips.service";
     FootBtnService,
     ProfileBtnService,
     TipsService,
+    UpdateService,
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig
