@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'user/refresh', component: RefreshComponent},
   { path: 'res', component: ResHomeComponent},
   { path: 'res/next/:next', component: ResHomeComponent},
-  { path: 'res/:slug', component: ResComponent},
+  { path: 'res/:res_str_id', component: ResComponent},
   { path: 'oauth/qtb/callback', component: OauthComponent},
 ];
 

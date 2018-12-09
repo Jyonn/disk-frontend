@@ -31,6 +31,8 @@ import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
 import { TipsService } from "./services/tips.service";
 import { UpdateService } from "./services/update.service";
+import { ResTreeComponent } from "./components/res/res-tree.component";
+import { ResourceTreeService } from "./services/resource-tree.service";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{
@@ -52,6 +54,7 @@ import { UpdateService } from "./services/update.service";
     RedirectComponent,
     OauthComponent,
     RefreshComponent,
+    ResTreeComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +74,7 @@ import { UpdateService } from "./services/update.service";
     ProfileBtnService,
     TipsService,
     UpdateService,
+    ResourceTreeService,
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig

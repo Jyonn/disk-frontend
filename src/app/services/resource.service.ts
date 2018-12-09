@@ -48,7 +48,14 @@ export class ResourceService {
   }
 
   public modify_res_info(res_str_id: string,
-                         data: {rname: string, status: number, description: string, visit_key: string, right_bubble: boolean}) {
+                         data: {
+                           rname: string,
+                           status: number,
+                           description: string,
+                           visit_key: string,
+                           right_bubble: boolean,
+                           parent_str_id: string
+  }) {
     // const res_str_id = path[path.length - 1];
     return this.baseService
       .put(`/api/res/${res_str_id}`, data);

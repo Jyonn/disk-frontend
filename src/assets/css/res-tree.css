@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+}
+body {
+  background: #eaeaea;
+}
+path {
+  fill: #007FEB;
+}
+.ptr,
+.round-btn {
+  cursor: pointer;
+}
+.light-shadow {
+  box-shadow: 1px 3px 10px 0 #c0c0c0;
+}
+.strong-shadow {
+  box-shadow: 1px 3px 10px 0 gray;
+}
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
+}
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
+.animate {
+  transition: 0.5s;
+}
+@media all and (orientation: portrait) {
+  nav {
+    width: 100%;
+    height: 38.2vh;
+  }
+  div.res {
+    width: 100%;
+    height: calc(100% - 38.2vh - 56px);
+    left: 0;
+    top: 38.2vh;
+  }
+  div.res.full {
+    height: calc(100% - 38.2vh);
+  }
+}
+@media all and (orientation: landscape) {
+  nav {
+    width: 38.2vw;
+    height: calc(100% - 56px);
+  }
+  nav.full {
+    height: 100%;
+  }
+  div.res {
+    width: calc(100% - 38.2vw);
+    height: calc(100% - 56px);
+    left: 38.2vw;
+    top: 0;
+  }
+  div.res.full {
+    height: 100%;
+  }
+}
+footer {
+  width: max-content;
+  height: 56px;
+  min-width: 100%;
+}
+.round-btn {
+  width: 70px;
+  height: 30px;
+  border-radius: 15px;
+  background: #2699FB;
+  color: white;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+}
+.round-btn.disabled {
+  background: #CCCCCC;
+}
+.round-btn.sub {
+  background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
+}
+.round-btn.long {
+  width: 100px;
+}
+.bg-blur {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2*8px);
+  height: calc(100% + 2*8px);
+  filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
+}
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+div.rname {
+  font-size: 0;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  color: gray;
+  cursor: pointer;
+}
+div.rname span.text {
+  padding: 0 10px;
+  margin: 0 10px;
+  font-size: 14px;
+}
+div.rname div.type {
+  display: inline-block;
+  font-size: 14px;
+  transition: 0.5s;
+}
+div.rname div.type.expend {
+  transform: rotate(90deg);
+}
+div.rname div.icon-refresh {
+  display: inline-block;
+  font-size: 14px;
+  transition: 0.5s;
+}
+div.rname div.icon-refresh.inactive {
+  filter: opacity(0);
+}
+div.rname div.rotate {
+  animation: rotating 5s linear infinite;
+}
+div.rname:hover {
+  color: #2699FB;
+}
+div.rname.selected span.text {
+  background: #2699FB;
+  color: white;
+}
+div.child-list {
+  margin-left: 24px;
+}

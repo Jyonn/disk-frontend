@@ -170,4 +170,20 @@
       </div>
     </div>
   </div>
+
+  <div class="flex-container" [ngClass]="footBtnService.active_move">
+    <div class="title-box">
+      <div class="title">移动资源</div>
+      <div class="input-box">
+        <div class="title">移动到目录：{{selected_rname}}</div>
+        <div class="selector">
+          <app-res-tree [resTree]="resTreeService.root" [filter]="folder_filter" [data]="res_str_id"></app-res-tree>
+        </div>
+        <div class="input-btn-line right">
+          <div class="btn" (click)="footBtnService.foot_btn_active = null">取消</div>
+          <div class="btn succ" (click)="move_res_action()">移动</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

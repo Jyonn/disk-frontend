@@ -208,6 +208,10 @@ div.operation-block div.flex-container div.input-box div.title {
   padding-left: 8px;
   margin-bottom: 8px;
 }
+div.operation-block div.flex-container div.input-box div.selector {
+  height: 300px;
+  overflow: scroll;
+}
 div.operation-block div.flex-container div.input-box div.input-btn-line {
   position: relative;
   font-size: 0;

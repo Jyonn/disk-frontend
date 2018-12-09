@@ -20,6 +20,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-right:before {
+  content: "\e91c";
+}
+.icon-refresh:before {
+  content: "\e91b";
+}
+.icon-move:before {
+  content: "\e91a";
+}
 .icon-tips:before {
   content: "\e900";
 }

@@ -7,6 +7,7 @@ export class FootBtnService {
   foot_btn_select: FootBtn;
   foot_btn_upload: FootBtn;
   foot_btn_modify: FootBtn;
+  foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
   foot_btn_tips: FootBtn;
   foot_btn_list: Array<FootBtn>;
@@ -45,6 +46,13 @@ export class FootBtnService {
       file: true,
       mask: true,
     });
+    this.foot_btn_move = new FootBtn({
+      icon: 'icon-move',
+      text: '移动',
+      folder: true,
+      file: true,
+      mask: true,
+    });
     this.foot_btn_delete = new FootBtn({
       icon: 'icon-delete',
       text: '删除',
@@ -64,6 +72,7 @@ export class FootBtnService {
       this.foot_btn_select,
       this.foot_btn_upload,
       this.foot_btn_modify,
+      this.foot_btn_move,
       this.foot_btn_delete,
       this.foot_btn_tips,
     ];
@@ -117,6 +126,13 @@ export class FootBtnService {
   }
   get active_modify() {
     return (this.foot_btn_active === this.foot_btn_modify) ? 'active' : 'inactive';
+  }
+
+  get is_moving() {
+    return this.foot_btn_active === this.foot_btn_move;
+  }
+  get active_move() {
+    return (this.foot_btn_active === this.foot_btn_move) ? 'active' : 'inactive';
   }
 
   get is_deleting() {

@@ -21,6 +21,7 @@ export class Resource {
   public static COVER_UPLOAD = 1;
   public static COVER_FATHER = 2;
   public static COVER_OUTLNK = 3;
+  public static COVER_SELF = 4;
   public static COLORS = [
     ['#C4E0E5', '#4CA1AF'],
     ['#EECDA3', '#EF629F'],
@@ -83,7 +84,6 @@ export class Resource {
     this.rtype = d.rtype;
     this.rsize = d.rsize;
     this.sub_type = d.sub_type;
-    this.parent_str_id = d.parent_str_id;
     this.create_time = d.create_time;
     this.selected = false;
     this.is_home = d.is_home;
@@ -91,7 +91,9 @@ export class Resource {
   }
 
   update(baseService: BaseService,
-         d: {rname, cover, cover_small, cover_type, status, dlcount, visit_key, description, right_bubble, owner, secure_env}) {
+         d: {rname, cover, cover_small, cover_type, status, dlcount, visit_key,
+           description, right_bubble, owner, secure_env, parent_str_id}) {
+    this.parent_str_id = d.parent_str_id;
     this.rname = d.rname;
     this.former_rname = d.rname;
     this.cover = d.cover;

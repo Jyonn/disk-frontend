@@ -16,6 +16,7 @@ import { Info } from "../../models/base/info";
 import { Meta } from "@angular/platform-browser";
 import { DeleteResItem } from "../../models/res/delete-res-item";
 import { Observable } from "rxjs";
+import { ResourceTreeService } from "../../services/resource-tree.service";
 
 @Component({
   selector: 'app-res',
@@ -57,6 +58,11 @@ export class ResComponent implements OnInit {
   show_deleting_process: boolean; // 是否进入删除画面
 
   margin_left: number;
+
+  operation_list: DeleteResItem[];  // 操作列表
+  delete_text: string;  // 删除文字
+
+  is_multi_mode: boolean;  // 是否在多选模式下的operation模式
 
   constructor(
     public baseService: BaseService,
@@ -126,7 +132,7 @@ export class ResComponent implements OnInit {
   }
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
-      this.res_str_id = params['slug'];
+      this.res_str_id = params['res_str_id'];
 
       this.initResource();
       this.clockService.startClock();
@@ -238,23 +244,29 @@ export class ResComponent implements OnInit {
       }
       this.footBtnService.foot_btn_active = null;
     } else if (help === 'delete') {
-      const delete_list = [];
+      this.operation_list = [];
       for (const item of this.search_list) {
         if (item.selected) {
-          delete_list.push(new DeleteResItem({
+          this.operation_list.push(new DeleteResItem({
             res_str_id: item.res_str_id,
             readable_path: this.resource.rname + '   /   ' + item.rname,
           }));
         }
       }
-      // this.show_deleting_process = true;
-      this.footBtnService.foot_btn_active = null;
-      this.start_delete(delete_list, () => {
-        this.resService.get_res_info(this.res_str_id, null)
-          .then((resp) => {
-            this.baseInitResource(resp);
-          });
-      });
+      if (this.operation_list.length === 0) {
+        BaseService.info_center.next(new Info({text: '请选择至少一项资源后操作', type: Info.TYPE_WARN}));
+      } else {
+        this.delete_text = `删除选定的${this.operation_list.length}项资源且无法恢复。`;
+        // this.show_deleting_process = true;
+        this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_delete;
+      }
+      // this.footBtnService.foot_btn_active = null;
+      // this.start_delete(this.operation_list, () => {
+      //   this.resService.get_res_info(this.res_str_id, null)
+      //     .then((resp) => {
+      //       this.baseInitResource(resp);
+      //     });
+      // });
     }
   }
 
@@ -264,7 +276,10 @@ export class ResComponent implements OnInit {
     this.total_del_num = delete_list.length;
     this.recursiveDelete(delete_list)
       .then(() => {
-        BaseService.info_center.next(new Info({text: '批量删除成功', type: Info.TYPE_SUCC}));
+        BaseService.info_center.next(new Info({
+          text: this.total_del_num > 1 ? '批量' : '' + '删除成功',
+          type: Info.TYPE_SUCC
+        }));
         if (callback) {
           callback();
         }
@@ -326,8 +341,10 @@ export class ResComponent implements OnInit {
       if (this.resource && !foot_btn.hide) {
         if ((this.resource.is_folder && foot_btn.folder) ||
           (!this.resource.is_folder && foot_btn.file)) {
-          if (foot_btn === this.footBtnService.foot_btn_delete && this.resource.is_home) {
-            continue;
+          if (this.resource.is_home) {
+            if (foot_btn === this.footBtnService.foot_btn_delete || foot_btn === this.footBtnService.foot_btn_move) {
+              continue;
+            }
           }
           _foot_btns.push(foot_btn);
         }
@@ -408,8 +425,24 @@ export class ResComponent implements OnInit {
 
   activate_btn(btn: FootBtn) {
     this.footBtnService.activate_btn(btn);
-    if (this.footBtnService.foot_btn_active === this.footBtnService.foot_btn_select) {
+    if (this.footBtnService.is_selecting) {
       this.tab_mode = "resource";
+    }
+    if (this.footBtnService.is_deleting) {
+      this.operation_list = [new DeleteResItem({
+        res_str_id: this.resource.res_str_id,
+        readable_path: this.resource.rname,
+      })];
+      if (this.resource && this.resource.rtype === Resource.RTYPE_FILE) {
+        this.delete_text = '删除此资源且无法恢复。';
+      } else {
+        this.delete_text = '删除此文件夹下的所有资源和子文件夹且无法恢复。';
+      }
+    }
+    if (this.footBtnService.is_moving) {
+      if (this.res_str_id === ResourceTreeService.selectResStrId) {
+        ResourceTreeService.selectResStrId = ResourceTreeService.selectedResName = null;
+      }
     }
   }
 
@@ -432,7 +465,7 @@ export class ResComponent implements OnInit {
 
   modify_desc_action() {
     this.resService.modify_res_info(this.res_str_id,
-      {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null})
+      {rname: null, description: this.description, visit_key: null, status: null, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         this.description = this.resource.description;
@@ -446,9 +479,21 @@ export class ResComponent implements OnInit {
   }
 
   onDeleted() {
-    const delete_list = [new DeleteResItem({res_str_id: this.res_str_id, readable_path: this.resource.rname})];
-    this.start_delete(delete_list, () => {
-      this.go_parent();
+    if (this.operation_list.length === 0) {
+      return;
+    }
+    const go_parent = this.operation_list[0].res_id === this.res_str_id;
+
+    this.start_delete(this.operation_list, () => {
+      this.operation_list = [];
+      if (go_parent) {
+        this.go_parent();
+      } else {
+        this.resService.get_res_info(this.res_str_id, null)
+          .then((resp) => {
+            this.baseInitResource(resp);
+          });
+      }
     });
   }
 

@@ -1,5 +1,19 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181209',
+    version: '4.4.0',
+    updates: [
+      '支持资源移动',
+      '图片资源默认封面为自身缩略图',
+    ]
+  }, {
+    time: '181206',
+    version: '4.3.2',
+    updates: [
+      '支持图片资源封面为自身',
+      '多选删除操作也会弹出确认框，防止误操作',
+    ]
+  }, {
     time: '181203',
     version: '4.3.0 beta',
     updates: [

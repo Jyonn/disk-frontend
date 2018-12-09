@@ -7,6 +7,7 @@ import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {TipsService} from "../../services/tips.service";
 import {UpdateService} from "../../services/update.service";
+import {ResourceTreeService} from "../../services/resource-tree.service";
 
 @Component({
   selector: 'app-res-op',
@@ -20,6 +21,7 @@ export class ResOpComponent implements OnInit {
   @Input() resource: Resource;
   @Input() res_str_id: string;
   @Input() tab_mode: string;
+  @Input() delete_text: string;
   @Output() onUploaded = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
 
@@ -29,6 +31,7 @@ export class ResOpComponent implements OnInit {
     public baseService: BaseService,
     public tipsService: TipsService,
     public updateService: UpdateService,
+    public resTreeService: ResourceTreeService,
   ) {}
 
   // foot btn share
@@ -49,7 +52,8 @@ export class ResOpComponent implements OnInit {
   cover_upload: RadioBtn;
   cover_father: RadioBtn;
   cover_outlnk: RadioBtn;
-  cover_btns: Array<RadioBtn>;
+  cover_self: RadioBtn;
+  cover_btn_list: Array<RadioBtn>;
 
   res_files: FileList;
   file_name: string;
@@ -103,22 +107,36 @@ export class ResOpComponent implements OnInit {
 
   initCover() {
     this.cover_random = new RadioBtn({
-      text: '随机图片',
+      text: '随机',
       value: Resource.COVER_RANDOM,
     });
     this.cover_upload = new RadioBtn({
-      text: '本地上传',
+      text: '上传',
       value: Resource.COVER_UPLOAD,
     });
     this.cover_father = new RadioBtn({
-      text: '与父目录相同',
+      text: '接力',
       value: Resource.COVER_FATHER,
     });
     this.cover_outlnk = new RadioBtn({
-      text: '外部链接',
+      text: '外链',
       value: Resource.COVER_OUTLNK,
     });
-    this.cover_btns = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk];
+    this.cover_self = new RadioBtn({
+      text: '本图',
+      value: Resource.COVER_SELF,
+    });
+    this.cover_btn_list = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk, this.cover_self];
+  }
+
+  get cover_btns() {
+    const _cover_btns = [];
+    for (const cover_btn of this.cover_btn_list) {
+      if (this.resource && (cover_btn.value !== Resource.COVER_SELF || this.resource.sub_type === Resource.STYPE_IMAGE)) {
+        _cover_btns.push(cover_btn);
+      }
+    }
+    return _cover_btns;
   }
 
   initModify() {
@@ -144,7 +162,7 @@ export class ResOpComponent implements OnInit {
       return;
     }
     this.resService.modify_res_info(this.res_str_id,
-      {status: btn.value, description: null, visit_key: null, rname: null, right_bubble: null})
+      {status: btn.value, description: null, visit_key: null, rname: null, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
       });
@@ -154,8 +172,8 @@ export class ResOpComponent implements OnInit {
     if (this.resource.cover_type === btn.value) {
       return;
     }
-    // 只有random 和 father才立即修改
-    if (btn.value !== Resource.COVER_FATHER && btn.value !== Resource.COVER_RANDOM) {
+    // upload和outlnk不能立即修改
+    if (btn.value === Resource.COVER_UPLOAD || btn.value === Resource.COVER_OUTLNK ) {
       this.resource.cover_type = btn.value;
       return;
     }
@@ -340,7 +358,7 @@ export class ResOpComponent implements OnInit {
     }
     this.is_modifying = true;
     this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null})
+      {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
@@ -363,7 +381,7 @@ export class ResOpComponent implements OnInit {
     }
     this.is_modifying = true;
     this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null})
+      {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         this.footBtnService.foot_btn_active = null;
@@ -385,15 +403,30 @@ export class ResOpComponent implements OnInit {
     }
     const right_bubble = !this.resource.right_bubble;
     this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble})
+      {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
         this.is_modifying = false;
-        BaseService.info_center.next(new Info({text: '修改成功', type: Info.TYPE_SUCC}));
+        BaseService.info_center.next(new Info({text: '修改资源属性成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
         this.is_modifying = false;
+      });
+  }
+
+  move_res_action() {
+    this.footBtnService.foot_btn_active = null;
+    if (!ResourceTreeService.selectResStrId) {
+      BaseService.info_center.next(new Info({text: '请选择目录后再进行移动', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.resService.modify_res_info(this.res_str_id,
+      {status: null, visit_key: null, description: null, rname: null, right_bubble: null,
+        parent_str_id: ResourceTreeService.selectResStrId})
+      .then((resp) => {
+        this.resource.update(null, resp);
+        BaseService.info_center.next(new Info({text: '移动资源成功', type: Info.TYPE_SUCC}));
       });
   }
 
@@ -409,12 +442,10 @@ export class ResOpComponent implements OnInit {
     BaseService.info_center.next(new Info({text: '复制成功，支持在链接后加扩展名（如.mp3）', type: Info.TYPE_SUCC}));
   }
 
-  get delete_text() {
-    if (this.resource && this.resource.rtype === Resource.RTYPE_FILE) {
-      return '删除此资源且无法恢复。';
-    } else {
-      return '删除此文件夹下的所有资源和子文件夹且无法恢复。';
-    }
+  folder_filter(data: any) {
+    return function (resource: any) {
+      return resource.rtype === Resource.RTYPE_FOLDER && resource.res_str_id !== data;
+    };
   }
 
   delete_res_action() {
@@ -483,6 +514,10 @@ export class ResOpComponent implements OnInit {
       && (this.resource.rtype === Resource.RTYPE_FILE || this.resource.rtype === Resource.RTYPE_LINK)
       && (this.resource.status === Resource.STATUS_PUBLIC ||
         (this.resource.status === Resource.STATUS_PRIVATE && !this.resource.is_secure_env));
+  }
+
+  get selected_rname() {
+    return ResourceTreeService.selectedResName ? ResourceTreeService.selectedResName : '暂未选择';
   }
 
   show_insecure_info() {

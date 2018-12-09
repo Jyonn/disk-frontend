@@ -1,0 +1,59 @@
+@import "../../styles";
+
+@node-height: 30px;
+
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+div.rname {
+  font-size: 0;
+  height: @node-height;
+  line-height: @node-height;
+  vertical-align: middle;
+  color: gray;
+  .ptr();
+  span.text {
+    padding: 0 10px;
+    margin: 0 10px;
+    font-size: 14px;
+  }
+  div.type {
+    display: inline-block;
+    font-size: 14px;
+    .animate();
+  }
+  div.type.expend {
+    transform: rotate(90deg);
+  }
+  div.icon-refresh {
+    display: inline-block;
+    font-size: 14px;
+    .animate();
+  }
+  div.icon-refresh.inactive {
+    filter: opacity(0);
+  }
+  div.rotate {
+    animation: rotating 5s linear infinite;
+  }
+  &:hover {
+    color: @blue;
+  }
+}
+div.rname.selected {
+  span.text {
+    background: @blue;
+    color: white;
+  }
+}
+
+div.child-list {
+  margin-left: 24px;
+}

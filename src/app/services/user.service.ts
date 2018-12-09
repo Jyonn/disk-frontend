@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
 import {User} from "../models/user/user";
 import {Subject} from "rxjs/Subject";
+import {ResourceTreeService} from "./resource-tree.service";
 
 @Injectable()
 export class UserService {
@@ -10,7 +11,10 @@ export class UserService {
   public user_update_center = new Subject<User>();
   public has_get_user: boolean;
 
-  constructor(private baseService: BaseService) {
+  constructor(
+    private baseService: BaseService,
+    private resTreeService: ResourceTreeService,
+  ) {
     BaseService.token = BaseService.loadToken();
     this.user = null;
     this.has_get_user = false;
@@ -32,6 +36,7 @@ export class UserService {
         this.user = new User(body);
         this.user_update_center.next(this.user);
         this.has_get_user = true;
+        this.resTreeService.init_root(this.user.root_res);
         return this.user;
       })
       .catch((error) => {
