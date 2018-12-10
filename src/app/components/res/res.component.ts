@@ -458,8 +458,7 @@ export class ResComponent implements OnInit {
     this.footBtnService.activate_btn(btn);
     if (this.footBtnService.is_selecting) {
       this.tab_mode = "resource";
-    }
-    if (this.footBtnService.is_deleting) {
+    } else if (this.footBtnService.is_deleting) {
       this.operation_list = [new OperationResItem({
         res_str_id: this.resource.res_str_id,
         readable_path: this.resource.rname,
@@ -469,14 +468,18 @@ export class ResComponent implements OnInit {
       } else {
         this.delete_text = '删除此文件夹下的所有资源和子文件夹且无法恢复。';
       }
-    }
-    if (this.footBtnService.is_moving) {
+    } else if (this.footBtnService.is_moving) {
+      this.resTreeService.show_res_path(this.res_str_id, false);
       this.operation_list = [new OperationResItem({
         res_str_id: this.resource.res_str_id,
         readable_path: this.resource.rname,
       })];
       if (this.res_str_id === ResourceTreeService.selectResStrId) {
         ResourceTreeService.selectResStrId = ResourceTreeService.selectedResName = null;
+      }
+    } else if (this.footBtnService.is_modifying) {
+      if (this.resource.cover_type === Resource.COVER_RESOURCE) {
+        this.resTreeService.show_res_path(this.resource.raw_cover, true);
       }
     }
   }

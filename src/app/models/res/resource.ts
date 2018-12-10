@@ -60,6 +60,7 @@ export class Resource {
   load_small_cover: boolean;
   loaded_class: boolean;
   is_random: boolean;
+  raw_cover: string;
 
   constructor(baseService: BaseService, d: {
     res_str_id, // 资源唯一随机ID
@@ -80,6 +81,7 @@ export class Resource {
     is_home, // 是否是用户根目录
     secure_env, // 是否在安全环境 不安全（公开）的祖先目录名
     right_bubble, // 是否附属父级
+    raw_cover,
   }) {
     this.res_str_id = d.res_str_id;
     this.rtype = d.rtype;
@@ -93,7 +95,8 @@ export class Resource {
 
   update(baseService: BaseService,
          d: {rname, cover, cover_small, cover_type, status, dlcount, visit_key,
-           description, right_bubble, owner, secure_env, parent_str_id}) {
+           description, right_bubble, owner, secure_env, parent_str_id, raw_cover}) {
+    this.raw_cover = d.raw_cover;
     this.parent_str_id = d.parent_str_id;
     this.rname = d.rname;
     this.former_rname = d.rname;
