@@ -471,6 +471,10 @@ export class ResComponent implements OnInit {
       }
     }
     if (this.footBtnService.is_moving) {
+      this.operation_list = [new OperationResItem({
+        res_str_id: this.resource.res_str_id,
+        readable_path: this.resource.rname,
+      })];
       if (this.res_str_id === ResourceTreeService.selectResStrId) {
         ResourceTreeService.selectResStrId = ResourceTreeService.selectedResName = null;
       }
@@ -529,6 +533,7 @@ export class ResComponent implements OnInit {
   }
 
   onMove() {
+    console.log(this.operation_list);
     if (this.operation_list.length === 0) {
       return;
     }
