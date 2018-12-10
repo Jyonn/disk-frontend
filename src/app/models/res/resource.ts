@@ -22,6 +22,7 @@ export class Resource {
   public static COVER_FATHER = 2;
   public static COVER_OUTLNK = 3;
   public static COVER_SELF = 4;
+  public static COVER_RESOURCE = 5;
   public static COLORS = [
     ['#C4E0E5', '#4CA1AF'],
     ['#EECDA3', '#EF629F'],

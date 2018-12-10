@@ -110,6 +110,15 @@
         <div class="btn succ" (click)="modify_res_cover_link()">提交</div>
       </div>
     </div>
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_resource))">
+      <div class="selector">
+        <app-res-tree [resTree]="resTreeService.root" [filter]="default_filter" [data]="res_str_id"></app-res-tree>
+      </div>
+      <div class="input-btn-line">
+        <input [value]="cover_res_select_rname" readonly placeholder="选择资源…" (click)="select_cover_resource()">
+        <div class="btn succ" (click)="modify_res_cover_resource()">更新</div>
+      </div>
+    </div>
     <div class="input-box">
       <div class="title">{{right_bubble_text}}</div>
       <div class="input-btn-line right">

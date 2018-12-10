@@ -54,6 +54,7 @@ export class ResOpComponent implements OnInit {
   cover_father: RadioBtn;
   cover_outlnk: RadioBtn;
   cover_self: RadioBtn;
+  cover_resource: RadioBtn;
   cover_btn_list: Array<RadioBtn>;
 
   res_files: FileList;
@@ -127,7 +128,11 @@ export class ResOpComponent implements OnInit {
       text: '本图',
       value: Resource.COVER_SELF,
     });
-    this.cover_btn_list = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk, this.cover_self];
+    this.cover_resource = new RadioBtn({
+      text: '资源',
+      value: Resource.COVER_RESOURCE,
+    });
+    this.cover_btn_list = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk, this.cover_self, this.cover_resource];
   }
 
   get cover_btns() {
@@ -173,8 +178,8 @@ export class ResOpComponent implements OnInit {
     if (this.resource.cover_type === btn.value) {
       return;
     }
-    // upload和outlnk不能立即修改
-    if (btn.value === Resource.COVER_UPLOAD || btn.value === Resource.COVER_OUTLNK ) {
+    // upload和outlnk, resource不能立即修改
+    if (btn.value === Resource.COVER_UPLOAD || btn.value === Resource.COVER_OUTLNK || btn.value === Resource.COVER_RESOURCE) {
       this.resource.cover_type = btn.value;
       return;
     }
@@ -299,6 +304,15 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.resource.update(this.baseService, resp);
         BaseService.info_center.next(new Info({text: '更新封面为外部链接', type: Info.TYPE_SUCC}));
+      });
+  }
+
+  modify_res_cover_resource() {
+    this.resService.modify_res_cover(this.res_str_id,
+      {cover: ResourceTreeService.selectResStrId, cover_type: Resource.COVER_RESOURCE})
+      .then((resp) => {
+        this.resource.update(this.baseService, resp);
+        BaseService.info_center.next(new Info({text: `更新封面与资源“${ResourceTreeService.selectedResName}”一致`, type: Info.TYPE_SUCC}));
       });
   }
 
@@ -439,6 +453,12 @@ export class ResOpComponent implements OnInit {
     };
   }
 
+  default_filter() {
+    return function () {
+      return true;
+    }
+  }
+
   delete_res_action() {
     this.footBtnService.foot_btn_active = null;
     this.onDeleted.emit();
@@ -509,6 +529,14 @@ export class ResOpComponent implements OnInit {
 
   get selected_rname() {
     return ResourceTreeService.selectedResName ? ResourceTreeService.selectedResName : '暂未选择';
+  }
+
+  get cover_res_select_rname() {
+    return `与资源“${this.selected_rname}”一致`;
+  }
+
+  select_cover_resource() {
+
   }
 
   show_insecure_info() {

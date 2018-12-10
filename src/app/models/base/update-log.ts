@@ -1,10 +1,11 @@
 export class UpdateLog {
   public static logs = [{
     time: '181210',
-    version: '4.4.2',
+    version: '4.4.4',
     updates: [
       '缩小竖屏模式的封面占比',
       '支持批量资源移动',
+      '支持资源封面设置为与其他资源一致',
     ]
   }, {
     time: '181209',
