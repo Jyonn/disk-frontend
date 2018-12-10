@@ -32,4 +32,8 @@ export class TipsService {
   go_last() {
     this.current_index = (this.current_index + this.tips.length - 1) % this.tips.length;
   }
+
+  get readable_index() {
+    return this.current_index + 1;
+  }
 }

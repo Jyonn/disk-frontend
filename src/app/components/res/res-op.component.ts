@@ -24,6 +24,7 @@ export class ResOpComponent implements OnInit {
   @Input() delete_text: string;
   @Output() onUploaded = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
+  @Output() onMove = new EventEmitter();
 
   constructor(
     public footBtnService: FootBtnService,
@@ -417,17 +418,7 @@ export class ResOpComponent implements OnInit {
 
   move_res_action() {
     this.footBtnService.foot_btn_active = null;
-    if (!ResourceTreeService.selectResStrId) {
-      BaseService.info_center.next(new Info({text: '请选择目录后再进行移动', type: Info.TYPE_WARN}));
-      return;
-    }
-    this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: null, description: null, rname: null, right_bubble: null,
-        parent_str_id: ResourceTreeService.selectResStrId})
-      .then((resp) => {
-        this.resource.update(null, resp);
-        BaseService.info_center.next(new Info({text: '移动资源成功', type: Info.TYPE_SUCC}));
-      });
+    this.onMove.emit();
   }
 
   copy_error() {
@@ -442,9 +433,9 @@ export class ResOpComponent implements OnInit {
     BaseService.info_center.next(new Info({text: '复制成功，支持在链接后加扩展名（如.mp3）', type: Info.TYPE_SUCC}));
   }
 
-  folder_filter(data: any) {
+  folder_filter() {
     return function (resource: any) {
-      return resource.rtype === Resource.RTYPE_FOLDER && resource.res_str_id !== data;
+      return resource.rtype === Resource.RTYPE_FOLDER;
     };
   }
 

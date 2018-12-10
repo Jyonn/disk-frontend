@@ -14,7 +14,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { BaseService } from "../../services/base.service";
 import { Info } from "../../models/base/info";
 import { Meta } from "@angular/platform-browser";
-import { DeleteResItem } from "../../models/res/delete-res-item";
+import { OperationResItem } from "../../models/res/operation-res-item";
 import { Observable } from "rxjs";
 import { ResourceTreeService } from "../../services/resource-tree.service";
 
@@ -47,19 +47,22 @@ export class ResComponent implements OnInit {
   tab_mode: string;
 
   sort_mode: boolean;  // 排序模式 分为name time type
+  show_more_option: boolean;
 
   visit_key: string;  // 资源密钥
 
   description: string;  // 资源描述
 
-  total_del_num: number;  // 所有待删除的资源数目
-  current_del_num: number;  // 当前正在删除的数目
-  current_path: string;  // 当前删除的路径
-  show_deleting_process: boolean; // 是否进入删除画面
+  total_op_num: number;  // 所有待操作的资源数目
+  current_op_num: number;  // 当前正在操作的数目
+  current_path: string;  // 当前操作的路径
+  show_op_process: boolean; // 是否进入操作画面
+  op_text: string;
+  op_identifier: string;
 
   margin_left: number;
 
-  operation_list: DeleteResItem[];  // 操作列表
+  operation_list: OperationResItem[];  // 操作列表
   delete_text: string;  // 删除文字
 
   is_multi_mode: boolean;  // 是否在多选模式下的operation模式
@@ -70,6 +73,7 @@ export class ResComponent implements OnInit {
     public resService: ResourceService,
     public clockService: ClockService,
     public footBtnService: FootBtnService,
+    public resTreeService: ResourceTreeService,
     private activateRoute: ActivatedRoute,
     private router: Router,
     private meta: Meta,
@@ -81,10 +85,11 @@ export class ResComponent implements OnInit {
     this.search_value = null;
     this.search_mode = false;
     this.sort_mode = false;
-    this.current_del_num = 0;
-    this.total_del_num = 0;
-    this.show_deleting_process = false;
+    this.current_op_num = 0;
+    this.total_op_num = 0;
+    this.show_op_process = false;
     this.margin_left = 0;
+    this.show_more_option = false;
   }
   baseInitResource(resp) {
     this.children = [];
@@ -168,26 +173,44 @@ export class ResComponent implements OnInit {
     this.do_swipe(delta);
   }
 
-  get del_percent() {
-    return Math.floor(this.current_del_num / this.total_del_num * 100) + '%';
+  get op_percent() {
+    return Math.floor(this.current_op_num / this.total_op_num * 100) + '%';
   }
 
-  async recursiveDelete(delete_res_list: Array<DeleteResItem>) {
+  async directMove(move_res_list: Array<OperationResItem>) {
+    for (const move_res_item of move_res_list) {
+      // console.log(move_res_item);
+      this.current_path = move_res_item.readable_path;
+      // await this.fake_wait();
+      await this.resService.modify_res_info(move_res_item.res_id,
+        {
+          rname: null,
+          right_bubble: null,
+          description: null,
+          visit_key: null,
+          status: null,
+          parent_str_id: ResourceTreeService.selectResStrId
+        });
+      this.current_op_num += 1;
+    }
+  }
+
+  async recursiveDelete(delete_res_list: Array<OperationResItem>) {
     for (let index = 0; index < delete_res_list.length; index++) {
       const delete_res_item = delete_res_list[index];
       const resp = await this.resService.get_res_info(delete_res_item.res_id, null);
       if (resp.info.sub_type === Resource.STYPE_FOLDER) {
-        this.total_del_num += resp.child_list.length;
+        this.total_op_num += resp.child_list.length;
         for (let i = 0; i < resp.child_list.length; i++) {
           const child_res_id = resp.child_list[i].res_str_id;
           const child_readable_path = delete_res_item.readable_path + "   /   " + resp.child_list[i].rname;
           if (resp.child_list[i].sub_type === Resource.STYPE_FOLDER) {
-            await this.recursiveDelete([new DeleteResItem({
+            await this.recursiveDelete([new OperationResItem({
               res_str_id: child_res_id,
               readable_path: child_readable_path,
             })]);
           } else {
-            this.current_del_num += 1;
+            this.current_op_num += 1;
             // console.log(child_res_id);
             this.current_path = child_readable_path;
             await this.resService.delete_res(child_res_id);
@@ -195,7 +218,7 @@ export class ResComponent implements OnInit {
           }
         }
       }
-      this.current_del_num += 1;
+      this.current_op_num += 1;
       this.current_path = delete_res_item.readable_path;
       await this.resService.delete_res(delete_res_item.res_id);
       // await this.fake_wait();
@@ -229,6 +252,10 @@ export class ResComponent implements OnInit {
     res.selected = !res.selected;
   }
 
+  get active_more_option() {
+    return this.show_more_option ? 'active' : 'inactive';
+  }
+
   select_res_help(help: string) {
     if (help === 'all') {
       for (const item of this.search_list) {
@@ -243,11 +270,15 @@ export class ResComponent implements OnInit {
         item.selected = false;
       }
       this.footBtnService.foot_btn_active = null;
-    } else if (help === 'delete') {
+    } else if (help === 'more-option') {
+      this.show_more_option = !this.show_more_option;
+    } else if (help === 'delete' || help === 'move') {
+      this.show_more_option = false;
+      this.is_multi_mode = true;
       this.operation_list = [];
       for (const item of this.search_list) {
         if (item.selected) {
-          this.operation_list.push(new DeleteResItem({
+          this.operation_list.push(new OperationResItem({
             res_str_id: item.res_str_id,
             readable_path: this.resource.rname + '   /   ' + item.rname,
           }));
@@ -256,46 +287,45 @@ export class ResComponent implements OnInit {
       if (this.operation_list.length === 0) {
         BaseService.info_center.next(new Info({text: '请选择至少一项资源后操作', type: Info.TYPE_WARN}));
       } else {
-        this.delete_text = `删除选定的${this.operation_list.length}项资源且无法恢复。`;
-        // this.show_deleting_process = true;
-        this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_delete;
+        if (help === 'delete') {
+          this.delete_text = `删除选定的${this.operation_list.length}项资源且无法恢复。`;
+          this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_delete;
+        } else {
+          this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_move;
+        }
       }
-      // this.footBtnService.foot_btn_active = null;
-      // this.start_delete(this.operation_list, () => {
-      //   this.resService.get_res_info(this.res_str_id, null)
-      //     .then((resp) => {
-      //       this.baseInitResource(resp);
-      //     });
-      // });
     }
   }
 
-  start_delete(delete_list: Array<DeleteResItem>, callback) {
-    this.show_deleting_process = true;
-    this.current_del_num = 0;
-    this.total_del_num = delete_list.length;
-    this.recursiveDelete(delete_list)
+  start_operation(callback) {
+    const op_list = this.operation_list;
+    this.show_op_process = true;
+    this.current_op_num = 0;
+    this.total_op_num = op_list.length;
+    this.op_text = (this.op_identifier === 'delete') ? '删除' : '移动';
+    const promise = (this.op_identifier === 'delete') ? this.recursiveDelete(op_list) : this.directMove(op_list);
+    promise
       .then(() => {
         BaseService.info_center.next(new Info({
-          text: this.total_del_num > 1 ? '批量' : '' + '删除成功',
+          text: this.total_op_num > 1 ? '批量' : '' + this.op_text + '成功',
           type: Info.TYPE_SUCC
         }));
         if (callback) {
           callback();
         }
         setTimeout(() => {
-          this.show_deleting_process = false;
+          this.show_op_process = false;
         }, 300);
       })
       .catch(() => {
         setTimeout(() => {
-          this.show_deleting_process = false;
+          this.show_op_process = false;
         }, 300);
       });
   }
 
-  get active_real_deleting() {
-    return this.show_deleting_process ? 'active' : 'inactive';
+  get active_real_operation() {
+    return this.show_op_process ? 'active' : 'inactive';
   }
 
   go_search(searching: boolean) {
@@ -424,12 +454,13 @@ export class ResComponent implements OnInit {
   }
 
   activate_btn(btn: FootBtn) {
+    this.is_multi_mode = false;
     this.footBtnService.activate_btn(btn);
     if (this.footBtnService.is_selecting) {
       this.tab_mode = "resource";
     }
     if (this.footBtnService.is_deleting) {
-      this.operation_list = [new DeleteResItem({
+      this.operation_list = [new OperationResItem({
         res_str_id: this.resource.res_str_id,
         readable_path: this.resource.rname,
       })];
@@ -482,11 +513,11 @@ export class ResComponent implements OnInit {
     if (this.operation_list.length === 0) {
       return;
     }
-    const go_parent = this.operation_list[0].res_id === this.res_str_id;
 
-    this.start_delete(this.operation_list, () => {
+    this.op_identifier = 'delete';
+    this.start_operation( () => {
       this.operation_list = [];
-      if (go_parent) {
+      if (!this.is_multi_mode) {
         this.go_parent();
       } else {
         this.resService.get_res_info(this.res_str_id, null)
@@ -494,6 +525,22 @@ export class ResComponent implements OnInit {
             this.baseInitResource(resp);
           });
       }
+    });
+  }
+
+  onMove() {
+    if (this.operation_list.length === 0) {
+      return;
+    }
+
+    this.op_identifier = 'move';
+    this.start_operation(() => {
+      this.operation_list = [];
+      this.resService.get_res_info(this.res_str_id, null)
+        .then((resp) => {
+          this.baseInitResource(resp);
+          this.resTreeService.refresh_node(this.resTreeService.root);
+        });
     });
   }
 

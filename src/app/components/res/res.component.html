@@ -33,7 +33,11 @@
     <div class="tab-btn select-all" (click)="select_res_help('all')">全选</div>
     <div class="tab-btn select-adverse" (click)="select_res_help('adverse')">反选</div>
     <div class="tab-btn cancel" (click)="select_res_help('cancel')">取消</div>
-    <div class="tab-btn delete" (click)="select_res_help('delete')">删除</div>
+    <div class="tab-btn more-option" (click)="select_res_help('more-option')"><span [ngClass]="active_more_option" class="icon-right"></span><span class="text">操作</span></div>
+    <div class="operation-container" [ngClass]="active_more_option">
+      <div class="op-item" (click)="select_res_help('delete')">删除</div>
+      <div class="op-item" (click)="select_res_help('move')">移动</div>
+    </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_folder">
     <div class="res-item"
@@ -89,12 +93,12 @@
       <!--</div>-->
     </div>
   </div>
-  <div class="content deleting" [ngClass]="active_real_deleting">
-    <div class="deleting-bar">
-      <div class="deleting-process" [ngStyle]="{'width': del_percent}"></div>
+  <div class="content operation" [ngClass]="active_real_operation">
+    <div class="operation-bar">
+      <div class="operation-process" [ngClass]="op_identifier" [ngStyle]="{'width': op_percent}"></div>
     </div>
     <div class="center-desc-above">
-      <div class="deleting-text">正在删除…（{{current_del_num}}/{{total_del_num}}）</div>
+      <div class="operation-text" [ngClass]="op_identifier">正在{{op_text}}…（{{current_op_num}}/{{total_op_num}}）</div>
     </div>
     <div class="center-desc-below">
       <div class="current-delete-res">{{current_path}}</div>
@@ -102,7 +106,7 @@
   </div>
 </div>
 
-<app-res-op [resource]="resource" [res_str_id]="res_str_id" [tab_mode]="tab_mode" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()" [delete_text]="delete_text"></app-res-op>
+<app-res-op [resource]="resource" [res_str_id]="res_str_id" [tab_mode]="tab_mode" (onUploaded)="onUploaded($event)" (onDeleted)="onDeleted()" (onMove)="onMove()" [delete_text]="delete_text"></app-res-op>
 
 <footer></footer>
 

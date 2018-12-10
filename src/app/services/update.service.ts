@@ -27,4 +27,8 @@ export class UpdateService {
   go_last() {
     this.current_index = (this.current_index + UpdateLog.logs.length - 1) % UpdateLog.logs.length;
   }
+
+  get readable_index() {
+    return this.current_index + 1;
+  }
 }

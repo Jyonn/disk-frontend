@@ -22,7 +22,7 @@
 @res-search-box-padding: 4px;
 @res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
 
-@res-sort-item-height: 40px;
+@bar-item-height: 40px;
 
 @res-foot-extra-padding: @footer-btn-size - @footer-height;
 
@@ -100,8 +100,8 @@ div.res {
         div.sort-item {
           position: relative;
           width: 100%;
-          height: @res-sort-item-height;
-          line-height: @res-sort-item-height;
+          height: @bar-item-height;
+          line-height: @bar-item-height;
           font-size: 14px;
           color: #555555;
         }
@@ -151,7 +151,7 @@ div.res {
   div.tab.sorting {
     div.resource {
       div.sort-container {
-        height: 3 * @res-sort-item-height;
+        height: 3 * @bar-item-height;
       }
     }
   }
@@ -176,6 +176,32 @@ div.res {
   div.tab.selecting {
     z-index: 2;
     &:extend(.animate);
+    div.operation-container.active {
+      height: 2 * @bar-item-height;
+    }
+    div.operation-container {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 25%;
+      background: white;
+      z-index: 1;
+      height: 0;
+      transition: 0.2s;
+      overflow: hidden;
+      &:extend(.light-shadow);
+      div.op-item {
+        position: relative;
+        width: 100%;
+        height: @bar-item-height;
+        line-height: @bar-item-height;
+        font-size: 14px;
+        color: #555555;
+      }
+      div.op-item:hover {
+        background: @res-item-box-cover-bg;
+      }
+    }
     div.tab-btn {
       &:extend(.ptr);
       position: relative;
@@ -197,9 +223,21 @@ div.res {
       background: @cancel-bg;
       color: @cancel-text;
     }
-    div.delete {
-      background: @warn-bg;
-      color: @warn-text;
+    div.more-option {
+      background: @default-bg;
+      color: @default-text;
+      span {
+        display: inline-block;
+      }
+      span.icon-right {
+        .animate();
+      }
+      span.active {
+        transform: rotate(90deg);
+      }
+      span.text {
+        margin-left: 10px;
+      }
     }
   }
   div.tab.selecting.active {
@@ -409,16 +447,16 @@ div.res {
       width: 100%;
     }
   }
-  div.content.deleting.inactive {
+  div.content.operation.inactive {
     top: 100%;
   }
-  div.content.deleting {
+  div.content.operation {
     transition: 0.2s;
     z-index: 1;
     @bar-width: 60%;
     @bar-height: 10px;
     @bar-border: 2px;
-    div.deleting-bar {
+    div.operation-bar {
       position: absolute;
       width: @bar-width;
       height: @bar-height;
@@ -429,11 +467,10 @@ div.res {
       background: white;
       border: 2px solid white;
       box-sizing: content-box;
-      div.deleting-process {
+      div.operation-process {
         position: inherit;
         transition: 0.5s;
         height: @bar-height;
-        background: @red;
         border-radius: @bar-height / 2;
         &:after {
           content: '';
@@ -446,16 +483,27 @@ div.res {
           animation: animate-shine 2s ease-out infinite;
         }
       }
+      div.operation-process.delete {
+        background: @red;
+      }
+      div.operation-process.move {
+        background: @blue;
+      }
     }
     div.center-desc-above {
       position: absolute;
       width: @bar-width;
       left: calc(~'50% - @{bar-width} / 2');
       top: calc(~'50% - @{bar-height} / 2 - 30px');
-      div.deleting-text {
+      div.operation-text {
         font-size: 12px;
-        color: @red;
         font-weight: bold;
+      }
+      div.operation-text.delete {
+        color: @red;
+      }
+      div.operation-text.move {
+        color: @blue;
       }
     }
     div.center-desc-below {

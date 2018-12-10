@@ -154,7 +154,7 @@
       <div class="title" *ngFor="let log of updateService.crt_logs">{{log}}</div>
       <div class="input-btn-line right">
         <div class="btn succ" (click)="updateService.go_last()">上一个</div>
-        <div class="btn">{{updateService.current_index + 1}}/{{updateService.length}}</div>
+        <div class="btn">{{updateService.readable_index}}/{{updateService.length}}</div>
         <div class="btn succ" (click)="updateService.go_next()">下一个</div>
       </div>
     </div>
@@ -165,7 +165,7 @@
       <div class="title">{{tipsService.crt_tip}}</div>
       <div class="input-btn-line right">
         <div class="btn succ" (click)="tipsService.go_last()">上一个</div>
-        <div class="btn">{{tipsService.current_index + 1}}/{{tipsService.tips.length}}</div>
+        <div class="btn">{{tipsService.readable_index}}/{{tipsService.tips.length}}</div>
         <div class="btn succ" (click)="tipsService.go_next()">下一个</div>
       </div>
     </div>

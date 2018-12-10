@@ -1,4 +1,4 @@
-export class DeleteResItem {
+export class OperationResItem {
   readable_path: string;
   res_id: string;
 

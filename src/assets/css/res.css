@@ -17,7 +17,8 @@ div.res div.tab.selecting div.tab-btn {
   cursor: pointer;
 }
 .light-shadow,
-div.res div.tab div.resource div.sort-container {
+div.res div.tab div.resource div.sort-container,
+div.res div.tab.selecting div.operation-container {
   box-shadow: 1px 3px 10px 0 #c0c0c0;
 }
 .strong-shadow {
@@ -42,16 +43,16 @@ div.res div.content.resource div.res-item div.res-type span {
 @media all and (orientation: portrait) {
   nav {
     width: 100%;
-    height: 38.2vh;
+    height: 25vh;
   }
   div.res {
     width: 100%;
-    height: calc(100% - 38.2vh - 56px);
+    height: calc(100% - 25vh - 56px);
     left: 0;
-    top: 38.2vh;
+    top: 25vh;
   }
   div.res.full {
-    height: calc(100% - 38.2vh);
+    height: calc(100% - 25vh);
   }
 }
 @media all and (orientation: landscape) {
@@ -247,6 +248,31 @@ div.res div.tab.searching div span.text {
 div.res div.tab.selecting {
   z-index: 2;
 }
+div.res div.tab.selecting div.operation-container.active {
+  height: 80px;
+}
+div.res div.tab.selecting div.operation-container {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 25%;
+  background: white;
+  z-index: 1;
+  height: 0;
+  transition: 0.2s;
+  overflow: hidden;
+}
+div.res div.tab.selecting div.operation-container div.op-item {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  color: #555555;
+}
+div.res div.tab.selecting div.operation-container div.op-item:hover {
+  background: #dddddd;
+}
 div.res div.tab.selecting div.tab-btn {
   position: relative;
   float: left;
@@ -267,9 +293,21 @@ div.res div.tab.selecting div.cancel {
   background: #CCCCCC;
   color: white;
 }
-div.res div.tab.selecting div.delete {
-  background: #D04B4B;
-  color: white;
+div.res div.tab.selecting div.more-option {
+  background: #2699FB;
+  color: #F1F9FF;
+}
+div.res div.tab.selecting div.more-option span {
+  display: inline-block;
+}
+div.res div.tab.selecting div.more-option span.icon-right {
+  transition: 0.5s;
+}
+div.res div.tab.selecting div.more-option span.active {
+  transform: rotate(90deg);
+}
+div.res div.tab.selecting div.more-option span.text {
+  margin-left: 10px;
 }
 div.res div.tab.selecting.active {
   filter: opacity(1);
@@ -459,14 +497,14 @@ div.res div.content.description div.padding-div textarea {
     width: 100%;
   }
 }
-div.res div.content.deleting.inactive {
+div.res div.content.operation.inactive {
   top: 100%;
 }
-div.res div.content.deleting {
+div.res div.content.operation {
   transition: 0.2s;
   z-index: 1;
 }
-div.res div.content.deleting div.deleting-bar {
+div.res div.content.operation div.operation-bar {
   position: absolute;
   width: 60%;
   height: 10px;
@@ -477,14 +515,13 @@ div.res div.content.deleting div.deleting-bar {
   border: 2px solid white;
   box-sizing: content-box;
 }
-div.res div.content.deleting div.deleting-bar div.deleting-process {
+div.res div.content.operation div.operation-bar div.operation-process {
   position: inherit;
   transition: 0.5s;
   height: 10px;
-  background: #D04B4B;
   border-radius: 5px;
 }
-div.res div.content.deleting div.deleting-bar div.deleting-process:after {
+div.res div.content.operation div.operation-bar div.operation-process:after {
   content: '';
   position: absolute;
   top: 0;
@@ -494,24 +531,35 @@ div.res div.content.deleting div.deleting-bar div.deleting-process:after {
   background: white;
   animation: animate-shine 2s ease-out infinite;
 }
-div.res div.content.deleting div.center-desc-above {
+div.res div.content.operation div.operation-bar div.operation-process.delete {
+  background: #D04B4B;
+}
+div.res div.content.operation div.operation-bar div.operation-process.move {
+  background: #2699FB;
+}
+div.res div.content.operation div.center-desc-above {
   position: absolute;
   width: 60%;
   left: calc(50% - 60% / 2);
   top: calc(50% - 10px / 2 - 30px);
 }
-div.res div.content.deleting div.center-desc-above div.deleting-text {
+div.res div.content.operation div.center-desc-above div.operation-text {
   font-size: 12px;
-  color: #D04B4B;
   font-weight: bold;
 }
-div.res div.content.deleting div.center-desc-below {
+div.res div.content.operation div.center-desc-above div.operation-text.delete {
+  color: #D04B4B;
+}
+div.res div.content.operation div.center-desc-above div.operation-text.move {
+  color: #2699FB;
+}
+div.res div.content.operation div.center-desc-below {
   position: absolute;
   width: 60%;
   left: calc(50% - 60% / 2);
   top: calc(50% + 10px / 2);
 }
-div.res div.content.deleting div.center-desc-below div.current-delete-res {
+div.res div.content.operation div.center-desc-below div.current-delete-res {
   direction: rtl;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -519,7 +567,7 @@ div.res div.content.deleting div.center-desc-below div.current-delete-res {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.6);
 }
-div.res div.content.deleting div.center-desc-below div.current-delete-res span {
+div.res div.content.operation div.center-desc-below div.current-delete-res span {
   margin: 0 3px;
 }
 div.res.resource div.tab div.resource {
