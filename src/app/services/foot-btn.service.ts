@@ -54,7 +54,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
-      login: true,
+      login: false,
     });
     this.foot_btn_move = new FootBtn({
       icon: 'icon-move',

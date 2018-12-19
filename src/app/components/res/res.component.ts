@@ -291,6 +291,12 @@ export class ResComponent implements OnInit {
     return this.show_more_option ? 'active' : 'inactive';
   }
 
+  click_icon() {
+    if (this.is_owner) {
+      this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_select;
+    }
+  }
+
   select_res_help(help: string) {
     if (help === 'all') {
       for (const item of this.search_list) {

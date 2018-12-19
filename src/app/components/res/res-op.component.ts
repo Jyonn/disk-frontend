@@ -8,6 +8,7 @@ import {TipsService} from "../../services/tips.service";
 import {UpdateService} from "../../services/update.service";
 import {ResourceTreeService} from "../../services/resource-tree.service";
 import {FootBtnService} from "../../services/foot-btn.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-res-op',
@@ -32,9 +33,10 @@ export class ResOpComponent implements OnInit {
     public footBtnService: FootBtnService,
     public resService: ResourceService,
     public baseService: BaseService,
-    public tipsService: TipsService,
-    public updateService: UpdateService,
+    // public tipsService: TipsService,
+    // public updateService: UpdateService,
     public resTreeService: ResourceTreeService,
+    public userService: UserService,
   ) {}
 
   // foot btn share
@@ -556,6 +558,10 @@ export class ResOpComponent implements OnInit {
   nav_show() {
     window.localStorage.removeItem('hide-nav');
     this.onRefreshNavHide.emit();
+  }
+
+  get is_owner() {
+    return this.userService.user && this.resource && this.userService.user.user_id === this.resource.owner.user_id;
   }
 
   ngOnInit() {

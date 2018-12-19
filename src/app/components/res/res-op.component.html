@@ -85,7 +85,7 @@
       <div class="title">修改资源信息<span>（选择“介绍”，按修改可进入编辑）</span></div>
       <app-loading></app-loading>
     </div>
-    <div class="input-box">
+    <div class="input-box" *ngIf="is_owner">
       <div class="title">更新资源名称</div>
       <div class="input-btn-line">
         <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
@@ -94,7 +94,7 @@
         <div class="btn succ" (click)="modify_res_name_action()">更新</div>
       </div>
     </div>
-    <div class="input-box">
+    <div class="input-box" *ngIf="is_owner">
       <div class="title">选择封面类型</div>
       <div class="choose-bar">
         <div class="choose-item"
@@ -103,7 +103,7 @@
              (click)="cover_type_change(btn)">{{btn.text}}</div>
       </div>
     </div>
-    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_upload))">
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_upload))" *ngIf="is_owner">
       <div class="input-btn-line">
         <input type="file" (change)="res_cover_files = $event.target.files" #choose_cover>
         <input [value]="res_cover_name" readonly placeholder="选择封面…" (click)="choose_cover.click()">
@@ -111,14 +111,14 @@
         <div class="btn succ" (click)="modify_res_cover_action()">更新</div>
       </div>
     </div>
-    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_outlnk))">
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_outlnk))" *ngIf="is_owner">
       <div class="input-btn-line">
         <input [(ngModel)]="res_cover_value" placeholder="在此输入封面链接…">
         <div class="btn" (click)="res_cover_value = null">重置</div>
         <div class="btn succ" (click)="modify_res_cover_link()">提交</div>
       </div>
     </div>
-    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_resource))">
+    <div class="input-box" [ngClass]="b2s(is_active('cover', cover_resource))" *ngIf="is_owner">
       <div class="selector">
         <app-res-tree [resTree]="resTreeService.root" [filter]="default_filter" [data]="res_str_id"></app-res-tree>
       </div>
@@ -127,7 +127,7 @@
         <div class="btn succ" (click)="modify_res_cover_resource()">更新</div>
       </div>
     </div>
-    <div class="input-box">
+    <div class="input-box" *ngIf="is_owner">
       <div class="title">{{right_bubble_text}}</div>
       <div class="input-btn-line right">
         <div class="btn" [ngClass]="resource?.right_bubble ? 'succ' : ''" (click)="modify_bubble_action()">附属模式</div>
