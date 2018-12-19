@@ -131,7 +131,6 @@ div.rname div.icon-refresh {
 }
 div.rname div.text {
   padding: 0 10px;
-  margin: 0 10px;
   font-size: 14px;
   white-space: nowrap;
   left: 10px;
@@ -159,7 +158,8 @@ div.rname div.rotate {
 div.rname:hover {
   color: #2699FB;
 }
-div.rname.selected div.text {
+div.rname.selected div.real-text {
+  padding: 0 10px;
   background: #2699FB;
   color: white;
 }

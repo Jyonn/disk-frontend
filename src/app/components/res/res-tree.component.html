@@ -1,11 +1,11 @@
 <div class="rname" [ngClass]="selected" (click)="click_rname()">
   <div class="type" [ngClass]="resTree?.icon"></div>
-  <div class="text">{{resTree?.rname}}</div>
+  <div class="text"><div class="real-text">{{resTree?.rname}}</div></div>
   <div class="icon-refresh rotate" [ngClass]="active_refresh" *ngIf="resTree?.rtype === 1"></div>
 </div>
 <div class="child-list" *ngIf="resTree?.show_children">
   <app-res-tree
-    *ngFor="let child of resTree?.child_list?.filter(filter(data))"
+    *ngFor="let child of resTree?.child_list?.filter(filter(data)).sort(sort_by_name)"
     [resTree]="child"
     [filter]="filter"
     [data]="data"

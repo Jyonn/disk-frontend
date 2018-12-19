@@ -39,5 +39,9 @@ export class ResTreeComponent implements OnInit {
     return (this.resTree && ResourceTreeService.selectResStrId === this.resTree.res_str_id) ? 'selected' : 'unselected';
   }
 
+  sort_by_name(ra: ResourceTree, rb: ResourceTree) {
+    return ra.rname.localeCompare(rb.rname, 'zh');
+  }
+
   ngOnInit(): void {}
 }
