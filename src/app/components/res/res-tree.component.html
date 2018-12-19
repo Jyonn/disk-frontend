@@ -1,7 +1,7 @@
 <div class="rname" [ngClass]="selected" (click)="click_rname()">
   <div class="type" [ngClass]="resTree?.icon"></div>
-  <span class="text">{{resTree?.rname}}</span>
-  <div class="icon-refresh rotate" [ngClass]="active_refresh"></div>
+  <div class="text">{{resTree?.rname}}</div>
+  <div class="icon-refresh rotate" [ngClass]="active_refresh" *ngIf="resTree?.rtype === 1"></div>
 </div>
 <div class="child-list" *ngIf="resTree?.show_children">
   <app-res-tree

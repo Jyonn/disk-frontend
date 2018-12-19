@@ -122,13 +122,23 @@ div.rname {
   color: gray;
   cursor: pointer;
 }
-div.rname span.text {
+div.rname div.text,
+div.rname div.type,
+div.rname div.icon-refresh {
+  display: table-cell;
+  vertical-align: top;
+  line-height: 30px;
+}
+div.rname div.text {
   padding: 0 10px;
   margin: 0 10px;
   font-size: 14px;
+  white-space: nowrap;
+  left: 10px;
+  height: 30px;
 }
 div.rname div.type {
-  display: inline-block;
+  height: 30px;
   font-size: 14px;
   transition: 0.5s;
 }
@@ -136,8 +146,8 @@ div.rname div.type.expend {
   transform: rotate(90deg);
 }
 div.rname div.icon-refresh {
-  display: inline-block;
   font-size: 14px;
+  line-height: 30px;
   transition: 0.5s;
 }
 div.rname div.icon-refresh.inactive {
@@ -149,7 +159,7 @@ div.rname div.rotate {
 div.rname:hover {
   color: #2699FB;
 }
-div.rname.selected span.text {
+div.rname.selected div.text {
   background: #2699FB;
   color: white;
 }

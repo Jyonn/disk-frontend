@@ -19,13 +19,21 @@ div.rname {
   vertical-align: middle;
   color: gray;
   .ptr();
-  span.text {
+  div.text, div.type, div.icon-refresh {
+    display: table-cell;
+    vertical-align: top;
+    line-height: 30px;
+  }
+  div.text {
     padding: 0 10px;
     margin: 0 10px;
     font-size: 14px;
+    white-space: nowrap;
+    left: 10px;
+    height: 30px;
   }
   div.type {
-    display: inline-block;
+    height: 30px;
     font-size: 14px;
     .animate();
   }
@@ -33,8 +41,8 @@ div.rname {
     transform: rotate(90deg);
   }
   div.icon-refresh {
-    display: inline-block;
     font-size: 14px;
+    line-height: 30px;
     .animate();
   }
   div.icon-refresh.inactive {
@@ -48,7 +56,7 @@ div.rname {
   }
 }
 div.rname.selected {
-  span.text {
+  div.text {
     background: @blue;
     color: white;
   }
