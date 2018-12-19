@@ -150,7 +150,7 @@ div.operation-block div.flex-container {
   background: white;
   height: auto;
   padding: 16px 5% 30px;
-  max-height: calc(100vh - 56px - 46px);
+  max-height: calc(100% - 46px);
   overflow-y: scroll;
   transition: 0.5s;
 }
