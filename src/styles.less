@@ -82,10 +82,20 @@ path {
 @nav-width-landscape: 38.2vw;
 @res-tab-height: 46px;
 
+nav {
+  //overflow: hidden;
+}
+nav, div.res {
+  .animate();
+}
+
 @media all and (orientation: portrait){
   nav {
     width: 100%;
     height: @nav-height-portrait;
+  }
+  nav.nav-hide {
+    height: 0px;
   }
   div.res {
     width: 100%;
@@ -93,8 +103,15 @@ path {
     left: 0;
     top: @nav-height-portrait;
   }
+  div.res.nav-hide {
+    top: 0px;
+    height: calc(~'100% - @{footer-height}');
+  }
   div.res.full {
     height: calc(~'100% - @{nav-height-portrait}');
+  }
+  div.res.full.nav-hide {
+    height: 100%;
   }
 }
 
@@ -103,6 +120,9 @@ path {
     width: @nav-width-landscape;
     height: calc(~'100% - @{footer-height}');
   }
+  //nav.nav-hide {
+  //  width: 0;
+  //}
   nav.full {
     height: 100%;
   }
@@ -112,6 +132,10 @@ path {
     left: @nav-width-landscape;
     top: 0;
   }
+  //div.res.nav-hide {
+  //  width: 100%;
+  //  left: 0;
+  //}
   div.res.full {
     height: 100%;
   }

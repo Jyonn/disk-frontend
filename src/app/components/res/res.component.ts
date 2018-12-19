@@ -36,6 +36,8 @@ export class ResComponent implements OnInit {
 
   res_str_id: string;
 
+  hide_nav: boolean;
+
   resource: Resource;
   children: Resource[];
   search_list: Resource[];
@@ -79,6 +81,7 @@ export class ResComponent implements OnInit {
     private router: Router,
     private meta: Meta,
   ) {
+    this.hide_nav = false;
     this.resource = null;
     this.res_str_id = '';
     this.visit_key = null;
@@ -150,7 +153,14 @@ export class ResComponent implements OnInit {
       });
       // .catch(msg => console.log(msg));
   }
+
+  refresh_hide_nav() {
+    this.hide_nav = !!window.localStorage.getItem('hide-nav');
+  }
+
   ngOnInit(): void {
+    this.refresh_hide_nav();
+
     this.activateRoute.params.subscribe((params) => {
       this.res_str_id = params['res_str_id'];
 

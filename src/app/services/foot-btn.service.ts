@@ -10,6 +10,7 @@ export class FootBtnService {
   foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
   foot_btn_tips: FootBtn;
+  foot_btn_setting: FootBtn;
   foot_btn_list: Array<FootBtn>;
   foot_btn_active: FootBtn;
 
@@ -72,6 +73,13 @@ export class FootBtnService {
       file: true,
       mask: true,
     });
+    this.foot_btn_setting = new FootBtn({
+      icon: 'icon-setting',
+      text: '设置',
+      folder: true,
+      file: true,
+      mask: true,
+    });
     this.foot_btn_list = [
       this.foot_btn_share,
       this.foot_btn_select,
@@ -80,6 +88,7 @@ export class FootBtnService {
       this.foot_btn_move,
       this.foot_btn_delete,
       this.foot_btn_tips,
+      this.foot_btn_setting,
     ];
     this.foot_btn_active = null;
     this.update_btns();
@@ -149,6 +158,10 @@ export class FootBtnService {
 
   get active_tips() {
     return (this.foot_btn_active === this.foot_btn_tips) ? 'active' : 'inactive';
+  }
+
+  get active_setting() {
+    return (this.foot_btn_active === this.foot_btn_setting) ? 'active' : 'inactive';
   }
 
   activate_btn(btn: FootBtn) {

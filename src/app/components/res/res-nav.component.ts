@@ -16,6 +16,7 @@ import {Router} from "@angular/router";
 export class ResNavComponent {
   @Input() resource: Resource;
   @Input() is_mine: boolean;
+  @Input() hide_nav: boolean;
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
   is_showing: boolean;
@@ -25,16 +26,9 @@ export class ResNavComponent {
     public baseService: BaseService,
     public router: Router,
   ) {
-    this.is_showing = false;
+    this.is_showing = true;
   }
 
-  get show_mode() {
-    if (this.is_showing) {
-      return 'showing';
-    } else {
-      return null;
-    }
-  }
   switch_show_mode() {
     // if (this.resource && this.resource.cover) {
     //   this.is_showing = !this.is_showing;

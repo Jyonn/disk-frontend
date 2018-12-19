@@ -134,19 +134,6 @@
         <div class="btn" [ngClass]="resource?.right_bubble ? '' : 'succ'" (click)="modify_bubble_action()">独立模式</div>
       </div>
     </div>
-    <div class="input-box">
-      <div class="title">底部导航栏按钮</div>
-      <div class="input-btn-line right">
-        <div class="btn succ" (click)="footBtnService.btn_hide(footBtnService.foot_btn_select)">隐藏</div>
-        <div class="btn"><span class="icon icon-select"></span></div>
-        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_select)">显示</div>
-      </div>
-      <div class="input-btn-line right">
-        <div class="btn succ" (click)="footBtnService.btn_hide(footBtnService.foot_btn_tips)">隐藏</div>
-        <div class="btn"><span class="icon icon-tips"></span></div>
-        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_tips)">显示</div>
-      </div>
-    </div>
   </div>
 
   <div class="flex-container" [ngClass]="footBtnService.active_delete">
@@ -159,6 +146,33 @@
       <div class="input-btn-line right">
         <div class="btn" (click)="footBtnService.foot_btn_active=null">取消</div>
         <div class="btn warn" (click)="delete_res_action()">删除</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-container" [ngClass]="footBtnService.active_setting">
+    <div class="title-box">
+      <div class="title">全局设置</div>
+    </div>
+    <div class="input-box">
+      <div class="title">封面图在竖屏模式下</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="nav_hide()">隐藏</div>
+        <div class="btn succ" (click)="nav_show()">显示</div>
+      </div>
+    </div>
+    <div class="input-box">
+      <div class="title">底部多选按钮</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_select)">隐藏</div>
+        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_select)">显示</div>
+      </div>
+    </div>
+    <div class="input-box">
+      <div class="title">底部贴士按钮</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_tips)">隐藏</div>
+        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_tips)">显示</div>
       </div>
     </div>
   </div>

@@ -40,10 +40,17 @@ div.res div.content,
 div.res div.content.resource div.res-item div.res-type span {
   transition: 0.5s;
 }
+nav,
+div.res {
+  transition: 0.5s;
+}
 @media all and (orientation: portrait) {
   nav {
     width: 100%;
     height: 25vh;
+  }
+  nav.nav-hide {
+    height: 0px;
   }
   div.res {
     width: 100%;
@@ -51,8 +58,15 @@ div.res div.content.resource div.res-item div.res-type span {
     left: 0;
     top: 25vh;
   }
+  div.res.nav-hide {
+    top: 0px;
+    height: calc(100% - 56px);
+  }
   div.res.full {
     height: calc(100% - 25vh);
+  }
+  div.res.full.nav-hide {
+    height: 100%;
   }
 }
 @media all and (orientation: landscape) {

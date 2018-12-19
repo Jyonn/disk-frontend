@@ -26,6 +26,7 @@ export class ResOpComponent implements OnInit {
   @Output() onAddChildRes = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
   @Output() onMove = new EventEmitter();
+  @Output() onRefreshNavHide = new EventEmitter();
 
   constructor(
     public footBtnService: FootBtnService,
@@ -545,6 +546,16 @@ export class ResOpComponent implements OnInit {
     } else {
       return '独立资源，不受父资源分享状态影响';
     }
+  }
+
+  nav_hide() {
+    window.localStorage.setItem('hide-nav', '1');
+    this.onRefreshNavHide.emit();
+  }
+
+  nav_show() {
+    window.localStorage.removeItem('hide-nav');
+    this.onRefreshNavHide.emit();
   }
 
   ngOnInit() {
