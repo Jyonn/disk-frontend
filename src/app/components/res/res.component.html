@@ -110,7 +110,7 @@
 
 <footer></footer>
 
-<footer *ngIf="show_op_footer" (swiperight)="footer_swipe($event)" (swipeleft)="footer_swipe($event)" [ngStyle]="{marginLeft: margin_left + 'px'}">
+<footer (swiperight)="footer_swipe($event)" (swipeleft)="footer_swipe($event)" [ngStyle]="{marginLeft: margin_left + 'px'}">
   <div *ngFor="let foot_btn of foot_btns"
        class="btn"
        [ngClass]="footBtnService.is_active(foot_btn)"
@@ -120,6 +120,6 @@
   </div>
 </footer>
 
-<footer *ngIf="!show_op_footer" class="ptr" (click)="go_login()">
-  <div class="join-us">离自由更近一点<span class="myweb-huntianxia"></span></div>
-</footer>
+<!--<footer *ngIf="!is_owner" class="ptr" (click)="go_login()">-->
+  <!--<div class="join-us">离自由更近一点<span class="myweb-huntianxia"></span></div>-->
+<!--</footer>-->

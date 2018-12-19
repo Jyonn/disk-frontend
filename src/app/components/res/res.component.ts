@@ -415,6 +415,9 @@ export class ResComponent implements OnInit {
               continue;
             }
           }
+          if (foot_btn.login && !this.is_owner) {
+            continue;
+          }
           _foot_btns.push(foot_btn);
         }
       }
@@ -422,7 +425,7 @@ export class ResComponent implements OnInit {
     return _foot_btns;
   }
 
-  get show_op_footer() {
+  get is_owner() {
     return this.userService.user && this.resource && this.userService.user.user_id === this.resource.owner.user_id;
   }
 

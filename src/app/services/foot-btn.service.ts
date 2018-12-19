@@ -30,6 +30,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: false,
     });
     this.foot_btn_select = new FootBtn({
       icon: 'icon-select',
@@ -37,6 +38,7 @@ export class FootBtnService {
       folder: true,
       file: false,
       mask: false,
+      login: true,
     });
     this.foot_btn_upload = new FootBtn({
       icon: 'icon-upload',
@@ -44,6 +46,7 @@ export class FootBtnService {
       folder: true,
       file: false,
       mask: true,
+      login: true,
     });
     this.foot_btn_modify = new FootBtn({
       icon: 'icon-modify',
@@ -51,6 +54,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: true,
     });
     this.foot_btn_move = new FootBtn({
       icon: 'icon-move',
@@ -58,6 +62,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: true,
     });
     this.foot_btn_delete = new FootBtn({
       icon: 'icon-delete',
@@ -65,6 +70,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: true,
     });
     this.foot_btn_tips = new FootBtn({
       icon: 'icon-tips',
@@ -72,6 +78,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: false,
     });
     this.foot_btn_setting = new FootBtn({
       icon: 'icon-setting',
@@ -79,6 +86,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      login: false,
     });
     this.foot_btn_list = [
       this.foot_btn_share,
