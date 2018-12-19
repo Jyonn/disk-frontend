@@ -9,8 +9,8 @@ export class FootBtnService {
   foot_btn_modify: FootBtn;
   foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
-  foot_btn_tips: FootBtn;
-  foot_btn_setting: FootBtn;
+  // foot_btn_tips: FootBtn;
+  // foot_btn_setting: FootBtn;
   foot_btn_list: Array<FootBtn>;
   foot_btn_active: FootBtn;
 
@@ -35,7 +35,7 @@ export class FootBtnService {
     this.foot_btn_select = new FootBtn({
       icon: 'icon-select',
       text: '多选',
-      folder: true,
+      folder: false,
       file: false,
       mask: false,
       login: true,
@@ -72,31 +72,31 @@ export class FootBtnService {
       mask: true,
       login: true,
     });
-    this.foot_btn_tips = new FootBtn({
-      icon: 'icon-tips',
-      text: '贴士',
-      folder: true,
-      file: true,
-      mask: true,
-      login: false,
-    });
-    this.foot_btn_setting = new FootBtn({
-      icon: 'icon-setting',
-      text: '设置',
-      folder: true,
-      file: true,
-      mask: true,
-      login: false,
-    });
+    // this.foot_btn_tips = new FootBtn({
+    //   icon: 'icon-tips',
+    //   text: '贴士',
+    //   folder: true,
+    //   file: true,
+    //   mask: true,
+    //   login: false,
+    // });
+    // this.foot_btn_setting = new FootBtn({
+    //   icon: 'icon-setting',
+    //   text: '设置',
+    //   folder: true,
+    //   file: true,
+    //   mask: true,
+    //   login: false,
+    // });
     this.foot_btn_list = [
       this.foot_btn_share,
-      this.foot_btn_select,
+      // this.foot_btn_select,
       this.foot_btn_upload,
       this.foot_btn_modify,
       this.foot_btn_move,
       this.foot_btn_delete,
-      this.foot_btn_tips,
-      this.foot_btn_setting,
+      // this.foot_btn_tips,
+      // this.foot_btn_setting,
     ];
     this.foot_btn_active = null;
     this.update_btns();
@@ -164,13 +164,13 @@ export class FootBtnService {
     return (this.foot_btn_active === this.foot_btn_delete) ? 'active' : 'inactive';
   }
 
-  get active_tips() {
-    return (this.foot_btn_active === this.foot_btn_tips) ? 'active' : 'inactive';
-  }
-
-  get active_setting() {
-    return (this.foot_btn_active === this.foot_btn_setting) ? 'active' : 'inactive';
-  }
+  // get active_tips() {
+  //   return (this.foot_btn_active === this.foot_btn_tips) ? 'active' : 'inactive';
+  // }
+  //
+  // get active_setting() {
+  //   return (this.foot_btn_active === this.foot_btn_setting) ? 'active' : 'inactive';
+  // }
 
   activate_btn(btn: FootBtn) {
     if (this.foot_btn_active === btn) {

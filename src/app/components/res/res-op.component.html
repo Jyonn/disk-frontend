@@ -134,6 +134,20 @@
         <div class="btn" [ngClass]="resource?.right_bubble ? '' : 'succ'" (click)="modify_bubble_action()">独立模式</div>
       </div>
     </div>
+    <div class="input-box">
+      <div class="title">封面图在竖屏模式下</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="nav_hide()">隐藏</div>
+        <div class="btn succ" (click)="nav_show()">显示</div>
+      </div>
+    </div>
+    <div class="input-box">
+      <div class="title">底部多选按钮</div>
+      <div class="input-btn-line right">
+        <div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_select)">隐藏</div>
+        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_select)">显示</div>
+      </div>
+    </div>
   </div>
 
   <div class="flex-container" [ngClass]="footBtnService.active_delete">
@@ -150,57 +164,57 @@
     </div>
   </div>
 
-  <div class="flex-container" [ngClass]="footBtnService.active_setting">
-    <div class="title-box">
-      <div class="title">全局设置</div>
-    </div>
-    <div class="input-box">
-      <div class="title">封面图在竖屏模式下</div>
-      <div class="input-btn-line right">
-        <div class="btn" (click)="nav_hide()">隐藏</div>
-        <div class="btn succ" (click)="nav_show()">显示</div>
-      </div>
-    </div>
-    <div class="input-box">
-      <div class="title">底部多选按钮</div>
-      <div class="input-btn-line right">
-        <div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_select)">隐藏</div>
-        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_select)">显示</div>
-      </div>
-    </div>
-    <div class="input-box">
-      <div class="title">底部贴士按钮</div>
-      <div class="input-btn-line right">
-        <div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_tips)">隐藏</div>
-        <div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_tips)">显示</div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="flex-container" [ngClass]="footBtnService.active_setting">-->
+    <!--<div class="title-box">-->
+      <!--<div class="title">全局设置</div>-->
+    <!--</div>-->
+    <!--<div class="input-box">-->
+      <!--<div class="title">封面图在竖屏模式下</div>-->
+      <!--<div class="input-btn-line right">-->
+        <!--<div class="btn" (click)="nav_hide()">隐藏</div>-->
+        <!--<div class="btn succ" (click)="nav_show()">显示</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-box">-->
+      <!--<div class="title">底部多选按钮</div>-->
+      <!--<div class="input-btn-line right">-->
+        <!--<div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_select)">隐藏</div>-->
+        <!--<div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_select)">显示</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-box">-->
+      <!--<div class="title">底部贴士按钮</div>-->
+      <!--<div class="input-btn-line right">-->
+        <!--<div class="btn" (click)="footBtnService.btn_hide(footBtnService.foot_btn_tips)">隐藏</div>-->
+        <!--<div class="btn succ" (click)="footBtnService.btn_show(footBtnService.foot_btn_tips)">显示</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
-  <div class="flex-container" [ngClass]="footBtnService.active_tips">
-    <div class="title-box">
-      <div class="title">更新日志<span>（{{updateService.version}}）</span></div>
-    </div>
-    <div class="input-box">
-      <div class="title" *ngFor="let log of updateService.crt_logs">{{log}}</div>
-      <div class="input-btn-line right">
-        <div class="btn succ" (click)="updateService.go_last()">上一个</div>
-        <div class="btn">{{updateService.readable_index}}/{{updateService.length}}</div>
-        <div class="btn succ" (click)="updateService.go_next()">下一个</div>
-      </div>
-    </div>
-    <div class="title-box">
-      <div class="title">使用小贴士</div>
-    </div>
-    <div class="input-box">
-      <div class="title">{{tipsService.crt_tip}}</div>
-      <div class="input-btn-line right">
-        <div class="btn succ" (click)="tipsService.go_last()">上一个</div>
-        <div class="btn">{{tipsService.readable_index}}/{{tipsService.tips.length}}</div>
-        <div class="btn succ" (click)="tipsService.go_next()">下一个</div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="flex-container" [ngClass]="footBtnService.active_tips">-->
+    <!--<div class="title-box">-->
+      <!--<div class="title">更新日志<span>（{{updateService.version}}）</span></div>-->
+    <!--</div>-->
+    <!--<div class="input-box">-->
+      <!--<div class="title" *ngFor="let log of updateService.crt_logs">{{log}}</div>-->
+      <!--<div class="input-btn-line right">-->
+        <!--<div class="btn succ" (click)="updateService.go_last()">上一个</div>-->
+        <!--<div class="btn">{{updateService.readable_index}}/{{updateService.length}}</div>-->
+        <!--<div class="btn succ" (click)="updateService.go_next()">下一个</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="title-box">-->
+      <!--<div class="title">使用小贴士</div>-->
+    <!--</div>-->
+    <!--<div class="input-box">-->
+      <!--<div class="title">{{tipsService.crt_tip}}</div>-->
+      <!--<div class="input-btn-line right">-->
+        <!--<div class="btn succ" (click)="tipsService.go_last()">上一个</div>-->
+        <!--<div class="btn">{{tipsService.readable_index}}/{{tipsService.tips.length}}</div>-->
+        <!--<div class="btn succ" (click)="tipsService.go_next()">下一个</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <div class="flex-container" [ngClass]="footBtnService.active_move">
     <div class="title-box">

@@ -47,7 +47,7 @@
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover_small}">{{child.first_letter}}</div>
       <div class="res-name">{{child.rname}}</div>
       <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span><span *ngIf="child.rtype == 2">，{{child.dlcount}}次前往</span></div>
-      <div class="res-type"><span [ngClass]="footBtnService.is_selecting ? child.icon_select : child.icon"></span></div>
+      <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="footBtnService.foot_btn_active = footBtnService.foot_btn_select"></span></div>
       <hr/>
     </div>
   </div>
