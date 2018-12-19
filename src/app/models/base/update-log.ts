@@ -1,10 +1,10 @@
 export class UpdateLog {
   public static logs = [{
     time: '181219',
-    version: '4.4.5',
+    version: '4.4.6',
     updates: [
-      '多个填写框增加字数限制警告',
       '链接资源显示前往次数',
+      '支持批量资源文件上传',
     ]
   }, {
     time: '181210',

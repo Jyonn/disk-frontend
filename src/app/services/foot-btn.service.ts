@@ -13,11 +13,16 @@ export class FootBtnService {
   foot_btn_list: Array<FootBtn>;
   foot_btn_active: FootBtn;
 
+  is_ajax_uploading: boolean;
+  is_ajax_modifying: boolean;
+
   is_btn_hide(key) {
     return !!window.localStorage.getItem('hide-' + key);
   }
 
   constructor() {
+    this.is_ajax_modifying = this.is_ajax_uploading = false;
+
     this.foot_btn_share = new FootBtn({
       icon: 'icon-share',
       text: '分享',

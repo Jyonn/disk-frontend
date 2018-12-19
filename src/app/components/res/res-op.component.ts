@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {FootBtnService} from "../../services/foot-btn.service";
 import {Resource} from "../../models/res/resource";
 import {ResourceService} from "../../services/resource.service";
 import {RadioBtn} from "../../models/res/res-share-btn";
@@ -8,6 +7,7 @@ import {Info} from "../../models/base/info";
 import {TipsService} from "../../services/tips.service";
 import {UpdateService} from "../../services/update.service";
 import {ResourceTreeService} from "../../services/resource-tree.service";
+import {FootBtnService} from "../../services/foot-btn.service";
 
 @Component({
   selector: 'app-res-op',
@@ -22,7 +22,8 @@ export class ResOpComponent implements OnInit {
   @Input() res_str_id: string;
   @Input() tab_mode: string;
   @Input() delete_text: string;
-  @Output() onUploaded = new EventEmitter<Resource>();
+  @Output() onUploaded = new EventEmitter<any>();
+  @Output() onAddChildRes = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
   @Output() onMove = new EventEmitter();
 
@@ -60,14 +61,12 @@ export class ResOpComponent implements OnInit {
   res_files: FileList;
   file_name: string;
   folder_name: string;
-  is_uploading: boolean;
   link_name: string;
   link_url: string;
 
   // foot btn modify
   // res_name: string;
   res_cover_files: FileList;
-  is_modifying: boolean;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -104,7 +103,6 @@ export class ResOpComponent implements OnInit {
     this.folder_name = null;
     this.link_name = null;
     this.link_url = null;
-    this.is_uploading = false;
   }
 
   initCover() {
@@ -132,7 +130,14 @@ export class ResOpComponent implements OnInit {
       text: '资源',
       value: Resource.COVER_RESOURCE,
     });
-    this.cover_btn_list = [this.cover_random, this.cover_upload, this.cover_father, this.cover_outlnk, this.cover_self, this.cover_resource];
+    this.cover_btn_list = [
+      this.cover_random,
+      this.cover_upload,
+      this.cover_father,
+      this.cover_outlnk,
+      this.cover_self,
+      this.cover_resource
+    ];
   }
 
   get cover_btns() {
@@ -143,10 +148,6 @@ export class ResOpComponent implements OnInit {
       }
     }
     return _cover_btns;
-  }
-
-  initModify() {
-    this.is_modifying = false;
   }
 
   b2s(b: boolean) {
@@ -233,7 +234,7 @@ export class ResOpComponent implements OnInit {
   }
 
   upload_file_action() {
-    if (this.is_uploading) {
+    if (this.footBtnService.is_ajax_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
@@ -242,29 +243,21 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '没有选择文件', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_uploading = true;
-    this.resService.get_upload_token(this.resource.res_str_id, {filename: this.file_name})
-      .then((resp) => {
-        this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_files[0])
-          .then((resp_) => {
-            this.onUploaded.emit(new Resource(this.baseService, resp_));
-            this.res_files = null;
-            this.footBtnService.foot_btn_active = null;
-            this.is_uploading = false;
-            this.file_name = '';
-          })
-          .catch(() => {
-            this.is_uploading = false;
-            this.file_name = '';
-          });
-      })
-      .catch(() => {
-        this.is_uploading = false;
-      });
+    this.footBtnService.is_ajax_uploading = true;
+
+    this.onUploaded.emit({
+      res_files: this.res_files,
+      file_name: this.file_name,
+      callback: () => {
+        this.file_name = '';
+        this.res_files = null;
+        this.footBtnService.is_ajax_uploading = false;
+      }
+    });
   }
 
   modify_res_cover_action() {
-    if (this.is_modifying) {
+    if (this.footBtnService.is_ajax_modifying) {
       BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
       return;
     }
@@ -273,7 +266,7 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '没有选择图片', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_modifying = true;
+    this.footBtnService.is_ajax_modifying = true;
     this.resService.get_cover_token(this.res_str_id, {filename: res_cover})
       .then((resp) => {
         this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
@@ -281,15 +274,15 @@ export class ResOpComponent implements OnInit {
             this.resource.update(null, resp_);
             this.res_cover_files = null;
             // this.footBtnService.foot_btn_active = null;
-            this.is_modifying = false;
+            this.footBtnService.is_ajax_modifying = false;
             BaseService.info_center.next(new Info({text: '更新封面成功', type: Info.TYPE_SUCC}));
           })
           .catch(() => {
-            this.is_modifying = false;
+            this.footBtnService.is_ajax_modifying = false;
           });
       })
       .catch(() => {
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
       });
   }
 
@@ -317,7 +310,7 @@ export class ResOpComponent implements OnInit {
   }
 
   create_folder_action() {
-    if (this.is_uploading) {
+    if (this.footBtnService.is_ajax_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
@@ -325,22 +318,22 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '文件夹名不能为空', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_uploading = true;
+    this.footBtnService.is_ajax_uploading = true;
     this.resService.create_folder(this.resource.res_str_id, {folder_name: this.folder_name})
       .then((resp) => {
-        this.onUploaded.emit(new Resource(this.baseService, resp));
+        this.onAddChildRes.emit(new Resource(this.baseService, resp));
         this.folder_name = null;
         this.footBtnService.foot_btn_active = null;
-        this.is_uploading = false;
+        this.footBtnService.is_ajax_uploading = false;
         BaseService.info_center.next(new Info({text: '创建文件夹成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        this.is_uploading = false;
+        this.footBtnService.is_ajax_uploading = false;
       });
   }
 
   create_link_action() {
-    if (this.is_uploading) {
+    if (this.footBtnService.is_ajax_uploading) {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
@@ -348,22 +341,22 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '链接名不能为空', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_uploading = true;
+    this.footBtnService.is_ajax_uploading = true;
     this.resService.create_link(this.resource.res_str_id, {link_name: this.link_name, link: this.link_url})
       .then((resp) => {
-        this.onUploaded.emit(new Resource(this.baseService, resp));
+        this.onAddChildRes.emit(new Resource(this.baseService, resp));
         this.link_name = null;
         this.footBtnService.foot_btn_active = null;
-        this.is_uploading = false;
+        this.footBtnService.is_ajax_uploading = false;
         BaseService.info_center.next(new Info({text: '创建链接成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        this.is_uploading = false;
+        this.footBtnService.is_ajax_uploading = false;
       });
   }
 
   modify_res_name_action() {
-    if (this.is_modifying) {
+    if (this.footBtnService.is_ajax_modifying) {
       BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
       return;
     }
@@ -371,22 +364,22 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '资源名不能为空', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_modifying = true;
+    this.footBtnService.is_ajax_modifying = true;
     this.resService.modify_res_info(this.res_str_id,
       {status: null, visit_key: null, description: null, rname: this.res_name, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源名成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
       });
   }
 
   modify_res_visit_key_action() {
-    if (this.is_modifying) {
+    if (this.footBtnService.is_ajax_modifying) {
       BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
       return;
     }
@@ -394,22 +387,22 @@ export class ResOpComponent implements OnInit {
       BaseService.info_center.next(new Info({text: '密码不能为空', type: Info.TYPE_WARN}));
       return;
     }
-    this.is_modifying = true;
+    this.footBtnService.is_ajax_modifying = true;
     this.resService.modify_res_info(this.res_str_id,
       {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
         this.footBtnService.foot_btn_active = null;
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源访问密码成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
       });
   }
 
   modify_bubble_action() {
-    if (this.is_modifying) {
+    if (this.footBtnService.is_ajax_modifying) {
       BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
       return;
     }
@@ -422,11 +415,11 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.resource.update(null, resp);
         // this.footBtnService.foot_btn_active = null;
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源属性成功', type: Info.TYPE_SUCC}));
       })
       .catch(() => {
-        this.is_modifying = false;
+        this.footBtnService.is_ajax_modifying = false;
       });
   }
 
@@ -456,7 +449,7 @@ export class ResOpComponent implements OnInit {
   default_filter() {
     return function () {
       return true;
-    }
+    };
   }
 
   delete_res_action() {
@@ -532,7 +525,7 @@ export class ResOpComponent implements OnInit {
   }
 
   get cover_res_select_rname() {
-    return `与资源“${this.selected_rname}”一致`;
+    return `与资源“${this.selected_rname}”的封面一致`;
   }
 
   select_cover_resource() {
@@ -558,6 +551,5 @@ export class ResOpComponent implements OnInit {
     this.initShare();
     this.initUpload();
     this.initCover();
-    this.initModify();
   }
 }

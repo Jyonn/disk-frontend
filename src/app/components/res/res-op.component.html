@@ -37,7 +37,7 @@
 
   <div class="flex-container" [ngClass]="[footBtnService.active_upload]">
     <div class="title-box">
-      <div class="title">上传资源</div>
+      <div class="title">上传资源<span *ngIf="is_active('upload', upload_file)">（{{res_files ? '已选择“' + res_files[0].name + '”' : '支持批量文件上传'}}{{res_files && res_files.length > 1 ? '等' + res_files.length + '个文件' : ''}}）</span></div>
       <app-loading></app-loading>
     </div>
     <div class="choose-bar">
@@ -48,29 +48,32 @@
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_file))" class="input-box">
       <div class="input-btn-line">
-        <input type="file" (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
-        <input [(ngModel)]="file_name" placeholder="在此输入文件名称…" maxlength="256">
-        <div class="btn" [ngClass]="(!file_name || file_name.length >= 256) ? 'warn' : 'num'">{{file_name && file_name.length || 0}}/256</div>
+        <input type="file" multiple (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
+        <input *ngIf="!res_files || res_files.length < 2" [(ngModel)]="file_name" placeholder="在此输入文件名称…" maxlength="256">
+        <input *ngIf="res_files && res_files.length > 1" placeholder="多文件上传不允许修改文件名" readonly>
+        <!--<div class="btn" [ngClass]="(!file_name || file_name.length >= 256) ? 'warn' : 'num'">{{file_name && file_name.length || 0}}/256</div>-->
+        <!--<div class="btn" *ngIf="file_name && file_name.length" [ngClass]="(file_name.length >= 256) ? 'warn' : 'num'">{{file_name.length}}/256</div>-->
+        <div *ngIf="!res_files || res_files.length < 2" class="btn" (click)="file_name = ''">清名</div>
         <div class="btn" (click)="choose_file.click()">选择</div>
-        <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
+        <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': footBtnService.is_ajax_uploading}">上传</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
       <div class="input-btn-line">
         <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…" maxlength="256">
-        <div class="btn" [ngClass]="(!folder_name || folder_name.length >= 256) ? 'warn' : 'num'">{{folder_name && folder_name.length || 0}}/256</div>
+        <!--<div class="btn" *ngIf="folder_name && folder_name.length" [ngClass]="(folder_name.length >= 256) ? 'warn' : 'num'">{{folder_name.length}}/256</div>-->
         <div class="btn succ" (click)="create_folder_action()">创建</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_link))" class="input-box">
       <div class="input-btn-line">
         <input [(ngModel)]="link_name" placeholder="在此输入链接名称…" maxlength="256">
-        <div class="btn" [ngClass]="(!link_name || link_name.length >= 256) ? 'warn' : 'num'">{{link_name && link_name.length || 0}}/256</div>
+        <!--<div class="btn" *ngIf="link_name && link_name.length" [ngClass]="(link_name.length >= 256) ? 'warn' : 'num'">{{link_name.length}}/256</div>-->
         <div class="btn" (click)="link_name = null">重置</div>
       </div>
       <div class="input-btn-line">
         <input [(ngModel)]="link_url" placeholder="在此输入链接…" maxlength="1024">
-        <div class="btn" [ngClass]="(!link_url || link_url.length >= 1024) ? 'warn' : 'num'">{{link_url && link_url.length || 0}}/1024</div>
+        <!--<div class="btn" *ngIf="link_url && link_url.length" [ngClass]="(link_url.length >= 1024) ? 'warn' : 'num'">{{link_url.length}}/1024</div>-->
         <div class="btn" (click)="link_url = null">重置</div>
         <div class="btn succ" (click)="create_link_action()">创建</div>
       </div>
@@ -86,8 +89,8 @@
       <div class="title">更新资源名称</div>
       <div class="input-btn-line">
         <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
-        <div class="btn" [ngClass]="(!res_name || res_name.length >= 256) ? 'warn' : 'num'">{{res_name && res_name.length || 0}}/256</div>
-        <div class="btn" (click)="res_name = resource?.former_rname">重置</div>
+        <!--<div class="btn" *ngIf="res_name && res_name.length" [ngClass]="(res_name.length >= 256) ? 'warn' : 'num'">{{res_name.length}}/256</div>-->
+        <div class="btn" (click)="res_name = ''">重置</div>
         <div class="btn succ" (click)="modify_res_name_action()">更新</div>
       </div>
     </div>

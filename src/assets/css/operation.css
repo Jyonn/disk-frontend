@@ -233,7 +233,7 @@ div.operation-block div.flex-container div.input-box div.input-btn-line input {
   transition: 0.5s;
   padding: 0 15px;
   font-size: 12px;
-  width: stretch;
+  width: inherit;
   outline: none;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line input:hover,

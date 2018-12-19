@@ -59,6 +59,7 @@ export class ResComponent implements OnInit {
   show_op_process: boolean; // 是否进入操作画面
   op_text: string;
   op_identifier: string;
+  operations: any;
 
   margin_left: number;
 
@@ -90,6 +91,20 @@ export class ResComponent implements OnInit {
     this.show_op_process = false;
     this.margin_left = 0;
     this.show_more_option = false;
+    this.operations = {
+      delete: {
+        text: '删除',
+        func: this.recursiveDelete.bind(this),
+      },
+      move: {
+        text: '移动',
+        func: this.directMove.bind(this),
+      },
+      upload: {
+        text: '上传',
+        func: this.multipleUpload.bind(this),
+      }
+    };
   }
   baseInitResource(resp) {
     this.children = [];
@@ -175,6 +190,16 @@ export class ResComponent implements OnInit {
 
   get op_percent() {
     return Math.floor(this.current_op_num / this.total_op_num * 100) + '%';
+  }
+
+  async multipleUpload(upload_res_list: Array<OperationResItem>) {
+    for (const upload_res_item of upload_res_list) {
+      this.current_path = upload_res_item.readable_path;
+      const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readable_path});
+      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data);
+      this.addChildRes(new Resource(null, res_data));
+      this.current_op_num += 1;
+    }
   }
 
   async directMove(move_res_list: Array<OperationResItem>) {
@@ -297,13 +322,14 @@ export class ResComponent implements OnInit {
     }
   }
 
-  start_operation(callback) {
-    const op_list = this.operation_list;
+  start_operation(callback = null, fail_call = null) {
     this.show_op_process = true;
     this.current_op_num = 0;
-    this.total_op_num = op_list.length;
-    this.op_text = (this.op_identifier === 'delete') ? '删除' : '移动';
-    const promise = (this.op_identifier === 'delete') ? this.recursiveDelete(op_list) : this.directMove(op_list);
+    this.total_op_num = this.operation_list.length;
+    // this.op_text = (this.op_identifier === 'delete') ? '删除' : (this.op_identifier === '')'移动';
+    // const promise = (this.op_identifier === 'delete') ? this.recursiveDelete(op_list) : this.directMove(op_list);
+    this.op_text = this.operations[this.op_identifier].text;
+    const promise = this.operations[this.op_identifier].func(this.operation_list);
     promise
       .then(() => {
         BaseService.info_center.next(new Info({
@@ -318,6 +344,9 @@ export class ResComponent implements OnInit {
         }, 300);
       })
       .catch(() => {
+        if (fail_call) {
+          fail_call();
+        }
         setTimeout(() => {
           this.show_op_process = false;
         }, 300);
@@ -511,9 +540,33 @@ export class ResComponent implements OnInit {
       });
   }
 
-  onUploaded(res: Resource) {
+  addChildRes(res: Resource) {
     this.children.push(res);
     this.resource_search();
+  }
+
+  onUpload(data: any) {
+    const res_files = data.res_files;
+    const file_name = data.file_name;
+    this.operation_list = [];
+    if (res_files.length === 1) {
+      this.operation_list.push(new OperationResItem({
+        res_str_id: null,
+        readable_path: file_name,
+      }, res_files[0]));
+    } else {
+      for (let index = 0; index < res_files.length; index++) {
+        const res = res_files[index];
+        this.operation_list.push(new OperationResItem({
+          res_str_id: null,
+          readable_path: res.name,
+        }, res));
+      }
+    }
+
+    this.op_identifier = 'upload';
+    this.footBtnService.foot_btn_active = null;
+    this.start_operation(data.callback);
   }
 
   onDeleted() {
