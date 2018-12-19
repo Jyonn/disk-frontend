@@ -29,7 +29,7 @@
       <div class="title">更新资源密钥</div>
       <div class="input-btn-line">
         <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…" maxlength="16">
-        <div class="btn" [ngClass]="(res_visit_key && (res_visit_key.length >= 16 || res_visit_key.length < 3)) ? 'warn' : 'default'">{{res_visit_key && res_visit_key.length}}/16</div>
+        <div class="btn" [ngClass]="(!res_visit_key || res_visit_key.length >= 16 || res_visit_key.length < 3) ? 'warn' : 'num'">{{res_visit_key && res_visit_key.length || 0}}/16</div>
         <div class="btn succ" (click)="modify_res_visit_key_action()">更新</div>
       </div>
     </div>
@@ -49,24 +49,28 @@
     <div [ngClass]="b2s(is_active('upload', upload_file))" class="input-box">
       <div class="input-btn-line">
         <input type="file" (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
-        <input [(ngModel)]="file_name" placeholder="在此输入文件名称…">
+        <input [(ngModel)]="file_name" placeholder="在此输入文件名称…" maxlength="256">
+        <div class="btn" [ngClass]="(!file_name || file_name.length >= 256) ? 'warn' : 'num'">{{file_name && file_name.length || 0}}/256</div>
         <div class="btn" (click)="choose_file.click()">选择</div>
         <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': is_uploading}">上传</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
       <div class="input-btn-line">
-        <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…">
+        <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…" maxlength="256">
+        <div class="btn" [ngClass]="(!folder_name || folder_name.length >= 256) ? 'warn' : 'num'">{{folder_name && folder_name.length || 0}}/256</div>
         <div class="btn succ" (click)="create_folder_action()">创建</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_link))" class="input-box">
       <div class="input-btn-line">
-        <input [(ngModel)]="link_name" placeholder="在此输入链接名称…">
+        <input [(ngModel)]="link_name" placeholder="在此输入链接名称…" maxlength="256">
+        <div class="btn" [ngClass]="(!link_name || link_name.length >= 256) ? 'warn' : 'num'">{{link_name && link_name.length || 0}}/256</div>
         <div class="btn" (click)="link_name = null">重置</div>
       </div>
       <div class="input-btn-line">
-        <input [(ngModel)]="link_url" placeholder="在此输入链接…">
+        <input [(ngModel)]="link_url" placeholder="在此输入链接…" maxlength="1024">
+        <div class="btn" [ngClass]="(!link_url || link_url.length >= 1024) ? 'warn' : 'num'">{{link_url && link_url.length || 0}}/1024</div>
         <div class="btn" (click)="link_url = null">重置</div>
         <div class="btn succ" (click)="create_link_action()">创建</div>
       </div>
@@ -82,6 +86,7 @@
       <div class="title">更新资源名称</div>
       <div class="input-btn-line">
         <input [(ngModel)]="res_name" placeholder="在此输入资源名称…">
+        <div class="btn" [ngClass]="(!res_name || res_name.length >= 256) ? 'warn' : 'num'">{{res_name && res_name.length || 0}}/256</div>
         <div class="btn" (click)="res_name = resource?.former_rname">重置</div>
         <div class="btn succ" (click)="modify_res_name_action()">更新</div>
       </div>

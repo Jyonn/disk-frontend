@@ -280,6 +280,9 @@ div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.
 div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.warn {
   background: #D04B4B;
 }
+div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.num {
+  background: #77D05F;
+}
 div.operation-block div.flex-container div.input-box div.input-btn-line div:first-child {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;

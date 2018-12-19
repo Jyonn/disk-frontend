@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181219',
+    version: '4.4.5',
+    updates: [
+      '多个填写框增加字数限制警告',
+      '链接资源显示前往次数',
+    ]
+  }, {
     time: '181210',
     version: '4.4.4',
     updates: [
