@@ -126,6 +126,8 @@ footer {
 nav.showing div.menu-box.showing {
   opacity: 1;
   filter: opacity(1);
+  height: auto;
+  overflow-y: visible;
 }
 nav {
   background: none;
@@ -136,6 +138,7 @@ nav {
 nav div.menu-box {
   opacity: 0;
   filter: opacity(0);
+  overflow-y: hidden;
   transition: 0.5s;
   position: absolute;
   top: calc(46px / 2 + 24px / 2);
@@ -157,6 +160,8 @@ nav div.menu-box div.menu-list {
   width: max-content;
   background: white;
   border-radius: 4px;
+  max-height: calc(100vh - 46px * 2);
+  overflow-y: scroll;
 }
 nav div.menu-box div.menu-list div.menu-title {
   color: black !important;

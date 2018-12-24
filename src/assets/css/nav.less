@@ -13,6 +13,8 @@ nav.showing {
   div.menu-box.showing {
     opacity: 1;
     filter: opacity(1);
+    height: auto;
+    overflow-y: visible;
   }
 }
 
@@ -26,6 +28,7 @@ nav {
   div.menu-box {
     opacity: 0;
     filter: opacity(0);
+    overflow-y: hidden;
 
     .animate();
     position: absolute;
@@ -49,6 +52,8 @@ nav {
       width: max-content;
       background: white;
       border-radius: @menu-border-radius;
+      max-height: calc(~'100vh - @{res-tab-height} * 2');
+      overflow-y: scroll;
       div.menu-title {
         color: black !important;
         border-radius: @menu-border-radius @menu-border-radius 0 0;

@@ -34,9 +34,10 @@ export class ResNavComponent {
   }
 
   switch_show_mode() {
-    this.is_showing = !this.is_showing;
-    if (!this.is_showing) {
+    if (this.show_menu) {
       this.show_menu = false;
+    } else {
+      this.is_showing = !this.is_showing;
     }
   }
 
