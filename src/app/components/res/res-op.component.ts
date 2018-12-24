@@ -27,14 +27,13 @@ export class ResOpComponent implements OnInit {
   @Output() onAddChildRes = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
   @Output() onMove = new EventEmitter();
-  @Output() onRefreshNavHide = new EventEmitter();
 
   constructor(
     public footBtnService: FootBtnService,
     public resService: ResourceService,
     public baseService: BaseService,
-    // public tipsService: TipsService,
-    // public updateService: UpdateService,
+    public tipsService: TipsService,
+    public updateService: UpdateService,
     public resTreeService: ResourceTreeService,
     public userService: UserService,
   ) {}
@@ -326,7 +325,7 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.onAddChildRes.emit(new Resource(this.baseService, resp));
         this.folder_name = null;
-        this.footBtnService.foot_btn_active = null;
+        this.footBtnService.inactivate();
         this.footBtnService.is_ajax_uploading = false;
         BaseService.info_center.next(new Info({text: '创建文件夹成功', type: Info.TYPE_SUCC}));
       })
@@ -349,7 +348,7 @@ export class ResOpComponent implements OnInit {
       .then((resp) => {
         this.onAddChildRes.emit(new Resource(this.baseService, resp));
         this.link_name = null;
-        this.footBtnService.foot_btn_active = null;
+        this.footBtnService.inactivate();
         this.footBtnService.is_ajax_uploading = false;
         BaseService.info_center.next(new Info({text: '创建链接成功', type: Info.TYPE_SUCC}));
       })
@@ -395,7 +394,7 @@ export class ResOpComponent implements OnInit {
       {status: null, visit_key: this.res_visit_key, description: null, rname: null, right_bubble: null, parent_str_id: null})
       .then((resp) => {
         this.resource.update(null, resp);
-        this.footBtnService.foot_btn_active = null;
+        this.footBtnService.inactivate();
         this.footBtnService.is_ajax_modifying = false;
         BaseService.info_center.next(new Info({text: '修改资源访问密码成功', type: Info.TYPE_SUCC}));
       })
@@ -427,7 +426,7 @@ export class ResOpComponent implements OnInit {
   }
 
   move_res_action() {
-    this.footBtnService.foot_btn_active = null;
+    this.footBtnService.inactivate();
     this.onMove.emit();
   }
 
@@ -456,7 +455,7 @@ export class ResOpComponent implements OnInit {
   }
 
   delete_res_action() {
-    this.footBtnService.foot_btn_active = null;
+    this.footBtnService.inactivate();
     this.onDeleted.emit();
   }
 
@@ -552,12 +551,12 @@ export class ResOpComponent implements OnInit {
 
   nav_hide() {
     window.localStorage.setItem('hide-nav', '1');
-    this.onRefreshNavHide.emit();
+    this.resService.refresh_hide_nav();
   }
 
   nav_show() {
     window.localStorage.removeItem('hide-nav');
-    this.onRefreshNavHide.emit();
+    this.resService.refresh_hide_nav();
   }
 
   get is_owner() {

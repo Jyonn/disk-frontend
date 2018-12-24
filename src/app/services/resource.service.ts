@@ -3,7 +3,11 @@ import {BaseService} from "./base.service";
 
 @Injectable()
 export class ResourceService {
-  constructor(private baseService: BaseService) {}
+  hide_nav: boolean;
+
+  constructor(private baseService: BaseService) {
+    this.refresh_hide_nav();
+  }
 
   public static storeVK(path: string, visit_key) {
     window.localStorage.setItem(`vk-${path}`, visit_key);
@@ -15,6 +19,10 @@ export class ResourceService {
 
   public static clearVK(path: string) {
     window.localStorage.removeItem(`vk-${path}`);
+  }
+
+  public refresh_hide_nav() {
+    this.hide_nav = !!window.localStorage.getItem('hide-nav');
   }
 
   public get_upload_token(res_str_id: string, data: {filename: string}) {

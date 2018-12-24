@@ -123,11 +123,65 @@ footer {
 .bg-blur-darker {
   filter: brightness(40%) blur(8px);
 }
+nav.showing div.menu-box.showing {
+  opacity: 1;
+  filter: opacity(1);
+}
 nav {
   background: none;
   position: fixed;
   left: 0;
   top: 0;
+}
+nav div.menu-box {
+  opacity: 0;
+  filter: opacity(0);
+  transition: 0.5s;
+  position: absolute;
+  top: calc(46px / 2 + 24px / 2);
+  right: 20px;
+}
+nav div.menu-box div.triangle {
+  width: 0;
+  height: 0;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent white;
+  position: absolute;
+  right: 6px;
+}
+nav div.menu-box div.menu-list {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  width: max-content;
+  background: white;
+  border-radius: 4px;
+}
+nav div.menu-box div.menu-list div.menu-title {
+  color: black !important;
+  border-radius: 4px 4px 0 0;
+}
+nav div.menu-box div.menu-list div.menu-item {
+  font-size: 14px;
+  padding: 0 30px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #CCCCCC;
+  color: #555555;
+  text-align: center;
+  cursor: pointer;
+}
+nav div.menu-box div.menu-list div.menu-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 4px 4px;
+}
+nav div.menu-box div.menu-list div.menu-item:hover {
+  background: #dddddd;
+}
+nav div.menu-box div.menu-list div.menu-item.warn {
+  background: #D04B4B;
+  color: white;
 }
 nav div.content {
   width: calc(100% - 40px);

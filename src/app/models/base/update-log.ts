@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181224',
+    version: '4.6.0',
+    updates: [
+      '优化个人主页模块，改用菜单栏显示',
+      '重新支持查看贴士和更新日志',
+    ]
+  }, {
     time: '181219',
     version: '4.5.0',
     updates: [

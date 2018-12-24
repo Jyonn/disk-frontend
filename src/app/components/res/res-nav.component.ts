@@ -4,6 +4,7 @@ import {Resource} from "../../models/res/resource";
 import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {Router} from "@angular/router";
+import {FootBtnService} from "../../services/foot-btn.service";
 
 @Component({
   selector: 'app-res-nav',
@@ -20,22 +21,23 @@ export class ResNavComponent {
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
   is_showing: boolean;
+  show_menu: boolean;
 
   constructor(
     public userService: UserService,
     public baseService: BaseService,
+    public footBtnService: FootBtnService,
     public router: Router,
   ) {
     this.is_showing = true;
+    this.show_menu = false;
   }
 
   switch_show_mode() {
-    // if (this.resource && this.resource.cover) {
-    //   this.is_showing = !this.is_showing;
-    // } else {
-    //   BaseService.info_center.next(new Info({text: '无法放大随机封面', type: Info.TYPE_WARN}));
-    // }
     this.is_showing = !this.is_showing;
+    if (!this.is_showing) {
+      this.show_menu = false;
+    }
   }
 
   show_insecure_info($event) {
@@ -57,10 +59,13 @@ export class ResNavComponent {
     window.location.href = this.userService.oauth_uri + '&state=' + encodeURI(this.router.url);
   }
 
-  go_profile($event) {
+  click_avatar($event) {
     $event.cancelBubble = true;
     $event.stopPropagation();
-    this.router.navigate(['/user', 'profile', 'next', this.router.url]);
+    this.show_menu = !this.show_menu;
+    if (this.show_menu) {
+      this.is_showing = true;
+    }
   }
 
   go_owner_home($event) {
@@ -69,6 +74,26 @@ export class ResNavComponent {
     if (this.resource) {
       const link = ['/res', this.resource.owner.root_res];
       this.router.navigate(link);
+    }
+  }
+
+  menu_handler($event, s: string) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    if (s === 'mine') {
+      this.router.navigate(['/res', this.userService.user.root_res]);
+    } else if (s === 'profile') {
+      window.location.href = `https://sso.6-79.cn/user/info-modify?from=https%3A%2F%2Fd.6-79.cn%2F/user/refresh`;
+    } else if (s === 'code') {
+      window.open('https://github.com/lqj679ssn/disk-frontend');
+    } else if (s === 'tips') {
+      this.is_showing = false;
+      this.show_menu = false;
+      this.footBtnService.activate_btn(this.footBtnService.foot_btn_tips);
+    } else if (s === 'updates') {
+      this.is_showing = false;
+      this.show_menu = false;
+      this.footBtnService.activate_btn(this.footBtnService.foot_btn_update);
     }
   }
 

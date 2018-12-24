@@ -1,9 +1,9 @@
 <app-info></app-info>
 <app-jumping></app-jumping>
 
-<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()" [hide_nav]="hide_nav"></app-res-nav>
+<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()" [hide_nav]="resService.hide_nav"></app-res-nav>
 
-<div class="res" [ngClass]="[tab_mode, hide_nav ? 'nav-hide' : '']">
+<div class="res" [ngClass]="[tab_mode, resService.hide_nav ? 'nav-hide' : '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
       <span class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
@@ -106,7 +106,7 @@
   </div>
 </div>
 
-<app-res-op [resource]="resource" [res_str_id]="res_str_id" [tab_mode]="tab_mode" (onUploaded)="onUpload($event)" (onAddChildRes)="addChildRes($event)" (onDeleted)="onDeleted()" (onMove)="onMove()" [delete_text]="delete_text" (onRefreshNavHide)="refresh_hide_nav()"></app-res-op>
+<app-res-op [resource]="resource" [res_str_id]="res_str_id" [tab_mode]="tab_mode" (onUploaded)="onUpload($event)" (onAddChildRes)="addChildRes($event)" (onDeleted)="onDeleted()" (onMove)="onMove()" [delete_text]="delete_text"></app-res-op>
 
 <footer></footer>
 

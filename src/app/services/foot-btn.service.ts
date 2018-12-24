@@ -9,8 +9,8 @@ export class FootBtnService {
   foot_btn_modify: FootBtn;
   foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
-  // foot_btn_tips: FootBtn;
-  // foot_btn_setting: FootBtn;
+  foot_btn_tips: FootBtn;
+  foot_btn_update: FootBtn;
   foot_btn_list: Array<FootBtn>;
   foot_btn_active: FootBtn;
 
@@ -72,14 +72,22 @@ export class FootBtnService {
       mask: true,
       login: true,
     });
-    // this.foot_btn_tips = new FootBtn({
-    //   icon: 'icon-tips',
-    //   text: '贴士',
-    //   folder: true,
-    //   file: true,
-    //   mask: true,
-    //   login: false,
-    // });
+    this.foot_btn_tips = new FootBtn({
+      icon: 'icon-tips',
+      text: '贴士',
+      folder: false,
+      file: false,
+      mask: true,
+      login: false,
+    });
+    this.foot_btn_update = new FootBtn({
+      icon: null,
+      text: '更新',
+      folder: false,
+      file: false,
+      mask: true,
+      login: false,
+    });
     // this.foot_btn_setting = new FootBtn({
     //   icon: 'icon-setting',
     //   text: '设置',
@@ -95,10 +103,11 @@ export class FootBtnService {
       this.foot_btn_modify,
       this.foot_btn_move,
       this.foot_btn_delete,
-      // this.foot_btn_tips,
+      this.foot_btn_tips,
+      this.foot_btn_update,
       // this.foot_btn_setting,
     ];
-    this.foot_btn_active = null;
+    this.inactivate();
     this.update_btns();
   }
 
@@ -108,25 +117,18 @@ export class FootBtnService {
     }
   }
 
-  btn_hide(btn: FootBtn) {
-    window.localStorage.setItem('hide-' + btn.icon, '1');
-    this.update_btns();
-  }
-
-  btn_show(btn: FootBtn) {
-    window.localStorage.removeItem('hide-' + btn.icon);
-    this.update_btns();
-  }
+  // btn_hide(btn: FootBtn) {
+  //   window.localStorage.setItem('hide-' + btn.icon, '1');
+  //   this.update_btns();
+  // }
+  //
+  // btn_show(btn: FootBtn) {
+  //   window.localStorage.removeItem('hide-' + btn.icon);
+  //   this.update_btns();
+  // }
 
   is_active(btn: FootBtn) {
     return (btn === this.foot_btn_active) ? 'active' : 'inactive';
-  }
-
-  get is_sharing() {
-    return this.foot_btn_active === this.foot_btn_share;
-  }
-  get active_share() {
-    return (this.foot_btn_active === this.foot_btn_share) ? 'active' : 'inactive';
   }
 
   get is_selecting() {
@@ -136,37 +138,17 @@ export class FootBtnService {
     return (this.foot_btn_active === this.foot_btn_select) ? 'active' : 'inactive';
   }
 
-  get is_uploading() {
-    return this.foot_btn_active === this.foot_btn_upload;
-  }
-  get active_upload() {
-    return (this.foot_btn_active === this.foot_btn_upload) ? 'active' : 'inactive';
-  }
-
   get is_modifying() {
     return this.foot_btn_active === this.foot_btn_modify;
-  }
-  get active_modify() {
-    return (this.foot_btn_active === this.foot_btn_modify) ? 'active' : 'inactive';
   }
 
   get is_moving() {
     return this.foot_btn_active === this.foot_btn_move;
   }
-  get active_move() {
-    return (this.foot_btn_active === this.foot_btn_move) ? 'active' : 'inactive';
-  }
 
   get is_deleting() {
     return this.foot_btn_active === this.foot_btn_delete;
   }
-  get active_delete() {
-    return (this.foot_btn_active === this.foot_btn_delete) ? 'active' : 'inactive';
-  }
-
-  // get active_tips() {
-  //   return (this.foot_btn_active === this.foot_btn_tips) ? 'active' : 'inactive';
-  // }
   //
   // get active_setting() {
   //   return (this.foot_btn_active === this.foot_btn_setting) ? 'active' : 'inactive';
@@ -174,7 +156,7 @@ export class FootBtnService {
 
   activate_btn(btn: FootBtn) {
     if (this.foot_btn_active === btn) {
-      this.foot_btn_active = null;
+      this.inactivate();
     } else {
       this.foot_btn_active = btn;
     }

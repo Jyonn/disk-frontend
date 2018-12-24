@@ -24,8 +24,6 @@ import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
 import { JumpingComponent } from "./components/base/jumping.component";
-import { ProfileComponent } from "./components/user/profile.component";
-import { ProfileBtnService } from "./services/profile-btn.service";
 import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
@@ -50,7 +48,6 @@ import { ResourceTreeService } from "./services/resource-tree.service";
     LoadingComponent,
     JumpingComponent,
     InfoComponent,
-    ProfileComponent,
     RedirectComponent,
     OauthComponent,
     RefreshComponent,
@@ -71,7 +68,6 @@ import { ResourceTreeService } from "./services/resource-tree.service";
     ClockService,
     ResourceService,
     FootBtnService,
-    ProfileBtnService,
     TipsService,
     UpdateService,
     ResourceTreeService,

@@ -36,8 +36,6 @@ export class ResComponent implements OnInit {
 
   res_str_id: string;
 
-  hide_nav: boolean;
-
   resource: Resource;
   children: Resource[];
   search_list: Resource[];
@@ -81,7 +79,6 @@ export class ResComponent implements OnInit {
     private router: Router,
     private meta: Meta,
   ) {
-    this.hide_nav = false;
     this.resource = null;
     this.res_str_id = '';
     this.visit_key = null;
@@ -154,13 +151,7 @@ export class ResComponent implements OnInit {
       // .catch(msg => console.log(msg));
   }
 
-  refresh_hide_nav() {
-    this.hide_nav = !!window.localStorage.getItem('hide-nav');
-  }
-
   ngOnInit(): void {
-    this.refresh_hide_nav();
-
     this.activateRoute.params.subscribe((params) => {
       this.res_str_id = params['res_str_id'];
 
@@ -293,7 +284,7 @@ export class ResComponent implements OnInit {
 
   click_icon() {
     if (this.is_owner) {
-      this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_select;
+      this.footBtnService.activate_btn(this.footBtnService.foot_btn_select);
     }
   }
 
@@ -310,7 +301,7 @@ export class ResComponent implements OnInit {
       for (const item of this.search_list) {
         item.selected = false;
       }
-      this.footBtnService.foot_btn_active = null;
+      this.footBtnService.inactivate();
     } else if (help === 'more-option') {
       this.show_more_option = !this.show_more_option;
     } else if (help === 'delete' || help === 'move') {
@@ -330,9 +321,9 @@ export class ResComponent implements OnInit {
       } else {
         if (help === 'delete') {
           this.delete_text = `删除选定的${this.operation_list.length}项资源且无法恢复。`;
-          this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_delete;
+          this.footBtnService.activate_btn(this.footBtnService.foot_btn_delete);
         } else {
-          this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_move;
+          this.footBtnService.activate_btn(this.footBtnService.foot_btn_move);
         }
       }
     }
@@ -537,7 +528,7 @@ export class ResComponent implements OnInit {
   }
 
   go_modify_desc() {
-    this.footBtnService.foot_btn_active = this.footBtnService.foot_btn_modify;
+    this.footBtnService.activate_btn(this.footBtnService.foot_btn_modify);
   }
 
   cancel_modify_desc() {
@@ -546,7 +537,7 @@ export class ResComponent implements OnInit {
     } else {
       this.description = '';
     }
-    this.footBtnService.foot_btn_active = null;
+    this.footBtnService.inactivate();
   }
 
   modify_desc_action() {
@@ -555,7 +546,7 @@ export class ResComponent implements OnInit {
       .then((resp) => {
         this.resource.update(null, resp);
         this.description = this.resource.description;
-        this.footBtnService.foot_btn_active = null;
+        this.footBtnService.inactivate();
       });
   }
 
@@ -584,7 +575,7 @@ export class ResComponent implements OnInit {
     }
 
     this.op_identifier = 'upload';
-    this.footBtnService.foot_btn_active = null;
+    this.footBtnService.inactivate();
     this.start_operation(data.callback);
   }
 
