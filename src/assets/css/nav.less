@@ -113,6 +113,11 @@ nav {
       }
       span.icon-unlogin {
         color: @nav-main-color;
+        filter: opacity(0.5);
+        .animate();
+        &:hover {
+          filter: opacity(1);
+        }
       }
     }
     div.dl-cover {

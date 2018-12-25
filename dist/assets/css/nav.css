@@ -218,6 +218,11 @@ nav div.content div.right-avatar img {
 }
 nav div.content div.right-avatar span.icon-unlogin {
   color: white;
+  filter: opacity(0.5);
+  transition: 0.5s;
+}
+nav div.content div.right-avatar span.icon-unlogin:hover {
+  filter: opacity(1);
 }
 nav div.content div.dl-cover {
   cursor: pointer;
