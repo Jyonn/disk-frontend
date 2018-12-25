@@ -6,7 +6,7 @@
 <div class="res" [ngClass]="[tab_mode, resService.hide_nav ? 'nav-hide' : '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
-      <span class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
+      <span title="排序" class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
       <div class="sort-container">
         <div class="sort-item" (click)="sort_by(false, 'time')">按时间排序</div>
         <div class="sort-item" (click)="sort_by(false, 'name')">按名称排序</div>
@@ -14,12 +14,12 @@
       </div>
       <span class="text">{{resource_title}}</span>
       <div class="search-container">
-        <span class="icon icon-search" *ngIf="show_side_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
-        <span class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
+        <span title="筛选" class="icon icon-search" *ngIf="show_side_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
+        <span title="折叠" class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
         <div class="search-box">
           <input #searchBox class="search" placeholder="搜索…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
           <!--<span class="icon icon-collapse" (click)="go_search(false)">️</span>-->
-          <span class="clear-keyword" (click)="clear_search()">×</span>
+          <span title="清空关键词" class="clear-keyword" (click)="clear_search()">×</span>
         </div>
       </div>
     </div>
@@ -40,14 +40,14 @@
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_folder">
-    <div class="res-item"
+    <div title="{{child.rname}}，{{child.readable_stype}}资源" class="res-item"
          *ngFor="let child of search_list"
          (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
       <div class="res-hover-mask"></div>
       <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover_small}">{{child.first_letter}}</div>
       <div class="res-name">{{child.rname}}</div>
       <div class="res-info">上传于{{child.readable_time}}<span *ngIf="child.rtype == 0">，{{child.dlcount}}次下载</span><span *ngIf="child.rtype == 2">，{{child.dlcount}}次前往</span></div>
-      <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="click_icon()"></span></div>
+      <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span title="点击进入多选模式" *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="click_icon()"></span></div>
       <hr/>
     </div>
   </div>
@@ -111,7 +111,7 @@
 <footer></footer>
 
 <footer (swiperight)="footer_swipe($event)" (swipeleft)="footer_swipe($event)" [ngStyle]="{marginLeft: margin_left + 'px'}">
-  <div *ngFor="let foot_btn of foot_btns"
+  <div title="{{foot_btn.text}}" *ngFor="let foot_btn of foot_btns"
        class="btn"
        [ngClass]="footBtnService.is_active(foot_btn)"
        (click)="activate_btn(foot_btn)">

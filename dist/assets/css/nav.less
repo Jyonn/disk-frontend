@@ -99,7 +99,7 @@ nav {
       }
     }
     div.right-avatar {
-      &:extend(.ptr);
+      .ptr();
       position: absolute;
       top: calc(~'@{res-tab-height} / 2 - @{avatar-size} / 2');
       right: 0;
@@ -113,6 +113,23 @@ nav {
       }
       span.icon-unlogin {
         color: @nav-main-color;
+      }
+    }
+    div.dl-cover {
+      .ptr();
+      position: absolute;
+      top: calc(~'@{res-tab-height} / 2 - @{avatar-size} / 2');
+      width: @avatar-size;
+      height: @avatar-size;
+      right: @avatar-size + 20px;
+      span {
+        color: @nav-main-color;
+        filter: opacity(0.5);
+        font-size: @avatar-size;
+        .animate();
+        &:hover {
+          filter: opacity(1);
+        }
       }
     }
   }

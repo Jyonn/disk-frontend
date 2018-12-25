@@ -12,8 +12,7 @@ path {
 }
 .ptr,
 .round-btn,
-nav div.content div.left-btn,
-nav div.content div.right-avatar {
+nav div.content div.left-btn {
   cursor: pointer;
 }
 .light-shadow {
@@ -205,6 +204,7 @@ nav div.content div.left-btn span {
   font-size: 20px;
 }
 nav div.content div.right-avatar {
+  cursor: pointer;
   position: absolute;
   top: calc(46px / 2 - 24px / 2);
   right: 0;
@@ -218,6 +218,23 @@ nav div.content div.right-avatar img {
 }
 nav div.content div.right-avatar span.icon-unlogin {
   color: white;
+}
+nav div.content div.dl-cover {
+  cursor: pointer;
+  position: absolute;
+  top: calc(46px / 2 - 24px / 2);
+  width: 24px;
+  height: 24px;
+  right: 44px;
+}
+nav div.content div.dl-cover span {
+  color: white;
+  filter: opacity(0.5);
+  font-size: 24px;
+  transition: 0.5s;
+}
+nav div.content div.dl-cover span:hover {
+  filter: opacity(1);
 }
 nav div.title {
   position: absolute;

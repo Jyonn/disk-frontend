@@ -1,16 +1,17 @@
 <nav [ngClass]="{'showing': is_showing, 'nav-hide': hide_nav}" (click)="switch_show_mode()" xmlns="http://www.w3.org/1999/html">
-  <div class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
+  <div title="资源封面" class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
   <div class="content">
     <div class="left-btn">
-      <span class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent($event)"></span>
+      <span title="返回父目录" class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent($event)"></span>
     </div>
-    <div class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user.url_avatar}" (click)="click_avatar($event)"></div>
-    <div class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
+    <div title="菜单" class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user.url_avatar}" (click)="click_avatar($event)"></div>
+    <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
+    <a target="_blank" [href]="resource?.cover" (click)="$event.cancelBubble = true; $event.stopPropagation();"><div title="下载封面" class="dl-cover"><span class="icon-download"></span></div></a>
   </div>
-  <div class="title">{{resource?.rname}}</div>
+  <div class="title" title="资源名称">{{resource?.rname}}</div>
   <div class="foot">
     <span class="owner"><strong>{{nav_foot_owner}}</strong>创建于{{resource?.readable_time}}</span>
-    <div class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar || 'https://unsplash.6-79.cn/random/small'}}" (click)="go_owner_home($event)"></div>
+    <div title="点击进入TA的主页" class="avatar" *ngIf="!is_mine"><img src="{{resource?.owner.avatar || 'https://unsplash.6-79.cn/random/small'}}" (click)="go_owner_home($event)"></div>
     <div class="share">{{resource?.readable_status}}<span class="warn" (click)="show_insecure_info($event)">{{resource?.secure_word}}</span></div>
   </div>
   <div class="menu-box" [ngClass]="{showing: show_menu}">

@@ -31,8 +31,8 @@ export class Resource {
     ['#F1F2B5', '#135058'],
     ['#6441A5', '#2a0845'],
     ['#FFA17F', '#00223E'],
-
   ];
+  public static READABLE_STYPE_LIST = ['目录', '图片', '视频', '音频', '文件', '链接'];
 
   res_str_id: string;
   rname: string;
@@ -345,5 +345,9 @@ export class Resource {
 
   get is_private() {
     return this.status === Resource.STATUS_PRIVATE;
+  }
+
+  get readable_stype() {
+    return Resource.READABLE_STYPE_LIST[this.sub_type];
   }
 }

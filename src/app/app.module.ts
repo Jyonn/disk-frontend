@@ -24,13 +24,13 @@ import { LoadingComponent } from "./components/base/loading.component";
 import { InfoComponent } from "./components/base/info.component";
 import { ResNavComponent } from "./components/res/res-nav.component";
 import { JumpingComponent } from "./components/base/jumping.component";
-import { RedirectComponent } from "./components/base/redirect.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
 import { TipsService } from "./services/tips.service";
 import { UpdateService } from "./services/update.service";
 import { ResTreeComponent } from "./components/res/res-tree.component";
 import { ResourceTreeService } from "./services/resource-tree.service";
+import { HomeComponent } from "./components/base/home.component";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{
@@ -41,6 +41,7 @@ import { ResourceTreeService } from "./services/resource-tree.service";
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     ResComponent,
     ResHomeComponent,
     ResNavComponent,
@@ -48,7 +49,6 @@ import { ResourceTreeService } from "./services/resource-tree.service";
     LoadingComponent,
     JumpingComponent,
     InfoComponent,
-    RedirectComponent,
     OauthComponent,
     RefreshComponent,
     ResTreeComponent,

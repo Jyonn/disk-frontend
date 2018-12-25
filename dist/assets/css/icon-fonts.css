@@ -23,6 +23,9 @@
 .icon-right:before {
   content: "\e91c";
 }
+.icon-download:before {
+  content: "\e91d";
+}
 .icon-refresh:before {
   content: "\e91b";
 }
