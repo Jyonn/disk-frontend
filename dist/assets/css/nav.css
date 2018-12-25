@@ -219,6 +219,8 @@ nav div.content div.right-avatar img {
 nav div.content div.right-avatar span.icon-unlogin {
   color: white;
   filter: opacity(0.5);
+  font-size: 20px;
+  line-height: 24px;
   transition: 0.5s;
 }
 nav div.content div.right-avatar span.icon-unlogin:hover {
