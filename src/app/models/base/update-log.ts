@@ -1,11 +1,19 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181226',
+    version: '5.0.0 beta',
+    updates: [
+      '增加浑天匣主页',
+      '修改字体为衬线字体',
+    ]
+  }, {
     time: '181225',
     version: '4.6.0',
     updates: [
       '优化个人主页模块，改用菜单栏显示',
       '重新支持查看贴士和更新日志',
       '支持下载资源封面',
+      '悬浮鼠标显示操作提示（仅支持桌面端）',
     ]
   }, {
     time: '181219',

@@ -120,7 +120,7 @@ export class ResComponent implements OnInit {
     }
     this.resource_search();
     this.meta.updateTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
-    this.meta.updateTag({name: 'image', content: this.resource.owner.avatar});
+    this.meta.updateTag({name: 'image', content: this.resource.cover_small});
   }
   initResLose(base_resp) {
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;

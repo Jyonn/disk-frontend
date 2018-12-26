@@ -1,3 +1,106 @@
-<div>
-  主页正在制作…… <a href="/res">先来这里</a>逛逛吧
+<div class="nav">
+  <div class="myweb-huntianxia"></div>
+  <div class="title-box">
+    <div class="title">浑天匣</div>
+    <div class="desc">分享资源，连接世界</div>
+  </div>
+  <div title="菜单" class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user.url_avatar}" (click)="click_avatar($event)"></div>
+  <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
+</div>
+<div class="display-container">
+  <div class="center-container">
+    <div class="title-box">
+      <div class="title"><span>多终端支持，界面兼容</span></div>
+      <div class="desc"><span>推荐使用Chrome, Safari, Firefox等主流浏览器</span></div>
+    </div>
+    <div class="zoom">
+      <div class="marvel-device iphone8plus black">
+        <div class="top-bar"></div>
+        <div class="sleep"></div>
+        <div class="volume"></div>
+        <div class="camera"></div>
+        <div class="sensor"></div>
+        <div class="speaker"></div>
+        <div class="screen">
+          <video class="full" src="https://image.6-79.cn/disk/home/iphone.mp4" autoplay loop></video>
+        </div>
+        <div class="home"></div>
+        <div class="bottom-bar"></div>
+      </div>
+      <div class="tail">iPhone 8 Plus演示</div>
+    </div>
+    <div class="zoom">
+      <div class="marvel-device macbook">
+        <div class="top-bar"></div>
+        <div class="camera"></div>
+        <div class="screen">
+          <video class="full img-fit" src="https://image.6-79.cn/disk/home/mac.mp4" autoplay loop></video>
+        </div>
+        <div class="bottom-bar"></div>
+      </div>
+      <div class="tail">MacBook Pro演示</div>
+    </div>
+  </div>
+</div>
+
+<div class="display-container">
+  <div class="center-container">
+    <div class="title-box">
+      <div class="title"><span>直链分享，一步到位</span></div>
+      <div class="desc"><span>点开链接即可下载，无需繁琐步骤</span></div>
+    </div>
+    <div class="zoom">
+      <div class="marvel-device iphone8plus black">
+        <div class="top-bar"></div>
+        <div class="sleep"></div>
+        <div class="volume"></div>
+        <div class="camera"></div>
+        <div class="sensor"></div>
+        <div class="speaker"></div>
+        <div class="screen">
+          <video class="full" src="https://image.6-79.cn/disk/home/directlink.mp4" autoplay loop></video>
+        </div>
+        <div class="home"></div>
+        <div class="bottom-bar"></div>
+      </div>
+      <div class="tail">直链分享演示</div>
+    </div>
+  </div>
+</div>
+
+<div class="display-container">
+  <div class="center-container">
+    <div class="title-box">
+      <div class="title"><span>资源介绍，补充信息</span></div>
+      <div class="desc"><span>支持Markdown格式编辑信息</span></div>
+    </div>
+    <div class="zoom">
+      <div class="marvel-device iphone8plus black">
+        <div class="top-bar"></div>
+        <div class="sleep"></div>
+        <div class="volume"></div>
+        <div class="camera"></div>
+        <div class="sensor"></div>
+        <div class="speaker"></div>
+        <div class="screen">
+          <video class="full" src="https://image.6-79.cn/disk/home/desc.mp4" autoplay loop></video>
+        </div>
+        <div class="home"></div>
+        <div class="bottom-bar"></div>
+      </div>
+      <div class="tail">资源介绍演示</div>
+    </div>
+  </div>
+</div>
+
+<div class="display-container">
+  <div class="center-container">
+    <div class="title-box">
+      <div class="title"><span>更多功能，等你探索</span></div>
+      <div class="desc"><span>……</span></div>
+    </div>
+    <div class="btn-line">
+      <div class="btn" (click)="open_htx()">开启我的浑天匣</div>
+    </div>
+  </div>
 </div>

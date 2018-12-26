@@ -1,0 +1,248 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+  font-family: "Times New Roman", serif;
+}
+body {
+  background: #eaeaea;
+}
+path {
+  fill: #007FEB;
+}
+.ptr,
+.round-btn {
+  cursor: pointer;
+}
+.light-shadow {
+  box-shadow: 1px 3px 10px 0 #c0c0c0;
+}
+.strong-shadow {
+  box-shadow: 1px 3px 10px 0 gray;
+}
+.img-fit {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inherit;
+}
+.random-img-thumb {
+  background-image: url("https://unsplash.6-79.cn/random/thumb");
+}
+.animate {
+  transition: 0.5s;
+}
+nav,
+div.res {
+  transition: 0.5s;
+}
+@media all and (orientation: portrait) {
+  nav {
+    width: 100%;
+    height: 25vh;
+  }
+  nav.nav-hide {
+    height: 0px;
+  }
+  div.res {
+    width: 100%;
+    height: calc(100% - 25vh - 56px);
+    left: 0;
+    top: 25vh;
+  }
+  div.res.nav-hide {
+    top: 0px;
+    height: calc(100% - 56px);
+  }
+  div.res.full {
+    height: calc(100% - 25vh);
+  }
+  div.res.full.nav-hide {
+    height: 100%;
+  }
+}
+@media all and (orientation: landscape) {
+  nav {
+    width: 38.2vw;
+    height: calc(100% - 56px);
+  }
+  nav.full {
+    height: 100%;
+  }
+  div.res {
+    width: calc(100% - 38.2vw);
+    height: calc(100% - 56px);
+    left: 38.2vw;
+    top: 0;
+  }
+  div.res.full {
+    height: 100%;
+  }
+}
+footer {
+  width: max-content;
+  height: 56px;
+  min-width: 100%;
+}
+.round-btn {
+  width: 70px;
+  height: 30px;
+  border-radius: 15px;
+  background: #2699FB;
+  color: white;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+}
+.round-btn.disabled {
+  background: #CCCCCC;
+}
+.round-btn.sub {
+  background: #CCCCCC;
+}
+.round-btn.warn {
+  background: #D04B4B;
+}
+.round-btn.long {
+  width: 100px;
+}
+.bg-blur {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2*8px);
+  height: calc(100% + 2*8px);
+  filter: brightness(70%) blur(8px);
+  background-color: black;
+}
+.bg-blur-darker {
+  filter: brightness(40%) blur(8px);
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.nav {
+  height: 70px;
+  background: #2699FB;
+}
+.nav div.myweb-huntianxia,
+.nav div.title-box {
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+}
+.nav div.myweb-huntianxia {
+  font-size: 40px;
+  margin: 0 10px 0 20px;
+  line-height: 70px;
+}
+.nav div.title-box div.title {
+  font-size: 18px;
+}
+.nav div.title-box div.desc {
+  font-size: 12px;
+  filter: opacity(0.7);
+}
+div.right-avatar {
+  cursor: pointer;
+  position: absolute;
+  top: 17px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+div.right-avatar img {
+  width: 100%;
+  height: 100%;
+}
+div.right-avatar span.icon-unlogin {
+  color: white;
+  filter: opacity(0.5);
+  font-size: 20px;
+  line-height: 36px;
+  transition: 0.5s;
+}
+div.right-avatar span.icon-unlogin:hover {
+  filter: opacity(1);
+}
+div.display-container {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+div.display-container div.center-container {
+  min-width: 320px;
+  width: 100%;
+  max-width: 600px;
+}
+div.display-container div.center-container div.title-box {
+  margin: 20px 0;
+}
+div.display-container div.center-container div.title-box div.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+div.display-container div.center-container div.title-box div.title span {
+  border-bottom: 3px solid black;
+  padding-bottom: 5px;
+}
+div.display-container div.center-container div.title-box div.desc {
+  font-size: 12px;
+  filter: opacity(0.7);
+  margin-top: 10px;
+}
+div.display-container:nth-child(even) {
+  background: white;
+}
+div.display-container:last-child {
+  background: #2699FB !important;
+  color: white;
+}
+div.display-container:last-child span {
+  border-color: white !important;
+}
+@media screen and (min-width: 600px) {
+  div.zoom div.marvel-device.macbook {
+    zoom: 0.3 !important;
+  }
+  div.zoom div.marvel-device.iphone8plus {
+    zoom: 0.5 !important;
+  }
+}
+div.zoom {
+  margin: 20px 0;
+}
+div.zoom div.marvel-device.iphone8plus {
+  zoom: 0.3;
+}
+div.zoom div.marvel-device.macbook {
+  zoom: 0.2;
+}
+div.zoom div.tail {
+  font-size: 12px;
+  filter: opacity(0.7);
+  margin: 5px 0;
+}
+div.btn-line {
+  margin: 40px 0;
+  display: flex;
+  width: 100%;
+  height: 30px;
+  justify-content: center;
+}
+div.btn {
+  padding: 0 20px;
+  background: white;
+  color: #2699FB;
+  border-radius: 15px;
+  width: max-content;
+  line-height: 30px;
+  cursor: pointer;
+}
