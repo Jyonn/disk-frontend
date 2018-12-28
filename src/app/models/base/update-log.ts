@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '181228',
+    version: '5.0.2 beta',
+    updates: [
+      '增加上传文件百分比显示',
+      '优化资源显示',
+    ]
+  }, {
     time: '181226',
     version: '5.0.0 beta',
     updates: [

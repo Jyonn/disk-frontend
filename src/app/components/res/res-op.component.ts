@@ -271,7 +271,7 @@ export class ResOpComponent implements OnInit {
     this.footBtnService.is_ajax_modifying = true;
     this.resService.get_cover_token(this.res_str_id, {filename: res_cover})
       .then((resp) => {
-        this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0])
+        this.baseService.api_upload_file(resp.key, resp.upload_token, this.res_cover_files[0], () => {})
           .then((resp_) => {
             this.resource.update(null, resp_);
             this.res_cover_files = null;

@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHandler, HttpHeaders} from "@angular/common/http";
+import { ProgressHttp } from "angular-progress-http";
 import {Resp} from "../models/base/resp";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
@@ -20,6 +21,7 @@ export class BaseService {
 
   constructor(
     private http: HttpClient,
+    private processHttp: ProgressHttp,
   ) {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
@@ -92,15 +94,30 @@ export class BaseService {
     return BaseService.asyc_working > 0;
   }
 
-  public api_upload_file(key: string, token: string, file: File) {
+  public api_upload_file(key: string, token: string, file: File, progress_callback) {
     const fd = new FormData();
     fd.append('key', key);
     fd.append('token', token);
     fd.append('file', file);
-    return this.post_qn(fd);
+    return this.post_qn(fd, progress_callback);
   }
-  post_qn(data) {
+  post_qn(data, progress_callback) {
     BaseService.asyc_working += 1;
-    return BaseService.handleHTTP(this.http.post(this.qn_host, data));
+    return this.processHttp
+      .withUploadProgressListener(progress_callback)
+      .post(this.qn_host, data)
+      .toPromise()
+      .then((resp: any) => {
+        resp = JSON.parse(resp._body);
+        if (resp.code !== 0) {
+          // return BaseService.handleError(resp.msg);
+          BaseService.info_center.next(new Info({text: resp.msg, type: Info.TYPE_WARN}));
+          return Promise.reject(resp.msg);
+        } else {
+          BaseService.asyc_working -= 1;
+          return resp.body;
+        }
+      })
+      .catch(BaseService.handleError);
   }
 }

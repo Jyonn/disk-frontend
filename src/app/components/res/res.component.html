@@ -98,7 +98,7 @@
       <div class="operation-process" [ngClass]="op_identifier" [ngStyle]="{'width': op_percent}"></div>
     </div>
     <div class="center-desc-above">
-      <div class="operation-text" [ngClass]="op_identifier">正在{{op_text}}…（{{current_op_num}}/{{total_op_num}}）</div>
+      <div class="operation-text" [ngClass]="op_identifier">正在{{op_text}}…（{{current_op_num}}/{{total_op_num}}）{{op_append_msg}}</div>
     </div>
     <div class="center-desc-below">
       <div class="current-delete-res">{{current_path}}</div>

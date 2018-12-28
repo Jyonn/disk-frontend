@@ -59,6 +59,7 @@ export class ResComponent implements OnInit {
   show_op_process: boolean; // 是否进入操作画面
   op_text: string;
   op_identifier: string;
+  op_append_msg: string;
   operations: any;
 
   margin_left: number;
@@ -190,14 +191,17 @@ export class ResComponent implements OnInit {
   }
 
   get op_percent() {
-    return Math.floor(this.current_op_num / this.total_op_num * 100) + '%';
+    return Math.floor(this.current_op_num / this.total_op_num * 95 + 5) + '%';
   }
 
   async multipleUpload(upload_res_list: Array<OperationResItem>) {
     for (const upload_res_item of upload_res_list) {
       this.current_path = upload_res_item.readable_path;
       const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readable_path});
-      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data);
+      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
+        (process) => {
+          this.op_append_msg = '，当前文件' + process.percentage + '%';
+        });
       this.addChildRes(new Resource(null, res_data));
       this.current_op_num += 1;
     }
@@ -330,6 +334,7 @@ export class ResComponent implements OnInit {
   }
 
   start_operation(callback = null, fail_call = null) {
+    this.op_append_msg = '';
     this.show_op_process = true;
     this.current_op_num = 0;
     this.total_op_num = this.operation_list.length;
