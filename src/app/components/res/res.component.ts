@@ -26,7 +26,7 @@ import { ResourceTreeService } from "../../services/resource-tree.service";
     '../../../assets/css/icon-fonts.css',
     '../../../assets/css/nav.less',
     '../../../assets/css/footer.less',
-    '../../../assets/css/res.less'
+    '../../../assets/css/res.less',
   ],
 })
 export class ResComponent implements OnInit {

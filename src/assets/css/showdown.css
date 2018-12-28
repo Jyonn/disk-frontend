@@ -1,0 +1,63 @@
+markdown {
+  font-size: 13px;
+  color: #333;
+}
+markdown h1,
+markdown h2,
+markdown h3,
+markdown h4,
+markdown h5,
+markdown h6 {
+  color: black !important;
+}
+markdown a {
+  color: #4484c2;
+}
+markdown h2 {
+  border-bottom: 1px solid #e2e2e2;
+}
+markdown pre {
+  background: #f8f8f8;
+  border: 1px solid #e2e2e2;
+  border-radius: 2px;
+  padding: 5px;
+  overflow-x: scroll;
+}
+markdown code {
+  background: #f8f8f8;
+  border: 1px solid #eaeaea;
+  padding: 0 2px;
+  margin: 0 2px;
+  color: #e45649;
+}
+markdown pre code {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+markdown table {
+  border-collapse: collapse;
+}
+markdown table th,
+markdown table td {
+  border: 1px solid #e2e2e2;
+  padding: 5px;
+}
+markdown table tr:nth-child(even) {
+  background: #f8f8f8;
+}
+markdown a {
+  color: #50a14f;
+  text-decoration: none;
+}
+markdown a:hover {
+  color: #986801;
+}
+markdown mark {
+  background-color: #e45649;
+  color: white;
+  padding: 0 2px;
+}
+markdown img {
+  max-width: 100%;
+}

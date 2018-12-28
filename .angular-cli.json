@@ -20,7 +20,8 @@
       "prefix": "app",
       "styles": [
         "styles.less",
-        "../node_modules/prismjs/themes/prism-okaidia.css"
+        "../node_modules/prismjs/themes/prism-okaidia.css",
+        "../src/assets/css/showdown.less"
       ],
       "scripts": [
         "../node_modules/marked/lib/marked.js",
