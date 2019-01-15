@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190115',
+    version: '5.0.5',
+    updates: [
+      '上传进度条考虑单文件上传百分比因素',
+      '修改字体为非衬线字体',
+    ]
+  }, {
     time: '181228',
     version: '5.0.4 beta',
     updates: [

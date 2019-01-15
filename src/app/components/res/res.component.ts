@@ -56,6 +56,7 @@ export class ResComponent implements OnInit {
   total_op_num: number;  // 所有待操作的资源数目
   current_op_num: number;  // 当前正在操作的数目
   current_path: string;  // 当前操作的路径
+  current_item_percentage: number;  // 正在上传的文件的上传比例
   show_op_process: boolean; // 是否进入操作画面
   op_text: string;
   op_identifier: string;
@@ -191,23 +192,26 @@ export class ResComponent implements OnInit {
   }
 
   get op_percent() {
-    return Math.floor(this.current_op_num / this.total_op_num * 95 + 5) + '%';
+    return Math.floor((this.current_op_num + this.current_item_percentage / 100) / this.total_op_num * 95 + 5) + '%';
   }
 
   async multipleUpload(upload_res_list: Array<OperationResItem>) {
     for (const upload_res_item of upload_res_list) {
+      this.current_item_percentage = 0;
       this.current_path = upload_res_item.readable_path;
       const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readable_path});
       const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
         (process) => {
-          this.op_append_msg = '，当前文件' + process.percentage + '%';
-        });
+        this.current_item_percentage = process.percentage;
+        this.op_append_msg = '，当前文件' + process.percentage + '%';
+      });
       this.addChildRes(new Resource(null, res_data));
       this.current_op_num += 1;
     }
   }
 
   async directMove(move_res_list: Array<OperationResItem>) {
+    this.current_item_percentage = 0;
     for (const move_res_item of move_res_list) {
       // console.log(move_res_item);
       this.current_path = move_res_item.readable_path;
@@ -226,6 +230,7 @@ export class ResComponent implements OnInit {
   }
 
   async recursiveDelete(delete_res_list: Array<OperationResItem>) {
+    this.current_item_percentage = 0;
     for (let index = 0; index < delete_res_list.length; index++) {
       const delete_res_item = delete_res_list[index];
       const resp = await this.resService.get_res_info(delete_res_item.res_id, null);

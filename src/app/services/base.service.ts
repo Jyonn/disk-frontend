@@ -58,9 +58,6 @@ export class BaseService {
       })
       .catch(BaseService.handleError);
   }
-  public static path_to_slug(path: Array<any>) {
-    return path.join('-');
-  }
   get_option(data = {}) {
     // console.log('base token: ' + BaseService.token);
     const httpHeaders = new HttpHeaders({'Token': BaseService.token || ''});
