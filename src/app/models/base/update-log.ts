@@ -3,7 +3,7 @@ export class UpdateLog {
     time: '190115',
     version: '5.0.5',
     updates: [
-      '上传进度条考虑单文件上传百分比因素',
+      '优化上传进度条',
       '修改字体为非衬线字体',
     ]
   }, {

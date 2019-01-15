@@ -206,6 +206,7 @@ export class ResComponent implements OnInit {
         this.op_append_msg = '，当前文件' + process.percentage + '%';
       });
       this.addChildRes(new Resource(null, res_data));
+      this.current_item_percentage = 0;
       this.current_op_num += 1;
     }
   }
