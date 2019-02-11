@@ -1,5 +1,14 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190211',
+    version: '5.1.0',
+    updates: [
+      '优化介绍性文字显示',
+      '保留搜索记录',
+      '新上传的资源显示标识并临时置顶',
+      '取消资源头部隐藏的功能',
+    ]
+  }, {
     time: '190115',
     version: '5.0.5',
     updates: [

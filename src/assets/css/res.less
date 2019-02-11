@@ -260,6 +260,20 @@ div.res {
     overflow-y: scroll;
   }
   div.content.resource {
+    div.res-item.new-created {
+      div.res-image:after {
+        position: absolute;
+        left: -10px;
+        content: 'N';
+        top: 0;
+        font-size: 12px;
+        line-height: 16px;
+        background: @red;
+        border-radius: 20px;
+        height: 16px;
+        padding: 0 10px;
+      }
+    }
     div.res-item {
       position: relative;
       margin: 0 @res-item-margin;
@@ -294,7 +308,7 @@ div.res {
         left: @res-item-padding;
         top: 12px;
         width: calc(~'100% - 120px');
-        height: 2*@res-item-name-font-size + 2px;
+        height: 2*@res-item-name-font-size + 4px;
         line-height: @res-item-name-font-size + 2px;
         color: @res-name-color;
         font-size: @res-item-name-font-size;

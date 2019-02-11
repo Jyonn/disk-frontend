@@ -17,7 +17,7 @@ import {FootBtnService} from "../../services/foot-btn.service";
 export class ResNavComponent {
   @Input() resource: Resource;
   @Input() is_mine: boolean;
-  @Input() hide_nav: boolean;
+  @Input() zip_nav: boolean;
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
   is_showing: boolean;
@@ -95,6 +95,10 @@ export class ResNavComponent {
       this.is_showing = false;
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_update);
+    } else if (s === 'setting') {
+      this.is_showing = false;
+      this.show_menu = false;
+      this.footBtnService.activate_btn(this.footBtnService.foot_btn_setting);
     }
   }
 

@@ -39,6 +39,19 @@ export class BaseService {
     this.token = token;
     return token;
   }
+  static savePageCookie(res_str_id, scroll, kw) {
+    window.localStorage.setItem('scroll-' + res_str_id, scroll);
+    if (kw) {
+      window.localStorage.setItem('kw-' + res_str_id, kw);
+    } else {
+      window.localStorage.removeItem('kw-' + res_str_id);
+    }
+  }
+  static loadPageCookie(res_str_id) {
+    const scroll = window.localStorage.getItem('scroll-' + res_str_id);
+    const kw = window.localStorage.getItem('kw-' + res_str_id);
+    return {scroll: scroll, kw: kw};
+  }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;
     console.error(error);

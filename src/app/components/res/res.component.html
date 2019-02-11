@@ -1,9 +1,10 @@
 <app-info></app-info>
 <app-jumping></app-jumping>
 
-<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()" [hide_nav]="resService.hide_nav"></app-res-nav>
+<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()"
+             [zip_nav]="resService.zip_nav"></app-res-nav>
 
-<div class="res" [ngClass]="[tab_mode, resService.hide_nav ? 'nav-hide' : '']">
+<div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
       <span title="排序" class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
@@ -39,8 +40,10 @@
       <div class="op-item" (click)="select_res_help('move')">移动</div>
     </div>
   </div>
-  <div class="content resource" *ngIf="resource?.is_folder">
-    <div title="{{child.rname}}，{{child.readable_stype}}资源" class="res-item"
+  <div class="content resource" *ngIf="resource?.is_folder" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
+    <div title="{{child.readable_stype}}{{child.rname}}"
+         class="res-item"
+         [ngClass]="{'new-created': child.new_created}"
          *ngFor="let child of search_list"
          (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
       <div class="res-hover-mask"></div>

@@ -32,7 +32,7 @@ export class Resource {
     ['#6441A5', '#2a0845'],
     ['#FFA17F', '#00223E'],
   ];
-  public static READABLE_STYPE_LIST = ['目录', '图片', '视频', '音频', '文件', '链接'];
+  public static READABLE_STYPE_LIST = ['📁', '🌄', '📹', '🎧', '📓', '🔗'];
 
   res_str_id: string;
   rname: string;
@@ -61,6 +61,7 @@ export class Resource {
   loaded_class: boolean;
   is_random: boolean;
   raw_cover: string;
+  new_created: boolean;
 
   constructor(baseService: BaseService, d: {
     res_str_id, // 资源唯一随机ID
@@ -82,7 +83,7 @@ export class Resource {
     secure_env, // 是否在安全环境 不安全（公开）的祖先目录名
     right_bubble, // 是否附属父级
     raw_cover,
-  }) {
+  }, new_created = false) {
     this.res_str_id = d.res_str_id;
     this.rtype = d.rtype;
     this.rsize = d.rsize;
@@ -90,6 +91,7 @@ export class Resource {
     this.create_time = d.create_time;
     this.selected = false;
     this.is_home = d.is_home;
+    this.new_created = new_created;
     this.update(baseService, d);
   }
 

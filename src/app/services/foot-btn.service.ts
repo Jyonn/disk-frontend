@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {FootBtn} from "../models/res/foot-btn";
+import { FootBtn} from "../models/res/foot-btn";
 
 @Injectable()
 export class FootBtnService {
@@ -9,6 +9,7 @@ export class FootBtnService {
   foot_btn_modify: FootBtn;
   foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
+  foot_btn_setting: FootBtn;
   foot_btn_tips: FootBtn;
   foot_btn_update: FootBtn;
   foot_btn_list: Array<FootBtn>;
@@ -30,6 +31,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      root: true,
       login: false,
     });
     this.foot_btn_select = new FootBtn({
@@ -38,6 +40,7 @@ export class FootBtnService {
       folder: false,
       file: false,
       mask: false,
+      root: true,
       login: true,
     });
     this.foot_btn_upload = new FootBtn({
@@ -46,6 +49,7 @@ export class FootBtnService {
       folder: true,
       file: false,
       mask: true,
+      root: true,
       login: true,
     });
     this.foot_btn_modify = new FootBtn({
@@ -54,6 +58,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      root: true,
       login: false,
     });
     this.foot_btn_move = new FootBtn({
@@ -62,6 +67,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      root: false,
       login: true,
     });
     this.foot_btn_delete = new FootBtn({
@@ -70,6 +76,7 @@ export class FootBtnService {
       folder: true,
       file: true,
       mask: true,
+      root: false,
       login: true,
     });
     this.foot_btn_tips = new FootBtn({
@@ -78,6 +85,7 @@ export class FootBtnService {
       folder: false,
       file: false,
       mask: true,
+      root: true,
       login: false,
     });
     this.foot_btn_update = new FootBtn({
@@ -86,16 +94,18 @@ export class FootBtnService {
       folder: false,
       file: false,
       mask: true,
+      root: true,
       login: false,
     });
-    // this.foot_btn_setting = new FootBtn({
-    //   icon: 'icon-setting',
-    //   text: '设置',
-    //   folder: true,
-    //   file: true,
-    //   mask: true,
-    //   login: false,
-    // });
+    this.foot_btn_setting = new FootBtn({
+      icon: 'icon-setting',
+      text: '设置',
+      folder: false,
+      file: false,
+      mask: true,
+      root: true,
+      login: false,
+    });
     this.foot_btn_list = [
       this.foot_btn_share,
       // this.foot_btn_select,
@@ -105,7 +115,7 @@ export class FootBtnService {
       this.foot_btn_delete,
       this.foot_btn_tips,
       this.foot_btn_update,
-      // this.foot_btn_setting,
+      this.foot_btn_setting,
     ];
     this.inactivate();
     this.update_btns();

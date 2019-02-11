@@ -44,6 +44,10 @@
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background: @main-bg;
 }
@@ -80,7 +84,8 @@ path {
 }
 
 //@nav-height-protrait: 38.2vh;
-@nav-height-portrait: 25vh;
+@nav-height-portrait-zip: 25vh;
+@nav-height-portrait-standard: 38.2vh;
 @footer-height: 56px;
 @footer-btn-size: 74px;
 @nav-width-landscape: 38.2vw;
@@ -95,26 +100,26 @@ nav, div.res {
 @media all and (orientation: portrait){
   nav {
     width: 100%;
-    height: @nav-height-portrait;
+    height: @nav-height-portrait-standard;
   }
-  nav.nav-hide {
-    height: 0px;
+  nav.nav-zip {
+    height: @nav-height-portrait-zip;
   }
   div.res {
     width: 100%;
-    height: calc(~'100% - @{nav-height-portrait} - @{footer-height}');
+    height: calc(~'100% - @{nav-height-portrait-standard} - @{footer-height}');
     left: 0;
-    top: @nav-height-portrait;
+    top: @nav-height-portrait-standard;
   }
-  div.res.nav-hide {
-    top: 0px;
-    height: calc(~'100% - @{footer-height}');
+  div.res.nav-zip {
+    height: calc(~'100% - @{nav-height-portrait-zip} - @{footer-height}');
+    top: @nav-height-portrait-zip;
   }
   div.res.full {
-    height: calc(~'100% - @{nav-height-portrait}');
+    height: calc(~'100% - @{nav-height-portrait-standard}');
   }
-  div.res.full.nav-hide {
-    height: 100%;
+  div.res.full.nav-zip {
+    height: calc(~'100% - @{nav-height-portrait-zip}');
   }
 }
 

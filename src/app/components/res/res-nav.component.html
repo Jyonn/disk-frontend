@@ -1,4 +1,4 @@
-<nav [ngClass]="{'showing': is_showing, 'nav-hide': hide_nav}" (click)="switch_show_mode()" xmlns="http://www.w3.org/1999/html">
+<nav [ngClass]="{'showing': is_showing, 'nav-zip': zip_nav}" (click)="switch_show_mode()" xmlns="http://www.w3.org/1999/html">
   <div title="资源封面" class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
   <div class="content">
     <div class="left-btn">
@@ -23,6 +23,7 @@
       <div class="menu-item" (click)="menu_handler($event, 'tips')">使用贴士</div>
       <div class="menu-item" (click)="menu_handler($event, 'updates')">更新日志</div>
       <div class="menu-item" (click)="menu_handler($event, 'code')">代码开源</div>
+      <div class="menu-item" (click)="menu_handler($event, 'setting')">全局设置</div>
       <div class="menu-item warn" (click)="userService.exit()">退出登录</div>
     </div>
   </div>

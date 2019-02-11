@@ -549,14 +549,14 @@ export class ResOpComponent implements OnInit {
     }
   }
 
-  nav_hide() {
-    window.localStorage.setItem('hide-nav', '1');
-    this.resService.refresh_hide_nav();
+  nav_zip() {
+    window.localStorage.setItem('zip-nav', '1');
+    this.resService.refresh_zip_nav();
   }
 
-  nav_show() {
-    window.localStorage.removeItem('hide-nav');
-    this.resService.refresh_hide_nav();
+  nav_normal() {
+    window.localStorage.removeItem('zip-nav');
+    this.resService.refresh_zip_nav();
   }
 
   get is_owner() {

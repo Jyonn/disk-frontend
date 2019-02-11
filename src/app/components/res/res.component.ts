@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { UserService } from "../../services/user.service";
 import { Resource } from "../../models/res/resource";
 import { ClockService } from "../../services/clock.service";
@@ -33,6 +33,8 @@ export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
   static icon_width = 66;
+
+  @ViewChild('resList') resListElement: ElementRef;
 
   res_str_id: string;
 
@@ -70,6 +72,8 @@ export class ResComponent implements OnInit {
 
   is_multi_mode: boolean;  // 是否在多选模式下的operation模式
 
+  scroll_top: string;
+
   constructor(
     public baseService: BaseService,
     public userService: UserService,
@@ -93,6 +97,7 @@ export class ResComponent implements OnInit {
     this.show_op_process = false;
     this.margin_left = 0;
     this.show_more_option = false;
+    this.tab_mode = 'resource';
     this.operations = {
       delete: {
         text: '删除',
@@ -133,6 +138,8 @@ export class ResComponent implements OnInit {
   }
   initResource() {
     const v_key = ResourceService.loadVK(this.res_str_id);
+    const cookie = BaseService.loadPageCookie(this.res_str_id);
+    this.search_value = cookie.kw;
     this.resService.get_base_res_info(this.res_str_id)
       .then((base_resp) => {
         // console.log(resp);
@@ -140,6 +147,7 @@ export class ResComponent implements OnInit {
           this.resService.get_res_info(this.res_str_id, {visit_key: v_key})
             .then((resp) => {
               this.baseInitResource(resp);
+              this.scroll_top = cookie.scroll || '0';
             })
             .catch(() => {
               ResourceService.clearVK(this.res_str_id);
@@ -153,6 +161,10 @@ export class ResComponent implements OnInit {
       // .catch(msg => console.log(msg));
   }
 
+  onscroll(scroll) {
+    this.scroll_top = scroll;
+  }
+
   ngOnInit(): void {
     this.activateRoute.params.subscribe((params) => {
       this.res_str_id = params['res_str_id'];
@@ -160,7 +172,7 @@ export class ResComponent implements OnInit {
       this.initResource();
       this.clockService.startClock();
       this.search_mode = false;
-      this.tab_mode = 'resource';
+      // this.tab_mode = 'resource';
     });
     this.search_terms = new Subject<string>();
     this.search_terms
@@ -205,7 +217,7 @@ export class ResComponent implements OnInit {
         this.current_item_percentage = process.percentage;
         this.op_append_msg = '，当前文件' + process.percentage + '%';
       });
-      this.addChildRes(new Resource(null, res_data));
+      this.addChildRes(new Resource(null, res_data, true));
       this.current_item_percentage = 0;
       this.current_op_num += 1;
     }
@@ -395,6 +407,7 @@ export class ResComponent implements OnInit {
   navigate(res_str_id) {
     const link = ['/res', res_str_id];
     this.baseService.is_jumping = true;
+    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value);
     this.router.navigate(link)
       .then();
   }
@@ -408,6 +421,7 @@ export class ResComponent implements OnInit {
     }
     const link = ['/res', this.resource.parent_str_id];
     this.baseService.is_jumping = true;
+    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value);
     this.router.navigate(link)
       .then();
   }
@@ -418,10 +432,8 @@ export class ResComponent implements OnInit {
       if (this.resource && !foot_btn.hide) {
         if ((this.resource.is_folder && foot_btn.folder) ||
           (!this.resource.is_folder && foot_btn.file)) {
-          if (this.resource.is_home) {
-            if (foot_btn === this.footBtnService.foot_btn_delete || foot_btn === this.footBtnService.foot_btn_move) {
-              continue;
-            }
+          if (this.resource.is_home && !foot_btn.root) {
+            continue;
           }
           if (foot_btn.login && !this.is_owner) {
             continue;
@@ -444,6 +456,10 @@ export class ResComponent implements OnInit {
 
   switch_tab_mode(tm: string) {
     this.tab_mode = tm;
+  }
+
+  sort_by_new_created(_: Resource, rb: Resource) {
+    return rb.new_created ? 1 : -1;
   }
 
   sort_by_time(ra: Resource, rb: Resource) {
@@ -496,6 +512,7 @@ export class ResComponent implements OnInit {
       default:
         break;
     }
+    this.search_list.sort(this.sort_by_new_created);
     this.sort_mode = false;
   }
 
