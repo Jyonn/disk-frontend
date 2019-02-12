@@ -217,7 +217,7 @@ export class ResOpComponent implements OnInit {
 
   get share_direct_link() {
     let link = `${this.baseService.short_link_host}/${this.res_str_id}`;
-    if (!this.copy_short) {
+    if (!this.copy_short && this.resource) {
       link += `/${this.resource.rname.replace(' ', '%20')}`;
     }
     return link;
