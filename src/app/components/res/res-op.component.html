@@ -22,6 +22,7 @@
       <div class="title">分享直链（打开链接即可下载资源）</div>
       <div class="input-btn-line">
         <input [value]="share_direct_link" readonly>
+        <div class="btn" (click)="toggle_copy_mode()">{{short_or_long}}</div>
         <div class="btn succ" ngxClipboard [cbContent]="share_direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_link_succ()">复制</div>
       </div>
     </div>

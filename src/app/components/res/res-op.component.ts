@@ -69,6 +69,7 @@ export class ResOpComponent implements OnInit {
   // foot btn modify
   // res_name: string;
   res_cover_files: FileList;
+  copy_short: boolean;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -215,8 +216,24 @@ export class ResOpComponent implements OnInit {
   }
 
   get share_direct_link() {
-    const res_str_id = this.res_str_id;
-    return `${this.baseService.short_link_host}/${res_str_id}`;
+    let link = `${this.baseService.short_link_host}/${this.res_str_id}`;
+    if (!this.copy_short) {
+      link += `/${this.resource.rname.replace(' ', '%20')}`;
+    }
+    return link;
+  }
+
+  get short_or_long() {
+    return this.copy_short ? '长' : '短';
+  }
+
+  toggle_copy_mode() {
+    this.copy_short = !this.copy_short;
+    if (this.copy_short) {
+      window.localStorage.setItem('copy-short', '1');
+    } else {
+      window.localStorage.removeItem('copy-short');
+    }
   }
 
   get upload_res_text() {
@@ -439,7 +456,11 @@ export class ResOpComponent implements OnInit {
   }
 
   copy_link_succ() {
-    BaseService.info_center.next(new Info({text: '复制成功，支持在链接后加扩展名（如.mp3）', type: Info.TYPE_SUCC}));
+    let info_text = '复制成功，支持在链接后加扩展名（如.mp3）';
+    if (!this.copy_short) {
+      info_text = '复制成功，可随意编辑链接末尾的文件名';
+    }
+    BaseService.info_center.next(new Info({text: info_text, type: Info.TYPE_SUCC}));
   }
 
   folder_filter() {
@@ -564,5 +585,6 @@ export class ResOpComponent implements OnInit {
     this.initShare();
     this.initUpload();
     this.initCover();
+    this.copy_short = !!window.localStorage.getItem('copy-short');
   }
 }
