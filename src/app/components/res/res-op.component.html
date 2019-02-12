@@ -80,9 +80,9 @@
     </div>
   </div>
 
-  <div class="flex-container" [ngClass]="b2s(footBtnService.is_modifying && tab_mode==='resource')">
+  <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_modify)">
     <div class="title-box">
-      <div class="title">修改资源信息<span>（选择“介绍”，按修改可进入编辑）</span></div>
+      <div class="title">修改资源信息</div>
       <app-loading></app-loading>
     </div>
     <div class="input-box" *ngIf="is_owner">

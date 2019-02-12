@@ -20,28 +20,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-right:before {
-  content: "\e91c";
-}
-.icon-download:before {
-  content: "\e91d";
-}
-.icon-refresh:before {
-  content: "\e91b";
-}
-.icon-move:before {
-  content: "\e91a";
-}
-.icon-tips:before {
+.icon-back:before {
   content: "\e900";
 }
-.icon-back:before {
+.icon-check:before {
   content: "\e901";
 }
-.icon-check:before {
+.icon-collapse:before {
   content: "\e902";
 }
-.icon-collapse:before {
+.icon-copy:before {
   content: "\e903";
 }
 .icon-delete:before {
@@ -50,63 +38,84 @@
 .icon-down:before {
   content: "\e905";
 }
-.icon-file:before {
+.icon-download:before {
   content: "\e906";
 }
-.icon-folder:before {
+.icon-file:before {
   content: "\e907";
 }
-.icon-image:before {
+.icon-folder:before {
   content: "\e908";
 }
-.icon-like:before {
+.icon-image:before {
   content: "\e909";
 }
-.icon-link:before {
+.icon-like:before {
   content: "\e90a";
 }
-.icon-modify:before {
+.icon-link:before {
   content: "\e90b";
 }
-.icon-video:before {
+.icon-locked:before {
   content: "\e90c";
 }
-.icon-music:before {
+.icon-modify:before {
   content: "\e90d";
 }
-.icon-play:before {
+.icon-move:before {
   content: "\e90e";
 }
-.icon-search:before {
+.icon-music:before {
   content: "\e90f";
 }
-.icon-select:before {
+.icon-pencil:before {
   content: "\e910";
 }
-.icon-setting:before {
+.icon-play:before {
   content: "\e911";
 }
-.icon-share:before {
+.icon-refresh:before {
   content: "\e912";
 }
-.icon-sort:before {
+.icon-right:before {
   content: "\e913";
 }
-.icon-toggleoff:before {
+.icon-search:before {
   content: "\e914";
 }
-.icon-toggleon:before {
+.icon-select:before {
   content: "\e915";
 }
-.icon-uncheck:before {
+.icon-setting:before {
   content: "\e916";
 }
-.icon-unlike:before {
+.icon-share:before {
   content: "\e917";
 }
-.icon-unlogin:before {
+.icon-sort:before {
   content: "\e918";
 }
-.icon-upload:before {
+.icon-tips:before {
   content: "\e919";
+}
+.icon-toggleoff:before {
+  content: "\e91a";
+}
+.icon-toggleon:before {
+  content: "\e91b";
+}
+.icon-uncheck:before {
+  content: "\e91c";
+}
+.icon-unlike:before {
+  content: "\e91d";
+}
+.icon-unlogin:before {
+  content: "\e91e";
+}
+.icon-upload:before {
+  content: "\e91f";
+}
+.icon-video:before {
+  content: "\e920";
 }

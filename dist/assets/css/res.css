@@ -161,21 +161,33 @@ div.res div.tab div.resource {
 div.res div.tab div.description {
   right: 0;
 }
-div.res div.tab div.description div.modify-btn {
+div.res div.tab div.desc-edit {
+  right: 0;
+}
+div.res div.tab div.desc-edit div.modify-btn {
   width: 50%;
   float: left;
   position: relative;
 }
-div.res div.tab div.description div.cancel {
+div.res div.tab div.desc-edit div.cancel {
   background: #CCCCCC;
   color: white;
 }
-div.res div.tab div.description div.modify {
+div.res div.tab div.desc-edit div.modify {
   background: #2699FB;
   color: #F1F9FF;
 }
-div.res div.tab div.description.inactive {
+div.res div.tab div.desc-edit.inactive {
   right: -50%;
+}
+div.res div.tab div.description span.icon-pencil {
+  position: absolute;
+  top: 0;
+  right: 14px;
+  height: 100%;
+  font-size: 16px;
+  width: 16px;
+  z-index: 1;
 }
 div.res div.tab div.resource span.icon-sort {
   position: absolute;
@@ -493,6 +505,9 @@ div.res div.content.resource div.suggestion-box div.input-box div.round-btn {
   top: 0;
   left: 220px;
 }
+div.res div.content.description {
+  border-left: 1px solid #f0f0f0;
+}
 div.res div.content.description div.padding-div {
   overflow: scroll;
   padding: 0 30px;
@@ -620,6 +635,12 @@ div.res.resource div.tab div.description {
 div.res.resource div.tab div.description span {
   color: #2699FB;
 }
+div.res.resource div.tab div.desc-edit {
+  background: white;
+}
+div.res.resource div.tab div.desc-edit span {
+  color: #2699FB;
+}
 div.res.resource div.content.resource {
   left: 0;
 }
@@ -646,7 +667,26 @@ div.res.description div.tab div.resource span {
 @media all and (orientation: landscape) {
   div.res.description div.content.resource {
     left: -38.2vw;
+    width: 100%;
+  }
+  div.res.description div.content.description {
+    border-left: 1px solid #eaeaea;
+    left: calc(100% - 38.2vw) !important;
     width: 38.2vw;
+  }
+  div.res.description div.tab div.resource {
+    left: -38.2vw;
+    width: 100%;
+  }
+  div.res.description div.tab div.description {
+    width: 38.2vw;
+  }
+  div.res.description div.tab div.desc-edit.active {
+    width: 38.2vw;
+  }
+  div.res.description div.tab.selecting.active {
+    left: -38.2vw;
+    width: 100vw;
   }
 }
 div.res.description div.content.description {

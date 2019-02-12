@@ -7,7 +7,6 @@ import {Meta} from "@angular/platform-browser";
   templateUrl: './home.component.html',
   styleUrls: [
     '../../../assets/css/icon-fonts.css',
-    '../../../assets/css/mywebicon.css',
     '../../../assets/css/home.less',
     '../../../assets/css/devices.min.css',
   ]

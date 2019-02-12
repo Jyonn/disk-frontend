@@ -17,8 +17,8 @@
 @res-file-name-size: 14px;
 @res-file-size-size: 10px;
 
-@res-search-container-padding: 14px;
-@res-search-icon-size: 16px;
+@tab-item-padding: 14px;
+@tab-icon-size: 16px;
 @res-search-box-padding: 4px;
 @res-search-border-radius: (@res-tab-height - 2*@res-search-box-padding) / 2;
 
@@ -60,6 +60,9 @@ div.res {
     }
     div.description {
       right: 0;
+    }
+    div.desc-edit {
+      right: 0;
       div.modify-btn {
         width: 50%;
         float: left;
@@ -74,16 +77,27 @@ div.res {
         color: @default-text;
       }
     }
-    div.description.inactive {
+    div.desc-edit.inactive {
       right: -50%;
+    }
+    div.description {
+      span.icon-pencil {
+        position: absolute;
+        top: 0;
+        right: @tab-item-padding;
+        height: 100%;
+        font-size: @tab-icon-size;
+        width: @tab-icon-size;
+        z-index: 1;
+      }
     }
     div.resource {
       span.icon-sort {
         position: absolute;
-        left: @res-search-container-padding;
+        left: @tab-item-padding;
         height: 100%;
-        font-size: @res-search-icon-size;
-        width: @res-search-icon-size;
+        font-size: @tab-icon-size;
+        width: @tab-icon-size;
         z-index: 1;
       }
       div.sort-container {
@@ -111,23 +125,23 @@ div.res {
       }
       div.search-container {
         top: 0;
-        left: @res-search-container-padding;
-        width: calc(~'100% - 2*@{res-search-container-padding}');
+        left: @tab-item-padding;
+        width: calc(~'100% - 2*@{tab-item-padding}');
         height: 100%;
         span.icon-search, span.icon-collapse {
           position: absolute;
           right: 0;
-          font-size: @res-search-icon-size;
-          width: @res-search-icon-size;
+          font-size: @tab-icon-size;
+          width: @tab-icon-size;
         }
         div.search-box {
           filter: opacity(0);
           visibility: hidden;
           position: absolute;
           left: 0;
-          width: calc(~'100% - @{res-search-icon-size}');
+          width: calc(~'100% - @{tab-icon-size}');
           height: 100%;
-          padding: @res-search-box-padding @res-search-container-padding @res-search-box-padding 0;
+          padding: @res-search-box-padding @tab-item-padding @res-search-box-padding 0;
           input.search {
             width: 100%;
             height: 100%;
@@ -139,7 +153,7 @@ div.res {
           span.clear-keyword {
             position: absolute;
             top: 0;
-            right: @res-search-border-radius / 2 + @res-search-container-padding;
+            right: @res-search-border-radius / 2 + @tab-item-padding;
             color: @active-tab-bg;
             font-weight: bold;
             width: 20px;
@@ -426,6 +440,7 @@ div.res {
     }
   }
   div.content.description {
+    border-left: 1px solid @res-item-box-bg;
     div.padding-div {
       overflow: scroll;
       padding: 0 30px;
@@ -563,6 +578,12 @@ div.res.resource {
         color: @inactive-tab-text;
       }
     }
+    div.desc-edit {
+      background: @inactive-tab-bg;
+      span {
+        color: @inactive-tab-text;
+      }
+    }
   }
   div.content.resource {
     left: 0;
@@ -594,7 +615,28 @@ div.res.description {
   @media all and (orientation: landscape){
     div.content.resource {
       left: -@nav-width-landscape;
+      width: 100%;
+    }
+    div.content.description {
+      border-left: 1px solid @main-bg;
+      left: calc(~'100% - @{nav-width-landscape}') !important;
       width: @nav-width-landscape;
+    }
+    div.tab {
+      div.resource {
+        left: -@nav-width-landscape;
+        width: 100%;
+      }
+      div.description {
+        width: @nav-width-landscape;
+      }
+      div.desc-edit.active {
+        width: @nav-width-landscape;
+      }
+    }
+    div.tab.selecting.active {
+      left: -@nav-width-landscape;
+      width: 100vw;
     }
   }
   div.content.description {

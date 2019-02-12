@@ -22,7 +22,6 @@ import { ResourceTreeService } from "../../services/resource-tree.service";
   selector: 'app-res',
   templateUrl: './res.component.html',
   styleUrls: [
-    '../../../assets/css/mywebicon.css',
     '../../../assets/css/icon-fonts.css',
     '../../../assets/css/nav.less',
     '../../../assets/css/footer.less',
@@ -74,6 +73,8 @@ export class ResComponent implements OnInit {
 
   scroll_top: string;
 
+  modify_desc: boolean;
+
   constructor(
     public baseService: BaseService,
     public userService: UserService,
@@ -98,6 +99,7 @@ export class ResComponent implements OnInit {
     this.margin_left = 0;
     this.show_more_option = false;
     this.tab_mode = 'resource';
+    this.modify_desc = false;
     this.operations = {
       delete: {
         text: '删除',
@@ -217,7 +219,7 @@ export class ResComponent implements OnInit {
         this.current_item_percentage = process.percentage;
         this.op_append_msg = '，当前文件' + process.percentage + '%';
       });
-      this.addChildRes(new Resource(null, res_data, true));
+      this.addChildRes(new Resource(null, res_data));
       this.current_item_percentage = 0;
       this.current_op_num += 1;
     }
@@ -520,6 +522,10 @@ export class ResComponent implements OnInit {
     return this.resource && this.resource.is_folder && this.tab_mode === 'resource' && !this.search_mode;
   }
 
+  get show_pencil_icon() {
+    return this.tab_mode === 'description' && this.is_owner && !this.modify_desc;
+  }
+
   activate_btn(btn: FootBtn) {
     this.is_multi_mode = false;
     this.footBtnService.activate_btn(btn);
@@ -551,10 +557,6 @@ export class ResComponent implements OnInit {
     }
   }
 
-  get is_modifying_desc() {
-    return this.footBtnService.is_modifying && this.tab_mode === 'description';
-  }
-
   go_modify_desc() {
     this.footBtnService.activate_btn(this.footBtnService.foot_btn_modify);
   }
@@ -565,7 +567,7 @@ export class ResComponent implements OnInit {
     } else {
       this.description = '';
     }
-    this.footBtnService.inactivate();
+    this.modify_desc = false;
   }
 
   modify_desc_action() {
@@ -574,11 +576,13 @@ export class ResComponent implements OnInit {
       .then((resp) => {
         this.resource.update(null, resp);
         this.description = this.resource.description;
-        this.footBtnService.inactivate();
+        // this.footBtnService.inactivate();
+        this.modify_desc = false;
       });
   }
 
   addChildRes(res: Resource) {
+    res.new_created = true;
     this.children.push(res);
     this.resource_search();
   }

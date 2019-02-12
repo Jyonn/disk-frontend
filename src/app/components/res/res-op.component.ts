@@ -505,10 +505,7 @@ export class ResOpComponent implements OnInit {
     if (!this.footBtnService.foot_btn_active) {
       return false;
     }
-    if (!this.footBtnService.foot_btn_active.mask) {
-      return false;
-    }
-    return !(this.footBtnService.is_modifying && this.tab_mode === 'description');
+    return this.footBtnService.foot_btn_active.mask;
   }
 
   get is_protect() {

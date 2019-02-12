@@ -24,8 +24,11 @@
         </div>
       </div>
     </div>
-    <div class="description" (click)="switch_tab_mode('description')"><span class="text">介绍</span></div>
-    <div class="description" [ngClass]="is_modifying_desc ? 'active' : 'inactive'">
+    <div class="description" (click)="switch_tab_mode('description')">
+      <span class="text">介绍</span>
+      <span title="编辑" class="icon icon-pencil" *ngIf="show_pencil_icon" (click)="modify_desc = true"></span>
+    </div>
+    <div class="desc-edit" [ngClass]="modify_desc ? 'active' : 'inactive'">
       <div class="modify-btn cancel"><span class="text" (click)="cancel_modify_desc()">取消</span></div>
       <div class="modify-btn modify"><span class="text" (click)="modify_desc_action()">修改</span></div>
     </div>
@@ -89,10 +92,10 @@
   </div>
   <div class="content description">
     <div class="padding-div">
-      <markdown [data]="description" *ngIf="description && !is_modifying_desc"></markdown>
-      <textarea [(ngModel)]="description" *ngIf="is_modifying_desc" placeholder="在此处填写资源介绍资料…"></textarea>
+      <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
+      <textarea [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
       <!--<div class="add-desc">-->
-        <div class="round-btn" *ngIf="!description && !is_modifying_desc" (click)="go_modify_desc()">填写介绍资料</div>
+        <div class="round-btn" *ngIf="!description && !modify_desc" (click)="go_modify_desc()">填写介绍资料</div>
       <!--</div>-->
     </div>
   </div>

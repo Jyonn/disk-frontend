@@ -31,7 +31,7 @@ import { UpdateService } from "./services/update.service";
 import { ResTreeComponent } from "./components/res/res-tree.component";
 import { ResourceTreeService } from "./services/resource-tree.service";
 import { HomeComponent } from "./components/base/home.component";
-import {ProgressHttpModule} from "angular-progress-http";
+import { ProgressHttpModule } from "angular-progress-http";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{

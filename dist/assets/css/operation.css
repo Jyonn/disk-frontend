@@ -230,6 +230,8 @@ div.operation-block div.flex-container div.input-box div.selector {
   max-height: 300px;
   overflow: scroll;
   margin-bottom: 8px;
+  background: #f0f0f0;
+  padding: 10px 20px;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line {
   position: relative;
