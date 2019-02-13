@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'res', component: ResHomeComponent},
   { path: 'res/next/:next', component: ResHomeComponent},
   { path: 'res/:res_str_id', component: ResComponent},
+  { path: 'res/:res_str_id/:tab', component: ResComponent},
   { path: 'oauth/qtb/callback', component: OauthComponent},
   { path: '**', component: HomeComponent},
 ];

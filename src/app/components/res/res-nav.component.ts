@@ -29,7 +29,7 @@ export class ResNavComponent {
     public footBtnService: FootBtnService,
     public router: Router,
   ) {
-    this.is_showing = true;
+    this.is_showing = !window.localStorage.getItem('cover-normal');
     this.show_menu = false;
   }
 

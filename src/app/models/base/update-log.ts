@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190213',
+    version: '5.2.1',
+    updates: [
+      '支持对资源封面对全局设置',
+      '支持在链接中选择资源页或介绍页',
+    ]
+  }, {
     time: '190212',
     version: '5.2.0',
     updates: [

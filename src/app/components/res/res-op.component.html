@@ -139,13 +139,20 @@
 
   <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_setting)">
     <div class="title-box">
-      <div class="title">全局设置</div>
+      <div class="title">全局设置<span>（仅对当前设备有效）</span></div>
     </div>
     <div class="input-box">
       <div class="title">封面图在竖屏模式下的高度</div>
       <div class="input-btn-line right">
         <div class="btn" [ngClass]="{succ: resService.zip_nav}" (click)="nav_zip()">紧凑</div>
         <div class="btn" [ngClass]="{succ: !resService.zip_nav}" (click)="nav_normal()">标准</div>
+      </div>
+    </div>
+    <div class="input-box">
+      <div class="title">进入浑天匣后资源封面</div>
+      <div class="input-btn-line right">
+        <div class="btn" [ngClass]="{succ: !baseService.cover_show}" (click)="cover_normal()">标准</div>
+        <div class="btn" [ngClass]="{succ: baseService.cover_show}" (click)="cover_show()">全屏</div>
       </div>
     </div>
   </div>

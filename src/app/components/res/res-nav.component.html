@@ -16,7 +16,7 @@
   </div>
   <div class="menu-box" [ngClass]="{showing: show_menu}">
     <div class="triangle"></div>
-    <div class="menu-list">
+    <div class="menu-list" *ngIf="userService.has_login">
       <div class="menu-title menu-item"><strong>{{userService.user?.nickname || '暂无昵称'}}</strong></div>
       <div class="menu-item" (click)="menu_handler($event, 'mine')">我的浑天匣</div>
       <div class="menu-item" (click)="menu_handler($event, 'profile')">个人信息</div>
@@ -25,6 +25,10 @@
       <div class="menu-item" (click)="menu_handler($event, 'code')">代码开源</div>
       <div class="menu-item" (click)="menu_handler($event, 'setting')">全局设置</div>
       <div class="menu-item warn" (click)="userService.exit()">退出登录</div>
+    </div>
+    <div class="menu-list" *ngIf="!userService.has_login">
+      <div class="menu-item">登录浑天匣</div>
+
     </div>
   </div>
 </nav>

@@ -174,6 +174,9 @@ export class ResComponent implements OnInit {
       this.initResource();
       this.clockService.startClock();
       this.search_mode = false;
+      if (params['tab'] === 'resource' || params['tab'] === 'description') {
+        this.tab_mode = params['tab'];
+      }
       // this.tab_mode = 'resource';
     });
     this.search_terms = new Subject<string>();

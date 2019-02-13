@@ -130,4 +130,8 @@ export class BaseService {
       })
       .catch(BaseService.handleError);
   }
+
+  get cover_show() {
+    return !window.localStorage.getItem('cover-normal');
+  }
 }

@@ -577,6 +577,14 @@ export class ResOpComponent implements OnInit {
     this.resService.refresh_zip_nav();
   }
 
+  cover_show() {
+    window.localStorage.removeItem('cover-normal');
+  }
+
+  cover_normal() {
+    window.localStorage.setItem('cover-normal', '1');
+  }
+
   get is_owner() {
     return this.userService.user && this.resource && this.userService.user.user_id === this.resource.owner.user_id;
   }
