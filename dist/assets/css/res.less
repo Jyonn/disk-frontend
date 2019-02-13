@@ -93,7 +93,9 @@ div.res {
         right: @tab-item-padding;
       }
       span.icon-back {
+        transition: 0.5s;
         left: @tab-item-padding;
+        display: none;
       }
       span.icon-back.active {
         transform: rotate(180deg);
@@ -637,6 +639,9 @@ div.res.description {
       }
       div.description {
         width: @nav-width-landscape;
+        span.icon-back {
+          display: inherit;
+        }
       }
       div.desc-edit.active {
         width: @nav-width-landscape;

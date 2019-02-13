@@ -192,7 +192,9 @@ div.res div.tab div.description span.icon-pencil {
   right: 14px;
 }
 div.res div.tab div.description span.icon-back {
+  transition: 0.5s;
   left: 14px;
+  display: none;
 }
 div.res div.tab div.description span.icon-back.active {
   transform: rotate(180deg);
@@ -688,6 +690,9 @@ div.res.description div.tab div.resource span {
   }
   div.res.description div.tab div.description {
     width: 38.2vw;
+  }
+  div.res.description div.tab div.description span.icon-back {
+    display: inherit;
   }
   div.res.description div.tab div.desc-edit.active {
     width: 38.2vw;

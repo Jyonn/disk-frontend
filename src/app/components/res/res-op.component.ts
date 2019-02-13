@@ -568,12 +568,12 @@ export class ResOpComponent implements OnInit {
   }
 
   nav_zip() {
-    window.localStorage.setItem('zip-nav', '1');
+    window.localStorage.removeItem('normal-nav');
     this.resService.refresh_zip_nav();
   }
 
   nav_normal() {
-    window.localStorage.removeItem('zip-nav');
+    window.localStorage.setItem('normal-nav', '1');
     this.resService.refresh_zip_nav();
   }
 

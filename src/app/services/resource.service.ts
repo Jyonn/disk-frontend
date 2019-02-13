@@ -22,7 +22,7 @@ export class ResourceService {
   }
 
   public refresh_zip_nav() {
-    this.zip_nav = !!window.localStorage.getItem('zip-nav');
+    this.zip_nav = !window.localStorage.getItem('normal-nav');
   }
 
   public get_upload_token(res_str_id: string, data: {filename: string}) {
