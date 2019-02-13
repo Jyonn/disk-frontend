@@ -435,12 +435,14 @@ export class ResComponent implements OnInit {
     const _foot_btns = [];
     for (const foot_btn of this.footBtnService.foot_btn_list) {
       if (this.resource && !foot_btn.hide) {
-        if ((this.resource.is_folder && foot_btn.folder) ||
-          (!this.resource.is_folder && foot_btn.file)) {
+        if ((this.resource.is_folder && foot_btn.folder) || (!this.resource.is_folder && foot_btn.file)) {
           if (this.resource.is_home && !foot_btn.root) {
             continue;
           }
           if (foot_btn.login && !this.is_owner) {
+            continue;
+          }
+          if (foot_btn.no_login && this.is_owner) {
             continue;
           }
           _foot_btns.push(foot_btn);

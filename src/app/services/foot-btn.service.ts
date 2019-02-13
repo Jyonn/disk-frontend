@@ -19,7 +19,8 @@ export class FootBtnService {
   is_ajax_modifying: boolean;
 
   is_btn_hide(key) {
-    return !!window.localStorage.getItem('hide-' + key);
+    return false;
+    // return !!window.localStorage.getItem('hide-' + key);
   }
 
   constructor() {
@@ -33,6 +34,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
+      no_login: false,
     });
     this.foot_btn_select = new FootBtn({
       icon: 'icon-select',
@@ -42,6 +44,7 @@ export class FootBtnService {
       mask: false,
       root: true,
       login: true,
+      no_login: false,
     });
     this.foot_btn_upload = new FootBtn({
       icon: 'icon-upload',
@@ -51,6 +54,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: true,
+      no_login: false,
     });
     this.foot_btn_modify = new FootBtn({
       icon: 'icon-modify',
@@ -59,7 +63,8 @@ export class FootBtnService {
       file: true,
       mask: true,
       root: true,
-      login: false,
+      login: true,
+      no_login: false,
     });
     this.foot_btn_move = new FootBtn({
       icon: 'icon-move',
@@ -69,6 +74,7 @@ export class FootBtnService {
       mask: true,
       root: false,
       login: true,
+      no_login: false,
     });
     this.foot_btn_delete = new FootBtn({
       icon: 'icon-delete',
@@ -78,33 +84,37 @@ export class FootBtnService {
       mask: true,
       root: false,
       login: true,
+      no_login: false,
     });
     this.foot_btn_tips = new FootBtn({
       icon: 'icon-tips',
       text: '贴士',
-      folder: false,
-      file: false,
+      folder: true,
+      file: true,
       mask: true,
       root: true,
       login: false,
+      no_login: true,
     });
     this.foot_btn_update = new FootBtn({
-      icon: null,
+      icon: 'icon-refresh',
       text: '更新',
-      folder: false,
-      file: false,
+      folder: true,
+      file: true,
       mask: true,
       root: true,
       login: false,
+      no_login: true,
     });
     this.foot_btn_setting = new FootBtn({
       icon: 'icon-setting',
       text: '设置',
-      folder: false,
-      file: false,
+      folder: true,
+      file: true,
       mask: true,
       root: true,
       login: false,
+      no_login: true,
     });
     this.foot_btn_list = [
       this.foot_btn_share,
