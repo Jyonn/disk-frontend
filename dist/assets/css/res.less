@@ -81,14 +81,22 @@ div.res {
       right: -50%;
     }
     div.description {
-      span.icon-pencil {
+      span.icon {
         position: absolute;
         top: 0;
-        right: @tab-item-padding;
         height: 100%;
         font-size: @tab-icon-size;
         width: @tab-icon-size;
         z-index: 1;
+      }
+      span.icon-pencil {
+        right: @tab-item-padding;
+      }
+      span.icon-back {
+        left: @tab-item-padding;
+      }
+      span.icon-back.active {
+        transform: rotate(180deg);
       }
     }
     div.resource {
@@ -642,5 +650,31 @@ div.res.description {
   div.content.description {
     padding: 20px 0;
     left: 0;
+  }
+}
+
+div.res.description.more {
+  @media all and (orientation: landscape) {
+    div.content.resource {
+      left: -@nav-width-landscape;
+      width: @nav-width-landscape;
+    }
+    div.content.description {
+      border-left: 1px solid @main-bg;
+      left: 0 !important;
+      width: 100%;
+    }
+    div.tab {
+      div.resource {
+        left: -@nav-width-landscape;
+        width: @nav-width-landscape;
+      }
+      div.description {
+        width: 100%;
+      }
+      div.desc-edit.active {
+        width: 100%;
+      }
+    }
   }
 }

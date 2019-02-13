@@ -529,6 +529,10 @@ export class ResComponent implements OnInit {
     return this.tab_mode === 'description' && this.is_owner && !this.modify_desc;
   }
 
+  get show_back_icon() {
+    return this.tab_mode === 'description' && !this.modify_desc;
+  }
+
   activate_btn(btn: FootBtn) {
     this.is_multi_mode = false;
     this.footBtnService.activate_btn(btn);
@@ -558,10 +562,6 @@ export class ResComponent implements OnInit {
         this.resTreeService.show_res_path(this.resource.raw_cover, true);
       }
     }
-  }
-
-  go_modify_desc() {
-    this.footBtnService.activate_btn(this.footBtnService.foot_btn_modify);
   }
 
   cancel_modify_desc() {

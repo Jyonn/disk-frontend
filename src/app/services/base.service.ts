@@ -134,4 +134,16 @@ export class BaseService {
   get cover_show() {
     return !window.localStorage.getItem('cover-normal');
   }
+
+  get desc_more() {
+    return !!window.localStorage.getItem('desc-more');
+  }
+
+  toggle_desc_more() {
+    if (this.desc_more) {
+      window.localStorage.removeItem('desc-more');
+    } else {
+      window.localStorage.setItem('desc-more', '1');
+    }
+  }
 }

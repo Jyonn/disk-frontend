@@ -4,7 +4,7 @@
 <app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()"
              [zip_nav]="resService.zip_nav"></app-res-nav>
 
-<div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '']">
+<div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
       <span title="排序" class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
@@ -25,6 +25,7 @@
       </div>
     </div>
     <div class="description" (click)="switch_tab_mode('description')">
+      <span title="{{baseService.desc_more ? '折叠介绍' : '展开介绍'}}" class="icon icon-back" *ngIf="show_back_icon" [ngClass]="baseService.desc_more ? 'active' : ''" (click)="baseService.toggle_desc_more()"></span>
       <span class="text">介绍</span>
       <span title="编辑" class="icon icon-pencil" *ngIf="show_pencil_icon" (click)="modify_desc = true"></span>
     </div>
@@ -95,7 +96,7 @@
       <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
       <textarea [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
       <!--<div class="add-desc">-->
-        <div class="round-btn" *ngIf="!description && !modify_desc" (click)="go_modify_desc()">填写介绍资料</div>
+        <div class="round-btn" *ngIf="!description && !modify_desc" (click)="modify_desc = true">填写介绍资料</div>
       <!--</div>-->
     </div>
   </div>

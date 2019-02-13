@@ -1,10 +1,12 @@
 export class UpdateLog {
   public static logs = [{
     time: '190213',
-    version: '5.2.1',
+    version: '5.2.4',
     updates: [
       '支持对资源封面对全局设置',
       '支持在链接中选择资源页或介绍页',
+      '不再限制介绍的字数',
+      '支持横屏模式下介绍文字框展开',
     ]
   }, {
     time: '190212',
