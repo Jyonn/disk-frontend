@@ -211,6 +211,7 @@ div.operation-block div.flex-container div.choose-bar div.choose-item.inactive {
 div.operation-block div.flex-container div.choose-bar div.choose-item.active {
   color: white;
   background: #2699FB;
+  font-weight: bold;
 }
 div.operation-block div.flex-container div.input-box {
   width: 100%;
@@ -296,6 +297,7 @@ div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.succ {
   background: #2699FB;
+  font-weight: bold;
 }
 div.operation-block div.flex-container div.input-box div.input-btn-line div.btn.warn {
   background: #D04B4B;

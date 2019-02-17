@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190217',
+    version: '5.2.5',
+    updates: [
+      '修复浑天匣logo不显示的问题',
+      '部分界面加粗字体',
+    ]
+  }, {
     time: '190213',
     version: '5.2.4',
     updates: [
