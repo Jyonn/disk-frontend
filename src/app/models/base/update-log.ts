@@ -1,5 +1,11 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190228',
+    version: '5.2.6',
+    updates: [
+      '手机模式禁止自动放大',
+    ]
+  }, {
     time: '190217',
     version: '5.2.5',
     updates: [
