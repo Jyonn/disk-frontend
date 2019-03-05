@@ -1,5 +1,11 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190305',
+    version: '5.2.8',
+    updates: [
+      '更优雅的Markdown样式'
+    ]
+  }, {
     time: '190228',
     version: '5.2.6',
     updates: [

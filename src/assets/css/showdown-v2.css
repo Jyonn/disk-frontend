@@ -1,0 +1,109 @@
+markdown {
+  font-size: 12px;
+  color: #888888;
+}
+markdown * {
+  padding: 1px 10px;
+  margin: 5px 0;
+}
+markdown h1,
+markdown h2,
+markdown h3,
+markdown h4,
+markdown h5,
+markdown h6 {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+markdown h1 {
+  color: #223E83;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+}
+markdown h2 {
+  color: #5F80D0;
+  padding: 5px 10px;
+  font-weight: normal;
+}
+markdown h3 {
+  background-color: #869CD3;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  padding: 3px 10px;
+}
+markdown h4 {
+  color: #223E83;
+  font-weight: normal;
+}
+markdown h5 {
+  color: black;
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+markdown h6 {
+  color: black;
+  font-weight: normal;
+}
+markdown h1,
+markdown h2 {
+  font-size: 15px;
+}
+markdown h3,
+markdown h4 {
+  font-size: 14px;
+}
+markdown h5,
+markdown h6 {
+  font-size: 13px;
+}
+markdown a {
+  color: #4484c2;
+}
+markdown pre {
+  background: #f8f8f8;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  padding: 5px 10px;
+  overflow-x: scroll;
+}
+markdown code {
+  background: #f8f8f8;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin: 0 2px;
+  color: #e45649;
+}
+markdown pre code {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+markdown table {
+  border-collapse: collapse;
+}
+markdown table th,
+markdown table td {
+  border: 1px solid #e2e2e2;
+  padding: 5px;
+}
+markdown table tr:nth-child(even) {
+  background: #f8f8f8;
+}
+markdown a {
+  color: #50a14f;
+  text-decoration: none;
+}
+markdown a:hover {
+  color: #986801;
+}
+markdown mark {
+  background-color: #e45649;
+  color: white;
+  padding: 0 2px;
+}
+markdown img {
+  max-width: 100%;
+}
