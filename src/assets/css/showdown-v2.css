@@ -60,6 +60,7 @@ markdown h6 {
 }
 markdown a {
   color: #4484c2;
+  padding: 0;
 }
 markdown pre {
   background: #f8f8f8;
