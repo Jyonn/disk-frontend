@@ -597,6 +597,9 @@ div.res div.content.operation div.operation-bar div.operation-process.move {
 div.res div.content.operation div.operation-bar div.operation-process.upload {
   background: #77D05F;
 }
+div.res div.content.operation div.operation-bar div.operation-process.upload-folder {
+  background: #2699FB;
+}
 div.res div.content.operation div.center-desc-above {
   position: absolute;
   width: 60%;
@@ -615,6 +618,9 @@ div.res div.content.operation div.center-desc-above div.operation-text.move {
 }
 div.res div.content.operation div.center-desc-above div.operation-text.upload {
   color: #77D05F;
+}
+div.res div.content.operation div.center-desc-above div.operation-text.upload-folder {
+  color: #2699FB;
 }
 div.res div.content.operation div.center-desc-below {
   position: absolute;

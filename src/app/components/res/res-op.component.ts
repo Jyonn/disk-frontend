@@ -24,6 +24,7 @@ export class ResOpComponent implements OnInit {
   @Input() tab_mode: string;
   @Input() delete_text: string;
   @Output() onUploaded = new EventEmitter<any>();
+  @Output() onUploadedFolder = new EventEmitter<any>();
   @Output() onAddChildRes = new EventEmitter<Resource>();
   @Output() onDeleted = new EventEmitter();
   @Output() onMove = new EventEmitter();
@@ -47,9 +48,11 @@ export class ResOpComponent implements OnInit {
   // foot btn upload
   upload_file: RadioBtn;
   upload_folder: RadioBtn;
+  create_folder: RadioBtn;
   upload_link: RadioBtn;
   upload_btns: Array<RadioBtn>;
   upload_active: number;
+  upload_folder_ok: boolean;  // chrome浏览器才支持
 
   // foot btn modify
   cover_random: RadioBtn;
@@ -65,6 +68,9 @@ export class ResOpComponent implements OnInit {
   folder_name: string;
   link_name: string;
   link_url: string;
+
+  res_folder: FileList;
+  upload_folder_name: string;
 
   // foot btn modify
   // res_name: string;
@@ -93,6 +99,10 @@ export class ResOpComponent implements OnInit {
       value: Resource.RTYPE_FILE,
     });
     this.upload_folder = new RadioBtn({
+      text: '上传文件夹',
+      value: 666,
+    });
+    this.create_folder = new RadioBtn({
       text: '创建文件夹',
       value: Resource.RTYPE_FOLDER,
     });
@@ -100,7 +110,11 @@ export class ResOpComponent implements OnInit {
       text: '创建链接',
       value: Resource.RTYPE_LINK,
     });
-    this.upload_btns = [this.upload_file, this.upload_folder, this.upload_link];
+    if (this.upload_folder_ok) {
+      this.upload_btns = [this.upload_file, this.upload_folder, this.create_folder, this.upload_link];
+    } else {
+      this.upload_btns = [this.upload_file, this.create_folder, this.upload_link];
+    }
     this.upload_active = Resource.RTYPE_FILE;
 
     this.folder_name = null;
@@ -250,6 +264,39 @@ export class ResOpComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  choose_folder_onchange($event) {
+    this.res_folder = $event.target.files;
+    console.log(this.res_folder);
+    this.upload_folder_name = '';
+    if (this.res_folder.length) {
+      const path = this.res_folder[0].webkitRelativePath;
+      this.upload_folder_name = path.substr(0, path.indexOf('/'));
+    }
+
+    this.upload_folder_action();
+  }
+
+  upload_folder_action() {
+    if (this.footBtnService.is_ajax_uploading) {
+      BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
+      return;
+    }
+    if (!this.res_folder.length) {
+      BaseService.info_center.next(new Info({text: '没有选择文件夹或文件夹为空', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.footBtnService.is_ajax_uploading = true;
+
+    this.onUploadedFolder.emit({
+      res_folder: this.res_folder,
+      callback: () => {
+        this.res_folder = null;
+        this.upload_folder_name = '';
+        this.footBtnService.is_ajax_uploading = false;
+      }
+    });
   }
 
   upload_file_action() {
@@ -590,6 +637,9 @@ export class ResOpComponent implements OnInit {
   }
 
   ngOnInit() {
+    const tmpInput = document.createElement('input');
+    this.upload_folder_ok = 'webkitdirectory' in tmpInput;
+
     this.initShare();
     this.initUpload();
     this.initCover();

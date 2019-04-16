@@ -113,7 +113,17 @@
   </div>
 </div>
 
-<app-res-op [resource]="resource" [res_str_id]="res_str_id" [tab_mode]="tab_mode" (onUploaded)="onUpload($event)" (onAddChildRes)="addChildRes($event)" (onDeleted)="onDeleted()" (onMove)="onMove()" [delete_text]="delete_text"></app-res-op>
+<app-res-op
+  [resource]="resource"
+  [res_str_id]="res_str_id"
+  [tab_mode]="tab_mode"
+  (onUploaded)="onUpload($event)"
+  (onUploadedFolder)="onUploadFolder($event)"
+  (onAddChildRes)="addChildRes($event)"
+  (onDeleted)="onDeleted()"
+  (onMove)="onMove()"
+  [delete_text]="delete_text"
+></app-res-op>
 
 <footer></footer>
 

@@ -100,6 +100,7 @@ export class ResComponent implements OnInit {
     this.show_more_option = false;
     this.tab_mode = 'resource';
     this.modify_desc = false;
+
     this.operations = {
       delete: {
         text: '删除',
@@ -112,6 +113,10 @@ export class ResComponent implements OnInit {
       upload: {
         text: '上传',
         func: this.multipleUpload.bind(this),
+      },
+      'upload-folder': {
+        text: '上传',
+        func: this.uploadFolder.bind(this),
       }
     };
   }
@@ -243,6 +248,55 @@ export class ResComponent implements OnInit {
           status: null,
           parent_str_id: ResourceTreeService.selectResStrId
         });
+      this.current_op_num += 1;
+    }
+  }
+
+  randomString(len) {
+    len = len || 32;
+    const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    const maxPos = $chars.length;
+    let pwd = '';
+    for (let i = 0; i < len; i++) {
+      pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
+  }
+
+  async uploadFolder(upload_res_list: Array<OperationResItem>) {
+    const folder_tree = {children: {}, res_id: this.res_str_id};
+    for (const upload_res_item of upload_res_list) {
+      this.current_item_percentage = 0;
+      const paths = upload_res_item.data.webkitRelativePath.split('/');
+      paths.pop();
+      let current_directory = folder_tree;
+      for (const directory of paths) {
+        if (!(directory in current_directory.children)) {
+          this.current_item_percentage = 0;
+          this.total_op_num += 1;
+          this.current_path = paths.join(' / ');
+          const _resp = await this.resService.create_folder(current_directory.res_id, {folder_name: directory});
+          // const _resp = await this.fake_wait();
+          current_directory.children[directory] = {children: {}, res_id: _resp.res_str_id};
+          if (current_directory.res_id === this.res_str_id) {
+            this.addChildRes(new Resource(null, _resp));
+          }
+          this.current_op_num += 1;
+        }
+        current_directory = current_directory.children[directory];
+      }
+
+      this.current_path = upload_res_item.readable_path;
+      // const resp = await this.fake_wait();
+      const resp = await this.resService.get_upload_token(current_directory.res_id, {filename: upload_res_item.data.name});
+      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
+        (process) => {
+          this.current_item_percentage = process.percentage;
+          this.op_append_msg = '，当前文件' + process.percentage + '%';
+        });
+      if (current_directory.res_id === this.res_str_id) {
+        this.addChildRes(new Resource(null, res_data));
+      }
       this.current_op_num += 1;
     }
   }
@@ -590,6 +644,23 @@ export class ResComponent implements OnInit {
     res.new_created = true;
     this.children.push(res);
     this.resource_search();
+  }
+
+  onUploadFolder(data: any) {
+    const res_folder: FileList = data.res_folder;
+    this.operation_list = [];
+
+    for (let index = 0; index < res_folder.length; index++) {
+      const res = res_folder[index];
+      this.operation_list.push(new OperationResItem({
+        res_str_id: null,
+        readable_path: res.webkitRelativePath.replace('/', ' / '),
+      }, res));
+    }
+
+    this.op_identifier = 'upload-folder';
+    this.footBtnService.inactivate();
+    this.start_operation(data.callback);
   }
 
   onUpload(data: any) {

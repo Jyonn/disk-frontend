@@ -1,5 +1,12 @@
 export class UpdateLog {
   public static logs = [{
+    time: '190416',
+    version: '5.4.0',
+    updates: [
+      '支持上传文件夹操作（部分浏览器有效）',
+      '优化Markdown链接的样式',
+    ]
+  }, {
     time: '190305',
     version: '5.2.8',
     updates: [

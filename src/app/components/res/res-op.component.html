@@ -52,14 +52,19 @@
         <input type="file" multiple (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
         <input *ngIf="!res_files || res_files.length < 2" [(ngModel)]="file_name" placeholder="在此输入文件名称…" maxlength="256">
         <input *ngIf="res_files && res_files.length > 1" placeholder="多文件上传不允许修改文件名" readonly>
-        <!--<div class="btn" [ngClass]="(!file_name || file_name.length >= 256) ? 'warn' : 'num'">{{file_name && file_name.length || 0}}/256</div>-->
-        <!--<div class="btn" *ngIf="file_name && file_name.length" [ngClass]="(file_name.length >= 256) ? 'warn' : 'num'">{{file_name.length}}/256</div>-->
         <div *ngIf="!res_files || res_files.length < 2" class="btn" (click)="file_name = ''">清名</div>
-        <div class="btn" (click)="choose_file.click()">选择</div>
+        <div class="btn" (click)="res_files = null; file_name = ''; choose_file.click()">选择</div>
         <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': footBtnService.is_ajax_uploading}">上传</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
+      <div class="input-btn-line">
+        <input type="file" multiple webkitdirectory (change)="choose_folder_onchange($event)" #choose_folder>
+        <input readonly [(ngModel)]="upload_folder_name" placeholder="选择文件夹…" maxlength="256">
+        <div class="btn succ" (click)="choose_folder.click()">选择</div>
+      </div>
+    </div>
+    <div [ngClass]="b2s(is_active('upload', create_folder))" class="input-box">
       <div class="input-btn-line">
         <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…" maxlength="256">
         <!--<div class="btn" *ngIf="folder_name && folder_name.length" [ngClass]="(folder_name.length >= 256) ? 'warn' : 'num'">{{folder_name.length}}/256</div>-->
