@@ -14,7 +14,7 @@ export class RefreshComponent implements OnInit {
   ngOnInit() {
     this.userService.api_get_info()
       .then(() => {
-        this.router.navigate(['/res', this.userService.user.root_res])
+        this.router.navigate(['/res', this.userService.user.rootRes])
       })
       .catch(() => {
         window.location.href = this.userService.oauth_uri;

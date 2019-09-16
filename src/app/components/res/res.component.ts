@@ -15,8 +15,11 @@ import { BaseService } from "../../services/base.service";
 import { Info } from "../../models/base/info";
 import { Meta } from "@angular/platform-browser";
 import { OperationResItem } from "../../models/res/operation-res-item";
+// tslint:disable-next-line:import-blacklist
 import { Observable } from "rxjs";
 import { ResourceTreeService } from "../../services/resource-tree.service";
+import {WechatShareService} from "../../services/wechat-share.service";
+import {VideoService} from "../../services/video.service";
 
 @Component({
   selector: 'app-res',
@@ -75,6 +78,8 @@ export class ResComponent implements OnInit {
 
   modify_desc: boolean;
 
+  player: any;
+
   constructor(
     public baseService: BaseService,
     public userService: UserService,
@@ -83,6 +88,8 @@ export class ResComponent implements OnInit {
     public footBtnService: FootBtnService,
     public resTreeService: ResourceTreeService,
     private activateRoute: ActivatedRoute,
+    private wechatShare: WechatShareService,
+    private video: VideoService,
     private router: Router,
     private meta: Meta,
   ) {
@@ -119,7 +126,18 @@ export class ResComponent implements OnInit {
         func: this.uploadFolder.bind(this),
       }
     };
+
+    if (video.jsLC.loaded) {
+      this.initVideo();
+    } else {
+      video.jsLC.calling(this.initVideo.bind(this));
+    }
   }
+
+  initVideo() {
+    // this.player = this.video.getPlayer('video-js');
+  }
+
   baseInitResource(resp) {
     this.children = [];
     this.resource = new Resource(this.baseService, resp.info);
@@ -135,6 +153,15 @@ export class ResComponent implements OnInit {
     this.resource_search();
     this.meta.updateTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
     this.meta.updateTag({name: 'image', content: this.resource.cover_small});
+
+    // this.wechatShare.title = `浑天匣 - ${this.resource.rname}`;
+    // this.wechatShare.desc = `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`;
+    // this.wechatShare.imgUrl = this.resource.cover_small;
+    // if (this.wechatShare.jsLC.loaded) {
+    //   this.wechatShare.sharePrepare();
+    // } else {
+    //   this.wechatShare.jsLC.reset().calling(this.wechatShare.sharePrepare.bind(this.wechatShare));
+    // }
   }
   initResLose(base_resp) {
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
@@ -149,20 +176,23 @@ export class ResComponent implements OnInit {
     this.search_value = cookie.kw;
     this.resService.get_base_res_info(this.res_str_id)
       .then((base_resp) => {
-        // console.log(resp);
         if (base_resp.readable || v_key) {
           this.resService.get_res_info(this.res_str_id, {visit_key: v_key})
             .then((resp) => {
               this.baseInitResource(resp);
               this.scroll_top = cookie.scroll || '0';
             })
-            .catch(() => {
+            .catch((e) => {
               ResourceService.clearVK(this.res_str_id);
               this.initResLose(base_resp);
             });
         } else {
           this.initResLose(base_resp);
         }
+        this.baseService.is_jumping = false;
+      })
+      .catch(() => {
+        BaseService.info_center.next(new Info({text: '资源加载失败', type: Info.TYPE_WARN}));
         this.baseService.is_jumping = false;
       });
       // .catch(msg => console.log(msg));
@@ -220,8 +250,8 @@ export class ResComponent implements OnInit {
   async multipleUpload(upload_res_list: Array<OperationResItem>) {
     for (const upload_res_item of upload_res_list) {
       this.current_item_percentage = 0;
-      this.current_path = upload_res_item.readable_path;
-      const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readable_path});
+      this.current_path = upload_res_item.readablePath;
+      const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readablePath});
       const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
         (process) => {
         this.current_item_percentage = process.percentage;
@@ -237,9 +267,9 @@ export class ResComponent implements OnInit {
     this.current_item_percentage = 0;
     for (const move_res_item of move_res_list) {
       // console.log(move_res_item);
-      this.current_path = move_res_item.readable_path;
+      this.current_path = move_res_item.readablePath;
       // await this.fake_wait();
-      await this.resService.modify_res_info(move_res_item.res_id,
+      await this.resService.modify_res_info(move_res_item.resId,
         {
           rname: null,
           right_bubble: null,
@@ -254,7 +284,7 @@ export class ResComponent implements OnInit {
 
   randomString(len) {
     len = len || 32;
-    const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
     const maxPos = $chars.length;
     let pwd = '';
     for (let i = 0; i < len; i++) {
@@ -286,7 +316,7 @@ export class ResComponent implements OnInit {
         current_directory = current_directory.children[directory];
       }
 
-      this.current_path = upload_res_item.readable_path;
+      this.current_path = upload_res_item.readablePath;
       // const resp = await this.fake_wait();
       const resp = await this.resService.get_upload_token(current_directory.res_id, {filename: upload_res_item.data.name});
       const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
@@ -305,16 +335,16 @@ export class ResComponent implements OnInit {
     this.current_item_percentage = 0;
     for (let index = 0; index < delete_res_list.length; index++) {
       const delete_res_item = delete_res_list[index];
-      const resp = await this.resService.get_res_info(delete_res_item.res_id, null);
+      const resp = await this.resService.get_res_info(delete_res_item.resId, null);
       if (resp.info.sub_type === Resource.STYPE_FOLDER) {
         this.total_op_num += resp.child_list.length;
         for (let i = 0; i < resp.child_list.length; i++) {
           const child_res_id = resp.child_list[i].res_str_id;
-          const child_readable_path = delete_res_item.readable_path + "   /   " + resp.child_list[i].rname;
+          const child_readable_path = delete_res_item.readablePath + "   /   " + resp.child_list[i].rname;
           if (resp.child_list[i].sub_type === Resource.STYPE_FOLDER) {
             await this.recursiveDelete([new OperationResItem({
               res_str_id: child_res_id,
-              readable_path: child_readable_path,
+              readablePath: child_readable_path,
             })]);
           } else {
             this.current_op_num += 1;
@@ -326,8 +356,8 @@ export class ResComponent implements OnInit {
         }
       }
       this.current_op_num += 1;
-      this.current_path = delete_res_item.readable_path;
-      await this.resService.delete_res(delete_res_item.res_id);
+      this.current_path = delete_res_item.readablePath;
+      await this.resService.delete_res(delete_res_item.resId);
       // await this.fake_wait();
       // console.log(deleteResItem.path);
     }
@@ -393,7 +423,7 @@ export class ResComponent implements OnInit {
         if (item.selected) {
           this.operation_list.push(new OperationResItem({
             res_str_id: item.res_str_id,
-            readable_path: this.resource.rname + '   /   ' + item.rname,
+            readablePath: this.resource.rname + '   /   ' + item.rname,
           }));
         }
       }
@@ -496,7 +526,7 @@ export class ResComponent implements OnInit {
           if (foot_btn.login && !this.is_owner) {
             continue;
           }
-          if (foot_btn.no_login && this.is_owner) {
+          if (foot_btn.noLogin && this.is_owner) {
             continue;
           }
           _foot_btns.push(foot_btn);
@@ -597,7 +627,7 @@ export class ResComponent implements OnInit {
     } else if (this.footBtnService.is_deleting) {
       this.operation_list = [new OperationResItem({
         res_str_id: this.resource.res_str_id,
-        readable_path: this.resource.rname,
+        readablePath: this.resource.rname,
       })];
       if (this.resource && this.resource.rtype === Resource.RTYPE_FILE) {
         this.delete_text = '删除此资源且无法恢复。';
@@ -608,7 +638,7 @@ export class ResComponent implements OnInit {
       this.resTreeService.show_res_path(this.res_str_id, false);
       this.operation_list = [new OperationResItem({
         res_str_id: this.resource.res_str_id,
-        readable_path: this.resource.rname,
+        readablePath: this.resource.rname,
       })];
       if (this.res_str_id === ResourceTreeService.selectResStrId) {
         ResourceTreeService.selectResStrId = ResourceTreeService.selectedResName = null;
@@ -654,7 +684,7 @@ export class ResComponent implements OnInit {
       const res = res_folder[index];
       this.operation_list.push(new OperationResItem({
         res_str_id: null,
-        readable_path: res.webkitRelativePath.replace('/', ' / '),
+        readablePath: res.webkitRelativePath.replace('/', ' / '),
       }, res));
     }
 
@@ -670,14 +700,14 @@ export class ResComponent implements OnInit {
     if (res_files.length === 1) {
       this.operation_list.push(new OperationResItem({
         res_str_id: null,
-        readable_path: file_name,
+        readablePath: file_name,
       }, res_files[0]));
     } else {
       for (let index = 0; index < res_files.length; index++) {
         const res = res_files[index];
         this.operation_list.push(new OperationResItem({
           res_str_id: null,
-          readable_path: res.name,
+          readablePath: res.name,
         }, res));
       }
     }
@@ -707,7 +737,6 @@ export class ResComponent implements OnInit {
   }
 
   onMove() {
-    console.log(this.operation_list);
     if (this.operation_list.length === 0) {
       return;
     }

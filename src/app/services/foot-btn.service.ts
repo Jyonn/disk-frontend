@@ -34,7 +34,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_select = new FootBtn({
       icon: 'icon-select',
@@ -44,7 +44,7 @@ export class FootBtnService {
       mask: false,
       root: true,
       login: true,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_upload = new FootBtn({
       icon: 'icon-upload',
@@ -54,7 +54,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: true,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_modify = new FootBtn({
       icon: 'icon-modify',
@@ -64,7 +64,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: true,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_move = new FootBtn({
       icon: 'icon-move',
@@ -74,7 +74,7 @@ export class FootBtnService {
       mask: true,
       root: false,
       login: true,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_delete = new FootBtn({
       icon: 'icon-delete',
@@ -84,7 +84,7 @@ export class FootBtnService {
       mask: true,
       root: false,
       login: true,
-      no_login: false,
+      noLogin: false,
     });
     this.foot_btn_tips = new FootBtn({
       icon: 'icon-tips',
@@ -94,7 +94,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
-      no_login: true,
+      noLogin: true,
     });
     this.foot_btn_update = new FootBtn({
       icon: 'icon-refresh',
@@ -104,7 +104,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
-      no_login: true,
+      noLogin: true,
     });
     this.foot_btn_setting = new FootBtn({
       icon: 'icon-setting',
@@ -114,7 +114,7 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
-      no_login: true,
+      noLogin: true,
     });
     this.foot_btn_list = [
       this.foot_btn_share,

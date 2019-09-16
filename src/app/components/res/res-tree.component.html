@@ -3,9 +3,9 @@
   <div class="text"><div class="real-text">{{resTree?.rname}}</div></div>
   <div class="icon-refresh rotate" [ngClass]="active_refresh" *ngIf="resTree?.rtype === 1"></div>
 </div>
-<div class="child-list" *ngIf="resTree?.show_children">
+<div class="child-list" *ngIf="resTree?.showChildren">
   <app-res-tree
-    *ngFor="let child of resTree?.child_list?.filter(filter(data)).sort(sort_by_name)"
+    *ngFor="let child of resTree?.childList?.filter(filter(data)).sort(sort_by_name)"
     [resTree]="child"
     [filter]="filter"
     [data]="data"

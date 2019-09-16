@@ -20,15 +20,15 @@ export class ResTreeComponent implements OnInit {
   ) {}
 
   get active_refresh() {
-    return (this.resTree && this.resTree.is_getting_children) ? 'active' : 'inactive';
+    return (this.resTree && this.resTree.isGettingChildren) ? 'active' : 'inactive';
   }
 
   click_rname() {
     ResourceTreeService.selectedResName = this.resTree.rname;
     ResourceTreeService.selectResStrId = this.resTree.res_str_id;
-    if (!this.resTree.is_getting_children) {
-      if (this.resTree.has_get_children && this.resTree.show_children) {
-        this.resTree.show_children = false;
+    if (!this.resTree.isGettingChildren) {
+      if (this.resTree.hasGetChildren && this.resTree.showChildren) {
+        this.resTree.showChildren = false;
       } else {
         this.resTreeService.refresh_node(this.resTree);
       }

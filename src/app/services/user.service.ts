@@ -36,7 +36,7 @@ export class UserService {
         this.user = new User(body);
         this.user_update_center.next(this.user);
         this.has_get_user = true;
-        this.resTreeService.init_root(this.user.root_res);
+        this.resTreeService.init_root(this.user.rootRes);
         return this.user;
       })
       .catch((error) => {

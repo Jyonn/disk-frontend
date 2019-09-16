@@ -32,6 +32,8 @@ import { ResTreeComponent } from "./components/res/res-tree.component";
 import { ResourceTreeService } from "./services/resource-tree.service";
 import { HomeComponent } from "./components/base/home.component";
 import { ProgressHttpModule } from "angular-progress-http";
+import { WechatShareService } from "./services/wechat-share.service";
+import {VideoService} from "./services/video.service";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{
@@ -73,6 +75,8 @@ import { ProgressHttpModule } from "angular-progress-http";
     TipsService,
     UpdateService,
     ResourceTreeService,
+    WechatShareService,
+    VideoService,
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig

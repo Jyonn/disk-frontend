@@ -22,7 +22,7 @@ export class ResHomeComponent implements OnInit {
       if (this.next_url) {
         this.router.navigate([decodeURIComponent(this.next_url)]);
       } else {
-        this.router.navigate(['/res', this.userService.user.root_res]);
+        this.router.navigate(['/res', this.userService.user.rootRes]);
       }
     }
   }

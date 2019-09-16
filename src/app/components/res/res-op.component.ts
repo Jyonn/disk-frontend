@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Resource} from "../../models/res/resource";
 import {ResourceService} from "../../services/resource.service";
-import {RadioBtn} from "../../models/res/res-share-btn";
+import {RadioBtn} from "../../models/res/radio-btn";
 import {BaseService} from "../../services/base.service";
 import {Info} from "../../models/base/info";
 import {TipsService} from "../../services/tips.service";
@@ -268,7 +268,6 @@ export class ResOpComponent implements OnInit {
 
   choose_folder_onchange($event) {
     this.res_folder = $event.target.files;
-    console.log(this.res_folder);
     this.upload_folder_name = '';
     if (this.res_folder.length) {
       const path = this.res_folder[0].webkitRelativePath;

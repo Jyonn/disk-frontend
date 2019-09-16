@@ -11,6 +11,7 @@ export class GradientColor {
   }
 
   static lazy(hue) {
+    // @ts-ignore
     return new GradientColor([HsbColor.light(hue), HsbColor.strong(hue)], new LinearDirection({bottomRight: true}));
   }
 

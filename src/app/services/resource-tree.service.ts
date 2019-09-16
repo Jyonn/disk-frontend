@@ -31,11 +31,11 @@ export class ResourceTreeService {
       const resp = await this.get_res_info_for_selector(crt_res.res_str_id);
       crt_res.rname = resp.info.rname;
       crt_res.feed_child_list(resp.child_list);
-      crt_res.is_getting_children = false;
-      crt_res.has_get_children = true;
-      crt_res.show_children = true;
+      crt_res.isGettingChildren = false;
+      crt_res.hasGetChildren = true;
+      crt_res.showChildren = true;
       let find = false;
-      for (const child of crt_res.child_list) {
+      for (const child of crt_res.childList) {
         if (child.res_str_id === res_item) {
           find = true;
           crt_res = child;
@@ -63,18 +63,18 @@ export class ResourceTreeService {
   }
 
   public refresh_node(node: ResourceTree) {
-    if (node.is_getting_children) {
+    if (node.isGettingChildren) {
       return;
     }
-    node.is_getting_children = true;
-    node.has_get_children = false;
+    node.isGettingChildren = true;
+    node.hasGetChildren = false;
     this.get_res_info_for_selector(node.res_str_id)
       .then((resp) => {
         node.rname = resp.info.rname;
         node.feed_child_list(resp.child_list);
-        node.is_getting_children = false;
-        node.has_get_children = true;
-        node.show_children = true;
+        node.isGettingChildren = false;
+        node.hasGetChildren = true;
+        node.showChildren = true;
       });
   }
 }

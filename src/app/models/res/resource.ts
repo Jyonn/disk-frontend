@@ -1,6 +1,7 @@
 import {User} from "../user/user";
 import {ClockService} from "../../services/clock.service";
 import {BaseService} from "../../services/base.service";
+import {GradientColor} from "../base/gradient-color";
 
 export class Resource {
   public static ROOT_ID = 1;
@@ -24,13 +25,13 @@ export class Resource {
   public static COVER_SELF = 4;
   public static COVER_RESOURCE = 5;
   public static COLORS = [
-    ['#C4E0E5', '#4CA1AF'],
-    ['#EECDA3', '#EF629F'],
-    ['#4B79A1', '#283E51'],
-    ['#CCCCB2', '#757519'],
-    ['#F1F2B5', '#135058'],
-    ['#6441A5', '#2a0845'],
-    ['#FFA17F', '#00223E'],
+    GradientColor.lazy(228),
+    GradientColor.lazy(0),
+    GradientColor.lazy(25),
+    GradientColor.lazy(323),
+    GradientColor.lazy(51),
+    GradientColor.lazy(197),
+    GradientColor.lazy(278),
   ];
   public static READABLE_STYPE_LIST = ['📁', '🌄', '📹', '🎧', '📓', '🔗'];
 
@@ -187,8 +188,10 @@ export class Resource {
   }
 
   get color() {
+    console.log(this.create_time);
     const index = Math.floor(this.create_time) % Resource.COLORS.length;
-    return `linear-gradient(to bottom left, ${Resource.COLORS[index][0]}, ${Resource.COLORS[index][1]})`;
+    return Resource.COLORS[index].str;
+    // return `linear-gradient(to bottom left, ${Resource.COLORS[index][0]}, ${Resource.COLORS[index][1]})`;
   }
 
   get chinese_status() {

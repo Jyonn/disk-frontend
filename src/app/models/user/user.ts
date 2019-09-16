@@ -2,7 +2,7 @@ export class User {
   user_id: number;
   nickname: string;
   avatar: string;
-  root_res: string;
+  rootRes: string;
 
   constructor(d: {user_id, nickname, avatar, root_res} = null) {
     if (d) {
@@ -14,7 +14,7 @@ export class User {
     this.user_id = d.user_id;
     this.nickname = d.nickname;
     this.avatar = d.avatar;
-    this.root_res = d.root_res;
+    this.rootRes = d.root_res;
   }
 
   get url_avatar() {

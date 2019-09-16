@@ -73,7 +73,7 @@ export class ResNavComponent {
     $event.cancelBubble = true;
     $event.stopPropagation();
     if (this.resource) {
-      const link = ['/res', this.resource.owner.root_res];
+      const link = ['/res', this.resource.owner.rootRes];
       this.router.navigate(link);
     }
   }
@@ -82,7 +82,7 @@ export class ResNavComponent {
     $event.cancelBubble = true;
     $event.stopPropagation();
     if (s === 'mine') {
-      this.router.navigate(['/res', this.userService.user.root_res]);
+      this.router.navigate(['/res', this.userService.user.rootRes]);
     } else if (s === 'profile') {
       window.location.href = `https://sso.6-79.cn/user/info-modify?from=https%3A%2F%2Fd.6-79.cn%2F/user/refresh`;
     } else if (s === 'code') {

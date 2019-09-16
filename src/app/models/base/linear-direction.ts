@@ -6,25 +6,25 @@ export class LinearDirection {
   deg: number;
 
   // tslint:disable-next-line:max-line-length
-  constructor({top = null, bottom = null, right = null, left = null, topLeft = null, topRight = null, bottomLeft = null, bottomRight = null, deg = null}) {
+  constructor(_: {top?, bottom?, right?, left?, topLeft?, topRight?, bottomLeft?, bottomRight?, deg?}) {
     this.top = this.bottom = this.left = this.right = this.deg = null;
 
-    if (deg) {
-      this.deg = deg;
+    if (_.deg) {
+      this.deg = _.deg;
     }
-    if (top || topLeft || topRight) {
+    if (_.top || _.topLeft || _.topRight) {
       this.top = true;
       this.bottom = false;
     }
-    if (bottom || bottomLeft || bottomRight) {
+    if (_.bottom || _.bottomLeft || _.bottomRight) {
       this.bottom = true;
       this.top = false;
     }
-    if (left || topLeft || bottomLeft) {
+    if (_.left || _.topLeft || _.bottomLeft) {
       this.left = true;
       this.right = false;
     }
-    if (right || topRight || bottomRight) {
+    if (_.right || _.topRight || _.bottomRight) {
       this.right = true;
       this.left = false;
     }

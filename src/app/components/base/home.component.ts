@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   click_avatar() {
-    this.router.navigate(['/res', this.userService.user.root_res]);
+    this.router.navigate(['/res', this.userService.user.rootRes]);
   }
 
   go_login() {

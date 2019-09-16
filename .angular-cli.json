@@ -21,7 +21,8 @@
       "styles": [
         "styles.less",
         "../node_modules/prismjs/themes/prism-okaidia.css",
-        "../src/assets/css/showdown-v2.less"
+        "../src/assets/css/showdown-v2.less",
+        "../src/assets/css/video-js.css"
       ],
       "scripts": [
         "../node_modules/marked/lib/marked.js",

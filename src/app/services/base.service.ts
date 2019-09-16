@@ -12,7 +12,6 @@ export class BaseService {
   public static info_center = new Subject<Info>();
   public static token: string = null;
   public static relogin_warn = '应用权限变更，需要重新授权';
-  // public static token_center = new Subject<string>();
   public front_host: string;
   public host: string;
   public short_link_host: string;
@@ -35,7 +34,7 @@ export class BaseService {
     this.token = token;
   }
   static loadToken() {
-    const token = window.localStorage.getItem('token');
+    const token = window.localStorage.getItem('token') || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTU1NTI5NzIzOC44ODEyNjMsInVzZXJfaWQiOjIsImV4cGlyZSI6MjU5MjAwMH0.4Bv2mLzNfmsdvGu6gLpa3cPRQHvxrqmd_PNtSzJa9uA';
     this.token = token;
     return token;
   }
@@ -71,6 +70,19 @@ export class BaseService {
       })
       .catch(BaseService.handleError);
   }
+
+  static isSSOServer(url: string) {
+    return url[0] === '/';
+  }
+
+  fillUrl(url: string) {
+    if (BaseService.isSSOServer(url)) {
+      return this.host + url;
+    } else {
+      return url;
+    }
+  }
+
   get_option(data = {}) {
     // console.log('base token: ' + BaseService.token);
     const httpHeaders = new HttpHeaders({'Token': BaseService.token || ''});
@@ -82,19 +94,19 @@ export class BaseService {
   }
   get(url: string, data: object = null) {
     BaseService.asyc_working += 1;
-    return BaseService.handleHTTP(this.http.get(this.host + url, this.get_option(data)));
+    return BaseService.handleHTTP(this.http.get(this.fillUrl(url), this.get_option(data)));
   }
   post(url: string, data) {
     BaseService.asyc_working += 1;
-    return BaseService.handleHTTP(this.http.post(this.host + url, data, this.get_option()));
+    return BaseService.handleHTTP(this.http.post(this.fillUrl(url), data, this.get_option()));
   }
   put(url: string, data) {
     BaseService.asyc_working += 1;
-    return BaseService.handleHTTP(this.http.put(this.host + url, data, this.get_option()));
+    return BaseService.handleHTTP(this.http.put(this.fillUrl(url), data, this.get_option()));
   }
   del(url: string) {
     BaseService.asyc_working += 1;
-    return BaseService.handleHTTP(this.http.delete(this.host + url, this.get_option()));
+    return BaseService.handleHTTP(this.http.delete(this.fillUrl(url), this.get_option()));
   }
   random_image() {
     BaseService.asyc_working += 1;

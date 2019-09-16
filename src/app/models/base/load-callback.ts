@@ -19,4 +19,9 @@ export class LoadCallback {
   calling(callback) {
     this.callbacks.add(callback);
   }
+
+  reset() {
+    this.callbacks = new Set();
+    return this;
+  }
 }

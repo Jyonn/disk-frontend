@@ -1,11 +1,11 @@
 export class OperationResItem {
-  readable_path: string;
-  res_id: string;
+  readablePath: string;
+  resId: string;
   data: any;
 
-  constructor(d: {res_str_id, readable_path}, data = null) {
-    this.res_id = d.res_str_id;
-    this.readable_path = d.readable_path;
+  constructor(d: {res_str_id, readablePath}, data = null) {
+    this.resId = d.res_str_id;
+    this.readablePath = d.readablePath;
     this.data = data;
   }
 }

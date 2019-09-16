@@ -35,7 +35,7 @@ export class OauthComponent implements OnInit {
               if (this.state) {
                 this.router.navigate([this.state]);
               } else {
-                this.router.navigate(['/res', user.root_res]);
+                this.router.navigate(['/res', user.rootRes]);
               }
             });
         })
