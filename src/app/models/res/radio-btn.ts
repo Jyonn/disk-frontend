@@ -1,5 +1,3 @@
-import {Resource} from "./resource";
-
 export class RadioBtn {
   text: string;
   value: number;
