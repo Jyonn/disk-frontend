@@ -34,7 +34,7 @@ export class BaseService {
     this.token = token;
   }
   static loadToken() {
-    const token = window.localStorage.getItem('token') || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdGltZSI6MTU1NTI5NzIzOC44ODEyNjMsInVzZXJfaWQiOjIsImV4cGlyZSI6MjU5MjAwMH0.4Bv2mLzNfmsdvGu6gLpa3cPRQHvxrqmd_PNtSzJa9uA';
+    const token = window.localStorage.getItem('token');
     this.token = token;
     return token;
   }
