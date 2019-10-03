@@ -188,10 +188,8 @@ export class Resource {
   }
 
   get color() {
-    console.log(this.create_time);
     const index = Math.floor(this.create_time) % Resource.COLORS.length;
     return Resource.COLORS[index].str;
-    // return `linear-gradient(to bottom left, ${Resource.COLORS[index][0]}, ${Resource.COLORS[index][1]})`;
   }
 
   get chinese_status() {
