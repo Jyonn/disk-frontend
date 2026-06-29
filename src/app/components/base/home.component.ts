@@ -6,20 +6,48 @@ import {Meta} from "@angular/platform-browser";
 @Component({
   templateUrl: './home.component.html',
   styleUrls: [
-    '../../../assets/css/icon-fonts.css',
     '../../../assets/css/mywebicon.css',
     '../../../assets/css/home.less',
-    '../../../assets/css/devices.min.css',
   ]
 })
 export class HomeComponent implements OnInit {
+  heroCommands = [
+    '$ auth login --provider sso',
+    '$ share ./archive --public --direct-link',
+    '$ curl -L https://d.6-79.cn/r/abc123 -O',
+  ];
+
+  featureCards = [
+    {
+      label: '01',
+      title: '直链优先',
+      text: '分享出来的链接可以直接落到下载动作，不强迫收件人再走一遍多余页面。'
+    },
+    {
+      label: '02',
+      title: '目录像终端一样清晰',
+      text: '目录树、文件信息和资源状态保持高密度展示，适合熟悉命令行的用户快速扫读。'
+    },
+    {
+      label: '03',
+      title: 'SSO 进入工作台',
+      text: '登录链路保持轻，进入后直接回到你的根目录，不把注意力耗在流程噪声上。'
+    },
+  ];
+
+  workflow = [
+    '用 SSO 登录，进入你的根目录。',
+    '上传文件、文件夹，或直接生成外链资源。',
+    '把页面链接或直链发给协作者，下载链路一步到位。',
+  ];
+
   constructor(
     public userService: UserService,
     public router: Router,
     private meta: Meta,
   ) {}
   ngOnInit() {
-    this.meta.updateTag({name: 'description', content: `分享资源，连接世界`});
+    this.meta.updateTag({name: 'description', content: `极客风格的网盘工作台，支持目录树浏览、SSO 登录与直链下载。`});
   }
 
   click_avatar() {
@@ -36,5 +64,9 @@ export class HomeComponent implements OnInit {
     } else {
       this.go_login();
     }
+  }
+
+  get primaryActionText() {
+    return this.userService.has_login ? '进入我的工作台' : '用 SSO 进入工作台';
   }
 }

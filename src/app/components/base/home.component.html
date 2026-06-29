@@ -1,110 +1,80 @@
-<div class="nav">
-  <div class="myweb-huntianxia"></div>
-  <div class="title-box">
-    <div class="title">浑天匣</div>
-    <div class="desc">分享资源，连接世界</div>
-  </div>
-  <div title="菜单" class="right-avatar img-fit" *ngIf="userService.has_login" [ngStyle]="{'background-image': userService.user.url_avatar}" (click)="click_avatar($event)"></div>
-  <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
-</div>
-<div class="display-container">
-  <div class="center-container">
-    <div class="title-box">
-      <div class="title"><span>多终端支持，界面兼容</span></div>
-      <div class="desc"><span>推荐使用Chrome, Safari, Firefox等主流浏览器</span></div>
-    </div>
-    <div class="zoom">
-      <div class="marvel-device iphone8plus black">
-        <div class="top-bar"></div>
-        <div class="sleep"></div>
-        <div class="volume"></div>
-        <div class="camera"></div>
-        <div class="sensor"></div>
-        <div class="speaker"></div>
-        <div class="screen">
-          <!--<video #viphone class="full" src="https://image.6-79.cn/disk/home/iphone.mp4" (click)="viphone.play()"></video>-->
-          <div class="full img-fit" style="background-image: url('https://image.6-79.cn/disk/home/iphone.gif')"></div>
-        </div>
-        <div class="home"></div>
-        <div class="bottom-bar"></div>
+<div class="home-shell">
+  <header class="hero-shell">
+    <div class="hero-bar">
+      <div class="chrome-dots" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div class="tail">iPhone 8 Plus演示</div>
-    </div>
-    <div class="zoom">
-      <div class="marvel-device macbook">
-        <div class="top-bar"></div>
-        <div class="camera"></div>
-        <div class="screen">
-          <!--<video #vmac class="full img-fit" src="https://image.6-79.cn/disk/home/mac.mp4" (click)="vmac.play()"></video>-->
-          <div class="full img-fit" style="background-image: url('https://image.6-79.cn/disk/home/mac.gif')"></div>
-        </div>
-        <div class="bottom-bar"></div>
+      <div class="brand-line mono">
+        <span class="brand-mark myweb-huntianxia"></span>
+        <span class="brand-command">huntianxia://workspace</span>
       </div>
-      <div class="tail">MacBook Pro演示</div>
+      <button class="nav-action mono" type="button" (click)="open_htx()">
+        {{ userService.has_login ? 'cd ~/vault' : 'auth via sso' }}
+      </button>
     </div>
-  </div>
-</div>
 
-<div class="display-container">
-  <div class="center-container">
-    <div class="title-box">
-      <div class="title"><span>直链分享，一步到位</span></div>
-      <div class="desc"><span>点开链接即可下载，无需繁琐步骤</span></div>
-    </div>
-    <div class="zoom">
-      <div class="marvel-device iphone8plus black">
-        <div class="top-bar"></div>
-        <div class="sleep"></div>
-        <div class="volume"></div>
-        <div class="camera"></div>
-        <div class="sensor"></div>
-        <div class="speaker"></div>
-        <div class="screen">
-          <!--<video #vdl class="full" src="https://image.6-79.cn/disk/home/directlink.mp4" (click)="vdl.play()"></video>-->
-          <div class="full img-fit" style="background-image: url('https://image.6-79.cn/disk/home/dlink.gif')"></div>
+    <div class="hero-grid">
+      <section class="hero-copy">
+        <div class="eyebrow mono">FOR GEEKS ONLY</div>
+        <h1>像终端一样干净的网盘工作台。</h1>
+        <p>
+          浑天匣面向熟悉文件系统和命令行心智的用户。你登录后直达目录树，分享后可直接落到下载动作，
+          不让协作者在跳转、确认和装饰性页面里兜圈子。
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn mono" type="button" (click)="open_htx()">{{primaryActionText}}</button>
+          <button class="secondary-btn mono" type="button" (click)="go_login()">SSO 登录</button>
         </div>
-        <div class="home"></div>
-        <div class="bottom-bar"></div>
-      </div>
-      <div class="tail">直链分享演示</div>
-    </div>
-  </div>
-</div>
-
-<div class="display-container">
-  <div class="center-container">
-    <div class="title-box">
-      <div class="title"><span>资源介绍，补充信息</span></div>
-      <div class="desc"><span>支持Markdown格式编辑信息</span></div>
-    </div>
-    <div class="zoom">
-      <div class="marvel-device iphone8plus black">
-        <div class="top-bar"></div>
-        <div class="sleep"></div>
-        <div class="volume"></div>
-        <div class="camera"></div>
-        <div class="sensor"></div>
-        <div class="speaker"></div>
-        <div class="screen">
-          <!--<video #vdesc class="full" src="https://image.6-79.cn/disk/home/desc.mp4" (click)="vdesc.play()"></video>-->
-          <div class="full img-fit" style="background-image: url('https://image.6-79.cn/disk/home/desc.gif')"></div>
+        <div class="hero-notes">
+          <span class="note mono">SSO</span>
+          <span class="note mono">DIRECT LINK</span>
+          <span class="note mono">TREE VIEW</span>
+          <span class="note mono">MARKDOWN README</span>
         </div>
-        <div class="home"></div>
-        <div class="bottom-bar"></div>
-      </div>
-      <div class="tail">资源介绍演示</div>
-    </div>
-  </div>
-</div>
+      </section>
 
-<div class="display-container">
-  <div class="center-container">
-    <div class="title-box">
-      <div class="title"><span>更多功能，等你探索</span></div>
-      <div class="desc"><span>……</span></div>
+      <section class="hero-console">
+        <div class="console-card">
+          <div class="console-title mono">session.log</div>
+          <div class="console-lines mono">
+            <div class="console-line" *ngFor="let line of heroCommands">{{line}}</div>
+            <div class="console-output">[ok] 登录后直达根目录</div>
+            <div class="console-output">[ok] 页面链接与直链都可复制</div>
+            <div class="console-output">[ok] 适合分发文件、镜像、音视频与实验数据</div>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="btn-line">
-      <div class="btn" (click)="open_htx()">开启我的浑天匣</div>
+  </header>
+
+  <section class="protocol-strip">
+    <div class="strip-card">
+      <div class="strip-label mono">workflow</div>
+      <div class="strip-list">
+        <div class="strip-item" *ngFor="let item of workflow; let i = index">
+          <span class="mono index">0{{i + 1}}</span>
+          <span>{{item}}</span>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="feature-grid">
+    <article class="feature-card" *ngFor="let feature of featureCards">
+      <div class="feature-index mono">{{feature.label}}</div>
+      <h2>{{feature.title}}</h2>
+      <p>{{feature.text}}</p>
+    </article>
+  </section>
+
+  <section class="cta-panel">
+    <div class="cta-copy">
+      <div class="eyebrow mono">GET TO THE FILES</div>
+      <h2>需要的是文件，不是表演。</h2>
+      <p>如果你的常用动作是上传、列目录、发直链、补 README，这个工作台会比传统网盘更顺手。</p>
+    </div>
+    <button class="primary-btn mono" type="button" (click)="open_htx()">$ open workspace</button>
+  </section>
 </div>

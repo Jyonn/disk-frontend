@@ -1,205 +1,225 @@
 @import "../../styles";
 
-@avatar-size: 24px;
+@avatar-size: 28px;
 @left-btn-size: 20px;
-@normal-padding: 10px;
-
-@nav-main-color: white;
-@nav-foot-height: 36px;
-@nav-foot-avatar-size: 14px;
+@nav-foot-avatar-size: 18px;
 @nav-foot-padding: 24px;
 
 nav.showing {
   div.menu-box.showing {
     opacity: 1;
-    filter: opacity(1);
-    height: auto;
-    overflow-y: visible;
+    visibility: visible;
+    transform: translateY(0);
   }
 }
 
 nav {
   &:extend(.animate);
-  background: none;
   position: fixed;
   left: 0;
   top: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(7, 12, 22, 0.76), rgba(7, 12, 22, 0.56));
+  border-right: 1px solid rgba(126, 154, 255, 0.12);
+  border-bottom: 1px solid rgba(126, 154, 255, 0.08);
+
+  div.nav-grid {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(255, 255, 255, 0.03) 100%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 100% 28px, 28px 100%;
+    opacity: 0.24;
+    pointer-events: none;
+  }
 
   div.menu-box {
     opacity: 0;
-    filter: opacity(0);
-    overflow-y: hidden;
-
+    visibility: hidden;
+    transform: translateY(-6px);
     .animate();
     position: absolute;
-    top: calc(~'@{res-tab-height} / 2 + @{avatar-size} / 2');
-    right: 20px;
-    @triangle-size: 6px;
-    @menu-border-radius: 4px;
+    top: 54px;
+    right: 18px;
+    z-index: 4;
+
+    @triangle-size: 7px;
     div.triangle {
       width: 0;
       height: 0;
       border-width: @triangle-size;
       border-style: solid;
-      border-color: transparent transparent white;
+      border-color: transparent transparent rgba(11, 16, 29, 0.98);
       position: absolute;
-      right: @triangle-size;
+      right: 14px;
     }
+
     div.menu-list {
       position: absolute;
       right: 0;
       top: @triangle-size * 2;
       width: max-content;
-      background: white;
-      border-radius: @menu-border-radius;
-      max-height: calc(~'100vh - @{res-tab-height} * 2');
-      overflow-y: scroll;
+      min-width: 180px;
+      background: rgba(11, 16, 29, 0.98);
+      border: 1px solid rgba(126, 154, 255, 0.16);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 46px rgba(3, 7, 16, 0.38);
+
       div.menu-title {
-        color: black !important;
-        border-radius: @menu-border-radius @menu-border-radius 0 0;
+        color: oklch(0.95 0.01 220) !important;
       }
+
       div.menu-item {
-        font-size: 14px;
-        padding: 0 30px;
-        height: 40px;
-        line-height: 40px;
-        border-bottom: 1px solid #CCCCCC;
-        color: #555555;
-        text-align: center;
+        font-size: 13px;
+        padding: 0 18px;
+        min-height: 42px;
+        line-height: 42px;
+        border-bottom: 1px solid rgba(126, 154, 255, 0.08);
+        color: oklch(0.8 0.02 228);
+        text-align: left;
         .ptr();
       }
+
       div.menu-item:last-child {
         border-bottom: none;
-        border-radius: 0 0 @menu-border-radius @menu-border-radius;
       }
+
       div.menu-item:hover {
-        background: #dddddd;
+        background: rgba(255, 255, 255, 0.05);
       }
+
       div.menu-item.warn {
-        background: @red;
-        color: white;
+        color: oklch(0.9 0.02 28);
+        background: rgba(255, 132, 106, 0.14);
       }
     }
   }
 
   div.content {
-    width: calc(~'100% - 40px');
-    height: @res-tab-height;
+    width: calc(~'100% - 36px');
+    height: 52px;
     position: absolute;
     top: 0;
-    left: 20px;
-    div.left-btn {
+    left: 18px;
+
+    div.left-btn,
+    div.right-avatar,
+    div.dl-cover {
       &:extend(.ptr);
       position: absolute;
-      top: calc(~'@{res-tab-height} / 2 - @{left-btn-size} / 2');
+      top: 16px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(126, 154, 255, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    div.left-btn {
       left: 0;
-      span {
-        color: @nav-main-color;
-        font-size: @left-btn-size;
-      }
     }
+
     div.right-avatar {
-      .ptr();
-      position: absolute;
-      top: calc(~'@{res-tab-height} / 2 - @{avatar-size} / 2');
       right: 0;
-      width: @avatar-size;
-      height: @avatar-size;
-      border-radius: 50%;
-      img {
-        width: 100%;
-        height: 100%;
-        //border-radius: 50%;
-      }
-      span.icon-unlogin {
-        color: @nav-main-color;
-        filter: opacity(0.5);
-        font-size: 20px;
-        line-height: @avatar-size;
-        .animate();
-        &:hover {
-          filter: opacity(1);
-        }
-      }
+      overflow: hidden;
     }
+
     div.dl-cover {
-      .ptr();
-      position: absolute;
-      top: calc(~'@{res-tab-height} / 2 - @{avatar-size} / 2');
-      width: @avatar-size;
-      height: @avatar-size;
-      right: @avatar-size + 20px;
-      span {
-        color: @nav-main-color;
-        filter: opacity(0.5);
-        font-size: @avatar-size;
-        .animate();
-        &:hover {
-          filter: opacity(1);
-        }
-      }
+      right: 44px;
+    }
+
+    span,
+    div.dl-cover span {
+      color: oklch(0.88 0.015 224);
+      font-size: @left-btn-size;
+    }
+
+    span.icon-unlogin {
+      font-size: 18px;
     }
   }
+
+  div.shell-kicker {
+    position: absolute;
+    left: @nav-foot-padding;
+    top: 68px;
+    color: @blue;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
   div.title {
     position: absolute;
     left: @nav-foot-padding;
-    bottom: 40px;
-    //overflow: hidden;
-    //text-overflow: ellipsis;
-    //white-space: nowrap;
-    font-size: @title-font-size;
-    font-weight: bold;
-    color: @nav-main-color;
+    bottom: 54px;
+    font-size: clamp(1.35rem, 2.3vw, 2rem);
+    font-weight: 700;
+    color: oklch(0.97 0.01 220);
     width: calc(~'100% - 2*@{nav-foot-padding}');
+    line-height: 1.05;
   }
+
   div.foot {
     position: absolute;
     left: 0;
-    bottom: 4px;
-    background: none;
+    bottom: 0;
     width: 100%;
-    height: @nav-foot-height;
-    span.owner {
+    min-height: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px @nav-foot-padding 14px;
+
+    span.owner,
+    div.share {
       font-size: 12px;
-      line-height: @nav-foot-height;
-      vertical-align: middle;
-      padding-left: @nav-foot-padding;
-      color: white;
+      color: oklch(0.82 0.02 228);
     }
+
+    span.owner strong {
+      color: oklch(0.95 0.01 220);
+      margin-right: 4px;
+    }
+
     div.avatar {
       width: @nav-foot-avatar-size;
       height: @nav-foot-avatar-size;
-      position: relative;
-      display: inline-block;
-      margin-left: 6px;
+
       img {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        line-height: @nav-foot-height;
-        vertical-align: middle;
       }
     }
+
     div.share {
-      float: right;
-      height: @nav-foot-height;
-      line-height: @nav-foot-height;
-      vertical-align: middle;
-      font-size: 12px;
-      padding-right: 20px;
-      color: white;
+      justify-self: end;
+      text-align: right;
+
       span.warn {
-        color: @warn-bg;
+        color: oklch(0.8 0.1 28);
       }
     }
   }
+
   div.bg-blur {
     transition: 0.8s;
+    opacity: 0.82;
+    filter: brightness(30%) saturate(70%) blur(12px);
   }
+
   div.bg-blur.loaded {
-    filter: brightness(70%);
+    filter: brightness(30%) saturate(88%) blur(12px);
   }
 }
+
 nav.showing {
   width: 100%;
   height: 100%;

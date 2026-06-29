@@ -1,25 +1,5 @@
 @import "../../styles";
 
-@op-container-height: 150px;
-@op-container-height-long: 186px;
-@op-title-color: @dark-blue;
-@op-title-font-size: 16px;
-
-@radio-list-height: 20px;
-
-@active-check-btn: @blue;
-@inactive-check-btn: @gray;
-
-@op-title-padding: 5%;
-@op-content-padding: calc(~'@{op-title-padding} + 30px');
-@op-ele-box-width: calc(~'100% - @{op-title-padding} * 2 - 60px');
-@op-ele-box-height: 30px;
-@op-input-width: calc(~'100% - @{op-title-padding} * 2 - 60px - @{round-btn-width} - 10px');
-@op-ele-margin: 20px;
-
-@container-lr-padding: 5%;
-@container-ele-margin: 10px;
-
 div.operation-block {
   &:extend(.animate);
   position: fixed;
@@ -27,211 +7,220 @@ div.operation-block {
   top: 0;
   width: 100%;
   height: calc(~'100% - @{footer-height}');
+
   div.mask {
     &:extend(.animate, .ptr);
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    background: rgba(4, 8, 16, 0.72);
+    backdrop-filter: blur(8px);
   }
-  div.container.long {
-    height: @op-container-height-long;
-  }
+
   div.flex-container {
     position: absolute;
     left: 0;
     width: 100%;
     bottom: 0;
-    background: white;
-    height: auto;
-    padding: 16px @container-lr-padding 30px;
+    background: linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(7, 11, 19, 0.99));
+    border-top: 1px solid rgba(126, 154, 255, 0.16);
+    border-radius: 24px 24px 0 0;
+    padding: 18px 5% 26px;
     max-height: calc(~'100% - @{res-tab-height}');
-    overflow-y: scroll;
+    overflow-y: auto;
     .animate();
+
     div.title-box {
-      //margin-top: 16px;
-      //margin-left: @op-title-padding;
-      white-space: nowrap;
-      overflow-x: scroll;
-      margin-bottom: @container-ele-margin;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+
       div.title {
-        display: inline-flex;
-        color: @op-title-color;
-        font-size: @op-title-font-size;
-        font-weight: bold;
-        line-height: 22px;
-        vertical-align: middle;
+        color: oklch(0.95 0.01 220);
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+
         span {
-          font-weight: normal;
-          font-size: 0.6em;
-          vertical-align: bottom;
-          line-height: 22px;
+          font-weight: 400;
+          font-size: 0.72em;
+          color: oklch(0.7 0.02 228);
         }
+
         span.warn {
-          color: @warn-bg;
+          color: oklch(0.8 0.1 28);
         }
       }
+
       app-loading {
-        &:extend(.animate);
-        height: 22px;
-        width: 22px;
-        line-height: 22px;
-        vertical-align: middle;
+        height: 20px;
         display: inline-flex;
+        align-items: center;
       }
     }
+
     div.choose-bar {
       width: 100%;
       font-size: 0;
       white-space: nowrap;
-      overflow-x: scroll;
-      text-align: right;
-      margin-bottom: @container-ele-margin;
+      overflow-x: auto;
+      text-align: left;
+      margin-bottom: 14px;
       user-select: none;
+
       div.choose-item {
         .ptr();
         .animate();
         position: relative;
         display: inline-block;
-        font-size: 14px;
-        padding: 2px 12px;
-        border-bottom: 1px solid @blue;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(126, 154, 255, 0.12);
+        margin-right: 10px;
       }
+
       div.choose-item.inactive {
-        color: @gray;
+        color: oklch(0.68 0.02 228);
+        background: rgba(255, 255, 255, 0.03);
       }
+
       div.choose-item.active {
-        color: white;
-        background: @blue;
-        font-weight: bold;
+        color: oklch(0.97 0.01 220);
+        background: rgba(38, 153, 251, 0.18);
+        border-color: rgba(38, 153, 251, 0.32);
       }
     }
+
     div.input-box {
       width: 100%;
-      margin-top: @container-ele-margin;
+      margin-top: 12px;
       overflow-y: hidden;
       .animate();
-      max-height: 500px;
+      max-height: 520px;
+
       div.title {
-        border-left: 3px solid @blue;
-        color: @blue;
-        font-size: 14px;
-        padding-left: 8px;
-        margin-bottom: 8px;
+        color: oklch(0.83 0.02 228);
+        font-size: 13px;
+        padding-left: 12px;
+        margin-bottom: 10px;
+        border-left: 2px solid rgba(38, 153, 251, 0.5);
       }
+
       div.selector {
         max-height: 300px;
-        overflow: scroll;
-        margin-bottom: 8px;
-        background: #f0f0f0;
-        padding: 10px 20px;
+        overflow: auto;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(126, 154, 255, 0.1);
+        border-radius: 16px;
+        padding: 12px 16px;
       }
-      @input-btn-line-height: 30px;
+
       div.input-btn-line {
         position: relative;
-        font-size: 0;
         width: 100%;
-        height: @input-btn-line-height;
+        min-height: 42px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 10px;
+        gap: 0;
+
         input {
-          border-radius: @input-btn-line-height / 2 0 0 @input-btn-line-height / 2;
           display: inline-block;
-          height: @input-btn-line-height;
-          border: 1px solid @inactive-check-btn;
+          min-height: 42px;
+          border: 1px solid rgba(126, 154, 255, 0.12);
           border-right: none;
-          color: @adverse-text;
+          background: rgba(255, 255, 255, 0.025);
+          color: oklch(0.92 0.01 220);
           .animate();
-          padding: 0 @input-btn-line-height / 2;
-          font-size: 12px;
+          padding: 0 16px;
+          font-size: 13px;
           width: inherit;
           outline: none;
-          &:hover, &:focus {
-            border: 1px solid @active-check-btn;
-            border-right: none;
-          }
+          border-radius: 999px 0 0 999px;
         }
+
+        input:hover,
+        input:focus {
+          border-color: rgba(38, 153, 251, 0.3);
+        }
+
         input[readonly] {
-          color: @inactive-check-btn;
+          color: oklch(0.66 0.02 228);
         }
+
         input[type='file'] {
           display: none;
         }
-        input.alone {
-          border-radius: @input-btn-line-height / 2;
-          border: 1px solid @input-btn-line-height;
-          &:hover, &:focus {
-            border: 1px solid @active-check-btn;
-          }
-        }
+
         div.btn {
-          font-size: 14px;
-          display: inline-block;
+          font-size: 12px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           .ptr();
-          height: @input-btn-line-height;
-          line-height: @input-btn-line-height;
-          vertical-align: middle;
-          padding: 0 20px;
+          min-height: 42px;
+          padding: 0 16px;
           text-align: center;
           white-space: nowrap;
           width: fit-content;
-          background: @cancel-bg;
-          color: white;
-          letter-spacing: 1px;
+          background: rgba(255, 255, 255, 0.08);
+          color: oklch(0.9 0.01 220);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
           .animate();
         }
+
         div.btn.action {
-          background: @purple;
+          background: rgba(161, 75, 208, 0.2);
         }
+
         div.btn.succ {
-          background: @blue;
-          font-weight: bold;
+          background: rgba(38, 153, 251, 0.24);
         }
+
         div.btn.warn {
-          background: @red;
+          background: rgba(208, 75, 75, 0.24);
         }
+
         div.btn.num {
-          background: @green;
+          background: rgba(119, 208, 95, 0.24);
         }
-        //*:last-child {
-        //  border: 1px solid @inactive-check-btn;
-        //  &:hover, &:focus {
-        //    border: 1px solid @active-check-btn;
-        //  }
-        //}
+
         div:first-child {
-          border-top-left-radius: @input-btn-line-height / 2;
-          border-bottom-left-radius: @input-btn-line-height / 2;
+          border-top-left-radius: 999px;
+          border-bottom-left-radius: 999px;
         }
+
         div:last-child {
-          border-top-right-radius: @input-btn-line-height / 2;
-          border-bottom-right-radius: @input-btn-line-height / 2;
-          border: none;
-          &:hover, &:focus {
-            border: none;
-          }
+          border-top-right-radius: 999px;
+          border-bottom-right-radius: 999px;
         }
       }
+
       div.input-btn-line.right {
         justify-content: flex-end;
       }
     }
+
     div.input-box.inactive {
-      max-height: 0px;
-      margin: 0px;
+      max-height: 0;
+      margin: 0;
       overflow-y: hidden;
       filter: opacity(0);
     }
   }
+
   div.flex-container.active {
     bottom: 0;
   }
+
   div.flex-container.inactive {
-    bottom: calc(~'-100vh + @{footer-height}');;
+    bottom: calc(~'-100vh + @{footer-height}');
   }
 }
 
@@ -239,6 +228,7 @@ div.operation-block.active {
   filter: opacity(1);
   visibility: visible;
 }
+
 div.operation-block.inactive {
   filter: opacity(0);
   visibility: hidden;

@@ -543,6 +543,18 @@ export class ResComponent implements OnInit {
       `token=${BaseService.token}&visit_key=${this.resource.visit_key}`;
   }
 
+  get download_command() {
+    const file_name = this.resource?.rname || 'download.bin';
+    return `curl -L "${this.dl_link}" -o "${file_name}"`;
+  }
+
+  get terminal_list_command() {
+    if (this.search_value) {
+      return `$ find . -name "*${this.search_value}*"`;
+    }
+    return this.resource?.is_home ? '$ ls ~' : `$ ls ./"${this.resource?.rname || ''}"`;
+  }
+
   switch_tab_mode(tm: string) {
     this.tab_mode = tm;
   }
@@ -615,6 +627,14 @@ export class ResComponent implements OnInit {
 
   get show_back_icon() {
     return this.tab_mode === 'description' && !this.modify_desc;
+  }
+
+  copy_error() {
+    BaseService.info_center.next(new Info({text: '复制失败', type: Info.TYPE_WARN}));
+  }
+
+  copy_succ(text = '复制成功') {
+    BaseService.info_center.next(new Info({text, type: Info.TYPE_SUCC}));
   }
 
   activate_btn(btn: FootBtn) {
@@ -760,7 +780,7 @@ export class ResComponent implements OnInit {
       }
       return `搜索“${_v}”的结果`;
     }
-    return '资源';
+    return '目录';
   }
 
   get is_mine() {
