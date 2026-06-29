@@ -157,7 +157,7 @@ div.res {
             height: 100%;
             border-radius: @res-search-border-radius;
             border: none;
-            padding: 0 1.5*@res-search-border-radius 0 @res-search-border-radius;
+            padding: 0 (1.5 * @res-search-border-radius) 0 @res-search-border-radius;
             font-size: @res-tab-font-size;
           }
           span.clear-keyword {
@@ -306,9 +306,9 @@ div.res {
 
       div.res-hover-mask {
         position: absolute;
-        width: 100% + 100 * @res-item-margin / (50% - @res-item-margin);
+        width: calc(~'100% + (100 * @{res-item-margin} / (50% - @{res-item-margin}))');
         height: @res-item-height;
-        left: -100 * @res-item-margin / (100% - 2 * @res-item-margin);
+        left: calc(~'(-100 * @{res-item-margin}) / (100% - 2 * @{res-item-margin})');
       }
       div.res-image {
         position: absolute;
@@ -332,7 +332,7 @@ div.res {
         left: @res-item-padding;
         top: 12px;
         width: calc(~'100% - 120px');
-        height: 2*@res-item-name-font-size + 4px;
+        height: (2 * @res-item-name-font-size) + 4px;
         line-height: @res-item-name-font-size + 2px;
         color: @res-name-color;
         font-size: @res-item-name-font-size;

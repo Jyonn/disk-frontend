@@ -6,17 +6,13 @@ import { ResourceService } from "../../services/resource.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FootBtnService } from "../../services/foot-btn.service";
 import { FootBtn } from "../../models/res/foot-btn";
-import { Subject } from "rxjs/Subject";
+import { Subject, fromEvent } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import { BaseService } from "../../services/base.service";
 import { Info } from "../../models/base/info";
 import { Meta } from "@angular/platform-browser";
 import { OperationResItem } from "../../models/res/operation-res-item";
-// tslint:disable-next-line:import-blacklist
-import { Observable } from "rxjs";
 import { ResourceTreeService } from "../../services/resource-tree.service";
 import {WechatShareService} from "../../services/wechat-share.service";
 import {VideoService} from "../../services/video.service";
@@ -215,12 +211,14 @@ export class ResComponent implements OnInit {
       // this.tab_mode = 'resource';
     });
     this.search_terms = new Subject<string>();
-    this.search_terms
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.search_terms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    )
       .subscribe(keyword => this.resource_search(keyword));
-    Observable.fromEvent(window, 'resize')
-      .debounceTime(300)
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+    )
       .subscribe(() => {
         this.do_swipe(0);
       });
@@ -364,7 +362,7 @@ export class ResComponent implements OnInit {
   }
 
   fake_wait() {
-    return new Promise((resolve, object) => {
+    return new Promise<void>((resolve, object) => {
       setTimeout(() => resolve(), 2000);
     });
   }

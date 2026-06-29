@@ -4,9 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
 
-import { MarkdownModule } from "ngx-markdown";
-import { ClipboardModule } from 'ngx-clipboard';
-
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -14,7 +11,6 @@ import { ResComponent } from "./components/res/res.component";
 import { ResHomeComponent } from "./components/res/res-home.component";
 import { ResOpComponent } from "./components/res/res-op.component";
 
-import { DiskService } from "./disk.service";
 import { UserService } from "./services/user.service";
 import { BaseService } from "./services/base.service";
 import { ClockService } from "./services/clock.service";
@@ -31,9 +27,10 @@ import { UpdateService } from "./services/update.service";
 import { ResTreeComponent } from "./components/res/res-tree.component";
 import { ResourceTreeService } from "./services/resource-tree.service";
 import { HomeComponent } from "./components/base/home.component";
-import { ProgressHttpModule } from "angular-progress-http";
 import { WechatShareService } from "./services/wechat-share.service";
 import {VideoService} from "./services/video.service";
+import { ClipboardCopyDirective } from "./components/shared/clipboard-copy.directive";
+import { MarkdownComponent } from "./components/shared/markdown.component";
 
 // export class MyHammerConfig extends HammerGestureConfig  {
 //   overrides = <any>{
@@ -55,18 +52,16 @@ import {VideoService} from "./services/video.service";
     OauthComponent,
     RefreshComponent,
     ResTreeComponent,
+    ClipboardCopyDirective,
+    MarkdownComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    MarkdownModule.forRoot(),
-    ClipboardModule,
-    ProgressHttpModule,
   ],
   providers: [
-    DiskService,
     UserService,
     BaseService,
     ClockService,

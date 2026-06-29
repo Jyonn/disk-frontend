@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {BaseService} from "./base.service";
 import {User} from "../models/user/user";
-import {Subject} from "rxjs/Subject";
+import {Subject} from "rxjs";
 import {ResourceTreeService} from "./resource-tree.service";
 
 @Injectable()

@@ -1,9 +1,8 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHandler, HttpHeaders} from "@angular/common/http";
-import { ProgressHttp } from "angular-progress-http";
+import {HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Resp} from "../models/base/resp";
-import {Observable} from "rxjs/Observable";
-import {Subject} from "rxjs/Subject";
+import {firstValueFrom, Observable, Subject} from "rxjs";
+import {filter, map, tap} from "rxjs/operators";
 import {Info} from "../models/base/info";
 
 @Injectable()
@@ -20,7 +19,6 @@ export class BaseService {
 
   constructor(
     private http: HttpClient,
-    private processHttp: ProgressHttp,
   ) {
     this.front_host = "https://d.6-79.cn";
     this.host = "https://disk.6-79.cn";
@@ -57,7 +55,7 @@ export class BaseService {
     return Promise.reject(error);
   }
   private static handleHTTP(o: Observable<Object>) {
-    return o.toPromise()
+    return firstValueFrom(o)
       .then((resp: Resp) => {
         if (resp.code !== 0) {
           // return BaseService.handleError(resp.msg);
@@ -125,12 +123,22 @@ export class BaseService {
   }
   post_qn(data, progress_callback) {
     BaseService.asyc_working += 1;
-    return this.processHttp
-      .withUploadProgressListener(progress_callback)
-      .post(this.qn_host, data)
-      .toPromise()
-      .then((resp: any) => {
-        resp = JSON.parse(resp._body);
+    const request = new HttpRequest<Resp>('POST', this.qn_host, data, {
+      reportProgress: true,
+      responseType: 'json',
+    });
+    return firstValueFrom(this.http.request<Resp>(request).pipe(
+      tap((event) => {
+        if (event.type === HttpEventType.UploadProgress && event.total && progress_callback) {
+          progress_callback({
+            percentage: Math.round((event.loaded / event.total) * 100),
+          });
+        }
+      }),
+      filter((event): event is HttpResponse<Resp> => event instanceof HttpResponse),
+      map((event) => event.body as Resp),
+    ))
+      .then((resp: Resp) => {
         if (resp.code !== 0) {
           // return BaseService.handleError(resp.msg);
           BaseService.info_center.next(new Info({text: resp.msg, type: Info.TYPE_WARN}));
