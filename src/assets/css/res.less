@@ -778,6 +778,49 @@ div.res {
   div.content.resource {
     padding: 12px 0 18px;
 
+    div.command-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 8px 16px 8px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(126, 154, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    div.command-code {
+      flex: 1 1 auto;
+      min-width: 0;
+      color: oklch(0.87 0.015 220);
+      font-size: 0.82rem;
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+    }
+
+    div.copy-icon {
+      &:extend(.ptr);
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(126, 154, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+      color: oklch(0.8 0.02 228);
+    }
+
+    div.copy-icon:hover {
+      border-color: rgba(126, 154, 255, 0.24);
+      background: rgba(95, 128, 208, 0.14);
+      color: oklch(0.95 0.01 220);
+    }
+
     div.list-intro {
       margin: 0 18px 14px;
       padding: 16px 18px;
@@ -834,27 +877,6 @@ div.res {
       }
 
       div.tool-chip.active {
-        border-color: rgba(126, 154, 255, 0.24);
-        background: rgba(95, 128, 208, 0.14);
-        color: oklch(0.95 0.01 220);
-      }
-
-      div.copy-icon {
-        &:extend(.ptr);
-        flex: 0 0 auto;
-        width: 32px;
-        height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 2px;
-        border-radius: 999px;
-        border: 1px solid rgba(126, 154, 255, 0.12);
-        background: rgba(255, 255, 255, 0.03);
-        color: oklch(0.8 0.02 228);
-      }
-
-      div.copy-icon:hover {
         border-color: rgba(126, 154, 255, 0.24);
         background: rgba(95, 128, 208, 0.14);
         color: oklch(0.95 0.01 220);
@@ -1054,28 +1076,6 @@ div.res {
         letter-spacing: 0.12em;
         text-transform: uppercase;
         font-size: 0.7rem;
-      }
-
-      div.command-bar {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 0;
-        padding: 8px 12px 8px 16px;
-        border-radius: 16px;
-        border: 1px solid rgba(126, 154, 255, 0.12);
-        background: rgba(255, 255, 255, 0.03);
-      }
-
-      div.command-code {
-        flex: 1 1 auto;
-        min-width: 0;
-        color: oklch(0.87 0.015 220);
-        font-size: 0.82rem;
-        white-space: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: thin;
       }
 
       div.command-bar.link-box {
