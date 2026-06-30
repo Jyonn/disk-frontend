@@ -29,6 +29,35 @@
 @res-suggestion-box-height: 88px;
 @suggestion-input-height: 30px;
 
+@keyframes workspace-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes workspace-scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(220%);
+  }
+}
+
+@keyframes progress-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
+  }
+}
+
 div.res {
   position: fixed;
   div.tab {
@@ -777,6 +806,124 @@ div.res {
 
   div.content.resource {
     padding: 12px 0 18px;
+    background:
+      radial-gradient(circle at top left, rgba(42, 111, 204, 0.12), transparent 26%),
+      radial-gradient(circle at top right, rgba(48, 211, 164, 0.08), transparent 20%),
+      linear-gradient(180deg, rgba(7, 11, 19, 0.96), rgba(4, 7, 14, 0.98));
+
+    div.workspace-console {
+      position: relative;
+      overflow: hidden;
+      margin: 0 18px 14px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(126, 154, 255, 0.12);
+      background: linear-gradient(180deg, rgba(11, 16, 27, 0.94), rgba(8, 12, 21, 0.98));
+      box-shadow: 0 16px 40px rgba(3, 7, 16, 0.26);
+      animation: workspace-rise 360ms cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    div.workspace-console::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(95, 128, 208, 0.08), transparent);
+      opacity: 0.45;
+      pointer-events: none;
+      animation: workspace-scan 8s linear infinite;
+    }
+
+    div.console-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    div.console-dots {
+      display: inline-flex;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    div.console-dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    div.console-dots span:nth-child(1) {
+      background: rgba(255, 123, 97, 0.8);
+    }
+
+    div.console-dots span:nth-child(2) {
+      background: rgba(255, 204, 102, 0.8);
+    }
+
+    div.console-dots span:nth-child(3) {
+      background: rgba(76, 214, 144, 0.8);
+    }
+
+    div.console-title {
+      min-width: 0;
+      flex: 1 1 auto;
+      color: oklch(0.62 0.02 228);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    div.console-badge {
+      flex: 0 0 auto;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(126, 154, 255, 0.14);
+      background: rgba(95, 128, 208, 0.12);
+      color: oklch(0.9 0.02 220);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    div.console-line {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      min-width: 0;
+      margin-top: 16px;
+      color: oklch(0.92 0.01 220);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    span.prompt-user {
+      color: @green;
+      flex: 0 0 auto;
+    }
+
+    span.prompt-symbol {
+      color: @blue;
+      flex: 0 0 auto;
+    }
+
+    span.prompt-command {
+      color: oklch(0.96 0.01 220);
+      min-width: 0;
+    }
 
     div.command-bar {
       display: flex;
@@ -827,6 +974,7 @@ div.res {
       border-radius: 20px;
       border: 1px solid rgba(126, 154, 255, 0.12);
       background: rgba(10, 15, 26, 0.9);
+      animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       div.command-bar-intro {
         margin-bottom: 8px;
@@ -955,6 +1103,7 @@ div.res {
       border: 1px solid rgba(126, 154, 255, 0.1);
       background: rgba(10, 15, 26, 0.92);
       overflow: hidden;
+      animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       div.res-hover-mask {
         border-radius: 18px;
@@ -1029,6 +1178,7 @@ div.res {
       border: 1px solid rgba(126, 154, 255, 0.12);
       background: linear-gradient(180deg, rgba(10, 15, 26, 0.96), rgba(6, 9, 18, 0.98));
       box-shadow: 0 24px 56px rgba(4, 10, 22, 0.34);
+      animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       span.icon {
         position: static;
@@ -1226,6 +1376,27 @@ div.res {
       border-color: rgba(126, 154, 255, 0.12);
     }
 
+    div.operation-bar div.operation-process {
+      background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 0,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.24) 25%,
+        rgba(255, 255, 255, 0.24) 50%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.1) 75%,
+        rgba(255, 255, 255, 0.24) 75%,
+        rgba(255, 255, 255, 0.24) 100%
+      );
+      background-size: 32px 100%;
+      animation: progress-stripes 1s linear infinite;
+    }
+
+    div.center-desc-above div.operation-text {
+      color: oklch(0.92 0.015 220);
+      letter-spacing: 0.06em;
+    }
+
     div.center-desc-below div.current-delete-res {
       color: oklch(0.66 0.02 228);
     }
@@ -1257,6 +1428,7 @@ div.res div.content.resource {
     border-radius: 22px;
     border: 1px solid rgba(126, 154, 255, 0.1);
     background: rgba(10, 15, 26, 0.82);
+    animation: workspace-rise 460ms cubic-bezier(0.25, 1, 0.5, 1) both;
   }
 
   section.inspector-section.hero {
@@ -1446,6 +1618,10 @@ div.res.description div.tab div.description span {
 }
 
 @media (min-width: 1120px) {
+  app-res footer {
+    display: none;
+  }
+
   div.res {
     div.tab:not(.selecting) {
       display: none;
@@ -1462,6 +1638,7 @@ div.res.description div.tab div.description span {
 
     div.content.resource {
       overflow: hidden;
+      padding-bottom: 0;
 
       div.workspace-shell {
         display: grid;
@@ -1486,10 +1663,20 @@ div.res.description div.tab div.description span {
         padding: 18px;
       }
     }
+
+    div.content.operation {
+      height: 100%;
+      bottom: 0;
+    }
   }
 }
 
 @media (max-width: 720px) {
+  div.res div.content.resource div.console-top,
+  div.res div.content.resource div.console-line {
+    flex-wrap: wrap;
+  }
+
   div.res div.content.resource div.tool-row {
     flex-direction: column;
   }

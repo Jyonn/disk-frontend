@@ -590,10 +590,29 @@ export class ResComponent implements OnInit {
   }
 
   get terminal_list_command() {
-    if (!this.resource) {
+    if (!this.current_res_ref) {
       return "htx ls";
     }
-    return `htx ls @${this.resource.res_str_id}`;
+    return `htx ls @${this.current_res_ref}`;
+  }
+
+  get workspace_prompt_command() {
+    if (!this.current_res_ref) {
+      return "htx";
+    }
+    if (this.resource.is_folder) {
+      return this.terminal_list_command;
+    }
+    if (this.resource.is_file || this.resource.is_link) {
+      return this.download_command;
+    }
+    if (this.resource.is_protected) {
+      return `htx access @${this.current_res_ref}`;
+    }
+    if (this.resource.is_private) {
+      return `htx open @${this.current_res_ref}`;
+    }
+    return `htx inspect @${this.current_res_ref}`;
   }
 
   get sort_name_active() {
@@ -864,7 +883,14 @@ export class ResComponent implements OnInit {
     if (this.resource.is_link) {
       return 'link resource';
     }
+    if (this.resource.is_encrypt) {
+      return 'restricted resource';
+    }
     return 'file resource';
+  }
+
+  get current_res_ref() {
+    return this.resource?.res_str_id || this.res_str_id || '';
   }
 
   get visibility_headline() {

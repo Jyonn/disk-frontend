@@ -27,6 +27,18 @@
   <div class="content resource folder-view" *ngIf="resource?.is_folder">
     <div class="workspace-shell folder-shell">
       <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
+        <div class="workspace-console">
+          <div class="console-top">
+            <div class="console-dots"><span></span><span></span><span></span></div>
+            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
+            <div class="console-badge mono">{{visibility_headline}}</div>
+          </div>
+          <div class="console-line mono">
+            <span class="prompt-user">htx</span>
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-command">{{workspace_prompt_command}}</span>
+          </div>
+        </div>
         <div class="list-intro">
           <div class="command-bar command-bar-intro">
             <div class="command-code mono">{{terminal_list_command}}</div>
@@ -90,7 +102,7 @@
               <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
               <div class="meta-item"><span class="mono">entries</span><strong>{{child_count_text}}</strong></div>
               <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{current_res_ref}}</strong></div>
             </div>
           </section>
 
@@ -130,6 +142,18 @@
   <div class="content resource" *ngIf="resource?.is_link">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
+        <div class="workspace-console">
+          <div class="console-top">
+            <div class="console-dots"><span></span><span></span><span></span></div>
+            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
+            <div class="console-badge mono">{{visibility_headline}}</div>
+          </div>
+          <div class="console-line mono">
+            <span class="prompt-user">htx</span>
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-command">{{workspace_prompt_command}}</span>
+          </div>
+        </div>
         <div class="terminal-card">
           <span class="icon icon-link"></span>
           <div class="card-label mono">link resource</div>
@@ -168,7 +192,7 @@
               <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
               <div class="meta-item"><span class="mono">type</span><strong>link</strong></div>
               <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{current_res_ref}}</strong></div>
             </div>
           </section>
 
@@ -207,6 +231,18 @@
   <div class="content resource" *ngIf="resource?.is_file">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
+        <div class="workspace-console">
+          <div class="console-top">
+            <div class="console-dots"><span></span><span></span><span></span></div>
+            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
+            <div class="console-badge mono">{{visibility_headline}}</div>
+          </div>
+          <div class="console-line mono">
+            <span class="prompt-user">htx</span>
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-command">{{workspace_prompt_command}}</span>
+          </div>
+        </div>
         <div class="terminal-card bare-card">
           <span class="icon" [ngClass]=resource?.icon></span>
           <div class="card-label mono">binary resource</div>
@@ -246,7 +282,7 @@
               <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
               <div class="meta-item"><span class="mono">size</span><strong>{{resource?.size || '-'}}</strong></div>
               <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{current_res_ref}}</strong></div>
             </div>
           </section>
 
@@ -283,30 +319,78 @@
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_encrypt">
-    <div class="terminal-card suggestion-card" *ngIf="resource?.is_protected">
-      <div class="card-label mono">access required</div>
-      <div class="suggestion-box">
-        <div class="title">此资源为加密资源，请输入访问密码。</div>
-        <div class="input-box">
-          <input class="mono" placeholder="visit key" [(ngModel)]="visit_key">
-          <div class="round-btn" (click)="check_visit_key()">进入</div>
+    <div class="workspace-shell asset-shell locked-shell">
+      <section class="workspace-main asset-main">
+        <div class="workspace-console">
+          <div class="console-top">
+            <div class="console-dots"><span></span><span></span><span></span></div>
+            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
+            <div class="console-badge mono">{{visibility_headline}}</div>
+          </div>
+          <div class="console-line mono">
+            <span class="prompt-user">htx</span>
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-command">{{workspace_prompt_command}}</span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="terminal-card suggestion-card" *ngIf="!userService.has_login">
-      <div class="card-label mono">login required</div>
-      <div class="suggestion-box">
-        <div class="title">此资源非公开资源，请先登录。</div>
-        <div class="input-box">
-          <div class="round-btn" (click)="go_login()">登录</div>
+        <div class="terminal-card suggestion-card" *ngIf="resource?.is_protected">
+          <div class="card-label mono">access required</div>
+          <div class="suggestion-box">
+            <div class="title">此资源为加密资源，请输入访问密码。</div>
+            <div class="input-box">
+              <input class="mono" placeholder="visit key" [(ngModel)]="visit_key">
+              <div class="round-btn" (click)="check_visit_key()">进入</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="terminal-card suggestion-card" *ngIf="userService.has_login && resource?.is_private">
-      <div class="card-label mono">permission denied</div>
-      <div class="suggestion-box">
-        <div class="title">此资源为私有资源，当前账号没有访问权限。</div>
-      </div>
+        <div class="terminal-card suggestion-card" *ngIf="!userService.has_login">
+          <div class="card-label mono">login required</div>
+          <div class="suggestion-box">
+            <div class="title">此资源非公开资源，请先登录。</div>
+            <div class="input-box">
+              <div class="round-btn" (click)="go_login()">登录</div>
+            </div>
+          </div>
+        </div>
+        <div class="terminal-card suggestion-card" *ngIf="userService.has_login && resource?.is_private">
+          <div class="card-label mono">permission denied</div>
+          <div class="suggestion-box">
+            <div class="title">此资源为私有资源，当前账号没有访问权限。</div>
+          </div>
+        </div>
+      </section>
+      <aside class="workspace-side">
+        <div class="inspector">
+          <section class="inspector-section hero">
+            <div class="section-kicker mono">{{workspace_mode_label}}</div>
+            <div class="section-title">{{resource?.rname}}</div>
+            <div class="status-row">
+              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
+              <div class="status-link" *ngIf="!resource?.is_secure_env" (click)="show_insecure_info()">{{visibility_configured}}</div>
+            </div>
+            <p class="section-copy">{{visibility_detail}}</p>
+            <div class="meta-grid">
+              <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
+              <div class="meta-item"><span class="mono">type</span><strong>restricted</strong></div>
+              <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{current_res_ref}}</strong></div>
+            </div>
+          </section>
+
+          <section class="inspector-section readme-section">
+            <div class="section-head">
+              <div class="section-kicker mono">README.md</div>
+            </div>
+            <div class="readme-panel">
+              <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
+              <div class="empty-doc inspector-empty" *ngIf="!description">
+                <div class="mono">README unavailable</div>
+                <p>当前状态下无法直接查看资源详情，认证通过后可继续访问。</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
     </div>
   </div>
   <div class="content description">
