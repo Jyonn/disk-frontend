@@ -712,102 +712,6 @@ div.res {
       radial-gradient(circle at top right, rgba(188, 142, 76, 0.08), transparent 24%),
       linear-gradient(180deg, rgba(10, 14, 19, 0.98), rgba(8, 11, 15, 1));
 
-    div.workspace-console {
-      position: relative;
-      overflow: hidden;
-      margin: 0 18px 14px;
-      padding: 14px 18px 16px;
-      border-radius: 18px;
-      border: 1px solid rgba(154, 126, 77, 0.12);
-      background:
-        linear-gradient(180deg, rgba(15, 20, 25, 0.98), rgba(11, 15, 19, 0.98));
-      animation: workspace-rise 360ms cubic-bezier(0.25, 1, 0.5, 1) both;
-    }
-
-    div.workspace-console::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent, rgba(184, 145, 80, 0.06), transparent);
-      opacity: 0.35;
-      pointer-events: none;
-      animation: workspace-scan 8s linear infinite;
-    }
-
-    div.console-top {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    div.console-dots {
-      display: inline-flex;
-      gap: 6px;
-      flex: 0 0 auto;
-    }
-
-    div.console-dots span {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.16);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
-    }
-
-    div.console-dots span:nth-child(1) {
-      background: rgba(255, 123, 97, 0.8);
-    }
-
-    div.console-dots span:nth-child(2) {
-      background: rgba(255, 204, 102, 0.8);
-    }
-
-    div.console-dots span:nth-child(3) {
-      background: rgba(76, 214, 144, 0.8);
-    }
-
-    div.console-title {
-      min-width: 0;
-      flex: 1 1 auto;
-      color: oklch(0.64 0.03 82);
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    div.console-badge {
-      flex: 0 0 auto;
-      min-height: 26px;
-      padding: 0 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(154, 126, 77, 0.14);
-      background: rgba(188, 142, 76, 0.1);
-      color: oklch(0.88 0.02 82);
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    div.console-copy {
-      position: relative;
-      z-index: 1;
-      margin-top: 14px;
-      color: oklch(0.72 0.02 82);
-      font-size: 0.82rem;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     div.command-bar {
       display: flex;
       align-items: center;
@@ -943,7 +847,7 @@ div.res {
       top: 0;
       z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 84px;
+      grid-template-columns: minmax(0, 1fr) 96px;
       gap: 12px;
       margin: 0 18px 10px;
       padding: 12px 0 10px;
@@ -1026,30 +930,30 @@ div.res {
       div.res-image {
         left: 0;
         top: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 10px;
         width: 52px;
         height: 52px;
-        line-height: 52px;
+        background: rgba(255, 249, 238, 0.035);
+        border: 1px solid rgba(154, 126, 77, 0.12);
+        box-shadow: none;
+      }
+
+      div.res-image span {
         font-size: 22px;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        color: oklch(0.8 0.03 82);
       }
 
       div.res-name {
         left: 70px;
         top: 12px;
-        width: calc(~'100% - 118px');
+        width: calc(~'100% - 174px');
         color: oklch(0.93 0.01 82);
         font-size: 0.95rem;
         line-height: 1.35;
         font-weight: 560;
-
-        span.kind {
-          display: inline-block;
-          margin-right: 10px;
-          color: oklch(0.76 0.05 144);
-          font-size: 0.72rem;
-          letter-spacing: 0.12em;
-        }
       }
 
       div.res-info {
@@ -1064,9 +968,19 @@ div.res {
       }
 
       div.res-type {
-        right: 4px;
+        right: 0;
         top: 24px;
         color: oklch(0.68 0.03 82);
+        min-width: 96px;
+        text-align: right;
+      }
+
+      div.res-type span.size {
+        display: inline-block;
+        max-width: 96px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       hr {
@@ -1684,10 +1598,6 @@ div.res div.content.resource aside.workspace-side {
 }
 
 @media (max-width: 720px) {
-  div.res div.content.resource div.console-top {
-    flex-wrap: wrap;
-  }
-
   div.res div.content.resource div.tool-row {
     flex-direction: column;
   }
@@ -1698,11 +1608,11 @@ div.res div.content.resource aside.workspace-side {
   }
 
   div.res div.content.resource div.list-head {
-    grid-template-columns: minmax(0, 1fr) 56px;
+    grid-template-columns: minmax(0, 1fr) 84px;
   }
 
   div.res div.content.resource div.res-item div.res-info {
-    width: calc(~'100% - 124px');
+    width: calc(~'100% - 156px');
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

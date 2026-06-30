@@ -33,8 +33,6 @@ export class Resource {
     GradientColor.lazy(197),
     GradientColor.lazy(278),
   ];
-  public static READABLE_STYPE_LIST = ['📁', '🌄', '📹', '🎧', '📓', '🔗'];
-
   res_str_id: string;
   rname: string;
   former_rname: string;
@@ -222,49 +220,6 @@ export class Resource {
     return this.status === Resource.STATUS_PUBLIC || !this.is_secure_env;
   }
 
-  get is_emoji() {
-    const c = this.rname.charCodeAt(0);
-    if (0xd800 <= c && c <= 0xdbff) {
-      if (this.rname.length > 1) {
-        const ls = this.rname.charCodeAt(1);
-        const uc = ((c - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
-        if (0x1d000 <= uc && uc <= 0x1f77f) {
-          return true;
-        }
-      }
-    } else if (this.rname.length > 1) {
-      const ls = this.rname.charCodeAt(1);
-      if (ls === 0x20e3) {
-        return true;
-      }
-    } else {
-      if (0x2100 <= c && c <= 0x27ff) {
-        return true;
-      } else if (0x2B05 <= c && c <= 0x2b07) {
-        return true;
-      } else if (0x2934 <= c && c <= 0x2935) {
-        return true;
-      } else if (0x3297 <= c && c <= 0x3299) {
-        return true;
-      } else if (c === 0xa9 || c === 0xae || c === 0x303d || c === 0x3030
-        || c === 0x2b55 || c === 0x2b1c || c === 0x2b1b
-        || c === 0x2b50) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  get first_letter() {
-    if (!this.is_random) {
-      return '';
-    } else if (this.is_emoji) {
-      return this.rname[0] + this.rname[1];
-    } else {
-      return this.rname[0].toUpperCase();
-    }
-  }
-
   get url_cover() {
     if (!this.is_random) {
       return `url('${this.cover}')`;
@@ -352,9 +307,5 @@ export class Resource {
 
   get is_private() {
     return this.status === Resource.STATUS_PRIVATE;
-  }
-
-  get readable_stype() {
-    return Resource.READABLE_STYPE_LIST[this.sub_type];
   }
 }

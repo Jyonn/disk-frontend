@@ -357,12 +357,6 @@ export class ResComponent implements OnInit {
     res.selected = !res.selected;
   }
 
-  click_icon() {
-    if (this.is_owner) {
-      this.footBtnService.activate_btn(this.footBtnService.foot_btn_select);
-    }
-  }
-
   toggle_selection_mode() {
     if (!this.is_owner) {
       return;
@@ -607,22 +601,6 @@ export class ResComponent implements OnInit {
       return `htx open @${this.current_res_ref}`;
     }
     return `htx inspect @${this.current_res_ref}`;
-  }
-
-  get workspace_console_note() {
-    if (!this.resource) {
-      return '';
-    }
-    if (this.resource.is_folder) {
-      return this.resource_summary;
-    }
-    if (this.resource.is_file) {
-      return this.resource.size || '未知大小';
-    }
-    if (this.resource.is_link) {
-      return '跳转资源';
-    }
-    return '需要认证后访问';
   }
 
   get sort_name_active() {

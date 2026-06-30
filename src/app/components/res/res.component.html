@@ -17,13 +17,6 @@
   <div class="content resource folder-view" *ngIf="resource?.is_folder">
     <div class="workspace-shell folder-shell">
       <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
-        <div class="workspace-console">
-          <div class="console-top">
-            <div class="console-dots"><span></span><span></span><span></span></div>
-            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-          </div>
-          <div class="console-copy mono">{{workspace_console_note}}</div>
-        </div>
         <div class="list-intro">
           <div class="summary">{{resource_summary}}</div>
           <div class="tool-row">
@@ -54,7 +47,7 @@
         </div>
         <div class="list-head mono" *ngIf="search_list.length">
           <span class="head-name">名称</span>
-          <span class="head-type" *ngIf="!footBtnService.is_selecting">类型</span>
+          <span class="head-type" *ngIf="!footBtnService.is_selecting">大小</span>
           <span class="head-type select-head-actions" *ngIf="footBtnService.is_selecting">
             <button class="head-action" type="button" (click)="select_res_help('all')">全选</button>
             <button class="head-action" type="button" (click)="select_res_help('adverse')">反选</button>
@@ -64,16 +57,16 @@
           <div class="empty-title mono">0 entries</div>
           <div class="empty-desc">{{search_value ? '没有匹配当前关键词的资源。' : '这个目录现在还是空的。'}}</div>
         </div>
-        <div title="{{child.readable_stype}}{{child.rname}}"
+        <div title="{{child.rname}}"
              class="res-item"
              [ngClass]="{'new-created': child.new_created}"
              *ngFor="let child of search_list"
              (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
           <div class="res-hover-mask"></div>
-          <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover_small}">{{child.first_letter}}</div>
-          <div class="res-name"><span class="mono kind">{{child.readable_stype}}</span>{{child.rname}}</div>
+          <div class="res-image"><span [ngClass]="child.icon"></span></div>
+          <div class="res-name">{{child.rname}}</div>
           <div class="res-info"><span class="mono time">{{child.readable_time}}</span><span *ngIf="child.rtype == 0"> · {{child.dlcount}} 次下载</span><span *ngIf="child.rtype == 2"> · {{child.dlcount}} 次跳转</span></div>
-          <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span title="点击进入多选模式" *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="click_icon()"></span></div>
+          <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span class="mono size" *ngIf="!footBtnService.is_selecting">{{child.size || '-'}}</span></div>
           <hr/>
         </div>
         <section class="main-readme desktop-readme">
@@ -127,13 +120,6 @@
   <div class="content resource" *ngIf="resource?.is_link">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
-        <div class="workspace-console">
-          <div class="console-top">
-            <div class="console-dots"><span></span><span></span><span></span></div>
-            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-          </div>
-          <div class="console-copy mono">{{workspace_console_note}}</div>
-        </div>
         <div class="terminal-card">
           <span class="icon icon-link"></span>
           <div class="file-name">{{resource?.rname}}</div>
@@ -199,13 +185,6 @@
   <div class="content resource" *ngIf="resource?.is_file">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
-        <div class="workspace-console">
-          <div class="console-top">
-            <div class="console-dots"><span></span><span></span><span></span></div>
-            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-          </div>
-          <div class="console-copy mono">{{workspace_console_note}}</div>
-        </div>
         <div class="terminal-card bare-card">
           <span class="icon" [ngClass]=resource?.icon></span>
           <div class="file-name">{{resource?.rname}}</div>
@@ -273,13 +252,6 @@
   <div class="content resource" *ngIf="resource?.is_encrypt">
     <div class="workspace-shell asset-shell locked-shell">
       <section class="workspace-main asset-main">
-        <div class="workspace-console">
-          <div class="console-top">
-            <div class="console-dots"><span></span><span></span><span></span></div>
-            <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-          </div>
-          <div class="console-copy mono">{{workspace_console_note}}</div>
-        </div>
         <div class="terminal-card suggestion-card" *ngIf="resource?.is_protected">
           <div class="card-label mono">access required</div>
           <div class="suggestion-box">
