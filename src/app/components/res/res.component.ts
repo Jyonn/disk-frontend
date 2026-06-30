@@ -586,6 +586,7 @@ export class ResComponent implements OnInit {
       const pathNames = pathLayers
         .map((layer) => layer?.info?.rname)
         .filter((name) => !!name)
+        .slice(1)
         .map((name) => this.escapeCliPathSegment(name));
 
       this.cli_path_command = pathNames.length
