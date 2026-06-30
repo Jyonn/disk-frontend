@@ -841,11 +841,13 @@ div.res {
 
       div.copy-icon {
         &:extend(.ptr);
+        flex: 0 0 auto;
         width: 32px;
         height: 32px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        margin-right: 2px;
         border-radius: 999px;
         border: 1px solid rgba(126, 154, 255, 0.12);
         background: rgba(255, 255, 255, 0.03);
@@ -1059,7 +1061,7 @@ div.res {
         align-items: center;
         gap: 12px;
         min-width: 0;
-        padding: 8px 8px 8px 16px;
+        padding: 8px 12px 8px 16px;
         border-radius: 16px;
         border: 1px solid rgba(126, 154, 255, 0.12);
         background: rgba(255, 255, 255, 0.03);
@@ -1076,20 +1078,11 @@ div.res {
         scrollbar-width: thin;
       }
 
-      div.command-box {
-        padding: 14px 16px;
-        border-radius: 16px;
-        border: 1px solid rgba(126, 154, 255, 0.12);
-        background: rgba(255, 255, 255, 0.03);
-        color: oklch(0.87 0.015 220);
-        font-size: 0.82rem;
-        white-space: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
+      div.command-bar.link-box {
+        background: rgba(95, 128, 208, 0.09);
       }
 
-      div.command-box.link-box {
-        background: rgba(95, 128, 208, 0.09);
+      div.command-bar.link-box div.command-code {
         color: oklch(0.93 0.02 225);
       }
 
@@ -1097,13 +1090,8 @@ div.res {
         position: static;
         margin-top: 18px;
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
         text-align: left;
-      }
-
-      div.copy-btn {
-        min-width: 112px;
       }
 
       video {

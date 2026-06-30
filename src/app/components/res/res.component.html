@@ -89,11 +89,13 @@
       </div>
       <div class="command-line" *ngIf="direct_link">
         <div class="command-hint mono">direct link</div>
-        <div class="command-box mono link-box">{{direct_link}}</div>
+        <div class="command-bar link-box">
+          <div class="command-code mono">{{direct_link}}</div>
+          <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+        </div>
       </div>
       <div class="btn-box">
         <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
-        <div class="round-btn sub copy-btn" *ngIf="can_copy_direct_link" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
       </div>
     </div>
   </div>
@@ -112,11 +114,13 @@
       </div>
       <div class="command-line" *ngIf="direct_link">
         <div class="command-hint mono">direct link</div>
-        <div class="command-box mono link-box">{{direct_link}}</div>
+        <div class="command-bar link-box">
+          <div class="command-code mono">{{direct_link}}</div>
+          <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+        </div>
       </div>
       <div class="btn-box">
         <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
-        <div class="round-btn sub copy-btn" *ngIf="can_copy_direct_link" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
       </div>
       <video id="video-js"></video>
     </div>
