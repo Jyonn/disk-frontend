@@ -600,6 +600,9 @@ export class ResComponent implements OnInit {
     if (!this.current_res_ref) {
       return "htx";
     }
+    if (!this.resource) {
+      return `htx open @${this.current_res_ref}`;
+    }
     if (this.resource.is_folder) {
       return this.terminal_list_command;
     }

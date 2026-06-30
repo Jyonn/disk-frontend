@@ -1,124 +1,69 @@
 @import "../../styles";
 
-@avatar-size: 28px;
-@left-btn-size: 20px;
+@avatar-size: 34px;
 @nav-foot-avatar-size: 28px;
-@nav-foot-padding: 24px;
-
-nav.showing {
-  div.menu-box.showing {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-}
+@nav-padding: 22px;
+@nav-height: 126px;
+@nav-height-zip: 98px;
 
 nav {
   &:extend(.animate);
   position: fixed;
   left: 0;
   top: 0;
+  width: 100%;
+  height: @nav-height;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(7, 12, 22, 0.76), rgba(7, 12, 22, 0.56));
-  border-right: 1px solid rgba(126, 154, 255, 0.12);
-  border-bottom: 1px solid rgba(126, 154, 255, 0.08);
+  z-index: 4;
+  background:
+    linear-gradient(180deg, rgba(9, 14, 24, 0.92), rgba(7, 11, 19, 0.9)),
+    linear-gradient(90deg, rgba(198, 148, 85, 0.08), transparent 42%);
+  border-bottom: 1px solid rgba(154, 126, 77, 0.16);
+  box-shadow: 0 18px 40px rgba(4, 7, 12, 0.24);
+
+  div.bg-blur {
+    position: absolute;
+    inset: -18px;
+    opacity: 0.18;
+    filter: sepia(18%) saturate(52%) brightness(26%) blur(18px);
+    transform: scale(1.06);
+  }
+
+  div.bg-blur.loaded {
+    opacity: 0.22;
+  }
 
   div.nav-grid {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(255, 255, 255, 0.03) 100%),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(255, 255, 255, 0.025) 100%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 100% 28px, 28px 100%;
-    opacity: 0.24;
+    opacity: 0.18;
     pointer-events: none;
   }
 
-  div.menu-box {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-6px);
-    .animate();
-    position: absolute;
-    top: 54px;
-    right: 18px;
-    z-index: 4;
-
-    @triangle-size: 7px;
-    div.triangle {
-      width: 0;
-      height: 0;
-      border-width: @triangle-size;
-      border-style: solid;
-      border-color: transparent transparent rgba(11, 16, 29, 0.98);
-      position: absolute;
-      right: 14px;
-    }
-
-    div.menu-list {
-      position: absolute;
-      right: 0;
-      top: @triangle-size * 2;
-      width: max-content;
-      min-width: 180px;
-      background: rgba(11, 16, 29, 0.98);
-      border: 1px solid rgba(126, 154, 255, 0.16);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 18px 46px rgba(3, 7, 16, 0.38);
-
-      div.menu-title {
-        color: oklch(0.95 0.01 220) !important;
-      }
-
-      div.menu-item {
-        font-size: 13px;
-        padding: 0 18px;
-        min-height: 42px;
-        line-height: 42px;
-        border-bottom: 1px solid rgba(126, 154, 255, 0.08);
-        color: oklch(0.8 0.02 228);
-        text-align: left;
-        .ptr();
-      }
-
-      div.menu-item:last-child {
-        border-bottom: none;
-      }
-
-      div.menu-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-      }
-
-      div.menu-item.warn {
-        color: oklch(0.9 0.02 28);
-        background: rgba(255, 132, 106, 0.14);
-      }
-    }
-  }
-
   div.content {
-    width: calc(~'100% - 36px');
-    height: 52px;
     position: absolute;
-    top: 0;
-    left: 18px;
+    left: @nav-padding;
+    right: @nav-padding;
+    top: 16px;
+    height: 34px;
 
     div.left-btn,
-    div.right-avatar,
-    div.dl-cover,
-    div.display-toggle {
+    div.right-avatar {
       &:extend(.ptr);
       position: absolute;
-      top: 16px;
-      display: grid;
-      place-items: center;
+      top: 0;
       width: 34px;
       height: 34px;
+      display: grid;
+      place-items: center;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(126, 154, 255, 0.12);
-      backdrop-filter: blur(12px);
+      border: 1px solid rgba(154, 126, 77, 0.16);
+      background: rgba(255, 248, 234, 0.04);
+      backdrop-filter: blur(10px);
     }
 
     div.left-btn {
@@ -130,80 +75,64 @@ nav {
       overflow: hidden;
     }
 
-    div.display-toggle {
-      right: 88px;
-      width: auto;
-      min-width: 76px;
-      padding: 0 12px;
-      color: oklch(0.82 0.02 228);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
     div.right-avatar img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       background: rgba(255, 255, 255, 0.04);
     }
 
-    div.dl-cover {
-      right: 44px;
-    }
-
     span,
-    div.dl-cover span {
-      color: oklch(0.88 0.015 224);
-      font-size: @left-btn-size;
-    }
-
     span.icon-unlogin {
+      color: oklch(0.88 0.02 85);
       font-size: 18px;
     }
   }
 
   div.shell-kicker {
     position: absolute;
-    left: @nav-foot-padding;
-    top: 68px;
-    color: @blue;
-    font-size: 0.74rem;
-    letter-spacing: 0.14em;
+    left: @nav-padding;
+    top: 60px;
+    color: oklch(0.74 0.04 84);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
   div.title {
     position: absolute;
-    left: @nav-foot-padding;
-    bottom: 54px;
-    font-size: clamp(1.35rem, 2.3vw, 2rem);
-    font-weight: 700;
-    color: oklch(0.97 0.01 220);
-    width: calc(~'100% - 2*@{nav-foot-padding}');
-    line-height: 1.05;
+    left: @nav-padding;
+    right: 78px;
+    top: 76px;
+    color: oklch(0.95 0.015 82);
+    font-size: clamp(1.18rem, 2vw, 1.62rem);
+    font-weight: 620;
+    line-height: 1.08;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   div.foot {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    min-height: 48px;
+    left: @nav-padding;
+    right: @nav-padding;
+    bottom: 12px;
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 10px;
     align-items: center;
-    padding: 10px @nav-foot-padding 14px;
 
     span.owner,
     div.share {
-      font-size: 12px;
-      color: oklch(0.82 0.02 228);
+      font-size: 0.78rem;
+      color: oklch(0.76 0.02 80);
     }
 
     span.owner strong {
-      color: oklch(0.95 0.01 220);
+      color: oklch(0.93 0.015 82);
       margin-right: 4px;
     }
 
@@ -212,45 +141,164 @@ nav {
       height: @nav-foot-avatar-size;
       border-radius: 50%;
       overflow: hidden;
-      border: 1px solid rgba(126, 154, 255, 0.14);
+      border: 1px solid rgba(154, 126, 77, 0.16);
       background: rgba(255, 255, 255, 0.04);
 
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
       }
     }
 
     div.share {
       justify-self: end;
-      text-align: right;
+      padding: 0 10px;
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(154, 126, 77, 0.14);
+      background: rgba(255, 248, 234, 0.04);
+      white-space: nowrap;
 
       span.warn {
-        color: oklch(0.8 0.1 28);
+        margin-left: 4px;
+        color: oklch(0.78 0.09 45);
       }
     }
   }
 
-  div.bg-blur {
-    transition: 0.8s;
-    opacity: 0.82;
-    filter: brightness(30%) saturate(70%) blur(12px);
-  }
+  div.menu-box {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    .animate();
+    position: absolute;
+    top: 54px;
+    right: 18px;
+    z-index: 5;
 
-  div.bg-blur.loaded {
-    filter: brightness(30%) saturate(88%) blur(12px);
+    @triangle-size: 7px;
+    div.triangle {
+      width: 0;
+      height: 0;
+      border-width: @triangle-size;
+      border-style: solid;
+      border-color: transparent transparent rgba(12, 18, 28, 0.98);
+      position: absolute;
+      right: 14px;
+    }
+
+    div.menu-list {
+      position: absolute;
+      right: 0;
+      top: @triangle-size * 2;
+      width: max-content;
+      min-width: 184px;
+      background: rgba(12, 18, 28, 0.98);
+      border: 1px solid rgba(154, 126, 77, 0.16);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 46px rgba(3, 7, 16, 0.38);
+
+      div.menu-title {
+        color: oklch(0.95 0.015 82) !important;
+      }
+
+      div.menu-item {
+        font-size: 13px;
+        padding: 0 18px;
+        min-height: 42px;
+        line-height: 42px;
+        border-bottom: 1px solid rgba(154, 126, 77, 0.08);
+        color: oklch(0.8 0.02 84);
+        text-align: left;
+        .ptr();
+      }
+
+      div.menu-item:last-child {
+        border-bottom: none;
+      }
+
+      div.menu-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      div.menu-item.warn {
+        color: oklch(0.9 0.04 40);
+        background: rgba(196, 104, 72, 0.14);
+      }
+    }
   }
 }
 
-@media (max-width: 720px) {
-  nav div.content div.display-toggle {
+nav.nav-zip {
+  height: @nav-height-zip;
+
+  div.shell-kicker {
+    top: 52px;
+  }
+
+  div.title {
+    top: 68px;
+    font-size: clamp(1.02rem, 1.8vw, 1.28rem);
+  }
+
+  div.foot {
     display: none;
   }
 }
 
-nav.showing {
-  width: 100%;
-  height: 100%;
-  z-index: 3;
+nav div.menu-box.showing {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  nav {
+    height: 118px;
+  }
+
+  nav.nav-zip {
+    height: 92px;
+  }
+
+  nav div.title {
+    right: 24px;
+    font-size: 1.08rem;
+  }
+
+  nav div.foot {
+    grid-template-columns: 1fr auto;
+  }
+
+  nav div.foot div.avatar {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  nav {
+    height: 108px;
+  }
+
+  nav.nav-zip {
+    height: 84px;
+  }
+
+  nav div.shell-kicker {
+    top: 54px;
+  }
+
+  nav div.title {
+    top: 70px;
+    right: 18px;
+    font-size: 1rem;
+  }
+
+  nav div.foot {
+    display: none;
+  }
 }

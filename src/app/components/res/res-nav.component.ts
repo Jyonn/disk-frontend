@@ -20,7 +20,6 @@ export class ResNavComponent {
   @Input() zip_nav: boolean;
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
-  is_showing: boolean;
   show_menu: boolean;
 
   constructor(
@@ -29,7 +28,6 @@ export class ResNavComponent {
     public footBtnService: FootBtnService,
     public router: Router,
   ) {
-    this.is_showing = !window.localStorage.getItem('cover-normal');
     this.show_menu = false;
   }
 
@@ -37,13 +35,6 @@ export class ResNavComponent {
     if (this.show_menu) {
       this.show_menu = false;
     }
-  }
-
-  switch_show_mode($event: Event) {
-    $event.cancelBubble = true;
-    $event.stopPropagation();
-    this.show_menu = false;
-    this.is_showing = !this.is_showing;
   }
 
   show_insecure_info($event) {
@@ -69,9 +60,6 @@ export class ResNavComponent {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.show_menu = !this.show_menu;
-    if (this.show_menu) {
-      this.is_showing = true;
-    }
   }
 
   go_owner_home($event) {
@@ -93,15 +81,12 @@ export class ResNavComponent {
     } else if (s === 'code') {
       window.open('https://github.com/lqj679ssn/disk-frontend');
     } else if (s === 'tips') {
-      this.is_showing = false;
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_tips);
     } else if (s === 'updates') {
-      this.is_showing = false;
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_update);
     } else if (s === 'setting') {
-      this.is_showing = false;
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_setting);
     }

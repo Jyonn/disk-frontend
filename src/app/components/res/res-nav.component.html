@@ -1,16 +1,14 @@
-<nav [ngClass]="{'showing': is_showing, 'nav-zip': zip_nav}" (click)="dismiss_menu()" xmlns="http://www.w3.org/1999/html">
+<nav [ngClass]="{'nav-zip': zip_nav}" (click)="dismiss_menu()" xmlns="http://www.w3.org/1999/html">
   <div title="资源封面" class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
   <div class="nav-grid"></div>
   <div class="content">
-    <div class="left-btn">
-      <span title="返回父目录" class="icon-back" *ngIf="!resource?.is_home" (click)="go_parent($event)"></span>
+    <div class="left-btn" *ngIf="!resource?.is_home">
+      <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>
     </div>
-    <div class="display-toggle mono" (click)="switch_show_mode($event)">{{is_showing ? '折叠封面' : '展开封面'}}</div>
     <div title="菜单" class="right-avatar" *ngIf="userService.has_login" (click)="click_avatar($event)">
       <img [src]="userService.user.avatar_src" alt="当前用户头像">
     </div>
     <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
-    <a target="_blank" [href]="resource?.cover" (click)="$event.cancelBubble = true; $event.stopPropagation();"><div title="下载封面" class="dl-cover"><span class="icon-download"></span></div></a>
   </div>
   <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
   <div class="title" title="资源名称">{{resource?.rname}}</div>
