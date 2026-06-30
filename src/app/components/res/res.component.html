@@ -7,31 +7,11 @@
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
-      <span title="排序" class="icon icon-sort" *ngIf="show_side_icon" (click)="toggle_sort_mode()"></span>
-      <div class="sort-container">
-        <div class="sort-item mono" (click)="sort_by(false, 'time')">sort --time</div>
-        <div class="sort-item mono" (click)="sort_by(false, 'name')">sort --name</div>
-        <div class="sort-item mono" (click)="sort_by(false, 'type')">sort --type</div>
-      </div>
       <span class="text mono">{{resource_title}}</span>
-      <div class="search-container">
-        <span title="筛选" class="icon icon-search" *ngIf="show_side_icon" (click)="search_mode ? resource_search() : go_search(true)"></span>
-        <span title="折叠" class="icon icon-collapse" *ngIf="search_mode" (click)="go_search(false)">️</span>
-        <div class="search-box">
-          <input #searchBox class="search mono" placeholder="grep / 搜索…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
-          <!--<span class="icon icon-collapse" (click)="go_search(false)">️</span>-->
-          <span title="清空关键词" class="clear-keyword" (click)="clear_search()">×</span>
-        </div>
-      </div>
     </div>
     <div class="description" (click)="switch_tab_mode('description')">
       <span title="{{baseService.desc_more ? '折叠介绍' : '展开介绍'}}" class="icon icon-back" *ngIf="show_back_icon" [ngClass]="baseService.desc_more ? 'active' : ''" (click)="baseService.toggle_desc_more()"></span>
       <span class="text mono">README</span>
-      <span title="编辑" class="icon icon-pencil" *ngIf="show_pencil_icon" (click)="modify_desc = true"></span>
-    </div>
-    <div class="desc-edit" [ngClass]="modify_desc ? 'active' : 'inactive'">
-      <div class="modify-btn cancel"><span class="text" (click)="cancel_modify_desc()">取消</span></div>
-      <div class="modify-btn modify"><span class="text" (click)="modify_desc_action()">修改</span></div>
     </div>
   </div>
   <div class="tab selecting" [ngClass]="footBtnService.active_select">
@@ -46,9 +26,35 @@
   </div>
   <div class="content resource" *ngIf="resource?.is_folder" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
     <div class="list-intro">
-      <div class="prompt mono">{{terminal_list_command}}</div>
-      <div class="prompt alt mono" *ngIf="terminal_list_alt_command">{{terminal_list_alt_command}}</div>
-      <div class="summary">{{search_list.length}} entries · {{resource?.readable_status}}</div>
+      <div class="prompt-row">
+        <div class="prompt mono">{{terminal_list_command}}</div>
+        <div class="inline-copy" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
+      </div>
+      <div class="prompt-row" *ngIf="terminal_list_alt_command">
+        <div class="prompt alt mono">{{terminal_list_alt_command}}</div>
+        <div class="inline-copy" ngxClipboard [cbContent]="terminal_list_alt_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制路径命令</div>
+      </div>
+      <div class="summary">{{resource_summary}}</div>
+      <div class="tool-row">
+        <div class="tool-group">
+          <div class="tool-chip" *ngIf="is_owner" [ngClass]="{active: footBtnService.is_selecting}" (click)="toggle_selection_mode()">
+            {{footBtnService.is_selecting ? '退出多选' : '多选模式'}}
+          </div>
+          <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
+            {{search_mode ? '收起搜索' : '搜索目录'}}
+          </div>
+        </div>
+        <div class="tool-group sort-group">
+          <span class="tool-label mono">sort</span>
+          <div class="tool-chip" [ngClass]="{active: sort_name_active}" (click)="sort_by(false, 'name')">名称<span class="chip-order" *ngIf="sort_name_active">{{sort_direction}}</span></div>
+          <div class="tool-chip" [ngClass]="{active: sort_time_active}" (click)="sort_by(false, 'time')">时间<span class="chip-order" *ngIf="sort_time_active">{{sort_direction}}</span></div>
+          <div class="tool-chip" [ngClass]="{active: sort_type_active}" (click)="sort_by(false, 'type')">类型<span class="chip-order" *ngIf="sort_type_active">{{sort_direction}}</span></div>
+        </div>
+      </div>
+      <div class="search-inline" *ngIf="search_mode">
+        <input #searchBox class="search mono" placeholder="grep / 搜索当前目录…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
+        <div class="tool-chip sub" (click)="clear_search()">清空</div>
+      </div>
     </div>
     <div class="list-head mono" *ngIf="search_list.length">
       <span class="head-name">NAME</span>
@@ -80,7 +86,10 @@
       <div class="file-size">{{resource?.readable_status}}</div>
       <div class="command-line">
         <div class="command-hint mono">htx download</div>
-        <div class="command-box mono">{{download_command}}</div>
+        <div class="command-stack">
+          <div class="command-box mono">{{download_command}}</div>
+          <div class="inline-copy" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
+        </div>
       </div>
       <div class="command-line" *ngIf="direct_link">
         <div class="command-hint mono">direct link</div>
@@ -100,7 +109,10 @@
       <div class="file-size">{{resource?.size}}</div>
       <div class="command-line">
         <div class="command-hint mono">htx download</div>
-        <div class="command-box mono">{{download_command}}</div>
+        <div class="command-stack">
+          <div class="command-box mono">{{download_command}}</div>
+          <div class="inline-copy" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
+        </div>
       </div>
       <div class="command-line" *ngIf="direct_link">
         <div class="command-hint mono">direct link</div>
@@ -144,7 +156,12 @@
     <div class="padding-div">
       <div class="doc-head">
         <span class="mono">README.md</span>
-        <span class="doc-hint">{{modify_desc ? '编辑模式' : 'Markdown 渲染'}}</span>
+        <div class="doc-actions">
+          <span class="doc-hint">{{modify_desc ? '编辑模式' : 'Markdown 渲染'}}</span>
+          <div class="doc-action" *ngIf="is_owner && !modify_desc" (click)="modify_desc = true">编辑 README</div>
+          <div class="doc-action sub" *ngIf="is_owner && modify_desc" (click)="cancel_modify_desc()">取消</div>
+          <div class="doc-action" *ngIf="is_owner && modify_desc" (click)="modify_desc_action()">保存 README</div>
+        </div>
       </div>
       <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
       <textarea class="mono" [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
@@ -184,7 +201,7 @@
 
 <footer></footer>
 
-<footer (swiperight)="footer_swipe($event)" (swipeleft)="footer_swipe($event)" [ngStyle]="{marginLeft: margin_left + 'px'}">
+<footer>
   <div title="{{foot_btn.text}}" *ngFor="let foot_btn of foot_btns"
        class="btn"
        [ngClass]="footBtnService.is_active(foot_btn)"

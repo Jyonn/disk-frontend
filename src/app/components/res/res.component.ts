@@ -6,7 +6,7 @@ import { ResourceService } from "../../services/resource.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FootBtnService } from "../../services/foot-btn.service";
 import { FootBtn } from "../../models/res/foot-btn";
-import { Subject, fromEvent } from "rxjs";
+import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import { BaseService } from "../../services/base.service";
@@ -30,7 +30,6 @@ import {VideoService} from "../../services/video.service";
 export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
-  static icon_width = 66;
 
   @ViewChild('resList') resListElement: ElementRef;
 
@@ -62,8 +61,6 @@ export class ResComponent implements OnInit {
   op_identifier: string;
   op_append_msg: string;
   operations: any;
-
-  margin_left: number;
 
   operation_list: OperationResItem[];  // 操作列表
   delete_text: string;  // 删除文字
@@ -100,7 +97,6 @@ export class ResComponent implements OnInit {
     this.current_op_num = 0;
     this.total_op_num = 0;
     this.show_op_process = false;
-    this.margin_left = 0;
     this.show_more_option = false;
     this.tab_mode = 'resource';
     this.modify_desc = false;
@@ -221,29 +217,6 @@ export class ResComponent implements OnInit {
       distinctUntilChanged(),
     )
       .subscribe(keyword => this.resource_search(keyword));
-    fromEvent(window, 'resize').pipe(
-      debounceTime(300),
-    )
-      .subscribe(() => {
-        this.do_swipe(0);
-      });
-  }
-
-  do_swipe(delta) {
-    const total_width = Math.max(this.foot_btns.length * ResComponent.icon_width, window.innerWidth);
-    let margin_left = this.margin_left + delta;
-    if (margin_left > 0) {
-      margin_left = 0;
-    }
-    if (-margin_left + window.innerWidth > total_width) {
-      margin_left = window.innerWidth - total_width;
-    }
-    this.margin_left = margin_left;
-  }
-
-  footer_swipe($event) {
-    const delta = $event.deltaX * 2;
-    this.do_swipe(delta);
   }
 
   get op_percent() {
@@ -402,6 +375,17 @@ export class ResComponent implements OnInit {
     }
   }
 
+  toggle_selection_mode() {
+    if (!this.is_owner) {
+      return;
+    }
+    if (this.footBtnService.is_selecting) {
+      this.select_res_help('cancel');
+      return;
+    }
+    this.activate_btn(this.footBtnService.foot_btn_select);
+  }
+
   select_res_help(help: string) {
     if (help === 'all') {
       for (const item of this.search_list) {
@@ -483,6 +467,10 @@ export class ResComponent implements OnInit {
     this.search_mode = searching;
   }
 
+  toggle_search_mode() {
+    this.search_mode = !this.search_mode;
+  }
+
   clear_search() {
     this.search_value = null;
     this.resource_search();
@@ -494,6 +482,10 @@ export class ResComponent implements OnInit {
 
   get sort_class() {
     return this.sort_mode ? 'sorting' : '';
+  }
+
+  get selected_count() {
+    return this.search_list.filter((item) => item.selected).length;
   }
 
   navigate(res_str_id) {
@@ -606,6 +598,22 @@ export class ResComponent implements OnInit {
 
   get terminal_list_alt_command() {
     return this.cli_path_command;
+  }
+
+  get sort_name_active() {
+    return ResComponent.sort_accord === 'name';
+  }
+
+  get sort_time_active() {
+    return ResComponent.sort_accord === 'time';
+  }
+
+  get sort_type_active() {
+    return ResComponent.sort_accord === 'type';
+  }
+
+  get sort_direction() {
+    return ResComponent.sort_ascend ? '↑' : '↓';
   }
 
   private async refreshCliPath() {
@@ -873,6 +881,14 @@ export class ResComponent implements OnInit {
       return `搜索“${_v}”的结果`;
     }
     return '目录';
+  }
+
+  get resource_summary() {
+    const base = `${this.search_list.length} entries · ${this.resource?.readable_status || ''}`;
+    if (this.footBtnService.is_selecting) {
+      return `${base} · 已选 ${this.selected_count} 项`;
+    }
+    return base;
   }
 
   get is_mine() {

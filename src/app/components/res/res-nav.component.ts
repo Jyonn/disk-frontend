@@ -33,12 +33,17 @@ export class ResNavComponent {
     this.show_menu = false;
   }
 
-  switch_show_mode() {
+  dismiss_menu() {
     if (this.show_menu) {
       this.show_menu = false;
-    } else {
-      this.is_showing = !this.is_showing;
     }
+  }
+
+  switch_show_mode($event: Event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    this.show_menu = false;
+    this.is_showing = !this.is_showing;
   }
 
   show_insecure_info($event) {

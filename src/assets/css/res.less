@@ -785,6 +785,17 @@ div.res {
       border: 1px solid rgba(126, 154, 255, 0.12);
       background: rgba(10, 15, 26, 0.9);
 
+      div.prompt-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      div.prompt-row + div.prompt-row {
+        margin-top: 6px;
+      }
+
       div.prompt {
         color: @green;
         font-size: 0.82rem;
@@ -801,6 +812,78 @@ div.res {
         margin-top: 8px;
         color: oklch(0.68 0.02 228);
         font-size: 0.84rem;
+      }
+
+      div.tool-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      div.tool-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      span.tool-label {
+        color: oklch(0.58 0.02 228);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      div.tool-chip,
+      div.inline-copy {
+        &:extend(.ptr);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(126, 154, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+        color: oklch(0.8 0.02 228);
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+      }
+
+      div.tool-chip.active,
+      div.inline-copy:hover {
+        border-color: rgba(126, 154, 255, 0.24);
+        background: rgba(95, 128, 208, 0.14);
+        color: oklch(0.95 0.01 220);
+      }
+
+      div.tool-chip.sub {
+        min-width: 60px;
+      }
+
+      span.chip-order {
+        color: @blue;
+      }
+
+      div.search-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      div.search-inline input.search {
+        flex: 1 1 280px;
+        min-width: 0;
+        height: 38px;
+        border-radius: 999px;
+        border: 1px solid rgba(126, 154, 255, 0.14);
+        background: rgba(255, 255, 255, 0.05);
+        color: oklch(0.93 0.01 220);
+        padding: 0 16px;
       }
     }
 
@@ -965,6 +1048,11 @@ div.res {
         margin-top: 18px;
       }
 
+      div.command-stack {
+        display: grid;
+        gap: 10px;
+      }
+
       div.command-hint {
         margin-bottom: 8px;
         color: @green;
@@ -1070,6 +1158,35 @@ div.res {
         font-size: 0.74rem;
       }
 
+      div.doc-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      div.doc-action {
+        &:extend(.ptr);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(126, 154, 255, 0.14);
+        background: rgba(95, 128, 208, 0.12);
+        color: oklch(0.95 0.01 220);
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      div.doc-action.sub {
+        background: rgba(255, 255, 255, 0.04);
+        color: oklch(0.8 0.02 228);
+      }
+
       div.empty-doc {
         display: grid;
         gap: 10px;
@@ -1111,6 +1228,15 @@ div.res.description div.tab div.description span {
 }
 
 @media (max-width: 720px) {
+  div.res div.content.resource div.list-intro div.prompt-row,
+  div.res div.content.resource div.tool-row {
+    flex-direction: column;
+  }
+
+  div.res div.content.resource div.list-intro div.inline-copy {
+    width: max-content;
+  }
+
   div.res div.content.resource div.list-head {
     grid-template-columns: minmax(0, 1fr) 72px;
   }
@@ -1130,5 +1256,10 @@ div.res.description div.tab div.description span {
     width: calc(100% - 24px);
     padding: 24px 18px;
     border-radius: 22px;
+  }
+
+  div.res div.content.description div.padding-div div.doc-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
