@@ -785,27 +785,8 @@ div.res {
       border: 1px solid rgba(126, 154, 255, 0.12);
       background: rgba(10, 15, 26, 0.9);
 
-      div.prompt-row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      div.prompt-row + div.prompt-row {
-        margin-top: 6px;
-      }
-
-      div.prompt {
-        color: @green;
-        font-size: 0.82rem;
-        letter-spacing: 0.06em;
-      }
-
-      div.prompt.alt {
-        margin-top: 6px;
-        color: @blue;
-        opacity: 0.85;
+      div.command-bar-intro {
+        margin-bottom: 8px;
       }
 
       div.summary {
@@ -1065,21 +1046,34 @@ div.res {
         margin-top: 18px;
       }
 
-      div.command-stack {
-        display: grid;
-        gap: 10px;
-      }
-
-      div.command-stack div.copy-icon {
-        justify-self: end;
-      }
-
       div.command-hint {
         margin-bottom: 8px;
         color: @green;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         font-size: 0.7rem;
+      }
+
+      div.command-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        padding: 8px 8px 8px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(126, 154, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      div.command-code {
+        flex: 1 1 auto;
+        min-width: 0;
+        color: oklch(0.87 0.015 220);
+        font-size: 0.82rem;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
       }
 
       div.command-box {
@@ -1089,7 +1083,9 @@ div.res {
         background: rgba(255, 255, 255, 0.03);
         color: oklch(0.87 0.015 220);
         font-size: 0.82rem;
-        word-break: break-all;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
       }
 
       div.command-box.link-box {
@@ -1259,13 +1255,8 @@ div.res.description div.tab div.description span {
 }
 
 @media (max-width: 720px) {
-  div.res div.content.resource div.list-intro div.prompt-row,
   div.res div.content.resource div.tool-row {
     flex-direction: column;
-  }
-
-  div.res div.content.resource div.list-intro div.copy-icon {
-    width: 32px;
   }
 
   div.res div.content.resource div.list-head {
