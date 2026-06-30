@@ -28,13 +28,18 @@
         <div class="list-intro">
           <div class="summary">{{resource_summary}}</div>
           <div class="tool-row">
-            <div class="tool-group">
+            <div class="tool-group default-tools" *ngIf="!footBtnService.is_selecting">
               <div class="tool-chip" *ngIf="is_owner" [ngClass]="{active: footBtnService.is_selecting}" (click)="toggle_selection_mode()">
                 {{footBtnService.is_selecting ? '退出多选' : '多选模式'}}
               </div>
               <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
                 {{search_mode ? '收起搜索' : '搜索目录'}}
               </div>
+            </div>
+            <div class="tool-group selection-mobile-tools" *ngIf="footBtnService.is_selecting">
+              <div class="tool-chip warn" (click)="select_res_help('delete')">删除</div>
+              <div class="tool-chip" (click)="select_res_help('move')">移动</div>
+              <div class="tool-chip sub" (click)="select_res_help('cancel')">退出</div>
             </div>
             <div class="tool-group sort-group">
               <span class="tool-label mono">sort</span>
@@ -49,9 +54,11 @@
           </div>
         </div>
         <div class="list-head mono" *ngIf="search_list.length">
-          <span class="head-name">NAME</span>
-          <span class="head-time">MTIME</span>
-          <span class="head-extra">META</span>
+          <span class="head-name">名称</span>
+          <span class="head-type" *ngIf="!footBtnService.is_selecting">类型</span>
+          <span class="head-type bulk-select-toggle" *ngIf="footBtnService.is_selecting" [title]="header_selection_title" (click)="toggle_header_selection()">
+            <span [ngClass]="header_selection_icon"></span>
+          </span>
         </div>
         <div class="res-empty" *ngIf="!search_list.length">
           <div class="empty-title mono">0 entries</div>
@@ -117,7 +124,6 @@
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
             <div class="dock-row"><span class="mono">entries</span><strong>{{child_count_text}}</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-            <div class="dock-row"><span class="mono">status</span><strong>{{resource?.readable_status}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_upload)">上传资源</button>
@@ -193,7 +199,6 @@
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
             <div class="dock-row"><span class="mono">kind</span><strong>link</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-            <div class="dock-row"><span class="mono">action</span><strong>{{download_action_text}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
@@ -269,7 +274,6 @@
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
             <div class="dock-row"><span class="mono">size</span><strong>{{resource?.size || '-'}}</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-            <div class="dock-row"><span class="mono">status</span><strong>{{resource?.readable_status}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
@@ -348,7 +352,6 @@
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
             <div class="dock-row"><span class="mono">kind</span><strong>restricted</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
-            <div class="dock-row"><span class="mono">status</span><strong>{{resource?.readable_status}}</strong></div>
           </div>
         </div>
       </aside>

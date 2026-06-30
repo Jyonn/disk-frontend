@@ -977,6 +977,10 @@ div.res {
         align-items: center;
       }
 
+      div.selection-mobile-tools {
+        display: none;
+      }
+
       span.tool-label {
         color: oklch(0.54 0.03 82);
         font-size: 0.72rem;
@@ -1010,6 +1014,11 @@ div.res {
         min-width: 60px;
       }
 
+      div.tool-chip.warn {
+        color: oklch(0.88 0.04 40);
+        background: rgba(185, 103, 72, 0.12);
+      }
+
       span.chip-order {
         color: oklch(0.8 0.04 82);
       }
@@ -1038,7 +1047,7 @@ div.res {
       top: 0;
       z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 88px 96px;
+      grid-template-columns: minmax(0, 1fr) 84px;
       gap: 12px;
       margin: 0 18px 10px;
       padding: 12px 0 10px;
@@ -1047,6 +1056,41 @@ div.res {
       letter-spacing: 0.1em;
       font-size: 0.72rem;
       text-transform: uppercase;
+    }
+
+    div.list-head span.head-type {
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+    }
+
+    div.list-head span.bulk-select-toggle {
+      &:extend(.ptr);
+    }
+
+    div.list-head span.bulk-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 1px solid rgba(154, 126, 77, 0.14);
+      color: oklch(0.74 0.03 82);
+      background: transparent;
+      font-size: 0.9rem;
+    }
+
+    div.list-head span.bulk-icon.solid {
+      background: rgba(188, 142, 76, 0.12);
+      color: oklch(0.92 0.015 82);
+    }
+
+    div.list-head span.bulk-icon.partial {
+      background: rgba(255, 249, 238, 0.08);
+      color: oklch(0.86 0.02 82);
     }
 
     div.res-empty {
@@ -1749,6 +1793,14 @@ div.res div.content.resource aside.workspace-side {
     flex-wrap: wrap;
   }
 
+  div.res div.content.resource div.list-intro div.selection-mobile-tools {
+    display: flex;
+  }
+
+  div.res div.content.resource div.selection-strip {
+    display: none;
+  }
+
   div.res div.content.resource div.tool-row {
     flex-direction: column;
   }
@@ -1759,11 +1811,7 @@ div.res div.content.resource aside.workspace-side {
   }
 
   div.res div.content.resource div.list-head {
-    grid-template-columns: minmax(0, 1fr) 72px;
-  }
-
-  div.res div.content.resource div.list-head span.head-extra {
-    display: none;
+    grid-template-columns: minmax(0, 1fr) 56px;
   }
 
   div.res div.content.resource div.res-item div.res-info {

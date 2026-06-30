@@ -381,10 +381,24 @@ export class ResComponent implements OnInit {
     this.activate_btn(this.footBtnService.foot_btn_select);
   }
 
+  toggle_header_selection() {
+    if (this.selected_count === 0) {
+      this.select_res_help('all');
+    } else if (this.selected_count === this.search_list.length) {
+      this.select_res_help('clear');
+    } else {
+      this.select_res_help('adverse');
+    }
+  }
+
   select_res_help(help: string) {
     if (help === 'all') {
       for (const item of this.search_list) {
         item.selected = true;
+      }
+    } else if (help === 'clear') {
+      for (const item of this.search_list) {
+        item.selected = false;
       }
     } else if (help === 'adverse') {
       for (const item of this.search_list) {
@@ -626,12 +640,32 @@ export class ResComponent implements OnInit {
       return this.resource_summary;
     }
     if (this.resource.is_file) {
-      return `${this.resource.size || '-'} · ${this.resource.readable_status}`;
+      return this.resource.size || '未知大小';
     }
     if (this.resource.is_link) {
-      return `${this.resource.readable_status} · ${this.download_action_text}`;
+      return '跳转资源';
     }
-    return this.resource.readable_status;
+    return '需要认证后访问';
+  }
+
+  get header_selection_icon() {
+    if (this.selected_count === 0) {
+      return 'icon-uncheck bulk-icon line';
+    }
+    if (this.selected_count === this.search_list.length) {
+      return 'icon-check bulk-icon solid';
+    }
+    return 'icon-uncheck bulk-icon solid partial';
+  }
+
+  get header_selection_title() {
+    if (this.selected_count === 0) {
+      return '全选';
+    }
+    if (this.selected_count === this.search_list.length) {
+      return '取消全选';
+    }
+    return '反选';
   }
 
   get sort_name_active() {
@@ -885,11 +919,10 @@ export class ResComponent implements OnInit {
   }
 
   get resource_summary() {
-    const base = `${this.search_list.length} entries · ${this.resource?.readable_status || ''}`;
-    if (this.footBtnService.is_selecting) {
-      return `${base} · 已选 ${this.selected_count} 项`;
+    if (this.search_value) {
+      return `匹配 ${this.search_list.length} 项`;
     }
-    return base;
+    return `共 ${this.search_list.length} 项`;
   }
 
   get workspace_mode_label() {
