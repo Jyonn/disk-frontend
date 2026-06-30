@@ -21,7 +21,6 @@
           <div class="console-top">
             <div class="console-dots"><span></span><span></span><span></span></div>
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-            <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
           <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
@@ -36,7 +35,7 @@
                 {{search_mode ? '收起搜索' : '搜索目录'}}
               </div>
             </div>
-            <div class="tool-group selection-mobile-tools" *ngIf="footBtnService.is_selecting">
+            <div class="tool-group selection-tools" *ngIf="footBtnService.is_selecting">
               <div class="tool-chip warn" (click)="select_res_help('delete')">删除</div>
               <div class="tool-chip" (click)="select_res_help('move')">移动</div>
               <div class="tool-chip sub" (click)="select_res_help('cancel')">退出</div>
@@ -96,17 +95,6 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
-          <div class="dock-strip selection-strip" *ngIf="is_owner && footBtnService.is_selecting">
-            <div class="dock-label mono">selection</div>
-            <div class="selection-count">{{selected_count}} items selected</div>
-            <div class="selection-actions">
-              <button class="action-btn" type="button" (click)="select_res_help('all')">全选</button>
-              <button class="action-btn" type="button" (click)="select_res_help('adverse')">反选</button>
-              <button class="action-btn" type="button" (click)="select_res_help('move')">移动所选</button>
-              <button class="action-btn warn" type="button" (click)="select_res_help('delete')">删除所选</button>
-              <button class="action-btn subtle" type="button" (click)="select_res_help('cancel')">退出多选</button>
-            </div>
-          </div>
           <div class="dock-strip">
             <div class="status-row">
               <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
@@ -123,7 +111,6 @@
           </div>
           <div class="dock-meta">
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
-            <div class="dock-row"><span class="mono">entries</span><strong>{{child_count_text}}</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
@@ -144,7 +131,6 @@
           <div class="console-top">
             <div class="console-dots"><span></span><span></span><span></span></div>
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-            <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
           <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
@@ -198,7 +184,6 @@
           </div>
           <div class="dock-meta">
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
-            <div class="dock-row"><span class="mono">kind</span><strong>link</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
@@ -218,7 +203,6 @@
           <div class="console-top">
             <div class="console-dots"><span></span><span></span><span></span></div>
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-            <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
           <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
@@ -293,7 +277,6 @@
           <div class="console-top">
             <div class="console-dots"><span></span><span></span><span></span></div>
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
-            <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
           <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
@@ -351,7 +334,6 @@
           </div>
           <div class="dock-meta">
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
-            <div class="dock-row"><span class="mono">kind</span><strong>restricted</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
         </div>

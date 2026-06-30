@@ -228,83 +228,6 @@ div.res {
       visibility: hidden;
     }
   }
-  div.tab.selecting {
-    z-index: 2;
-    &:extend(.animate);
-    div.operation-container.active {
-      height: 2 * @bar-item-height;
-    }
-    div.operation-container {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      width: 25%;
-      background: white;
-      z-index: 1;
-      height: 0;
-      transition: 0.2s;
-      overflow: hidden;
-      &:extend(.light-shadow);
-      div.op-item {
-        position: relative;
-        width: 100%;
-        height: @bar-item-height;
-        line-height: @bar-item-height;
-        font-size: 14px;
-        color: #555555;
-      }
-      div.op-item:hover {
-        background: @res-item-box-cover-bg;
-      }
-    }
-    div.tab-btn {
-      &:extend(.ptr);
-      position: relative;
-      float: left;
-      width: 25%;
-      height: @res-tab-height;
-      line-height: @res-tab-height;
-      vertical-align: middle;
-    }
-    div.select-all {
-      background: @default-bg;
-      color: @default-text;
-    }
-    div.select-adverse {
-      background: @adverse-bg;
-      color: @adverse-text;
-    }
-    div.cancel {
-      background: @cancel-bg;
-      color: @cancel-text;
-    }
-    div.more-option {
-      background: @default-bg;
-      color: @default-text;
-      span {
-        display: inline-block;
-      }
-      span.icon-right {
-        .animate();
-      }
-      span.active {
-        transform: rotate(90deg);
-      }
-      span.text {
-        margin-left: 10px;
-      }
-    }
-  }
-  div.tab.selecting.active {
-    filter: opacity(1.0);
-    visibility: visible;
-    //left: 0;
-  }
-  div.tab.selecting.inactive {
-    filter: opacity(0);
-    visibility: hidden;
-    //left: 100%;
-  }
   div.content {
     &:extend(.animate);
     position: absolute;
@@ -684,10 +607,6 @@ div.res.description {
         width: @nav-width-landscape;
       }
     }
-    div.tab.selecting.active {
-      left: -@nav-width-landscape;
-      width: 100vw;
-    }
   }
   div.content.description {
     padding: 20px 0;
@@ -780,25 +699,6 @@ div.res {
       div.op-item:hover {
         background: rgba(255, 255, 255, 0.05);
       }
-    }
-  }
-
-  div.tab.selecting {
-    background: rgba(8, 12, 21, 0.96);
-    border-bottom: 1px solid rgba(126, 154, 255, 0.1);
-
-    div.tab-btn {
-      color: oklch(0.88 0.015 220);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-
-    div.select-all,
-    div.more-option,
-    div.select-adverse,
-    div.cancel {
-      background: transparent;
     }
   }
 
@@ -975,10 +875,6 @@ div.res {
         flex-wrap: wrap;
         gap: 8px;
         align-items: center;
-      }
-
-      div.selection-mobile-tools {
-        display: none;
       }
 
       span.tool-label {
@@ -1790,14 +1686,6 @@ div.res div.content.resource aside.workspace-side {
 @media (max-width: 720px) {
   div.res div.content.resource div.console-top {
     flex-wrap: wrap;
-  }
-
-  div.res div.content.resource div.list-intro div.selection-mobile-tools {
-    display: flex;
-  }
-
-  div.res div.content.resource div.selection-strip {
-    display: none;
   }
 
   div.res div.content.resource div.tool-row {

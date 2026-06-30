@@ -46,8 +46,6 @@ export class ResComponent implements OnInit {
   tab_mode: string;
 
   sort_mode: boolean;  // 排序模式 分为name time type
-  show_more_option: boolean;
-
   visit_key: string;  // 资源密钥
 
   description: string;  // 资源描述
@@ -96,7 +94,6 @@ export class ResComponent implements OnInit {
     this.current_op_num = 0;
     this.total_op_num = 0;
     this.show_op_process = false;
-    this.show_more_option = false;
     this.tab_mode = 'resource';
     this.modify_desc = false;
 
@@ -360,10 +357,6 @@ export class ResComponent implements OnInit {
     res.selected = !res.selected;
   }
 
-  get active_more_option() {
-    return this.show_more_option ? 'active' : 'inactive';
-  }
-
   click_icon() {
     if (this.is_owner) {
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_select);
@@ -395,10 +388,7 @@ export class ResComponent implements OnInit {
         item.selected = false;
       }
       this.footBtnService.inactivate();
-    } else if (help === 'more-option') {
-      this.show_more_option = !this.show_more_option;
     } else if (help === 'delete' || help === 'move') {
-      this.show_more_option = false;
       this.is_multi_mode = true;
       this.operation_list = [];
       for (const item of this.search_list) {
@@ -477,10 +467,6 @@ export class ResComponent implements OnInit {
 
   get sort_class() {
     return this.sort_mode ? 'sorting' : '';
-  }
-
-  get selected_count() {
-    return this.search_list.filter((item) => item.selected).length;
   }
 
   navigate(res_str_id) {
@@ -688,10 +674,6 @@ export class ResComponent implements OnInit {
     }
   }
 
-  toggle_sort_mode() {
-    this.sort_mode = !this.sort_mode;
-  }
-
   sort_by(follow_last, accord = null) {
     if (!follow_last) {
       if (ResComponent.sort_accord === accord) {
@@ -716,14 +698,6 @@ export class ResComponent implements OnInit {
     }
     this.search_list.sort(this.sort_by_new_created);
     this.sort_mode = false;
-  }
-
-  get show_side_icon() {
-    return this.resource && this.resource.is_folder && this.tab_mode === 'resource' && !this.search_mode;
-  }
-
-  get show_pencil_icon() {
-    return this.tab_mode === 'description' && this.is_owner && !this.modify_desc;
   }
 
   get show_back_icon() {
@@ -891,22 +865,6 @@ export class ResComponent implements OnInit {
     return `共 ${this.search_list.length} 项`;
   }
 
-  get workspace_mode_label() {
-    if (!this.resource) {
-      return 'resource';
-    }
-    if (this.resource.is_folder) {
-      return 'directory';
-    }
-    if (this.resource.is_link) {
-      return 'link resource';
-    }
-    if (this.resource.is_encrypt) {
-      return 'restricted resource';
-    }
-    return 'file resource';
-  }
-
   get current_res_ref() {
     return this.resource?.res_str_id || this.res_str_id || '';
   }
@@ -925,13 +883,6 @@ export class ResComponent implements OnInit {
       return '私有资源';
     }
     return '公开资源';
-  }
-
-  get visibility_configured() {
-    if (!this.resource) {
-      return '';
-    }
-    return `配置：${this.resource.readable_status}`;
   }
 
   get visibility_detail() {
@@ -971,10 +922,6 @@ export class ResComponent implements OnInit {
       return '补一段用途、下载方式或命令说明，这个资源页会清楚很多。';
     }
     return '当前资源还没有附带 README。';
-  }
-
-  get child_count_text() {
-    return `${this.children?.length || 0}`;
   }
 
   open_readme_editor() {
