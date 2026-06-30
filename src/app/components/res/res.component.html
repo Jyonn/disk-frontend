@@ -75,12 +75,20 @@
   <div class="content resource" *ngIf="resource?.is_link">
     <div class="terminal-card">
       <span class="icon icon-link"></span>
-      <div class="card-label mono">direct jump</div>
+      <div class="card-label mono">link resource</div>
       <div class="file-name">{{resource?.rname}}</div>
-      <div class="command-box mono">open "{{dl_link}}"</div>
+      <div class="file-size">{{resource?.readable_status}}</div>
+      <div class="command-line">
+        <div class="command-hint mono">htx download</div>
+        <div class="command-box mono">{{download_command}}</div>
+      </div>
+      <div class="command-line" *ngIf="direct_link">
+        <div class="command-hint mono">direct link</div>
+        <div class="command-box mono link-box">{{direct_link}}</div>
+      </div>
       <div class="btn-box">
-        <a [href]="dl_link" target="_blank"><div class="round-btn">前往目标</div></a>
-        <div class="round-btn sub copy-btn" ngxClipboard [cbContent]="dl_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
+        <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+        <div class="round-btn sub copy-btn" *ngIf="can_copy_direct_link" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
       </div>
     </div>
   </div>
@@ -90,10 +98,17 @@
       <div class="card-label mono">binary resource</div>
       <div class="file-name">{{resource?.rname}}</div>
       <div class="file-size">{{resource?.size}}</div>
-      <div class="command-box mono">{{download_command}}</div>
+      <div class="command-line">
+        <div class="command-hint mono">htx download</div>
+        <div class="command-box mono">{{download_command}}</div>
+      </div>
+      <div class="command-line" *ngIf="direct_link">
+        <div class="command-hint mono">direct link</div>
+        <div class="command-box mono link-box">{{direct_link}}</div>
+      </div>
       <div class="btn-box">
-        <a [href]="dl_link" target="_blank"><div class="round-btn">下载文件</div></a>
-        <div class="round-btn sub copy-btn" ngxClipboard [cbContent]="dl_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
+        <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+        <div class="round-btn sub copy-btn" *ngIf="can_copy_direct_link" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')">复制直链</div>
       </div>
       <video id="video-js"></video>
     </div>

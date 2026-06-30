@@ -545,12 +545,56 @@ export class ResComponent implements OnInit {
 
   get dl_link() {
     return `${this.baseService.host}/api/res/${this.resource.res_str_id}/dl?` +
-      `token=${BaseService.token}&visit_key=${this.resource.visit_key}`;
+      `token=${BaseService.token}&visit_key=${this.resolved_visit_key || ''}`;
+  }
+
+  get direct_link() {
+    if (!this.resource || this.resource.is_private || this.resource.is_folder) {
+      return null;
+    }
+
+    let link = `${this.baseService.short_link_host}/${this.resource.res_str_id}`;
+    if (this.resource.rname) {
+      link += `/${encodeURIComponent(this.resource.rname)}`;
+    }
+
+    const visitKey = this.resolved_visit_key;
+    if (this.resource.is_protected && !visitKey) {
+      return null;
+    }
+    if (this.resource.is_protected) {
+      link += `?visit_key=${encodeURIComponent(visitKey)}`;
+    }
+
+    return link;
+  }
+
+  get download_href() {
+    return this.direct_link || this.dl_link;
   }
 
   get download_command() {
-    const file_name = this.resource?.rname || 'download.bin';
-    return `curl -L "${this.dl_link}" -o "${file_name}"`;
+    if (!this.resource) {
+      return "htx download";
+    }
+
+    const file_name = this.resource.rname || 'download.bin';
+    return `htx download @${this.resource.res_str_id} "./${this.escapeCliPathSegment(file_name)}"`;
+  }
+
+  get can_copy_direct_link() {
+    return !!this.direct_link;
+  }
+
+  get download_action_text() {
+    if (this.resource?.is_link) {
+      return '打开目标';
+    }
+    return '下载资源';
+  }
+
+  get resolved_visit_key() {
+    return this.resource?.visit_key || this.visit_key || ResourceService.loadVK(this.res_str_id);
   }
 
   get terminal_list_command() {

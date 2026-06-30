@@ -1,4 +1,7 @@
 export class User {
+  private static readonly FALLBACK_AVATAR = "https://unsplash.6-79.cn/random/small";
+  private static readonly SSO_HOST = "https://sso.6-79.cn";
+
   user_id: number;
   nickname: string;
   avatar: string;
@@ -17,11 +20,20 @@ export class User {
     this.rootRes = d.root_res;
   }
 
-  get url_avatar() {
-    if (this.avatar) {
-      return `url('${this.avatar}')`;
-    } else {
-      return `url('https://unsplash.6-79.cn/random/small')`;
+  get avatar_src() {
+    if (!this.avatar) {
+      return User.FALLBACK_AVATAR;
     }
+    if (this.avatar.startsWith("//")) {
+      return `https:${this.avatar}`;
+    }
+    if (this.avatar.startsWith("/")) {
+      return `${User.SSO_HOST}${this.avatar}`;
+    }
+    return this.avatar;
+  }
+
+  get url_avatar() {
+    return `url('${this.avatar_src}')`;
   }
 }

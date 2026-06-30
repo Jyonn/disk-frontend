@@ -2,7 +2,7 @@
 
 @avatar-size: 28px;
 @left-btn-size: 20px;
-@nav-foot-avatar-size: 18px;
+@nav-foot-avatar-size: 28px;
 @nav-foot-padding: 24px;
 
 nav.showing {
@@ -129,6 +129,13 @@ nav {
       overflow: hidden;
     }
 
+    div.right-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
     div.dl-cover {
       right: 44px;
     }
@@ -191,11 +198,15 @@ nav {
     div.avatar {
       width: @nav-foot-avatar-size;
       height: @nav-foot-avatar-size;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid rgba(126, 154, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
 
       img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        object-fit: contain;
       }
     }
 

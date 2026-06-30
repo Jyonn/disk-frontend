@@ -12,7 +12,7 @@ marked.setOptions({
 
 @Component({
   selector: "markdown",
-  template: `<div [innerHTML]="rendered"></div>`,
+  template: `<article class="markdown-shell" [innerHTML]="rendered"></article>`,
 })
 export class MarkdownComponent implements OnChanges {
   @Input() data: string;

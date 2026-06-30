@@ -961,8 +961,19 @@ div.res {
         font-size: 0.92rem;
       }
 
-      div.command-box {
+      div.command-line {
         margin-top: 18px;
+      }
+
+      div.command-hint {
+        margin-bottom: 8px;
+        color: @green;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+      }
+
+      div.command-box {
         padding: 14px 16px;
         border-radius: 16px;
         border: 1px solid rgba(126, 154, 255, 0.12);
@@ -970,6 +981,11 @@ div.res {
         color: oklch(0.87 0.015 220);
         font-size: 0.82rem;
         word-break: break-all;
+      }
+
+      div.command-box.link-box {
+        background: rgba(95, 128, 208, 0.09);
+        color: oklch(0.93 0.02 225);
       }
 
       div.btn-box {
@@ -1108,5 +1124,11 @@ div.res.description div.tab div.description span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  div.res div.content.resource div.terminal-card {
+    width: calc(100% - 24px);
+    padding: 24px 18px;
+    border-radius: 22px;
   }
 }
