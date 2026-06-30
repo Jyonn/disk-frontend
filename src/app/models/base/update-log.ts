@@ -1,5 +1,21 @@
 export class UpdateLog {
   public static logs = [{
+    time: '260630',
+    version: '6.1.0',
+    updates: [
+      '资源页升级为更干净的终端式展示风格',
+      '新增 HTX CLI 介绍页',
+      '资源页支持直接显示 htx ls @资源ID 命令',
+      '自有目录资源支持显示 htx ls <path> 完整路径命令',
+    ]
+  }, {
+    time: '260629',
+    version: '6.0.0',
+    updates: [
+      '前端工程升级到 Angular 17 基线',
+      '更新构建工具链，为后续界面升级打基础',
+    ]
+  }, {
     time: '190916',
     version: '5.4.1',
     updates: [
