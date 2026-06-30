@@ -47,7 +47,7 @@
   <div class="content resource" *ngIf="resource?.is_folder" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
     <div class="list-intro">
       <div class="prompt mono">{{terminal_list_command}}</div>
-      <div class="prompt alt mono">{{terminal_list_alt_command}}</div>
+      <div class="prompt alt mono" *ngIf="terminal_list_alt_command">{{terminal_list_alt_command}}</div>
       <div class="summary">{{search_list.length}} entries · {{resource?.readable_status}}</div>
     </div>
     <div class="list-head mono" *ngIf="search_list.length">
