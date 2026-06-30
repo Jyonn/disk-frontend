@@ -182,6 +182,10 @@ export class FootBtnService {
     }
   }
 
+  open_btn(btn: FootBtn) {
+    this.foot_btn_active = btn;
+  }
+
   inactivate() {
     this.foot_btn_active = null;
   }

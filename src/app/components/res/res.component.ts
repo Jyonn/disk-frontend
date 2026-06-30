@@ -930,7 +930,32 @@ export class ResComponent implements OnInit {
   }
 
   open_inspector_action(btn: FootBtn) {
-    this.activate_btn(btn);
+    this.is_multi_mode = false;
+    this.footBtnService.open_btn(btn);
+    if (this.footBtnService.is_deleting) {
+      this.operation_list = [new OperationResItem({
+        res_str_id: this.resource.res_str_id,
+        readablePath: this.resource.rname,
+      })];
+      if (this.resource && this.resource.rtype === Resource.RTYPE_FILE) {
+        this.delete_text = '删除此资源且无法恢复。';
+      } else {
+        this.delete_text = '删除此文件夹下的所有资源和子文件夹且无法恢复。';
+      }
+    } else if (this.footBtnService.is_moving) {
+      this.resTreeService.show_res_path(this.res_str_id, false);
+      this.operation_list = [new OperationResItem({
+        res_str_id: this.resource.res_str_id,
+        readablePath: this.resource.rname,
+      })];
+      if (this.res_str_id === ResourceTreeService.selectResStrId) {
+        ResourceTreeService.selectResStrId = ResourceTreeService.selectedResName = null;
+      }
+    } else if (this.footBtnService.is_modifying) {
+      if (this.resource.cover_type === Resource.COVER_RESOURCE) {
+        this.resTreeService.show_res_path(this.resource.raw_cover, true);
+      }
+    }
   }
 
   show_insecure_info() {
