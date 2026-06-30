@@ -6,7 +6,7 @@ export class UpdateLog {
       '资源页升级为更干净的终端式展示风格',
       '新增 HTX CLI 介绍页',
       '资源页支持直接显示 htx ls @资源ID 命令',
-      '自有目录资源支持显示 htx ls <path> 完整路径命令',
+      '资源页支持直接复制 HTX 命令',
     ]
   }, {
     time: '260629',

@@ -218,6 +218,10 @@ export class Resource {
     return `由于目录“${this.insecure_parent}”设置了公开，此${this.readable_status}仍然公开。若不想公开此资源，可进入“修改”设置为独立资源，或修改父元素权限为加密或私有。`;
   }
 
+  get is_effectively_public() {
+    return this.status === Resource.STATUS_PUBLIC || !this.is_secure_env;
+  }
+
   get is_emoji() {
     const c = this.rname.charCodeAt(0);
     if (0xd800 <= c && c <= 0xdbff) {

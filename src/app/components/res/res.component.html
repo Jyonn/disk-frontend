@@ -28,11 +28,7 @@
     <div class="list-intro">
       <div class="prompt-row">
         <div class="prompt mono">{{terminal_list_command}}</div>
-        <div class="inline-copy" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
-      </div>
-      <div class="prompt-row" *ngIf="terminal_list_alt_command">
-        <div class="prompt alt mono">{{terminal_list_alt_command}}</div>
-        <div class="inline-copy" ngxClipboard [cbContent]="terminal_list_alt_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制路径命令</div>
+        <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
       </div>
       <div class="summary">{{resource_summary}}</div>
       <div class="tool-row">
@@ -88,7 +84,7 @@
         <div class="command-hint mono">htx download</div>
         <div class="command-stack">
           <div class="command-box mono">{{download_command}}</div>
-          <div class="inline-copy" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
+          <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
         </div>
       </div>
       <div class="command-line" *ngIf="direct_link">
@@ -102,7 +98,7 @@
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_file">
-    <div class="terminal-card">
+    <div class="terminal-card bare-card">
       <span class="icon" [ngClass]=resource?.icon></span>
       <div class="card-label mono">binary resource</div>
       <div class="file-name">{{resource?.rname}}</div>
@@ -111,7 +107,7 @@
         <div class="command-hint mono">htx download</div>
         <div class="command-stack">
           <div class="command-box mono">{{download_command}}</div>
-          <div class="inline-copy" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')">复制 HTX 命令</div>
+          <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
         </div>
       </div>
       <div class="command-line" *ngIf="direct_link">

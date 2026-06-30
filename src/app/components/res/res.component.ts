@@ -72,7 +72,6 @@ export class ResComponent implements OnInit {
   modify_desc: boolean;
 
   player: any;
-  cli_path_command: string;
 
   constructor(
     public baseService: BaseService,
@@ -100,7 +99,6 @@ export class ResComponent implements OnInit {
     this.show_more_option = false;
     this.tab_mode = 'resource';
     this.modify_desc = false;
-    this.cli_path_command = null;
 
     this.operations = {
       delete: {
@@ -135,7 +133,6 @@ export class ResComponent implements OnInit {
   baseInitResource(resp) {
     this.children = [];
     this.resource = new Resource(this.baseService, resp.info);
-    this.cli_path_command = null;
     this.description = this.resource.description;
     if (!this.description && !this.is_mine) {
       this.description = '暂无介绍资料';
@@ -148,7 +145,6 @@ export class ResComponent implements OnInit {
     this.resource_search();
     this.meta.updateTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
     this.meta.updateTag({name: 'image', content: this.resource.cover_small});
-    this.refreshCliPath();
 
     // this.wechatShare.title = `浑天匣 - ${this.resource.rname}`;
     // this.wechatShare.desc = `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`;
@@ -162,7 +158,6 @@ export class ResComponent implements OnInit {
   initResLose(base_resp) {
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
     this.resource = new Resource(this.baseService, base_resp.info);
-    this.cli_path_command = null;
     this.description = '无法查看介绍资料';
     this.children = [];
     this.search_list = this.children.concat();
@@ -541,7 +536,7 @@ export class ResComponent implements OnInit {
   }
 
   get direct_link() {
-    if (!this.resource || this.resource.is_private || this.resource.is_folder) {
+    if (!this.resource || this.resource.is_folder) {
       return null;
     }
 
@@ -550,15 +545,20 @@ export class ResComponent implements OnInit {
       link += `/${encodeURIComponent(this.resource.rname)}`;
     }
 
+    if (this.resource.is_effectively_public) {
+      return link;
+    }
+
     const visitKey = this.resolved_visit_key;
     if (this.resource.is_protected && !visitKey) {
       return null;
     }
     if (this.resource.is_protected) {
       link += `?visit_key=${encodeURIComponent(visitKey)}`;
+      return link;
     }
 
-    return link;
+    return null;
   }
 
   get download_href() {
@@ -596,10 +596,6 @@ export class ResComponent implements OnInit {
     return `htx ls @${this.resource.res_str_id}`;
   }
 
-  get terminal_list_alt_command() {
-    return this.cli_path_command;
-  }
-
   get sort_name_active() {
     return ResComponent.sort_accord === 'name';
   }
@@ -614,39 +610,6 @@ export class ResComponent implements OnInit {
 
   get sort_direction() {
     return ResComponent.sort_ascend ? '↑' : '↓';
-  }
-
-  private async refreshCliPath() {
-    const currentResId = this.res_str_id;
-    this.cli_path_command = null;
-
-    if (!this.resource || !this.resource.is_folder || !this.is_owner) {
-      return;
-    }
-
-    try {
-      const pathIds: string[] = await this.resTreeService.get_res_path(currentResId);
-      const orderedIds = pathIds.slice().reverse();
-      const pathLayers = await Promise.all(
-        orderedIds.map((resId) => this.resTreeService.get_res_info_for_selector(resId))
-      );
-
-      if (this.res_str_id !== currentResId) {
-        return;
-      }
-
-      const pathNames = pathLayers
-        .map((layer) => layer?.info?.rname)
-        .filter((name) => !!name)
-        .slice(1)
-        .map((name) => this.escapeCliPathSegment(name));
-
-      this.cli_path_command = pathNames.length
-        ? `htx ls "/${pathNames.join("/")}"`
-        : "htx ls";
-    } catch (_error) {
-      this.cli_path_command = null;
-    }
   }
 
   private escapeCliPathSegment(name: string) {

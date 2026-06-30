@@ -836,8 +836,7 @@ div.res {
         text-transform: uppercase;
       }
 
-      div.tool-chip,
-      div.inline-copy {
+      div.tool-chip {
         &:extend(.ptr);
         display: inline-flex;
         align-items: center;
@@ -853,8 +852,26 @@ div.res {
         letter-spacing: 0.04em;
       }
 
-      div.tool-chip.active,
-      div.inline-copy:hover {
+      div.tool-chip.active {
+        border-color: rgba(126, 154, 255, 0.24);
+        background: rgba(95, 128, 208, 0.14);
+        color: oklch(0.95 0.01 220);
+      }
+
+      div.copy-icon {
+        &:extend(.ptr);
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid rgba(126, 154, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+        color: oklch(0.8 0.02 228);
+      }
+
+      div.copy-icon:hover {
         border-color: rgba(126, 154, 255, 0.24);
         background: rgba(95, 128, 208, 0.14);
         color: oklch(0.95 0.01 220);
@@ -1053,6 +1070,10 @@ div.res {
         gap: 10px;
       }
 
+      div.command-stack div.copy-icon {
+        justify-self: end;
+      }
+
       div.command-hint {
         margin-bottom: 8px;
         color: @green;
@@ -1098,6 +1119,16 @@ div.res {
 
     div.suggestion-card {
       min-height: unset;
+    }
+
+    div.bare-card {
+      width: min(760px, calc(100% - 36px));
+      min-height: 0;
+      padding: 8px 0 20px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     div.suggestion-box {
@@ -1233,8 +1264,8 @@ div.res.description div.tab div.description span {
     flex-direction: column;
   }
 
-  div.res div.content.resource div.list-intro div.inline-copy {
-    width: max-content;
+  div.res div.content.resource div.list-intro div.copy-icon {
+    width: 32px;
   }
 
   div.res div.content.resource div.list-head {
