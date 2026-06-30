@@ -1622,6 +1622,20 @@ div.res div.content.description {
 div.res {
   width: 100%;
   left: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+div.res div.content.resource {
+  position: relative;
+  top: 0;
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+}
+
+div.res div.content.resource div.workspace-shell {
+  min-height: 100%;
 }
 
 @media all and (orientation: portrait) {
@@ -1656,6 +1670,7 @@ div.res {
   div.res {
     top: @res-nav-height;
     height: calc(~'100% - @{res-nav-height}');
+    overflow-y: hidden;
   }
 
   div.res.nav-zip {
@@ -1678,8 +1693,10 @@ div.res {
     }
 
     div.content.resource {
+      position: absolute;
       overflow: hidden;
       padding-bottom: 0;
+      height: 100%;
 
       div.workspace-shell {
         display: grid;
