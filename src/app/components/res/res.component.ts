@@ -517,8 +517,13 @@ export class ResComponent implements OnInit {
   }
 
   get dl_link() {
-    return `${this.baseService.host}/api/res/${this.resource.res_str_id}/dl?` +
-      `token=${BaseService.token}&visit_key=${this.resolved_visit_key || ''}`;
+    const params = new URLSearchParams();
+    params.set('token', BaseService.token || '');
+    const visitKey = this.resolved_visit_key;
+    if (visitKey) {
+      params.set('visit_key', visitKey);
+    }
+    return `${this.baseService.host}/api/res/${this.resource.res_str_id}/dl?${params.toString()}`;
   }
 
   get direct_link() {
