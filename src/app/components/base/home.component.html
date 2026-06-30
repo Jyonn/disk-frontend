@@ -26,6 +26,7 @@
         <div class="hero-actions">
           <button class="primary-btn mono" type="button" (click)="open_htx()">{{primaryActionText}}</button>
           <button class="secondary-btn mono" type="button" (click)="go_login()">SSO 登录</button>
+          <button class="secondary-btn mono" type="button" (click)="open_cli_docs()">查看 htx CLI</button>
         </div>
         <div class="hero-notes">
           <span class="note mono">SSO</span>
@@ -75,6 +76,9 @@
       <h2>需要的是文件，不是表演。</h2>
       <p>如果你的常用动作是上传、列目录、发直链、补 README，这个工作台会比传统网盘更顺手。</p>
     </div>
-    <button class="primary-btn mono" type="button" (click)="open_htx()">$ open workspace</button>
+    <div class="cta-actions">
+      <button class="primary-btn mono" type="button" (click)="open_htx()">$ open workspace</button>
+      <button class="secondary-btn mono" type="button" (click)="open_cli_docs()">htx cli docs</button>
+    </div>
   </section>
 </div>

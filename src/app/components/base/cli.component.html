@@ -1,0 +1,77 @@
+<div class="cli-shell">
+  <header class="cli-hero">
+    <div class="cli-bar">
+      <div class="mono cli-kicker">HTX CLI</div>
+      <a class="cli-back mono" href="/">back to workspace</a>
+    </div>
+
+    <div class="cli-grid">
+      <section class="cli-copy">
+        <div class="eyebrow mono">COMMAND LINE CLIENT</div>
+        <h1>把浑天匣带回终端。</h1>
+        <p>
+          `htx` 是浑天匣的命令行客户端。它基于 SSO 取 token，支持按路径或 `&#64;资源ID` 列目录，
+          也支持上传本地文件/目录、下载远程资源和做常见目录操作。
+        </p>
+        <div class="cli-tags">
+          <span class="mono">SSO TOKEN</span>
+          <span class="mono">&#64;RES_ID</span>
+          <span class="mono">PATH MODE</span>
+          <span class="mono">UPLOAD / DOWNLOAD</span>
+        </div>
+      </section>
+
+      <section class="cli-console">
+        <div class="console-window">
+          <div class="console-title mono">quickstart.sh</div>
+          <div class="console-lines mono">
+            <div class="console-line" *ngFor="let cmd of authCommands">{{cmd}}</div>
+            <div class="console-output"># 登录后可以继续 `htx ls &#64;资源ID` 或 `htx upload ...`</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <section class="cli-strip">
+    <div class="strip-label mono">why htx</div>
+    <div class="strip-list">
+      <div class="strip-item" *ngFor="let item of useCases; let i = index">
+        <span class="mono index">0{{i + 1}}</span>
+        <span>{{item}}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="command-grid">
+    <article class="command-card">
+      <div class="card-label mono">install</div>
+      <h2>安装</h2>
+      <pre class="mono"><code>{{installCommands.join('\n')}}</code></pre>
+    </article>
+
+    <article class="command-card">
+      <div class="card-label mono">auth</div>
+      <h2>认证</h2>
+      <pre class="mono"><code>{{authCommands.join('\n')}}</code></pre>
+    </article>
+
+    <article class="command-card">
+      <div class="card-label mono">listing</div>
+      <h2>列目录</h2>
+      <pre class="mono"><code>{{listCommands.join('\n')}}</code></pre>
+    </article>
+
+    <article class="command-card">
+      <div class="card-label mono">transfer</div>
+      <h2>上传与下载</h2>
+      <pre class="mono"><code>{{transferCommands.join('\n')}}</code></pre>
+    </article>
+
+    <article class="command-card wide">
+      <div class="card-label mono">ops</div>
+      <h2>目录操作</h2>
+      <pre class="mono"><code>{{adminCommands.join('\n')}}</code></pre>
+    </article>
+  </section>
+</div>

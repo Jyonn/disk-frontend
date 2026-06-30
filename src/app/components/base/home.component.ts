@@ -12,9 +12,9 @@ import {Meta} from "@angular/platform-browser";
 })
 export class HomeComponent implements OnInit {
   heroCommands = [
-    '$ auth login --provider sso',
-    '$ share ./archive --public --direct-link',
-    '$ curl -L https://d.6-79.cn/r/abc123 -O',
+    'htx login',
+    'htx ls @Ab12Cd',
+    'htx upload ./archive /Backups',
   ];
 
   featureCards = [
@@ -64,6 +64,10 @@ export class HomeComponent implements OnInit {
     } else {
       this.go_login();
     }
+  }
+
+  open_cli_docs() {
+    this.router.navigate(["/cli"]);
   }
 
   get primaryActionText() {

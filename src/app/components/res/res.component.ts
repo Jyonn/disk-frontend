@@ -549,10 +549,17 @@ export class ResComponent implements OnInit {
   }
 
   get terminal_list_command() {
-    if (this.search_value) {
-      return `$ find . -name "*${this.search_value}*"`;
+    if (!this.resource) {
+      return "htx ls";
     }
-    return this.resource?.is_home ? '$ ls ~' : `$ ls ./"${this.resource?.rname || ''}"`;
+    return `htx ls @${this.resource.res_str_id}`;
+  }
+
+  get terminal_list_alt_command() {
+    if (!this.resource || this.resource.is_home) {
+      return "htx ls";
+    }
+    return "htx ls <path>";
   }
 
   switch_tab_mode(tm: string) {

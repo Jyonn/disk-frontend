@@ -5,9 +5,11 @@ import { ResHomeComponent } from "./components/res/res-home.component";
 import { OauthComponent } from "./components/user/oauth.component";
 import { RefreshComponent } from "./components/user/refresh.component";
 import { HomeComponent } from "./components/base/home.component";
+import { CliComponent } from "./components/base/cli.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
+  { path: 'cli', component: CliComponent},
   { path: 'user/refresh', component: RefreshComponent},
   { path: 'res', component: ResHomeComponent},
   { path: 'res/next/:next', component: ResHomeComponent},

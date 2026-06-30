@@ -27,6 +27,7 @@ import { UpdateService } from "./services/update.service";
 import { ResTreeComponent } from "./components/res/res-tree.component";
 import { ResourceTreeService } from "./services/resource-tree.service";
 import { HomeComponent } from "./components/base/home.component";
+import { CliComponent } from "./components/base/cli.component";
 import { WechatShareService } from "./services/wechat-share.service";
 import {VideoService} from "./services/video.service";
 import { ClipboardCopyDirective } from "./components/shared/clipboard-copy.directive";
@@ -42,6 +43,7 @@ import { MarkdownComponent } from "./components/shared/markdown.component";
   declarations: [
     AppComponent,
     HomeComponent,
+    CliComponent,
     ResComponent,
     ResHomeComponent,
     ResNavComponent,
