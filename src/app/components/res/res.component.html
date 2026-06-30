@@ -56,8 +56,9 @@
         <div class="list-head mono" *ngIf="search_list.length">
           <span class="head-name">名称</span>
           <span class="head-type" *ngIf="!footBtnService.is_selecting">类型</span>
-          <span class="head-type bulk-select-toggle" *ngIf="footBtnService.is_selecting" [title]="header_selection_title" (click)="toggle_header_selection()">
-            <span [ngClass]="header_selection_icon"></span>
+          <span class="head-type select-head-actions" *ngIf="footBtnService.is_selecting">
+            <button class="head-action" type="button" (click)="select_res_help('all')">全选</button>
+            <button class="head-action" type="button" (click)="select_res_help('adverse')">反选</button>
           </span>
         </div>
         <div class="res-empty" *ngIf="!search_list.length">

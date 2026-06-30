@@ -1066,31 +1066,30 @@ div.res {
       min-width: 48px;
     }
 
-    div.list-head span.bulk-select-toggle {
-      &:extend(.ptr);
+    div.list-head span.select-head-actions {
+      gap: 6px;
     }
 
-    div.list-head span.bulk-icon {
+    button.head-action {
+      &:extend(.ptr);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 26px;
+      min-width: 44px;
       height: 26px;
+      padding: 0 8px;
       border-radius: 8px;
       border: 1px solid rgba(154, 126, 77, 0.14);
-      color: oklch(0.74 0.03 82);
-      background: transparent;
-      font-size: 0.9rem;
+      color: oklch(0.78 0.02 82);
+      background: rgba(255, 249, 238, 0.04);
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    div.list-head span.bulk-icon.solid {
+    button.head-action:hover {
       background: rgba(188, 142, 76, 0.12);
       color: oklch(0.92 0.015 82);
-    }
-
-    div.list-head span.bulk-icon.partial {
-      background: rgba(255, 249, 238, 0.08);
-      color: oklch(0.86 0.02 82);
     }
 
     div.res-empty {
