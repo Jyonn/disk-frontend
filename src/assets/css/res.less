@@ -896,34 +896,16 @@ div.res {
       align-items: center;
     }
 
-    div.console-line {
+    div.console-copy {
       position: relative;
       z-index: 1;
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
-      min-width: 0;
-      margin-top: 16px;
-      color: oklch(0.92 0.015 82);
-      font-size: 0.9rem;
+      margin-top: 14px;
+      color: oklch(0.72 0.02 82);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
       white-space: nowrap;
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
-
-    span.prompt-user {
-      color: oklch(0.84 0.07 144);
-      flex: 0 0 auto;
-    }
-
-    span.prompt-symbol {
-      color: oklch(0.78 0.04 82);
-      flex: 0 0 auto;
-    }
-
-    span.prompt-command {
-      color: oklch(0.96 0.01 82);
-      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     div.command-bar {
@@ -1527,6 +1509,18 @@ div.res div.content.resource {
     gap: 10px;
   }
 
+  div.selection-count {
+    color: oklch(0.9 0.015 82);
+    font-size: 0.96rem;
+    line-height: 1.4;
+  }
+
+  div.selection-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
   button.action-btn {
     &:extend(.ptr);
     border: 1px solid rgba(154, 126, 77, 0.14);
@@ -1544,6 +1538,11 @@ div.res div.content.resource {
   button.action-btn.warn {
     color: oklch(0.88 0.04 40);
     background: rgba(185, 103, 72, 0.12);
+  }
+
+  button.action-btn.subtle {
+    color: oklch(0.74 0.02 82);
+    background: rgba(255, 249, 238, 0.02);
   }
 
   div.doc-actions {
@@ -1746,8 +1745,7 @@ div.res div.content.resource aside.workspace-side {
 }
 
 @media (max-width: 720px) {
-  div.res div.content.resource div.console-top,
-  div.res div.content.resource div.console-line {
+  div.res div.content.resource div.console-top {
     flex-wrap: wrap;
   }
 

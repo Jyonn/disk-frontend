@@ -618,6 +618,22 @@ export class ResComponent implements OnInit {
     return `htx inspect @${this.current_res_ref}`;
   }
 
+  get workspace_console_note() {
+    if (!this.resource) {
+      return '';
+    }
+    if (this.resource.is_folder) {
+      return this.resource_summary;
+    }
+    if (this.resource.is_file) {
+      return `${this.resource.size || '-'} · ${this.resource.readable_status}`;
+    }
+    if (this.resource.is_link) {
+      return `${this.resource.readable_status} · ${this.download_action_text}`;
+    }
+    return this.resource.readable_status;
+  }
+
   get sort_name_active() {
     return ResComponent.sort_accord === 'name';
   }

@@ -14,16 +14,6 @@
       <span class="text mono">README</span>
     </div>
   </div>
-  <div class="tab selecting" [ngClass]="footBtnService.active_select">
-    <div class="tab-btn select-all" (click)="select_res_help('all')">全选</div>
-    <div class="tab-btn select-adverse" (click)="select_res_help('adverse')">反选</div>
-    <div class="tab-btn cancel" (click)="select_res_help('cancel')">取消</div>
-    <div class="tab-btn more-option" (click)="select_res_help('more-option')"><span [ngClass]="active_more_option" class="icon-right"></span><span class="text">操作</span></div>
-    <div class="operation-container" [ngClass]="active_more_option">
-      <div class="op-item" (click)="select_res_help('delete')">删除</div>
-      <div class="op-item" (click)="select_res_help('move')">移动</div>
-    </div>
-  </div>
   <div class="content resource folder-view" *ngIf="resource?.is_folder">
     <div class="workspace-shell folder-shell">
       <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
@@ -33,11 +23,7 @@
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
             <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
-          <div class="console-line mono">
-            <span class="prompt-user">htx</span>
-            <span class="prompt-symbol">$</span>
-            <span class="prompt-command">{{workspace_prompt_command}}</span>
-          </div>
+          <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
         <div class="list-intro">
           <div class="summary">{{resource_summary}}</div>
@@ -102,6 +88,17 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
+          <div class="dock-strip selection-strip" *ngIf="is_owner && footBtnService.is_selecting">
+            <div class="dock-label mono">selection</div>
+            <div class="selection-count">{{selected_count}} items selected</div>
+            <div class="selection-actions">
+              <button class="action-btn" type="button" (click)="select_res_help('all')">全选</button>
+              <button class="action-btn" type="button" (click)="select_res_help('adverse')">反选</button>
+              <button class="action-btn" type="button" (click)="select_res_help('move')">移动所选</button>
+              <button class="action-btn warn" type="button" (click)="select_res_help('delete')">删除所选</button>
+              <button class="action-btn subtle" type="button" (click)="select_res_help('cancel')">退出多选</button>
+            </div>
+          </div>
           <div class="dock-strip">
             <div class="status-row">
               <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
@@ -142,11 +139,7 @@
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
             <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
-          <div class="console-line mono">
-            <span class="prompt-user">htx</span>
-            <span class="prompt-symbol">$</span>
-            <span class="prompt-command">{{workspace_prompt_command}}</span>
-          </div>
+          <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
         <div class="terminal-card">
           <span class="icon icon-link"></span>
@@ -221,11 +214,7 @@
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
             <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
-          <div class="console-line mono">
-            <span class="prompt-user">htx</span>
-            <span class="prompt-symbol">$</span>
-            <span class="prompt-command">{{workspace_prompt_command}}</span>
-          </div>
+          <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
         <div class="terminal-card bare-card">
           <span class="icon" [ngClass]=resource?.icon></span>
@@ -301,11 +290,7 @@
             <div class="console-title mono">session / &#64;{{current_res_ref}}</div>
             <div class="console-badge mono">{{visibility_headline}}</div>
           </div>
-          <div class="console-line mono">
-            <span class="prompt-user">htx</span>
-            <span class="prompt-symbol">$</span>
-            <span class="prompt-command">{{workspace_prompt_command}}</span>
-          </div>
+          <div class="console-copy mono">{{workspace_console_note}}</div>
         </div>
         <div class="terminal-card suggestion-card" *ngIf="resource?.is_protected">
           <div class="card-label mono">access required</div>
