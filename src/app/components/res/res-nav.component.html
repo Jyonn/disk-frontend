@@ -2,16 +2,20 @@
   <div title="资源封面" class="bg-blur img-fit" ngClass="{{resource?.load_cover_class}}" [ngStyle]="{'background-image': resource?.url_cover_random}"></div>
   <div class="nav-grid"></div>
   <div class="content">
-    <div class="left-btn" *ngIf="!resource?.is_home">
-      <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>
+    <div class="nav-heading">
+      <div class="left-btn" *ngIf="!resource?.is_home">
+        <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>
+      </div>
+      <div class="title-stack">
+        <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
+        <div class="title" title="资源名称">{{resource?.rname}}</div>
+      </div>
     </div>
     <div title="菜单" class="right-avatar" *ngIf="userService.has_login" (click)="click_avatar($event)">
       <img [src]="userService.user.avatar_src" alt="当前用户头像">
     </div>
     <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
   </div>
-  <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
-  <div class="title" title="资源名称">{{resource?.rname}}</div>
   <div class="foot">
     <span class="owner"><strong>{{nav_foot_owner}}</strong>创建于{{resource?.readable_time}}</span>
     <div title="点击进入TA的主页" class="avatar" *ngIf="!is_mine"><img [src]="resource?.owner?.avatar_src" alt="资源所有者头像" (click)="go_owner_home($event)"></div>

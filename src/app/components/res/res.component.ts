@@ -30,6 +30,12 @@ import {VideoService} from "../../services/video.service";
 export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
+  static readonly HTX_FOLDER_MODE = 'list';
+  static readonly HTX_UPLOAD_MODE = 'upload';
+  static readonly HTX_DOWNLOAD_MODE = 'download';
+  static readonly HTX_PARENT_MODE = 'parent';
+  static readonly HTX_ACCESS_MODE = 'access';
+  static readonly HTX_MORE_MODE = 'more';
 
   @ViewChild('resList') resListElement: ElementRef;
 
@@ -68,6 +74,7 @@ export class ResComponent implements OnInit {
   scroll_top: string;
 
   modify_desc: boolean;
+  htx_command_mode: string;
 
   player: any;
 
@@ -96,6 +103,7 @@ export class ResComponent implements OnInit {
     this.show_op_process = false;
     this.tab_mode = 'resource';
     this.modify_desc = false;
+    this.htx_command_mode = ResComponent.HTX_FOLDER_MODE;
 
     this.operations = {
       delete: {
@@ -139,6 +147,7 @@ export class ResComponent implements OnInit {
       const r_child = new Resource(null, item);
       this.children.push(r_child);
     }
+    this.reset_htx_command_mode();
     this.resource_search();
     this.meta.updateTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
     this.meta.updateTag({name: 'image', content: this.resource.cover_small});
@@ -158,6 +167,7 @@ export class ResComponent implements OnInit {
     this.description = '无法查看介绍资料';
     this.children = [];
     this.search_list = this.children.concat();
+    this.reset_htx_command_mode();
   }
   initResource() {
     const v_key = ResourceService.loadVK(this.res_str_id);
@@ -559,6 +569,14 @@ export class ResComponent implements OnInit {
     return `htx download @${this.resource.res_str_id} "./${this.escapeCliPathSegment(file_name)}"`;
   }
 
+  get download_directory_command() {
+    if (!this.current_res_ref) {
+      return 'htx download @resource-id ./workspace';
+    }
+    const directory_name = this.resource?.rname || 'workspace';
+    return `htx download @${this.current_res_ref} "./${this.escapeCliPathSegment(directory_name)}"`;
+  }
+
   get can_copy_direct_link() {
     return !!this.direct_link;
   }
@@ -579,6 +597,75 @@ export class ResComponent implements OnInit {
       return "htx ls";
     }
     return `htx ls @${this.current_res_ref}`;
+  }
+
+  get upload_here_command() {
+    if (!this.current_res_ref) {
+      return 'htx upload ./local-path @resource-id';
+    }
+    return `htx upload ./local-path @${this.current_res_ref}`;
+  }
+
+  get parent_list_command() {
+    const parent_ref = this.resource?.parent_str_id;
+    if (!parent_ref || parent_ref === Resource.ROOT_ID) {
+      return 'htx ls';
+    }
+    return `htx ls @${parent_ref}`;
+  }
+
+  get htx_command_options() {
+    if (!this.resource) {
+      return [
+        {value: ResComponent.HTX_FOLDER_MODE, label: '展示列表'},
+        {value: ResComponent.HTX_MORE_MODE, label: '更多'},
+      ];
+    }
+
+    if (this.resource.is_folder) {
+      return [
+        {value: ResComponent.HTX_FOLDER_MODE, label: '展示列表'},
+        {value: ResComponent.HTX_UPLOAD_MODE, label: '上传本地资源到此目录'},
+        {value: ResComponent.HTX_DOWNLOAD_MODE, label: '下载此目录到本地'},
+        {value: ResComponent.HTX_MORE_MODE, label: '更多'},
+      ];
+    }
+
+    if (this.resource.is_file || this.resource.is_link) {
+      return [
+        {value: ResComponent.HTX_DOWNLOAD_MODE, label: '下载此资源到本地'},
+        {value: ResComponent.HTX_PARENT_MODE, label: '展示所在目录'},
+        {value: ResComponent.HTX_MORE_MODE, label: '更多'},
+      ];
+    }
+
+    return [
+      {value: ResComponent.HTX_ACCESS_MODE, label: '访问此资源'},
+      {value: ResComponent.HTX_PARENT_MODE, label: '展示上级目录'},
+      {value: ResComponent.HTX_MORE_MODE, label: '更多'},
+    ];
+  }
+
+  get active_htx_command() {
+    switch (this.htx_command_mode) {
+      case ResComponent.HTX_UPLOAD_MODE:
+        return this.upload_here_command;
+      case ResComponent.HTX_DOWNLOAD_MODE:
+        return this.resource?.is_folder ? this.download_directory_command : this.download_command;
+      case ResComponent.HTX_PARENT_MODE:
+        return this.parent_list_command;
+      case ResComponent.HTX_ACCESS_MODE:
+        return this.workspace_prompt_command;
+      case ResComponent.HTX_FOLDER_MODE:
+      default:
+        if (this.resource?.is_file || this.resource?.is_link) {
+          return this.download_command;
+        }
+        if (this.resource?.is_encrypt) {
+          return this.workspace_prompt_command;
+        }
+        return this.terminal_list_command;
+    }
   }
 
   get workspace_prompt_command() {
@@ -603,6 +690,15 @@ export class ResComponent implements OnInit {
     return `htx inspect @${this.current_res_ref}`;
   }
 
+  on_htx_command_mode_change(mode: string) {
+    if (mode === ResComponent.HTX_MORE_MODE) {
+      this.htx_command_mode = this.default_htx_command_mode();
+      this.router.navigate(['/cli']);
+      return;
+    }
+    this.htx_command_mode = mode;
+  }
+
   get sort_name_active() {
     return ResComponent.sort_accord === 'name';
   }
@@ -623,6 +719,20 @@ export class ResComponent implements OnInit {
     return name
       .replace(/\\/g, "\\\\")
       .replace(/"/g, '\\"');
+  }
+
+  private default_htx_command_mode() {
+    if (this.resource?.is_folder) {
+      return ResComponent.HTX_FOLDER_MODE;
+    }
+    if (this.resource?.is_file || this.resource?.is_link) {
+      return ResComponent.HTX_DOWNLOAD_MODE;
+    }
+    return ResComponent.HTX_ACCESS_MODE;
+  }
+
+  private reset_htx_command_mode() {
+    this.htx_command_mode = this.default_htx_command_mode();
   }
 
   switch_tab_mode(tm: string) {

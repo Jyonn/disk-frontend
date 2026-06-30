@@ -727,6 +727,39 @@ div.res {
       background: rgba(255, 249, 238, 0.03);
     }
 
+    label.command-select-wrap {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    span.command-select-label {
+      color: oklch(0.58 0.03 82);
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    select.command-select {
+      width: 100%;
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(154, 126, 77, 0.12);
+      background: rgba(255, 249, 238, 0.03);
+      color: oklch(0.9 0.015 82);
+      outline: none;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(233, 225, 208, 0.88) 50%),
+        linear-gradient(135deg, rgba(233, 225, 208, 0.88) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) 16px,
+        calc(100% - 12px) 16px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
     div.command-code {
       flex: 1 1 auto;
       min-width: 0;
@@ -1020,13 +1053,8 @@ div.res {
       animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       span.icon {
-        position: static;
-        display: block;
-        width: auto;
-        text-align: left;
         font-size: 54px;
         color: oklch(0.78 0.04 82);
-        margin-bottom: 10px;
       }
 
       div.file-name {
@@ -1046,6 +1074,60 @@ div.res {
         text-align: left;
         color: oklch(0.66 0.02 82);
         font-size: 0.92rem;
+      }
+
+      div.asset-hero {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+      }
+
+      div.asset-icon {
+        width: 76px;
+        min-height: 76px;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        border: 1px solid rgba(154, 126, 77, 0.12);
+        background: rgba(255, 249, 238, 0.035);
+      }
+
+      div.asset-icon span.icon {
+        position: static;
+        display: block;
+        width: auto;
+        text-align: center;
+        margin: 0;
+      }
+
+      div.asset-copy {
+        min-width: 0;
+        display: grid;
+        gap: 10px;
+      }
+
+      div.asset-kicker {
+        color: oklch(0.72 0.04 82);
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      div.asset-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        color: oklch(0.66 0.02 82);
+        font-size: 0.88rem;
+      }
+
+      div.asset-target {
+        max-width: 100%;
+        color: oklch(0.78 0.03 82);
+        font-size: 0.84rem;
+        line-height: 1.5;
+        word-break: break-all;
       }
 
       div.command-line {
@@ -1070,9 +1152,9 @@ div.res {
 
       div.btn-box {
         position: static;
-        margin-top: 18px;
         display: flex;
         gap: 12px;
+        justify-content: flex-end;
         text-align: left;
       }
 
@@ -1581,7 +1663,7 @@ div.res div.content.resource aside.workspace-side {
 
       div.workspace-shell {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 360px;
+        grid-template-columns: minmax(0, 1fr) 392px;
         height: 100%;
         min-height: 100%;
       }
@@ -1646,6 +1728,20 @@ div.res div.content.resource aside.workspace-side {
   div.res div.content.resource div.terminal-card {
     width: calc(100% - 24px);
     padding: 18px 0;
+  }
+
+  div.res div.content.resource div.terminal-card div.asset-hero {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  div.res div.content.resource div.terminal-card div.asset-icon {
+    width: 64px;
+    min-height: 64px;
+  }
+
+  div.res div.content.resource div.terminal-card div.btn-box {
+    justify-content: flex-start;
   }
 
   div.res div.content.resource section.main-readme {

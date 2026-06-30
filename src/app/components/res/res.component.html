@@ -97,9 +97,15 @@
           </div>
           <div class="dock-strip">
             <div class="dock-label mono">htx</div>
+            <label class="command-select-wrap">
+              <span class="command-select-label mono">command</span>
+              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
+                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
+              </select>
+            </label>
             <div class="command-bar">
-              <div class="command-code mono">{{terminal_list_command}}</div>
-              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+              <div class="command-code mono">{{active_htx_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
             </div>
           </div>
           <div class="dock-meta">
@@ -120,12 +126,21 @@
   <div class="content resource" *ngIf="resource?.is_link">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
-        <div class="terminal-card">
-          <span class="icon icon-link"></span>
-          <div class="file-name">{{resource?.rname}}</div>
-          <div class="file-size">{{resource?.readable_status}}</div>
-          <div class="btn-box">
-            <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+        <div class="terminal-card asset-hero-card">
+          <div class="asset-hero">
+            <div class="asset-icon"><span class="icon icon-link"></span></div>
+            <div class="asset-copy">
+              <div class="asset-kicker mono">link resource</div>
+              <div class="file-name">{{resource?.rname}}</div>
+              <div class="asset-meta">
+                <span class="mono">&#64;{{current_res_ref}}</span>
+                <span>{{resource?.readable_time}}</span>
+              </div>
+              <div class="asset-target mono">{{download_href}}</div>
+            </div>
+            <div class="btn-box">
+              <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+            </div>
           </div>
         </div>
         <section class="main-readme desktop-readme">
@@ -156,9 +171,15 @@
           </div>
           <div class="dock-strip">
             <div class="dock-label mono">htx</div>
+            <label class="command-select-wrap">
+              <span class="command-select-label mono">command</span>
+              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
+                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
+              </select>
+            </label>
             <div class="command-bar">
-              <div class="command-code mono">{{download_command}}</div>
-              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+              <div class="command-code mono">{{active_htx_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
             </div>
           </div>
           <div class="dock-strip" *ngIf="direct_link">
@@ -185,12 +206,21 @@
   <div class="content resource" *ngIf="resource?.is_file">
     <div class="workspace-shell asset-shell">
       <section class="workspace-main asset-main">
-        <div class="terminal-card bare-card">
-          <span class="icon" [ngClass]=resource?.icon></span>
-          <div class="file-name">{{resource?.rname}}</div>
-          <div class="file-size">{{resource?.size}}</div>
-          <div class="btn-box">
-            <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+        <div class="terminal-card bare-card asset-hero-card">
+          <div class="asset-hero">
+            <div class="asset-icon"><span class="icon" [ngClass]=resource?.icon></span></div>
+            <div class="asset-copy">
+              <div class="asset-kicker mono">file resource</div>
+              <div class="file-name">{{resource?.rname}}</div>
+              <div class="asset-meta">
+                <span>{{resource?.size || '-'}}</span>
+                <span>{{resource?.readable_time}}</span>
+                <span class="mono">&#64;{{current_res_ref}}</span>
+              </div>
+            </div>
+            <div class="btn-box">
+              <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+            </div>
           </div>
           <video id="video-js"></video>
         </div>
@@ -222,9 +252,15 @@
           </div>
           <div class="dock-strip">
             <div class="dock-label mono">htx</div>
+            <label class="command-select-wrap">
+              <span class="command-select-label mono">command</span>
+              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
+                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
+              </select>
+            </label>
             <div class="command-bar">
-              <div class="command-code mono">{{download_command}}</div>
-              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+              <div class="command-code mono">{{active_htx_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
             </div>
           </div>
           <div class="dock-strip" *ngIf="direct_link">
@@ -299,9 +335,15 @@
           </div>
           <div class="dock-strip">
             <div class="dock-label mono">htx</div>
+            <label class="command-select-wrap">
+              <span class="command-select-label mono">command</span>
+              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
+                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
+              </select>
+            </label>
             <div class="command-bar">
-              <div class="command-code mono">{{workspace_prompt_command}}</div>
-              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="workspace_prompt_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+              <div class="command-code mono">{{active_htx_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
             </div>
           </div>
           <div class="dock-meta">
