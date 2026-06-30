@@ -854,6 +854,101 @@ export class ResComponent implements OnInit {
     return base;
   }
 
+  get workspace_mode_label() {
+    if (!this.resource) {
+      return 'resource';
+    }
+    if (this.resource.is_folder) {
+      return 'directory';
+    }
+    if (this.resource.is_link) {
+      return 'link resource';
+    }
+    return 'file resource';
+  }
+
+  get visibility_headline() {
+    if (!this.resource) {
+      return '';
+    }
+    if (!this.resource.is_secure_env) {
+      return '实际公开';
+    }
+    if (this.resource.is_protected) {
+      return '加密分享';
+    }
+    if (this.resource.is_private) {
+      return '私有资源';
+    }
+    return '公开资源';
+  }
+
+  get visibility_configured() {
+    if (!this.resource) {
+      return '';
+    }
+    return `配置：${this.resource.readable_status}`;
+  }
+
+  get visibility_detail() {
+    if (!this.resource) {
+      return '';
+    }
+    if (!this.resource.is_secure_env) {
+      return `当前资源保持附属模式，因祖先目录“${this.resource.insecure_parent}”公开，访问效果等同公开资源。`;
+    }
+    if (this.resource.is_protected) {
+      return '访客需要访问密码。页面直链会自动带 visit_key，适合一次性分发。';
+    }
+    if (this.resource.is_private) {
+      return '只有当前账号体系内有权限的用户可以访问，页面不会暴露公开直链。';
+    }
+    return '任何拿到直链或页面链接的访客都可以直接访问此资源。';
+  }
+
+  get visibility_tone() {
+    if (!this.resource) {
+      return 'public';
+    }
+    if (!this.resource.is_secure_env) {
+      return 'warn';
+    }
+    if (this.resource.is_protected) {
+      return 'protect';
+    }
+    if (this.resource.is_private) {
+      return 'private';
+    }
+    return 'public';
+  }
+
+  get readme_empty_hint() {
+    if (this.is_owner) {
+      return '补一段用途、下载方式或命令说明，这个资源页会清楚很多。';
+    }
+    return '当前资源还没有附带 README。';
+  }
+
+  get child_count_text() {
+    return `${this.children?.length || 0}`;
+  }
+
+  open_readme_editor() {
+    this.modify_desc = true;
+    this.tab_mode = 'description';
+  }
+
+  open_inspector_action(btn: FootBtn) {
+    this.activate_btn(btn);
+  }
+
+  show_insecure_info() {
+    if (!this.resource) {
+      return;
+    }
+    BaseService.info_center.next(new Info({text: this.resource.secure_info, type: Info.TYPE_WARN}));
+  }
+
   get is_mine() {
     return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
   }

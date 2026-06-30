@@ -24,105 +24,262 @@
       <div class="op-item" (click)="select_res_help('move')">移动</div>
     </div>
   </div>
-  <div class="content resource" *ngIf="resource?.is_folder" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
-    <div class="list-intro">
-      <div class="command-bar command-bar-intro">
-        <div class="command-code mono">{{terminal_list_command}}</div>
-        <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
-      </div>
-      <div class="summary">{{resource_summary}}</div>
-      <div class="tool-row">
-        <div class="tool-group">
-          <div class="tool-chip" *ngIf="is_owner" [ngClass]="{active: footBtnService.is_selecting}" (click)="toggle_selection_mode()">
-            {{footBtnService.is_selecting ? '退出多选' : '多选模式'}}
+  <div class="content resource folder-view" *ngIf="resource?.is_folder">
+    <div class="workspace-shell folder-shell">
+      <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
+        <div class="list-intro">
+          <div class="command-bar command-bar-intro">
+            <div class="command-code mono">{{terminal_list_command}}</div>
+            <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="terminal_list_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
           </div>
-          <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
-            {{search_mode ? '收起搜索' : '搜索目录'}}
+          <div class="summary">{{resource_summary}}</div>
+          <div class="tool-row">
+            <div class="tool-group">
+              <div class="tool-chip" *ngIf="is_owner" [ngClass]="{active: footBtnService.is_selecting}" (click)="toggle_selection_mode()">
+                {{footBtnService.is_selecting ? '退出多选' : '多选模式'}}
+              </div>
+              <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
+                {{search_mode ? '收起搜索' : '搜索目录'}}
+              </div>
+            </div>
+            <div class="tool-group sort-group">
+              <span class="tool-label mono">sort</span>
+              <div class="tool-chip" [ngClass]="{active: sort_name_active}" (click)="sort_by(false, 'name')">名称<span class="chip-order" *ngIf="sort_name_active">{{sort_direction}}</span></div>
+              <div class="tool-chip" [ngClass]="{active: sort_time_active}" (click)="sort_by(false, 'time')">时间<span class="chip-order" *ngIf="sort_time_active">{{sort_direction}}</span></div>
+              <div class="tool-chip" [ngClass]="{active: sort_type_active}" (click)="sort_by(false, 'type')">类型<span class="chip-order" *ngIf="sort_type_active">{{sort_direction}}</span></div>
+            </div>
+          </div>
+          <div class="search-inline" *ngIf="search_mode">
+            <input #searchBox class="search mono" placeholder="grep / 搜索当前目录…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
+            <div class="tool-chip sub" (click)="clear_search()">清空</div>
           </div>
         </div>
-        <div class="tool-group sort-group">
-          <span class="tool-label mono">sort</span>
-          <div class="tool-chip" [ngClass]="{active: sort_name_active}" (click)="sort_by(false, 'name')">名称<span class="chip-order" *ngIf="sort_name_active">{{sort_direction}}</span></div>
-          <div class="tool-chip" [ngClass]="{active: sort_time_active}" (click)="sort_by(false, 'time')">时间<span class="chip-order" *ngIf="sort_time_active">{{sort_direction}}</span></div>
-          <div class="tool-chip" [ngClass]="{active: sort_type_active}" (click)="sort_by(false, 'type')">类型<span class="chip-order" *ngIf="sort_type_active">{{sort_direction}}</span></div>
+        <div class="list-head mono" *ngIf="search_list.length">
+          <span class="head-name">NAME</span>
+          <span class="head-time">MTIME</span>
+          <span class="head-extra">META</span>
         </div>
-      </div>
-      <div class="search-inline" *ngIf="search_mode">
-        <input #searchBox class="search mono" placeholder="grep / 搜索当前目录…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
-        <div class="tool-chip sub" (click)="clear_search()">清空</div>
-      </div>
-    </div>
-    <div class="list-head mono" *ngIf="search_list.length">
-      <span class="head-name">NAME</span>
-      <span class="head-time">MTIME</span>
-      <span class="head-extra">META</span>
-    </div>
-    <div class="res-empty" *ngIf="!search_list.length">
-      <div class="empty-title mono">0 entries</div>
-      <div class="empty-desc">{{search_value ? '没有匹配当前关键词的资源。' : '这个目录现在还是空的。'}}</div>
-    </div>
-    <div title="{{child.readable_stype}}{{child.rname}}"
-         class="res-item"
-         [ngClass]="{'new-created': child.new_created}"
-         *ngFor="let child of search_list"
-         (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
-      <div class="res-hover-mask"></div>
-      <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover_small}">{{child.first_letter}}</div>
-      <div class="res-name"><span class="mono kind">{{child.readable_stype}}</span>{{child.rname}}</div>
-      <div class="res-info"><span class="mono time">{{child.readable_time}}</span><span *ngIf="child.rtype == 0"> · {{child.dlcount}} 次下载</span><span *ngIf="child.rtype == 2"> · {{child.dlcount}} 次跳转</span></div>
-      <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span title="点击进入多选模式" *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="click_icon()"></span></div>
-      <hr/>
+        <div class="res-empty" *ngIf="!search_list.length">
+          <div class="empty-title mono">0 entries</div>
+          <div class="empty-desc">{{search_value ? '没有匹配当前关键词的资源。' : '这个目录现在还是空的。'}}</div>
+        </div>
+        <div title="{{child.readable_stype}}{{child.rname}}"
+             class="res-item"
+             [ngClass]="{'new-created': child.new_created}"
+             *ngFor="let child of search_list"
+             (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
+          <div class="res-hover-mask"></div>
+          <div class="res-image img-fit" [ngStyle]="{'background-image': child.url_cover_small}">{{child.first_letter}}</div>
+          <div class="res-name"><span class="mono kind">{{child.readable_stype}}</span>{{child.rname}}</div>
+          <div class="res-info"><span class="mono time">{{child.readable_time}}</span><span *ngIf="child.rtype == 0"> · {{child.dlcount}} 次下载</span><span *ngIf="child.rtype == 2"> · {{child.dlcount}} 次跳转</span></div>
+          <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span title="点击进入多选模式" *ngIf="!footBtnService.is_selecting" [ngClass]="child.icon" (click)="click_icon()"></span></div>
+          <hr/>
+        </div>
+      </section>
+      <aside class="workspace-side">
+        <div class="inspector">
+          <section class="inspector-section hero">
+            <div class="section-kicker mono">{{workspace_mode_label}}</div>
+            <div class="section-title">{{resource?.rname}}</div>
+            <div class="status-row">
+              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
+              <div class="status-link" *ngIf="!resource?.is_secure_env" (click)="show_insecure_info()">{{visibility_configured}}</div>
+            </div>
+            <p class="section-copy">{{visibility_detail}}</p>
+            <div class="meta-grid">
+              <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
+              <div class="meta-item"><span class="mono">entries</span><strong>{{child_count_text}}</strong></div>
+              <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+            </div>
+          </section>
+
+          <section class="inspector-section" *ngIf="is_owner">
+            <div class="section-kicker mono">actions</div>
+            <div class="action-grid">
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_upload)">上传资源</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动目录</button>
+              <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除目录</button>
+            </div>
+          </section>
+
+          <section class="inspector-section readme-section">
+            <div class="section-head">
+              <div class="section-kicker mono">README.md</div>
+              <div class="section-actions">
+                <button class="tiny-action" *ngIf="is_owner && !modify_desc" type="button" (click)="open_readme_editor()">编辑</button>
+                <button class="tiny-action subtle" *ngIf="is_owner && modify_desc" type="button" (click)="cancel_modify_desc()">取消</button>
+                <button class="tiny-action" *ngIf="is_owner && modify_desc" type="button" (click)="modify_desc_action()">保存</button>
+              </div>
+            </div>
+            <div class="readme-panel">
+              <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
+              <textarea class="mono inspector-textarea" [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
+              <div class="empty-doc inspector-empty" *ngIf="!description && !modify_desc">
+                <div class="mono">README missing</div>
+                <p>{{readme_empty_hint}}</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_link">
-    <div class="terminal-card">
-      <span class="icon icon-link"></span>
-      <div class="card-label mono">link resource</div>
-      <div class="file-name">{{resource?.rname}}</div>
-      <div class="file-size">{{resource?.readable_status}}</div>
-      <div class="command-line">
-        <div class="command-hint mono">htx download</div>
-        <div class="command-bar">
-          <div class="command-code mono">{{download_command}}</div>
-          <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+    <div class="workspace-shell asset-shell">
+      <section class="workspace-main asset-main">
+        <div class="terminal-card">
+          <span class="icon icon-link"></span>
+          <div class="card-label mono">link resource</div>
+          <div class="file-name">{{resource?.rname}}</div>
+          <div class="file-size">{{resource?.readable_status}}</div>
+          <div class="command-line">
+            <div class="command-hint mono">htx download</div>
+            <div class="command-bar">
+              <div class="command-code mono">{{download_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+            </div>
+          </div>
+          <div class="command-line" *ngIf="direct_link">
+            <div class="command-hint mono">direct link</div>
+            <div class="command-bar link-box">
+              <div class="command-code mono">{{direct_link}}</div>
+              <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+            </div>
+          </div>
+          <div class="btn-box">
+            <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+          </div>
         </div>
-      </div>
-      <div class="command-line" *ngIf="direct_link">
-        <div class="command-hint mono">direct link</div>
-        <div class="command-bar link-box">
-          <div class="command-code mono">{{direct_link}}</div>
-          <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+      </section>
+      <aside class="workspace-side">
+        <div class="inspector">
+          <section class="inspector-section hero">
+            <div class="section-kicker mono">{{workspace_mode_label}}</div>
+            <div class="section-title">{{resource?.rname}}</div>
+            <div class="status-row">
+              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
+              <div class="status-link" *ngIf="!resource?.is_secure_env" (click)="show_insecure_info()">{{visibility_configured}}</div>
+            </div>
+            <p class="section-copy">{{visibility_detail}}</p>
+            <div class="meta-grid">
+              <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
+              <div class="meta-item"><span class="mono">type</span><strong>link</strong></div>
+              <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+            </div>
+          </section>
+
+          <section class="inspector-section" *ngIf="is_owner">
+            <div class="section-kicker mono">actions</div>
+            <div class="action-grid">
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
+              <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
+            </div>
+          </section>
+
+          <section class="inspector-section readme-section">
+            <div class="section-head">
+              <div class="section-kicker mono">README.md</div>
+              <div class="section-actions">
+                <button class="tiny-action" *ngIf="is_owner && !modify_desc" type="button" (click)="open_readme_editor()">编辑</button>
+                <button class="tiny-action subtle" *ngIf="is_owner && modify_desc" type="button" (click)="cancel_modify_desc()">取消</button>
+                <button class="tiny-action" *ngIf="is_owner && modify_desc" type="button" (click)="modify_desc_action()">保存</button>
+              </div>
+            </div>
+            <div class="readme-panel">
+              <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
+              <textarea class="mono inspector-textarea" [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
+              <div class="empty-doc inspector-empty" *ngIf="!description && !modify_desc">
+                <div class="mono">README missing</div>
+                <p>{{readme_empty_hint}}</p>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
-      <div class="btn-box">
-        <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
-      </div>
+      </aside>
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_file">
-    <div class="terminal-card bare-card">
-      <span class="icon" [ngClass]=resource?.icon></span>
-      <div class="card-label mono">binary resource</div>
-      <div class="file-name">{{resource?.rname}}</div>
-      <div class="file-size">{{resource?.size}}</div>
-      <div class="command-line">
-        <div class="command-hint mono">htx download</div>
-        <div class="command-bar">
-          <div class="command-code mono">{{download_command}}</div>
-          <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+    <div class="workspace-shell asset-shell">
+      <section class="workspace-main asset-main">
+        <div class="terminal-card bare-card">
+          <span class="icon" [ngClass]=resource?.icon></span>
+          <div class="card-label mono">binary resource</div>
+          <div class="file-name">{{resource?.rname}}</div>
+          <div class="file-size">{{resource?.size}}</div>
+          <div class="command-line">
+            <div class="command-hint mono">htx download</div>
+            <div class="command-bar">
+              <div class="command-code mono">{{download_command}}</div>
+              <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="download_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
+            </div>
+          </div>
+          <div class="command-line" *ngIf="direct_link">
+            <div class="command-hint mono">direct link</div>
+            <div class="command-bar link-box">
+              <div class="command-code mono">{{direct_link}}</div>
+              <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+            </div>
+          </div>
+          <div class="btn-box">
+            <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
+          </div>
+          <video id="video-js"></video>
         </div>
-      </div>
-      <div class="command-line" *ngIf="direct_link">
-        <div class="command-hint mono">direct link</div>
-        <div class="command-bar link-box">
-          <div class="command-code mono">{{direct_link}}</div>
-          <div class="copy-icon" title="复制直链" ngxClipboard [cbContent]="direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('直链已复制')"><span class="icon-copy"></span></div>
+      </section>
+      <aside class="workspace-side">
+        <div class="inspector">
+          <section class="inspector-section hero">
+            <div class="section-kicker mono">{{workspace_mode_label}}</div>
+            <div class="section-title">{{resource?.rname}}</div>
+            <div class="status-row">
+              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
+              <div class="status-link" *ngIf="!resource?.is_secure_env" (click)="show_insecure_info()">{{visibility_configured}}</div>
+            </div>
+            <p class="section-copy">{{visibility_detail}}</p>
+            <div class="meta-grid">
+              <div class="meta-item"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
+              <div class="meta-item"><span class="mono">size</span><strong>{{resource?.size || '-'}}</strong></div>
+              <div class="meta-item"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
+              <div class="meta-item"><span class="mono">ref</span><strong>&#64;{{resource?.res_str_id}}</strong></div>
+            </div>
+          </section>
+
+          <section class="inspector-section" *ngIf="is_owner">
+            <div class="section-kicker mono">actions</div>
+            <div class="action-grid">
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
+              <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
+              <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
+            </div>
+          </section>
+
+          <section class="inspector-section readme-section">
+            <div class="section-head">
+              <div class="section-kicker mono">README.md</div>
+              <div class="section-actions">
+                <button class="tiny-action" *ngIf="is_owner && !modify_desc" type="button" (click)="open_readme_editor()">编辑</button>
+                <button class="tiny-action subtle" *ngIf="is_owner && modify_desc" type="button" (click)="cancel_modify_desc()">取消</button>
+                <button class="tiny-action" *ngIf="is_owner && modify_desc" type="button" (click)="modify_desc_action()">保存</button>
+              </div>
+            </div>
+            <div class="readme-panel">
+              <markdown [data]="description" *ngIf="description && !modify_desc"></markdown>
+              <textarea class="mono inspector-textarea" [(ngModel)]="description" *ngIf="modify_desc" placeholder="在此处填写资源介绍资料…"></textarea>
+              <div class="empty-doc inspector-empty" *ngIf="!description && !modify_desc">
+                <div class="mono">README missing</div>
+                <p>{{readme_empty_hint}}</p>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
-      <div class="btn-box">
-        <a [href]="download_href" target="_blank" rel="noopener noreferrer"><div class="round-btn">{{download_action_text}}</div></a>
-      </div>
-      <video id="video-js"></video>
+      </aside>
     </div>
   </div>
   <div class="content resource" *ngIf="resource?.is_encrypt">
