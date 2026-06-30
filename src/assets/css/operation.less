@@ -27,6 +27,8 @@ div.operation-block {
     padding: 18px 5% 26px;
     max-height: calc(~'100% - @{res-tab-height}');
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     .animate();
 
     div.title-box {
@@ -64,6 +66,8 @@ div.operation-block {
       font-size: 0;
       white-space: nowrap;
       overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       text-align: left;
       margin-bottom: 14px;
       user-select: none;
@@ -112,6 +116,8 @@ div.operation-block {
       div.selector {
         max-height: 300px;
         overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
         margin-bottom: 10px;
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(126, 154, 255, 0.1);
@@ -213,6 +219,14 @@ div.operation-block {
       overflow-y: hidden;
       filter: opacity(0);
     }
+  }
+
+  div.flex-container::-webkit-scrollbar,
+  div.flex-container div.choose-bar::-webkit-scrollbar,
+  div.flex-container div.input-box div.selector::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
   div.flex-container.active {

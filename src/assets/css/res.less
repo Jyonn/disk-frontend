@@ -736,7 +736,14 @@ div.res {
       white-space: nowrap;
       overflow-x: auto;
       overflow-y: hidden;
-      scrollbar-width: thin;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    div.command-code::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
     }
 
     div.copy-icon {
@@ -1257,6 +1264,15 @@ div.res div.content.resource {
   section.workspace-main,
   aside.workspace-side {
     min-width: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  section.workspace-main::-webkit-scrollbar,
+  aside.workspace-side::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
   aside.workspace-side {
