@@ -96,13 +96,18 @@
             <p class="dock-note">{{visibility_detail}}</p>
           </div>
           <div class="dock-strip">
-            <div class="dock-label mono">htx</div>
-            <label class="command-select-wrap">
-              <span class="command-select-label mono">command</span>
-              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
-                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
-              </select>
-            </label>
+            <div class="dock-label-row">
+              <div class="dock-label mono">htx</div>
+              <div class="command-dropdown" [ngClass]="{open: is_htx_menu_open}" (click)="$event.stopPropagation()">
+                <button class="command-dropdown-trigger mono" type="button" (click)="toggle_htx_menu($event)">
+                  <span>{{active_htx_command_label}}</span>
+                  <span class="command-dropdown-caret">▾</span>
+                </button>
+                <div class="command-dropdown-menu" *ngIf="is_htx_menu_open">
+                  <button class="command-dropdown-item mono" type="button" *ngFor="let option of htx_command_options" (click)="select_htx_command_mode(option.value, $event)">{{option.label}}</button>
+                </div>
+              </div>
+            </div>
             <div class="command-bar">
               <div class="command-code mono">{{active_htx_command}}</div>
               <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
@@ -170,13 +175,18 @@
             <p class="dock-note">{{visibility_detail}}</p>
           </div>
           <div class="dock-strip">
-            <div class="dock-label mono">htx</div>
-            <label class="command-select-wrap">
-              <span class="command-select-label mono">command</span>
-              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
-                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
-              </select>
-            </label>
+            <div class="dock-label-row">
+              <div class="dock-label mono">htx</div>
+              <div class="command-dropdown" [ngClass]="{open: is_htx_menu_open}" (click)="$event.stopPropagation()">
+                <button class="command-dropdown-trigger mono" type="button" (click)="toggle_htx_menu($event)">
+                  <span>{{active_htx_command_label}}</span>
+                  <span class="command-dropdown-caret">▾</span>
+                </button>
+                <div class="command-dropdown-menu" *ngIf="is_htx_menu_open">
+                  <button class="command-dropdown-item mono" type="button" *ngFor="let option of htx_command_options" (click)="select_htx_command_mode(option.value, $event)">{{option.label}}</button>
+                </div>
+              </div>
+            </div>
             <div class="command-bar">
               <div class="command-code mono">{{active_htx_command}}</div>
               <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
@@ -251,13 +261,18 @@
             <p class="dock-note">{{visibility_detail}}</p>
           </div>
           <div class="dock-strip">
-            <div class="dock-label mono">htx</div>
-            <label class="command-select-wrap">
-              <span class="command-select-label mono">command</span>
-              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
-                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
-              </select>
-            </label>
+            <div class="dock-label-row">
+              <div class="dock-label mono">htx</div>
+              <div class="command-dropdown" [ngClass]="{open: is_htx_menu_open}" (click)="$event.stopPropagation()">
+                <button class="command-dropdown-trigger mono" type="button" (click)="toggle_htx_menu($event)">
+                  <span>{{active_htx_command_label}}</span>
+                  <span class="command-dropdown-caret">▾</span>
+                </button>
+                <div class="command-dropdown-menu" *ngIf="is_htx_menu_open">
+                  <button class="command-dropdown-item mono" type="button" *ngFor="let option of htx_command_options" (click)="select_htx_command_mode(option.value, $event)">{{option.label}}</button>
+                </div>
+              </div>
+            </div>
             <div class="command-bar">
               <div class="command-code mono">{{active_htx_command}}</div>
               <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
@@ -334,13 +349,18 @@
             <p class="dock-note">{{visibility_detail}}</p>
           </div>
           <div class="dock-strip">
-            <div class="dock-label mono">htx</div>
-            <label class="command-select-wrap">
-              <span class="command-select-label mono">command</span>
-              <select class="command-select mono" [ngModel]="htx_command_mode" (ngModelChange)="on_htx_command_mode_change($event)">
-                <option *ngFor="let option of htx_command_options" [ngValue]="option.value">{{option.label}}</option>
-              </select>
-            </label>
+            <div class="dock-label-row">
+              <div class="dock-label mono">htx</div>
+              <div class="command-dropdown" [ngClass]="{open: is_htx_menu_open}" (click)="$event.stopPropagation()">
+                <button class="command-dropdown-trigger mono" type="button" (click)="toggle_htx_menu($event)">
+                  <span>{{active_htx_command_label}}</span>
+                  <span class="command-dropdown-caret">▾</span>
+                </button>
+                <div class="command-dropdown-menu" *ngIf="is_htx_menu_open">
+                  <button class="command-dropdown-item mono" type="button" *ngFor="let option of htx_command_options" (click)="select_htx_command_mode(option.value, $event)">{{option.label}}</button>
+                </div>
+              </div>
+            </div>
             <div class="command-bar">
               <div class="command-code mono">{{active_htx_command}}</div>
               <div class="copy-icon" title="复制 HTX 命令" ngxClipboard [cbContent]="active_htx_command" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ('HTX 命令已复制')"><span class="icon-copy"></span></div>
