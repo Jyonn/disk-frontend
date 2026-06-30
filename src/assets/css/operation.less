@@ -224,6 +224,48 @@ div.operation-block {
   }
 }
 
+@media (min-width: 901px) {
+  div.operation-block {
+    height: 100%;
+    z-index: 12;
+
+    div.mask {
+      background: rgba(3, 7, 14, 0.82);
+      backdrop-filter: blur(14px);
+    }
+
+    div.flex-container {
+      left: 50%;
+      top: 50%;
+      bottom: auto;
+      width: min(760px, calc(~'100% - 88px'));
+      max-height: min(82vh, 920px);
+      padding: 24px 28px 30px;
+      border: 1px solid rgba(126, 154, 255, 0.14);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(11, 16, 27, 0.985), rgba(6, 10, 18, 0.995));
+      box-shadow: 0 34px 90px rgba(0, 0, 0, 0.44), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+      transform: translate(-50%, calc(~'-50% + 28px')) scale(0.985);
+      opacity: 0;
+    }
+
+    div.flex-container.active {
+      top: 50%;
+      bottom: auto;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    div.flex-container.inactive {
+      top: 50%;
+      bottom: auto;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, calc(~'-50% + 28px')) scale(0.985);
+    }
+  }
+}
+
 div.operation-block.active {
   filter: opacity(1);
   visibility: visible;
