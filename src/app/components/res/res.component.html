@@ -397,14 +397,26 @@
     </div>
   </div>
   <div class="content operation active" *ngIf="show_op_process">
-    <div class="operation-bar">
-      <div class="operation-process" [ngClass]="op_identifier" [ngStyle]="{'width': op_percent}"></div>
-    </div>
-    <div class="center-desc-above">
-      <div class="operation-text" [ngClass]="op_identifier">正在{{op_text}}…（{{current_op_num}}/{{total_op_num}}）{{op_append_msg}}</div>
-    </div>
-    <div class="center-desc-below">
-      <div class="current-delete-res">{{current_path}}</div>
+    <div class="operation-shell mono" [ngClass]="op_identifier">
+      <div class="operation-head">
+        <span class="operation-label">task</span>
+        <span class="operation-counter">{{current_op_num}}/{{total_op_num}}</span>
+      </div>
+      <div class="operation-track">
+        <span class="operation-pulse"></span>
+        <span class="operation-pulse"></span>
+        <span class="operation-pulse"></span>
+        <span class="operation-beam"></span>
+      </div>
+      <div class="operation-command">
+        <span class="operation-prompt">$</span>
+        <span class="operation-action">正在{{op_text}}</span>
+        <span class="operation-extra" *ngIf="op_append_msg">{{op_append_msg}}</span>
+        <span class="operation-caret"></span>
+      </div>
+      <div class="operation-path" *ngIf="current_path">
+        {{current_path}}
+      </div>
     </div>
   </div>
 </div>
