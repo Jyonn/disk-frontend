@@ -36,18 +36,24 @@ export class BaseService {
     this.token = token;
     return token;
   }
-  static savePageCookie(res_str_id, scroll, kw) {
+  static savePageCookie(res_str_id, scroll, kw, search_mode = false) {
     window.localStorage.setItem('scroll-' + res_str_id, scroll);
     if (kw) {
       window.localStorage.setItem('kw-' + res_str_id, kw);
     } else {
       window.localStorage.removeItem('kw-' + res_str_id);
     }
+    if (search_mode) {
+      window.localStorage.setItem('search-mode-' + res_str_id, '1');
+    } else {
+      window.localStorage.removeItem('search-mode-' + res_str_id);
+    }
   }
   static loadPageCookie(res_str_id) {
     const scroll = window.localStorage.getItem('scroll-' + res_str_id);
     const kw = window.localStorage.getItem('kw-' + res_str_id);
-    return {scroll: scroll, kw: kw};
+    const search_mode = window.localStorage.getItem('search-mode-' + res_str_id) === '1';
+    return {scroll: scroll, kw: kw, search_mode: search_mode};
   }
   private static handleError(error: any): Promise<any> {
     BaseService.asyc_working -= 1;

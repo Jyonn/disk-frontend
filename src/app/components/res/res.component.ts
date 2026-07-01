@@ -172,6 +172,7 @@ export class ResComponent implements OnInit {
     const v_key = ResourceService.loadVK(this.res_str_id);
     const cookie = BaseService.loadPageCookie(this.res_str_id);
     this.search_value = cookie.kw;
+    this.search_mode = !!(cookie.search_mode || cookie.kw);
     this.resService.get_base_res_info(this.res_str_id)
       .then((base_resp) => {
         if (base_resp.readable || v_key) {
@@ -206,7 +207,6 @@ export class ResComponent implements OnInit {
 
       this.initResource();
       this.clockService.startClock();
-      this.search_mode = false;
       if (params['tab'] === 'resource' || params['tab'] === 'description') {
         this.tab_mode = params['tab'];
       }
@@ -460,6 +460,14 @@ export class ResComponent implements OnInit {
   }
 
   toggle_search_mode() {
+    if (this.search_mode) {
+      this.search_mode = false;
+      if (this.search_value) {
+        this.search_value = null;
+        this.resource_search();
+      }
+      return;
+    }
     this.search_mode = !this.search_mode;
   }
 
@@ -479,7 +487,7 @@ export class ResComponent implements OnInit {
   navigate(res_str_id) {
     const link = ['/res', res_str_id];
     this.baseService.is_jumping = true;
-    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value);
+    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value, this.search_mode);
     this.router.navigate(link)
       .then();
   }
@@ -493,7 +501,7 @@ export class ResComponent implements OnInit {
     }
     const link = ['/res', this.resource.parent_str_id];
     this.baseService.is_jumping = true;
-    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value);
+    BaseService.savePageCookie(this.res_str_id, this.scroll_top, this.search_value, this.search_mode);
     this.router.navigate(link)
       .then();
   }
@@ -842,6 +850,14 @@ export class ResComponent implements OnInit {
     this.resource_search();
   }
 
+  removeChildren(res_str_ids: string[]) {
+    if (!res_str_ids.length) {
+      return;
+    }
+    this.children = this.children.filter((item) => !res_str_ids.includes(item.res_str_id));
+    this.search_list = this.search_list.filter((item) => !res_str_ids.includes(item.res_str_id));
+  }
+
   onUploadFolder(data: any) {
     const res_folder: FileList = data.res_folder;
     this.operation_list = [];
@@ -890,6 +906,10 @@ export class ResComponent implements OnInit {
 
     this.op_identifier = 'delete';
     this.start_operation( () => {
+      const deleted_res_ids = this.operation_list
+        .map((item) => item.resId)
+        .filter((item) => !!item);
+      this.removeChildren(deleted_res_ids);
       this.operation_list = [];
       if (!this.is_multi_mode) {
         this.go_parent();
@@ -897,6 +917,7 @@ export class ResComponent implements OnInit {
         this.resService.get_res_info(this.res_str_id, null)
           .then((resp) => {
             this.baseInitResource(resp);
+            this.resTreeService.refresh_node(this.resTreeService.root);
           });
       }
     });
