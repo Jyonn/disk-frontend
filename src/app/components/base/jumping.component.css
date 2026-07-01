@@ -1,42 +1,219 @@
 div.container {
   position: fixed;
+  inset: 0;
   z-index: 999;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  /*background: #2699FB;*/
-  transition: 0.5s;
-}
-
-div.container div.canvas-box {
-  position: fixed;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-@media all and (orientation: portrait){
-  div.container div.canvas-box {
-    width: 100%;
-  }
-}
-
-@media all and (orientation: landscape){
-  div.container div.canvas-box {
-    width: 38.2vw;
-  }
-}
-
-div.container div.canvas-box div.canvas {
-  margin-top: 18px;
+  pointer-events: none;
+  transition: opacity 200ms cubic-bezier(0.25, 1, 0.5, 1), visibility 200ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 div.container.active {
-  filter: opacity(1);
+  opacity: 1;
   visibility: visible;
 }
+
 div.container.inactive {
-  filter: opacity(0);
+  opacity: 0;
   visibility: hidden;
+}
+
+div.jumping-shell {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  width: min(320px, calc(100vw - 36px));
+  padding: 12px 14px 13px;
+  border-radius: 16px;
+  border: 1px solid rgba(154, 126, 77, 0.18);
+  background:
+    linear-gradient(180deg, rgba(10, 14, 20, 0.96), rgba(8, 11, 15, 0.92)),
+    linear-gradient(90deg, rgba(188, 142, 76, 0.08), transparent 56%);
+  box-shadow: 0 18px 36px rgba(3, 7, 16, 0.26);
+  overflow: hidden;
+}
+
+div.jumping-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(255, 255, 255, 0.028) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
+  background-size: 100% 24px, 24px 100%;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+div.jumping-head,
+div.jumping-command,
+div.jumping-track {
+  position: relative;
+  z-index: 1;
+}
+
+div.jumping-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: oklch(0.72 0.04 82);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+span.jumping-state {
+  color: oklch(0.84 0.02 82);
+}
+
+div.jumping-track {
+  position: relative;
+  height: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+span.jumping-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(208, 229, 214, 0.18);
+  border: 1px solid rgba(164, 206, 175, 0.2);
+  animation: jumpingPulse 1.15s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+span.jumping-pulse:nth-child(1) {
+  animation-delay: 0s;
+}
+
+span.jumping-pulse:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+span.jumping-pulse:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+span.jumping-beam {
+  position: absolute;
+  left: -36%;
+  width: 34%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(194, 225, 204, 0.88), transparent);
+  box-shadow: 0 0 16px rgba(150, 198, 165, 0.28);
+  animation: jumpingBeam 1.8s cubic-bezier(0.37, 0, 0.2, 1) infinite;
+}
+
+div.jumping-command {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: oklch(0.92 0.015 82);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+span.prompt {
+  color: oklch(0.78 0.08 152);
+}
+
+span.command-text {
+  color: oklch(0.89 0.014 82);
+}
+
+span.caret {
+  width: 8px;
+  height: 1em;
+  border-radius: 1px;
+  background: oklch(0.78 0.08 152);
+  animation: jumpingCaret 920ms steps(1, end) infinite;
+}
+
+@keyframes jumpingPulse {
+  0%,
+  100% {
+    transform: scale(0.72);
+    opacity: 0.32;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 0.92;
+    background: rgba(193, 226, 201, 0.78);
+  }
+}
+
+@keyframes jumpingBeam {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.82;
+  }
+
+  100% {
+    transform: translateX(410%);
+    opacity: 0;
+  }
+}
+
+@keyframes jumpingCaret {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media all and (orientation: landscape) {
+  div.jumping-shell {
+    top: 18px;
+    left: 22px;
+  }
+}
+
+@media (max-width: 720px) {
+  div.jumping-shell {
+    top: 10px;
+    left: 10px;
+    width: min(288px, calc(100vw - 20px));
+    padding: 11px 12px 12px;
+  }
+
+  div.jumping-command {
+    font-size: 0.76rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  span.jumping-pulse,
+  span.jumping-beam,
+  span.caret {
+    animation: none;
+  }
+
+  span.jumping-pulse {
+    opacity: 0.85;
+    transform: scale(0.92);
+  }
+
+  span.jumping-beam {
+    left: 28%;
+    opacity: 0.6;
+  }
+
+  span.caret {
+    opacity: 1;
+  }
 }

@@ -1,10 +1,19 @@
 <div class="container" [ngClass]="baseService.is_jumping ? 'active' : 'inactive'">
-  <div class="canvas-box">
-    <div class="canvas">
-      <div class="spinner6 p1"></div>
-      <div class="spinner6 p2"></div>
-      <div class="spinner6 p3"></div>
-      <div class="spinner6 p4"></div>
+  <div class="jumping-shell mono">
+    <div class="jumping-head">
+      <span class="jumping-label">routing</span>
+      <span class="jumping-state">workspace</span>
+    </div>
+    <div class="jumping-track">
+      <span class="jumping-pulse"></span>
+      <span class="jumping-pulse"></span>
+      <span class="jumping-pulse"></span>
+      <span class="jumping-beam"></span>
+    </div>
+    <div class="jumping-command">
+      <span class="prompt">$</span>
+      <span class="command-text">open resource</span>
+      <span class="caret"></span>
     </div>
   </div>
 </div>

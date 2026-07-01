@@ -5,7 +5,6 @@ import { BaseService } from "../../services/base.service";
   selector: 'app-jumping',
   templateUrl: './jumping.component.html',
   styleUrls: [
-    '../../../assets/css/loading.css',
     './jumping.component.css'
   ],
 })
