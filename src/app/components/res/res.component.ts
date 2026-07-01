@@ -226,6 +226,9 @@ export class ResComponent implements OnInit {
   }
 
   get op_percent() {
+    if (!this.total_op_num) {
+      return '0%';
+    }
     return Math.floor((this.current_op_num + this.current_item_percentage / 100) / this.total_op_num * 95 + 5) + '%';
   }
 
@@ -450,10 +453,6 @@ export class ResComponent implements OnInit {
           this.show_op_process = false;
         }, 300);
       });
-  }
-
-  get active_real_operation() {
-    return this.show_op_process ? 'active' : 'inactive';
   }
 
   go_search(searching: boolean) {

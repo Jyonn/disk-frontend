@@ -396,7 +396,7 @@
       <!--</div>-->
     </div>
   </div>
-  <div class="content operation" [ngClass]="active_real_operation">
+  <div class="content operation active" *ngIf="show_op_process">
     <div class="operation-bar">
       <div class="operation-process" [ngClass]="op_identifier" [ngStyle]="{'width': op_percent}"></div>
     </div>
