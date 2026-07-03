@@ -55,7 +55,7 @@ nav {
     position: absolute;
     left: @nav-padding;
     right: @nav-padding;
-    top: 14px;
+    top: 16px;
     height: 42px;
     display: grid;
     grid-template-columns: @nav-title-width-mobile minmax(0, 1fr) @nav-avatar-column;
@@ -74,13 +74,16 @@ nav {
     div.title-stack {
       min-width: 0;
       display: grid;
-      gap: 6px;
+      gap: 4px;
       height: 42px;
       align-content: center;
+      justify-content: start;
     }
 
     div.title-shell {
       position: relative;
+      display: flex;
+      align-items: center;
       width: 100%;
       max-width: 100%;
       min-width: 0;
@@ -138,7 +141,8 @@ nav {
       align-items: center;
       gap: 8px;
       color: oklch(0.7 0.025 198);
-      font-size: 0.68rem;
+      font-size: 0.62rem;
+      line-height: 1;
       letter-spacing: 0.04em;
       white-space: nowrap;
       overflow: hidden;
@@ -148,7 +152,13 @@ nav {
 
     div.search-prompt span.icon-search {
       color: oklch(0.74 0.085 178);
-      font-size: 0.8rem;
+      font-size: 0.74rem;
+      line-height: 1;
+    }
+
+    div.search-prompt span:last-child {
+      font-size: 0.62rem;
+      line-height: 1;
     }
 
     input.search-input {
@@ -161,6 +171,13 @@ nav {
       background: transparent;
       color: oklch(0.92 0.012 205);
       font-size: 0.76rem;
+      line-height: 1;
+      display: block;
+    }
+
+    input.search-input::placeholder {
+      color: oklch(0.64 0.02 198);
+      font-size: 0.62rem;
     }
 
     button.search-clear {
@@ -168,10 +185,14 @@ nav {
       flex: 0 0 auto;
       min-height: 28px;
       padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: none;
       background: transparent;
       color: oklch(0.74 0.085 178);
       font-size: 0.68rem;
+      line-height: 1;
       letter-spacing: 0.08em;
     }
 
@@ -192,6 +213,14 @@ nav {
 
     div.left-btn {
       align-self: center;
+    }
+
+    div.left-btn span,
+    div.right-avatar span.icon-unlogin {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
     }
 
     div.right-avatar {
@@ -215,8 +244,10 @@ nav {
   }
 
   div.shell-kicker {
+    display: block;
     color: oklch(0.74 0.04 84);
     font-size: 0.68rem;
+    line-height: 1;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
@@ -235,7 +266,7 @@ nav {
     position: absolute;
     left: @nav-padding;
     right: @nav-padding;
-    bottom: 14px;
+    bottom: 16px;
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 10px;
@@ -244,10 +275,19 @@ nav {
     span.owner,
     div.share {
       font-size: 0.78rem;
+      line-height: 1;
       color: oklch(0.76 0.02 80);
     }
 
+    span.owner {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+    }
+
     span.owner strong {
+      display: inline-flex;
+      align-items: center;
       color: oklch(0.93 0.015 82);
       margin-right: 4px;
     }
@@ -417,7 +457,11 @@ nav.nav-zip {
     }
 
     div.content div.search-prompt {
-      font-size: 0.64rem;
+      font-size: 0.58rem;
+    }
+
+    div.content div.search-prompt span:last-child {
+      font-size: 0.58rem;
     }
 
     div.content input.search-input {
