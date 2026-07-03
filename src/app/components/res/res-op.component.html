@@ -1,5 +1,24 @@
 <div class="operation-block" [ngClass]="b2s(active_block)">
   <div class="mask" (click)="footBtnService.inactivate()"></div>
+  <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_rename)">
+    <div class="title-box">
+      <div class="title">重命名资源</div>
+      <app-loading></app-loading>
+    </div>
+    <div class="input-box">
+      <div class="title">当前名称会自动全选，直接输入即可覆盖</div>
+      <div class="input-btn-line">
+        <input #renameInput
+               [(ngModel)]="rename_draft"
+               placeholder="在此输入新的资源名称…"
+               maxlength="256"
+               (keydown.enter)="rename_res_action()">
+        <div class="btn" (click)="footBtnService.inactivate()">取消</div>
+        <div class="btn succ" (click)="rename_res_action()">保存</div>
+      </div>
+    </div>
+  </div>
+
   <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_share)">
     <div class="title-box">
       <div class="title">分享资源<span *ngIf="resource && !resource.is_secure_env" class="warn" (click)="show_insecure_info()">（风险提示？）</span></div>

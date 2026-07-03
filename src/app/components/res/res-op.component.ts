@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {AfterViewChecked, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {Resource} from "../../models/res/resource";
 import {ResourceService} from "../../services/resource.service";
 import {RadioBtn} from "../../models/res/radio-btn";
@@ -18,11 +18,12 @@ import {UserService} from "../../services/user.service";
     '../../../assets/css/operation.less',
   ]
 })
-export class ResOpComponent implements OnInit {
+export class ResOpComponent implements OnInit, AfterViewChecked {
   @Input() resource: Resource;
   @Input() res_str_id: string;
   @Input() tab_mode: string;
   @Input() delete_text: string;
+  @ViewChild('renameInput') renameInputRef: ElementRef<HTMLInputElement>;
   @Output() onUploaded = new EventEmitter<any>();
   @Output() onUploadedFolder = new EventEmitter<any>();
   @Output() onAddChildRes = new EventEmitter<Resource>();
@@ -63,6 +64,9 @@ export class ResOpComponent implements OnInit {
   res_folder: FileList;
   upload_folder_name: string;
   copy_short: boolean;
+  rename_draft: string;
+  pending_rename_focus: boolean;
+  rename_modal_opened: boolean;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -276,6 +280,35 @@ export class ResOpComponent implements OnInit {
       });
   }
 
+  rename_res_action() {
+    if (this.footBtnService.is_ajax_modifying) {
+      BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
+      return;
+    }
+    const next_name = (this.rename_draft || '').trim();
+    if (!next_name) {
+      BaseService.info_center.next(new Info({text: '资源名称不能为空', type: Info.TYPE_WARN}));
+      return;
+    }
+    if (this.resource && next_name === this.resource.rname) {
+      this.footBtnService.inactivate();
+      return;
+    }
+    this.footBtnService.is_ajax_modifying = true;
+    this.resService.modify_res_info(this.res_str_id,
+      {status: null, visit_key: null, description: null, rname: next_name, right_bubble: null, parent_str_id: null})
+      .then((resp) => {
+        this.resource.update(null, resp);
+        this.rename_draft = this.resource.rname;
+        this.footBtnService.inactivate();
+        BaseService.info_center.next(new Info({text: '重命名成功', type: Info.TYPE_SUCC}));
+      })
+      .catch(() => null)
+      .finally(() => {
+        this.footBtnService.is_ajax_modifying = false;
+      });
+  }
+
   modify_res_visit_key_action() {
     if (this.footBtnService.is_ajax_modifying) {
       BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
@@ -373,6 +406,10 @@ export class ResOpComponent implements OnInit {
     return ResourceTreeService.selectedResName ? ResourceTreeService.selectedResName : '暂未选择';
   }
 
+  get is_renaming() {
+    return this.footBtnService.is_renaming;
+  }
+
   show_insecure_info() {
     BaseService.info_center.next({text: this.resource.secure_info, type: Info.TYPE_WARN});
   }
@@ -402,9 +439,31 @@ export class ResOpComponent implements OnInit {
   ngOnInit() {
     const tmpInput = document.createElement('input');
     this.upload_folder_ok = 'webkitdirectory' in tmpInput;
+    this.rename_draft = '';
+    this.pending_rename_focus = false;
+    this.rename_modal_opened = false;
 
     this.initShare();
     this.initUpload();
     this.copy_short = !!window.localStorage.getItem('copy-short');
+  }
+
+  ngAfterViewChecked() {
+    if (this.is_renaming && !this.rename_modal_opened) {
+      this.rename_draft = this.resource?.rname || '';
+      this.pending_rename_focus = true;
+      this.rename_modal_opened = true;
+    } else if (!this.is_renaming && this.rename_modal_opened) {
+      this.rename_modal_opened = false;
+      this.pending_rename_focus = false;
+    }
+
+    if (!this.pending_rename_focus || !this.renameInputRef) {
+      return;
+    }
+    const input = this.renameInputRef.nativeElement;
+    input.focus();
+    input.select();
+    this.pending_rename_focus = false;
   }
 }

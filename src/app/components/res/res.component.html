@@ -7,11 +7,11 @@
              [search_mode]="search_mode"
              [search_value]="search_value"
              (onGoParent)="go_parent()"
+             (onOpenRename)="open_rename_modal()"
              (onOpenSearch)="open_search_mode()"
              (onCollapseSearch)="collapse_search_mode()"
              (onSearchValue)="update_search_value($event)"
              (onClearSearch)="clear_search()"
-             (onRename)="rename_resource($event)"
              (swiperight)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">

@@ -1206,16 +1206,9 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.tab_mode = 'description';
   }
 
-  rename_resource(next_name: string) {
-    if (!this.resource || !next_name) {
-      return;
-    }
-    this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: null, description: null, rname: next_name, right_bubble: null, parent_str_id: null})
-      .then((resp) => {
-        this.resource.update(null, resp);
-        BaseService.info_center.next(new Info({text: '重命名成功', type: Info.TYPE_SUCC}));
-      });
+  open_rename_modal() {
+    this.is_multi_mode = false;
+    this.footBtnService.open_btn(this.footBtnService.foot_btn_rename);
   }
 
   open_inspector_action(btn: FootBtn) {

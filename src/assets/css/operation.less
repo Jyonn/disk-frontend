@@ -2,6 +2,22 @@
 
 div.operation-block {
   &:extend(.animate);
+  --modal-bg-0: rgba(15, 20, 24, 0.98);
+  --modal-bg-1: rgba(21, 27, 33, 0.98);
+  --modal-panel: rgba(21, 28, 34, 0.96);
+  --modal-panel-soft: rgba(27, 36, 44, 0.9);
+  --modal-line: rgba(111, 146, 154, 0.14);
+  --modal-line-strong: rgba(111, 146, 154, 0.28);
+  --modal-text: oklch(0.92 0.012 205);
+  --modal-text-soft: oklch(0.8 0.02 198);
+  --modal-text-dim: oklch(0.66 0.018 202);
+  --modal-accent: oklch(0.74 0.085 178);
+  --modal-accent-soft: rgba(74, 171, 149, 0.15);
+  --modal-accent-strong: rgba(74, 171, 149, 0.24);
+  --modal-warm: oklch(0.79 0.08 72);
+  --modal-warm-soft: rgba(204, 153, 89, 0.14);
+  --modal-danger: oklch(0.74 0.13 32);
+  --modal-danger-soft: rgba(184, 99, 79, 0.18);
   position: fixed;
   left: 0;
   top: 0;
@@ -12,7 +28,7 @@ div.operation-block {
     &:extend(.animate, .ptr);
     position: absolute;
     inset: 0;
-    background: rgba(4, 8, 16, 0.72);
+    background: rgba(6, 10, 14, 0.76);
     backdrop-filter: blur(8px);
   }
 
@@ -21,8 +37,8 @@ div.operation-block {
     left: 0;
     width: 100%;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(7, 11, 19, 0.99));
-    border-top: 1px solid rgba(126, 154, 255, 0.16);
+    background: linear-gradient(180deg, var(--modal-bg-1), var(--modal-bg-0));
+    border-top: 1px solid var(--modal-line-strong);
     border-radius: 24px 24px 0 0;
     padding: 18px 5% 26px;
     max-height: calc(~'100% - @{res-tab-height}');
@@ -38,7 +54,7 @@ div.operation-block {
       margin-bottom: 14px;
 
       div.title {
-        color: oklch(0.95 0.01 220);
+        color: var(--modal-text);
         font-size: 1rem;
         font-weight: 600;
         line-height: 1.4;
@@ -46,11 +62,11 @@ div.operation-block {
         span {
           font-weight: 400;
           font-size: 0.72em;
-          color: oklch(0.7 0.02 228);
+          color: var(--modal-text-dim);
         }
 
         span.warn {
-          color: oklch(0.8 0.1 28);
+          color: var(--modal-warm);
         }
       }
 
@@ -82,19 +98,20 @@ div.operation-block {
         text-transform: uppercase;
         padding: 8px 14px;
         border-radius: 999px;
-        border: 1px solid rgba(126, 154, 255, 0.12);
+        border: 1px solid var(--modal-line);
         margin-right: 10px;
       }
 
       div.choose-item.inactive {
-        color: oklch(0.68 0.02 228);
-        background: rgba(255, 255, 255, 0.03);
+        color: var(--modal-text-dim);
+        background: rgba(255, 255, 255, 0.025);
       }
 
       div.choose-item.active {
-        color: oklch(0.97 0.01 220);
-        background: rgba(38, 153, 251, 0.18);
-        border-color: rgba(38, 153, 251, 0.32);
+        color: var(--modal-text);
+        background: var(--modal-accent-soft);
+        border-color: var(--modal-accent-strong);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
       }
     }
 
@@ -106,11 +123,11 @@ div.operation-block {
       max-height: 520px;
 
       div.title {
-        color: oklch(0.83 0.02 228);
+        color: var(--modal-text-soft);
         font-size: 13px;
         padding-left: 12px;
         margin-bottom: 10px;
-        border-left: 2px solid rgba(38, 153, 251, 0.5);
+        border-left: 2px solid var(--modal-accent-strong);
       }
 
       div.selector {
@@ -119,8 +136,8 @@ div.operation-block {
         scrollbar-width: none;
         -ms-overflow-style: none;
         margin-bottom: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(126, 154, 255, 0.1);
+        background: var(--modal-panel-soft);
+        border: 1px solid var(--modal-line);
         border-radius: 16px;
         padding: 12px 16px;
       }
@@ -138,10 +155,10 @@ div.operation-block {
         input {
           display: inline-block;
           min-height: 42px;
-          border: 1px solid rgba(126, 154, 255, 0.12);
+          border: 1px solid var(--modal-line);
           border-right: none;
-          background: rgba(255, 255, 255, 0.025);
-          color: oklch(0.92 0.01 220);
+          background: var(--modal-panel-soft);
+          color: var(--modal-text);
           .animate();
           padding: 0 16px;
           font-size: 13px;
@@ -150,13 +167,18 @@ div.operation-block {
           border-radius: 999px 0 0 999px;
         }
 
+        input::placeholder {
+          color: var(--modal-text-dim);
+        }
+
         input:hover,
         input:focus {
-          border-color: rgba(38, 153, 251, 0.3);
+          border-color: var(--modal-accent-strong);
+          box-shadow: inset 0 0 0 1px rgba(74, 171, 149, 0.08);
         }
 
         input[readonly] {
-          color: oklch(0.66 0.02 228);
+          color: var(--modal-text-dim);
         }
 
         input[type='file'] {
@@ -174,35 +196,53 @@ div.operation-block {
           text-align: center;
           white-space: nowrap;
           width: fit-content;
-          background: rgba(255, 255, 255, 0.08);
-          color: oklch(0.9 0.01 220);
+          border-top: 1px solid var(--modal-line);
+          border-bottom: 1px solid var(--modal-line);
+          background: rgba(255, 255, 255, 0.055);
+          color: var(--modal-text);
           letter-spacing: 0.08em;
           text-transform: uppercase;
           .animate();
         }
 
         div.btn.action {
-          background: rgba(161, 75, 208, 0.2);
+          background: var(--modal-warm-soft);
+          color: var(--modal-warm);
         }
 
         div.btn.succ {
-          background: rgba(38, 153, 251, 0.24);
+          background: var(--modal-accent-soft);
+          color: var(--modal-accent);
         }
 
         div.btn.warn {
-          background: rgba(208, 75, 75, 0.24);
+          background: var(--modal-danger-soft);
+          color: var(--modal-danger);
         }
 
         div.btn.num {
-          background: rgba(119, 208, 95, 0.24);
+          background: var(--modal-accent-soft);
+          color: var(--modal-accent);
+        }
+
+        div.btn:hover {
+          border-color: var(--modal-accent-strong);
+          color: var(--modal-text);
+        }
+
+        div.btn.warn:hover {
+          border-color: rgba(184, 99, 79, 0.28);
+          color: var(--modal-danger);
         }
 
         div:first-child {
+          border-left: 1px solid var(--modal-line);
           border-top-left-radius: 999px;
           border-bottom-left-radius: 999px;
         }
 
         div:last-child {
+          border-right: 1px solid var(--modal-line);
           border-top-right-radius: 999px;
           border-bottom-right-radius: 999px;
         }
@@ -231,6 +271,7 @@ div.operation-block {
 
   div.flex-container.active {
     bottom: 0;
+    box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.28);
   }
 
   div.flex-container.inactive {
@@ -244,7 +285,7 @@ div.operation-block {
     z-index: 12;
 
     div.mask {
-      background: rgba(3, 7, 14, 0.82);
+      background: rgba(4, 8, 11, 0.84);
       backdrop-filter: blur(14px);
     }
 
@@ -255,9 +296,9 @@ div.operation-block {
       width: min(760px, calc(~'100% - 88px'));
       max-height: min(82vh, 920px);
       padding: 24px 28px 30px;
-      border: 1px solid rgba(126, 154, 255, 0.14);
+      border: 1px solid var(--modal-line-strong);
       border-radius: 26px;
-      background: linear-gradient(180deg, rgba(11, 16, 27, 0.985), rgba(6, 10, 18, 0.995));
+      background: linear-gradient(180deg, rgba(18, 24, 29, 0.985), rgba(12, 17, 22, 0.995));
       box-shadow: 0 34px 90px rgba(0, 0, 0, 0.44), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
       transform: translate(-50%, calc(~'-50% + 28px')) scale(0.985);
       opacity: 0;

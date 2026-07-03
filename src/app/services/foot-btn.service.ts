@@ -4,6 +4,7 @@ import { FootBtn} from "../models/res/foot-btn";
 @Injectable()
 export class FootBtnService {
   foot_btn_share: FootBtn;
+  foot_btn_rename: FootBtn;
   foot_btn_select: FootBtn;
   foot_btn_upload: FootBtn;
   foot_btn_move: FootBtn;
@@ -33,6 +34,16 @@ export class FootBtnService {
       mask: true,
       root: true,
       login: false,
+      noLogin: false,
+    });
+    this.foot_btn_rename = new FootBtn({
+      icon: 'icon-pencil',
+      text: '重命名',
+      folder: true,
+      file: true,
+      mask: true,
+      root: true,
+      login: true,
       noLogin: false,
     });
     this.foot_btn_select = new FootBtn({
@@ -107,6 +118,7 @@ export class FootBtnService {
     });
     this.foot_btn_list = [
       this.foot_btn_share,
+      this.foot_btn_rename,
       // this.foot_btn_select,
       this.foot_btn_upload,
       this.foot_btn_move,
@@ -144,6 +156,10 @@ export class FootBtnService {
   }
   get active_select() {
     return (this.foot_btn_active === this.foot_btn_select) ? 'active' : 'inactive';
+  }
+
+  get is_renaming() {
+    return this.foot_btn_active === this.foot_btn_rename;
   }
 
   get is_moving() {

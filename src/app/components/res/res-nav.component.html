@@ -7,40 +7,21 @@
       <div class="title-stack">
         <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
         <div class="title-shell">
-          <div class="title-read-shell" *ngIf="!renaming_title">
+          <div class="title-read-shell">
             <div class="title-marquee-viewport"
                  #titleViewport
                  [ngClass]="{overflowing: title_is_overflowing}"
                  [style.--title-shift.px]="title_shift">
               <div class="title-track" #titleTrack>
-                <div class="title"
-                     #titleText
-                     title="资源名称"
-                     [ngClass]="{editable: is_mine}"
-                     (click)="is_mine ? start_rename($event) : null">{{resource?.rname}}</div>
+                <div class="title" #titleText title="资源名称">{{resource?.rname}}</div>
               </div>
             </div>
             <button class="title-edit-btn"
                     type="button"
                     *ngIf="is_mine"
                     title="重命名资源"
-                    (click)="start_rename($event)">
+                    (click)="open_rename($event)">
               <span class="icon-pencil"></span>
-            </button>
-          </div>
-          <div class="title-edit-shell" *ngIf="renaming_title" (click)="$event.stopPropagation()">
-            <input #renameInput
-                   class="title-rename-input mono"
-                   type="text"
-                   maxlength="256"
-                   [(ngModel)]="rename_draft"
-                   (keydown.enter)="submit_rename($event)"
-                   (keydown.escape)="cancel_rename($event)">
-            <button class="title-edit-action save" type="button" title="保存名称" (click)="submit_rename($event)">
-              <span class="icon-check"></span>
-            </button>
-            <button class="title-edit-action" type="button" title="取消修改" (click)="cancel_rename($event)">
-              <span>x</span>
             </button>
           </div>
         </div>

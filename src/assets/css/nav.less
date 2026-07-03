@@ -89,28 +89,6 @@ nav {
       overflow: hidden;
     }
 
-    div.title-edit-shell {
-      width: 100%;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    input.title-rename-input {
-      flex: 1 1 auto;
-      min-width: 0;
-      height: 32px;
-      padding: 0 10px;
-      border: 1px solid rgba(74, 171, 149, 0.28);
-      border-radius: 10px;
-      background: rgba(26, 36, 43, 0.96);
-      color: oklch(0.95 0.015 82);
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    button.title-edit-action,
     button.title-edit-btn {
       &:extend(.ptr);
       flex: 0 0 auto;
@@ -128,12 +106,6 @@ nav {
       line-height: 1;
     }
 
-    button.title-edit-action.save {
-      color: oklch(0.74 0.085 178);
-      border-color: rgba(74, 171, 149, 0.24);
-    }
-
-    button.title-edit-action:hover,
     button.title-edit-btn:hover {
       border-color: rgba(74, 171, 149, 0.28);
       background: rgba(74, 171, 149, 0.12);
@@ -311,10 +283,6 @@ nav {
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
-  }
-
-  div.title.editable {
-    cursor: text;
   }
 
   div.menu-box {
