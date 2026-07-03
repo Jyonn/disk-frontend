@@ -5,6 +5,13 @@
 @nav-padding: 18px;
 @nav-height: 126px;
 @nav-height-zip: 98px;
+@nav-content-gap: 18px;
+@nav-avatar-column: 42px;
+@nav-title-width-mobile: 176px;
+@nav-title-width-desktop: 372px;
+@workspace-side-width-desktop: 392px;
+@workspace-main-right-padding: 10px;
+@nav-search-reserve-desktop: @workspace-side-width-desktop + @workspace-main-right-padding - @nav-avatar-column - 2 * @nav-content-gap;
 
 @keyframes nav-title-marquee {
   0%,
@@ -63,11 +70,12 @@ nav {
     top: 16px;
     height: 42px;
     display: grid;
-    grid-template-columns: minmax(0, auto) minmax(0, 1fr) 42px;
+    grid-template-columns: @nav-title-width-mobile minmax(0, 1fr) @nav-avatar-column;
     align-items: center;
-    gap: 18px;
+    gap: @nav-content-gap;
 
     div.nav-title-block {
+      width: 100%;
       min-width: 0;
       display: flex;
       align-items: center;
@@ -85,8 +93,8 @@ nav {
 
     div.title-shell {
       position: relative;
-      width: min(400px, calc(100vw - 380px));
-      max-width: min(400px, calc(100vw - 380px));
+      width: 100%;
+      max-width: 100%;
       min-width: 0;
       overflow: hidden;
     }
@@ -181,9 +189,9 @@ nav {
     div.left-btn,
     div.right-avatar {
       &:extend(.ptr);
-      width: 42px;
+      width: @nav-avatar-column;
       height: 42px;
-      flex: 0 0 42px;
+      flex: 0 0 @nav-avatar-column;
       display: grid;
       place-items: center;
       border-radius: 999px;
@@ -197,6 +205,7 @@ nav {
     }
 
     div.right-avatar {
+      justify-self: end;
       overflow: hidden;
     }
 
@@ -361,12 +370,36 @@ nav.nav-zip {
   }
 }
 
+@media (min-width: 1120px) {
+  nav {
+    div.content {
+      grid-template-columns:
+        @nav-title-width-desktop
+        minmax(0, 1fr)
+        @nav-search-reserve-desktop
+        @nav-avatar-column;
+    }
+
+    div.content div.nav-title-block {
+      grid-column: 1;
+    }
+
+    div.content div.nav-search-block {
+      grid-column: 2;
+    }
+
+    div.content div.right-avatar {
+      grid-column: 4;
+    }
+  }
+}
+
 @media (max-width: 720px) {
   nav {
     div.content {
       gap: 12px;
       height: 38px;
-      grid-template-columns: minmax(0, auto) minmax(0, 1fr) 38px;
+      grid-template-columns: @nav-title-width-mobile minmax(0, 1fr) 38px;
     }
 
     div.content div.nav-title-block {
@@ -379,8 +412,8 @@ nav.nav-zip {
     }
 
     div.content div.title-shell {
-      width: min(220px, calc(100vw - 236px));
-      max-width: min(220px, calc(100vw - 236px));
+      width: 100%;
+      max-width: 100%;
     }
 
     div.content div.nav-search-block {

@@ -173,7 +173,7 @@ export class ResComponent implements OnInit {
     const v_key = ResourceService.loadVK(this.res_str_id);
     const cookie = BaseService.loadPageCookie(this.res_str_id);
     this.search_value = cookie.kw;
-    this.search_mode = !!(cookie.search_mode || cookie.kw);
+    this.search_mode = !!cookie.kw;
     this.resService.get_base_res_info(this.res_str_id)
       .then((base_resp) => {
         if (base_resp.readable || v_key) {
