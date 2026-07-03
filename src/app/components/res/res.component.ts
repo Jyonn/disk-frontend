@@ -1031,13 +1031,6 @@ export class ResComponent implements OnInit {
     return '目录';
   }
 
-  get resource_summary() {
-    if (this.search_value) {
-      return `匹配 ${this.search_list.length} 项`;
-    }
-    return `共 ${this.search_list.length} 项`;
-  }
-
   get current_res_ref() {
     return this.resource?.res_str_id || this.res_str_id || '';
   }

@@ -26,9 +26,6 @@
   <div class="content resource folder-view" *ngIf="resource?.is_folder">
     <div class="workspace-shell folder-shell">
       <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
-        <div class="list-intro">
-          <div class="summary">{{resource_summary}}</div>
-        </div>
         <div class="list-head mono" [ngClass]="{'with-select': show_selection_column}" *ngIf="search_list.length">
           <button class="head-select-toggle"
                   type="button"
