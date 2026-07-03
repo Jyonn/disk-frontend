@@ -1531,7 +1531,8 @@ div.res {
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+      padding: 0 14px;
     }
 
     div.main-readme-head span {
@@ -1610,6 +1611,205 @@ div.res {
         color: var(--term-text);
       }
     }
+  }
+
+  section.main-readme markdown,
+  div.content.description div.padding-div markdown {
+    display: block;
+    padding: 0 14px 22px;
+    color: var(--term-text-soft);
+    font-size: 0.88rem;
+    line-height: 1.74;
+  }
+
+  section.main-readme markdown .markdown-shell,
+  div.content.description div.padding-div markdown .markdown-shell {
+    gap: 12px;
+    padding-bottom: 0;
+  }
+
+  section.main-readme markdown h1,
+  section.main-readme markdown h2,
+  section.main-readme markdown h3,
+  section.main-readme markdown h4,
+  section.main-readme markdown h5,
+  section.main-readme markdown h6,
+  div.content.description div.padding-div markdown h1,
+  div.content.description div.padding-div markdown h2,
+  div.content.description div.padding-div markdown h3,
+  div.content.description div.padding-div markdown h4,
+  div.content.description div.padding-div markdown h5,
+  div.content.description div.padding-div markdown h6 {
+    color: var(--term-text);
+    white-space: normal;
+    overflow: visible;
+    letter-spacing: 0;
+  }
+
+  section.main-readme markdown h1,
+  div.content.description div.padding-div markdown h1 {
+    padding-bottom: 10px;
+    font-size: clamp(1.28rem, 2vw, 1.62rem);
+    border-bottom: 1px solid var(--term-line);
+  }
+
+  section.main-readme markdown h2,
+  div.content.description div.padding-div markdown h2 {
+    margin-top: 8px;
+    font-size: 1.08rem;
+    color: var(--term-text);
+  }
+
+  section.main-readme markdown h3,
+  div.content.description div.padding-div markdown h3 {
+    font-size: 0.98rem;
+    color: var(--term-text);
+  }
+
+  section.main-readme markdown h4,
+  section.main-readme markdown h5,
+  section.main-readme markdown h6,
+  div.content.description div.padding-div markdown h4,
+  div.content.description div.padding-div markdown h5,
+  div.content.description div.padding-div markdown h6 {
+    font-size: 0.9rem;
+    color: var(--term-text-soft);
+  }
+
+  section.main-readme markdown p,
+  section.main-readme markdown li,
+  section.main-readme markdown blockquote,
+  section.main-readme markdown td,
+  div.content.description div.padding-div markdown p,
+  div.content.description div.padding-div markdown li,
+  div.content.description div.padding-div markdown blockquote,
+  div.content.description div.padding-div markdown td {
+    color: var(--term-text-soft);
+  }
+
+  section.main-readme markdown ul,
+  section.main-readme markdown ol,
+  div.content.description div.padding-div markdown ul,
+  div.content.description div.padding-div markdown ol {
+    padding-left: 1.25rem;
+  }
+
+  section.main-readme markdown li + li,
+  div.content.description div.padding-div markdown li + li {
+    margin-top: 4px;
+  }
+
+  section.main-readme markdown strong,
+  div.content.description div.padding-div markdown strong {
+    color: var(--term-text);
+  }
+
+  section.main-readme markdown em,
+  div.content.description div.padding-div markdown em {
+    color: var(--term-text-soft);
+  }
+
+  section.main-readme markdown a,
+  div.content.description div.padding-div markdown a {
+    color: var(--term-text);
+    border-bottom: 1px dashed var(--term-line-strong);
+  }
+
+  section.main-readme markdown a:hover,
+  div.content.description div.padding-div markdown a:hover {
+    color: var(--term-accent);
+    border-bottom-color: var(--term-accent-strong);
+  }
+
+  section.main-readme markdown blockquote,
+  div.content.description div.padding-div markdown blockquote {
+    padding: 12px 14px;
+    border-left: 2px solid var(--term-line-strong);
+    border-radius: 0 12px 12px 0;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--term-text-dim);
+  }
+
+  section.main-readme markdown code,
+  div.content.description div.padding-div markdown code {
+    padding: 0.14em 0.42em;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--term-line);
+    color: var(--term-text);
+    font-size: 0.84em;
+  }
+
+  section.main-readme markdown pre,
+  div.content.description div.padding-div markdown pre {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--term-line);
+    background: rgba(17, 23, 28, 0.92);
+    box-shadow: none;
+  }
+
+  section.main-readme markdown pre code,
+  div.content.description div.padding-div markdown pre code {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--term-text-soft);
+    font-size: 0.8rem;
+  }
+
+  section.main-readme markdown table,
+  div.content.description div.padding-div markdown table {
+    border-radius: 14px;
+    border: 1px solid var(--term-line);
+    background: rgba(17, 23, 28, 0.78);
+  }
+
+  section.main-readme markdown th,
+  div.content.description div.padding-div markdown th {
+    padding: 10px 12px;
+    color: var(--term-text-dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  section.main-readme markdown td,
+  div.content.description div.padding-div markdown td {
+    padding: 10px 12px;
+    border-bottom-color: var(--term-line);
+  }
+
+  section.main-readme markdown tr:nth-child(even) td,
+  div.content.description div.padding-div markdown tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  section.main-readme markdown hr,
+  div.content.description div.padding-div markdown hr {
+    background: linear-gradient(90deg, transparent, var(--term-line-strong), transparent);
+  }
+
+  section.main-readme markdown mark,
+  div.content.description div.padding-div markdown mark {
+    padding: 0.1em 0.28em;
+    border-radius: 6px;
+    background: var(--term-warm-soft);
+    color: var(--term-text);
+  }
+
+  section.main-readme markdown img,
+  div.content.description div.padding-div markdown img {
+    border-radius: 14px;
+    border: 1px solid var(--term-line);
+  }
+
+  section.main-readme textarea.inspector-textarea,
+  div.content.description div.padding-div textarea.inspector-textarea,
+  section.main-readme div.empty-doc,
+  div.content.description div.padding-div div.empty-doc {
+    margin-left: 14px;
+    margin-right: 14px;
   }
 
   div.content.operation {
