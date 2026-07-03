@@ -73,7 +73,13 @@
           <div class="res-hover-mask"></div>
           <div class="res-select" *ngIf="footBtnService.is_selecting"><span [ngClass]="child.icon_select"></span></div>
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
-          <div class="res-name">
+          <div class="res-name"
+               title="点击复制名称"
+               ngxClipboard
+               [cbContent]="child.rname"
+               (cbOnError)="copy_error()"
+               (cbOnSuccess)="copy_succ('名称已复制')"
+               (click)="$event.stopPropagation()">
             <span class="res-name-text">{{child.rname}}</span>
             <span class="res-name-badge mono" *ngIf="child.new_created">new</span>
           </div>
@@ -148,7 +154,12 @@
             <div class="asset-icon"><span class="icon icon-link"></span></div>
             <div class="asset-copy">
               <div class="asset-kicker mono">link resource</div>
-              <div class="file-name">{{resource?.rname}}</div>
+              <div class="file-name"
+                   title="点击复制名称"
+                   ngxClipboard
+                   [cbContent]="resource?.rname"
+                   (cbOnError)="copy_error()"
+                   (cbOnSuccess)="copy_succ('名称已复制')">{{resource?.rname}}</div>
               <div class="asset-meta">
                 <span class="mono">&#64;{{current_res_ref}}</span>
                 <span>{{resource?.readable_time}}</span>
@@ -233,7 +244,12 @@
             <div class="asset-icon"><span class="icon" [ngClass]=resource?.icon></span></div>
             <div class="asset-copy">
               <div class="asset-kicker mono">file resource</div>
-              <div class="file-name">{{resource?.rname}}</div>
+              <div class="file-name"
+                   title="点击复制名称"
+                   ngxClipboard
+                   [cbContent]="resource?.rname"
+                   (cbOnError)="copy_error()"
+                   (cbOnSuccess)="copy_succ('名称已复制')">{{resource?.rname}}</div>
               <div class="asset-meta">
                 <span>{{resource?.size || '-'}}</span>
                 <span>{{resource?.readable_time}}</span>
