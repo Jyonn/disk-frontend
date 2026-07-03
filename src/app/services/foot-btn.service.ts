@@ -6,7 +6,6 @@ export class FootBtnService {
   foot_btn_share: FootBtn;
   foot_btn_select: FootBtn;
   foot_btn_upload: FootBtn;
-  foot_btn_modify: FootBtn;
   foot_btn_move: FootBtn;
   foot_btn_delete: FootBtn;
   foot_btn_setting: FootBtn;
@@ -51,16 +50,6 @@ export class FootBtnService {
       text: '上传',
       folder: true,
       file: false,
-      mask: true,
-      root: true,
-      login: true,
-      noLogin: false,
-    });
-    this.foot_btn_modify = new FootBtn({
-      icon: 'icon-modify',
-      text: '修改',
-      folder: true,
-      file: true,
       mask: true,
       root: true,
       login: true,
@@ -120,7 +109,6 @@ export class FootBtnService {
       this.foot_btn_share,
       // this.foot_btn_select,
       this.foot_btn_upload,
-      this.foot_btn_modify,
       this.foot_btn_move,
       this.foot_btn_delete,
       this.foot_btn_tips,
@@ -156,10 +144,6 @@ export class FootBtnService {
   }
   get active_select() {
     return (this.foot_btn_active === this.foot_btn_select) ? 'active' : 'inactive';
-  }
-
-  get is_modifying() {
-    return this.foot_btn_active === this.foot_btn_modify;
   }
 
   get is_moving() {

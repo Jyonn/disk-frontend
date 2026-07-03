@@ -30,6 +30,7 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
   @Input() search_mode: boolean;
   @Input() search_value: string;
   @ViewChild('searchInput') searchInputRef: ElementRef<HTMLInputElement>;
+  @ViewChild('renameInput') renameInputRef: ElementRef<HTMLInputElement>;
   @ViewChild('titleViewport') titleViewportRef: ElementRef<HTMLDivElement>;
   @ViewChild('titleTrack') titleTrackRef: ElementRef<HTMLDivElement>;
   @ViewChild('titleText') titleTextRef: ElementRef<HTMLDivElement>;
@@ -39,10 +40,14 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
   @Output() onCollapseSearch = new EventEmitter<void>();
   @Output() onSearchValue = new EventEmitter<string>();
   @Output() onClearSearch = new EventEmitter<void>();
+  @Output() onRename = new EventEmitter<string>();
   show_menu: boolean;
   pending_search_focus: boolean;
+  pending_rename_focus: boolean;
   title_is_overflowing: boolean;
   title_shift: number;
+  renaming_title: boolean;
+  rename_draft: string;
 
   constructor(
     public userService: UserService,
@@ -51,19 +56,27 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
   ) {
     this.show_menu = false;
     this.pending_search_focus = false;
+    this.pending_rename_focus = false;
     this.title_is_overflowing = false;
     this.title_shift = 0;
+    this.renaming_title = false;
+    this.rename_draft = '';
   }
 
   ngAfterViewInit() {
     this.refresh_title_overflow();
     this.focus_search_if_needed();
+    this.focus_rename_if_needed();
   }
 
   ngOnChanges(_: SimpleChanges) {
     setTimeout(() => {
       this.refresh_title_overflow();
       this.focus_search_if_needed();
+      this.focus_rename_if_needed();
+      if (!this.renaming_title && this.resource?.rname != null) {
+        this.rename_draft = this.resource.rname;
+      }
     });
   }
 
@@ -92,6 +105,45 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
       event.preventDefault();
       this.collapse_search(event);
     }
+  }
+
+  start_rename($event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    if (!this.is_mine || !this.resource) {
+      return;
+    }
+    this.renaming_title = true;
+    this.rename_draft = this.resource.rname || '';
+    this.pending_rename_focus = true;
+  }
+
+  cancel_rename($event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    this.renaming_title = false;
+    this.pending_rename_focus = false;
+    this.rename_draft = this.resource?.rname || '';
+  }
+
+  submit_rename($event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    if (!this.renaming_title || !this.resource) {
+      return;
+    }
+    const next_name = (this.rename_draft || '').trim();
+    if (!next_name) {
+      this.cancel_rename();
+      return;
+    }
+    if (next_name === this.resource.rname) {
+      this.cancel_rename();
+      return;
+    }
+    this.renaming_title = false;
+    this.pending_rename_focus = false;
+    this.onRename.emit(next_name);
   }
 
   open_search($event) {
@@ -188,8 +240,18 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     this.pending_search_focus = false;
   }
 
+  private focus_rename_if_needed() {
+    if (!this.pending_rename_focus || !this.renaming_title || !this.renameInputRef) {
+      return;
+    }
+    const input = this.renameInputRef.nativeElement;
+    input.focus();
+    input.select();
+    this.pending_rename_focus = false;
+  }
+
   private refresh_title_overflow() {
-    if (!this.titleViewportRef || !this.titleTrackRef || !this.titleTextRef) {
+    if (this.renaming_title || !this.titleViewportRef || !this.titleTrackRef || !this.titleTextRef) {
       return;
     }
     const viewport = this.titleViewportRef.nativeElement;

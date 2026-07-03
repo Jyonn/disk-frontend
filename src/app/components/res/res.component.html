@@ -11,6 +11,7 @@
              (onCollapseSearch)="collapse_search_mode()"
              (onSearchValue)="update_search_value($event)"
              (onClearSearch)="clear_search()"
+             (onRename)="rename_resource($event)"
              (swiperight)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
@@ -175,7 +176,6 @@
           </div>
           <div class="dock-actions" *ngIf="is_owner && !has_selection">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_upload)">上传资源</button>
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动目录</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除目录</button>
           </div>
@@ -262,7 +262,6 @@
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
           </div>
@@ -347,7 +346,6 @@
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
           </div>
