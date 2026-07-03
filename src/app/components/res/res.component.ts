@@ -371,8 +371,23 @@ export class ResComponent implements OnInit {
     this.sort_by(true);
   }
 
-  select_res(res: Resource) {
+  select_res(res: Resource, event?: Event) {
+    event?.stopPropagation();
     res.selected = !res.selected;
+  }
+
+  clear_selection() {
+    for (const item of this.search_list) {
+      item.selected = false;
+    }
+  }
+
+  toggle_select_all(event?: Event) {
+    event?.stopPropagation();
+    const next_state = !this.all_search_list_selected;
+    for (const item of this.search_list) {
+      item.selected = next_state;
+    }
   }
 
   toggle_selection_mode() {
@@ -396,9 +411,7 @@ export class ResComponent implements OnInit {
         item.selected = !item.selected;
       }
     } else if (help === 'cancel') {
-      for (const item of this.search_list) {
-        item.selected = false;
-      }
+      this.clear_selection();
       this.footBtnService.inactivate();
     } else if (help === 'delete' || help === 'move') {
       this.is_multi_mode = true;
@@ -1005,6 +1018,26 @@ export class ResComponent implements OnInit {
 
   get current_res_ref() {
     return this.resource?.res_str_id || this.res_str_id || '';
+  }
+
+  get show_selection_column() {
+    return !!(this.is_owner && this.resource?.is_folder);
+  }
+
+  get selected_count() {
+    return this.search_list.filter((item) => item.selected).length;
+  }
+
+  get has_selection() {
+    return this.selected_count > 0;
+  }
+
+  get all_search_list_selected() {
+    return this.search_list.length > 0 && this.search_list.every((item) => item.selected);
+  }
+
+  get selection_header_icon() {
+    return this.all_search_list_selected ? 'icon-check' : 'icon-uncheck';
   }
 
   get visibility_headline() {

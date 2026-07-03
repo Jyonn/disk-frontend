@@ -20,20 +20,10 @@
         <div class="list-intro">
           <div class="summary">{{resource_summary}}</div>
           <div class="tool-row">
-            <div class="tool-group default-tools" *ngIf="!footBtnService.is_selecting">
-              <div class="tool-chip" *ngIf="is_owner" [ngClass]="{active: footBtnService.is_selecting}" (click)="toggle_selection_mode()">
-                {{footBtnService.is_selecting ? '退出多选' : '多选模式'}}
-              </div>
+            <div class="tool-group default-tools">
               <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
                 {{search_mode ? '收起搜索' : '搜索目录'}}
               </div>
-            </div>
-            <div class="tool-group selection-tools" *ngIf="footBtnService.is_selecting">
-              <div class="tool-chip" (click)="select_res_help('all')">全选</div>
-              <div class="tool-chip" (click)="select_res_help('adverse')">反选</div>
-              <div class="tool-chip" (click)="select_res_help('move')">移动</div>
-              <div class="tool-chip warn" (click)="select_res_help('delete')">删除</div>
-              <div class="tool-chip sub" (click)="select_res_help('cancel')">退出</div>
             </div>
           </div>
           <div class="search-inline" *ngIf="search_mode">
@@ -41,8 +31,14 @@
             <div class="tool-chip sub" (click)="clear_search()">清空</div>
           </div>
         </div>
-        <div class="list-head mono" [ngClass]="{selecting: footBtnService.is_selecting}" *ngIf="search_list.length">
-          <span class="head-select" *ngIf="footBtnService.is_selecting"></span>
+        <div class="list-head mono" [ngClass]="{'with-select': show_selection_column}" *ngIf="search_list.length">
+          <button class="head-select-toggle"
+                  type="button"
+                  *ngIf="show_selection_column"
+                  title="切换全选"
+                  (click)="toggle_select_all($event)">
+            <span [ngClass]="selection_header_icon"></span>
+          </button>
           <button class="head-cell head-icon" type="button" (click)="sort_by(false, 'type')">
             <span class="head-label">类型</span>
             <span class="head-sort" [ngClass]="sort_state('type')"></span>
@@ -67,11 +63,17 @@
         </div>
         <div title="{{child.rname}}"
              class="res-item"
-             [ngClass]="{'new-created': child.new_created, 'selecting': footBtnService.is_selecting}"
+             [ngClass]="{'new-created': child.new_created, 'with-select': show_selection_column, 'selection-active': has_selection}"
              *ngFor="let child of search_list"
-             (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
+             (click)="navigate(child.res_str_id)">
           <div class="res-hover-mask"></div>
-          <div class="res-select" *ngIf="footBtnService.is_selecting"><span [ngClass]="child.icon_select"></span></div>
+          <button class="res-select"
+                  type="button"
+                  *ngIf="show_selection_column"
+                  title="选择资源"
+                  (click)="select_res(child, $event)">
+            <span [ngClass]="child.icon_select"></span>
+          </button>
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
           <div class="res-name">
             <span class="res-name-text"
@@ -135,12 +137,16 @@
             <div class="dock-row"><span class="mono">owner</span><strong>{{resource?.owner?.nickname}}</strong></div>
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
-          <div class="dock-actions" *ngIf="is_owner">
+          <div class="dock-actions" *ngIf="is_owner && !has_selection">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_upload)">上传资源</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动目录</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除目录</button>
+          </div>
+          <div class="dock-actions" *ngIf="is_owner && has_selection">
+            <button class="action-btn" type="button" (click)="select_res_help('move')">批量移动</button>
+            <button class="action-btn warn" type="button" (click)="select_res_help('delete')">批量删除</button>
           </div>
         </div>
       </aside>

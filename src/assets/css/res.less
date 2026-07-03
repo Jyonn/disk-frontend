@@ -1070,13 +1070,26 @@ div.res {
       align-items: center;
     }
 
-    div.list-head.selecting {
+    div.list-head.with-select {
       grid-template-columns: 32px 52px minmax(0, 1fr) 152px 92px;
     }
 
-    div.list-head span.head-select {
-      display: block;
+    button.head-select-toggle {
+      &:extend(.ptr);
       width: 32px;
+      height: 28px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      color: oklch(0.66 0.03 82);
+      font-size: 0.92rem;
+    }
+
+    button.head-select-toggle:hover {
+      color: oklch(0.9 0.015 82);
     }
 
     button.head-cell {
@@ -1197,20 +1210,31 @@ div.res {
         height: 100%;
       }
 
-      div.res-select {
+      button.res-select {
+        &:extend(.ptr);
         display: flex;
         align-items: center;
         justify-content: center;
         width: 32px;
+        padding: 0;
+        border: none;
+        background: transparent;
       }
 
-      div.res-select span {
+      button.res-select span {
         font-size: 16px;
         color: @active-btn-bg;
+        opacity: 0;
+        transition: opacity 160ms ease, color 160ms ease;
       }
 
-      div.res-select span.icon-uncheck {
+      button.res-select span.icon-uncheck {
         color: @inactive-btn-bg;
+      }
+
+      button.res-select:hover span,
+      div.res-item.selection-active button.res-select span {
+        opacity: 1;
       }
 
       div.res-image,
@@ -1307,7 +1331,7 @@ div.res {
       }
     }
 
-    div.res-item.selecting {
+    div.res-item.with-select {
       grid-template-columns: 32px 52px minmax(0, 1fr) 152px 92px;
     }
 
@@ -1971,7 +1995,7 @@ div.res div.content.resource aside.workspace-side {
     grid-template-columns: 40px minmax(0, 1fr) 120px 68px;
   }
 
-  div.res div.content.resource div.list-head.selecting {
+  div.res div.content.resource div.list-head.with-select {
     grid-template-columns: 28px 40px minmax(0, 1fr) 120px 68px;
   }
 
@@ -1992,7 +2016,7 @@ div.res div.content.resource aside.workspace-side {
     padding: 6px 0;
   }
 
-  div.res div.content.resource div.res-item.selecting {
+  div.res div.content.resource div.res-item.with-select {
     grid-template-columns: 28px 40px minmax(0, 1fr) 120px 68px;
   }
 
