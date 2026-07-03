@@ -485,6 +485,11 @@ export class ResComponent implements OnInit {
     this.search_mode = !this.search_mode;
   }
 
+  update_search_value(value: string) {
+    this.search_value = value;
+    this.search_terms.next(value);
+  }
+
   clear_search() {
     this.search_value = null;
     this.resource_search();

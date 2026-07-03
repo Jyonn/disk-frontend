@@ -18,8 +18,13 @@ export class ResNavComponent {
   @Input() resource: Resource;
   @Input() is_mine: boolean;
   @Input() zip_nav: boolean;
+  @Input() search_mode: boolean;
+  @Input() search_value: string;
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
+  @Output() onToggleSearch = new EventEmitter<void>();
+  @Output() onSearchValue = new EventEmitter<string>();
+  @Output() onClearSearch = new EventEmitter<void>();
   show_menu: boolean;
 
   constructor(
@@ -35,6 +40,26 @@ export class ResNavComponent {
     if (this.show_menu) {
       this.show_menu = false;
     }
+  }
+
+  toggle_search($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    this.onToggleSearch.emit();
+  }
+
+  update_search(value: string, $event = null) {
+    if ($event) {
+      $event.cancelBubble = true;
+      $event.stopPropagation();
+    }
+    this.onSearchValue.emit(value);
+  }
+
+  clear_search($event) {
+    $event.cancelBubble = true;
+    $event.stopPropagation();
+    this.onClearSearch.emit();
   }
 
   show_insecure_info($event) {
@@ -101,5 +126,9 @@ export class ResNavComponent {
       owner = '我';
     }
     return owner;
+  }
+
+  get show_search_control() {
+    return !!this.resource?.is_folder;
   }
 }

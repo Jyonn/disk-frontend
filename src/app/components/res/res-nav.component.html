@@ -8,7 +8,29 @@
       </div>
       <div class="title-stack">
         <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
-        <div class="title" title="资源名称">{{resource?.rname}}</div>
+        <div class="title-row">
+          <div class="title" title="资源名称">{{resource?.rname}}</div>
+          <button class="title-search"
+                  type="button"
+                  *ngIf="show_search_control"
+                  title="搜索当前目录"
+                  [ngClass]="{active: search_mode}"
+                  (click)="toggle_search($event)">
+            <span class="icon-search"></span>
+          </button>
+        </div>
+        <div class="nav-search" *ngIf="show_search_control && search_mode" (click)="$event.stopPropagation()">
+          <input class="search-input mono"
+                 type="text"
+                 placeholder="grep / 搜索当前目录…"
+                 [ngModel]="search_value"
+                 (ngModelChange)="update_search($event)"
+                 (click)="$event.stopPropagation()">
+          <button class="search-clear mono"
+                  type="button"
+                  *ngIf="search_value"
+                  (click)="clear_search($event)">清空</button>
+        </div>
       </div>
     </div>
     <div title="菜单" class="right-avatar" *ngIf="userService.has_login" (click)="click_avatar($event)">

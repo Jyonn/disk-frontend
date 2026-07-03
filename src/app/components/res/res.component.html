@@ -1,8 +1,16 @@
 <app-info></app-info>
 <app-jumping></app-jumping>
 
-<app-res-nav [resource]="resource" [is_mine]="is_mine" (onGoParent)="go_parent()" (swiperight)="go_parent()"
-             [zip_nav]="resService.zip_nav"></app-res-nav>
+<app-res-nav [resource]="resource"
+             [is_mine]="is_mine"
+             [zip_nav]="resService.zip_nav"
+             [search_mode]="search_mode"
+             [search_value]="search_value"
+             (onGoParent)="go_parent()"
+             (onToggleSearch)="toggle_search_mode()"
+             (onSearchValue)="update_search_value($event)"
+             (onClearSearch)="clear_search()"
+             (swiperight)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
   <div class="tab" [ngClass]="[search_class, sort_class]">
@@ -19,17 +27,6 @@
       <section class="workspace-main" [scrollTop]="scroll_top" (scroll)="onscroll(resList.scrollTop)" #resList>
         <div class="list-intro">
           <div class="summary">{{resource_summary}}</div>
-          <div class="tool-row">
-            <div class="tool-group default-tools">
-              <div class="tool-chip" [ngClass]="{active: search_mode}" (click)="toggle_search_mode()">
-                {{search_mode ? '收起搜索' : '搜索目录'}}
-              </div>
-            </div>
-          </div>
-          <div class="search-inline" *ngIf="search_mode">
-            <input #searchBox class="search mono" placeholder="grep / 搜索当前目录…" (keyup)="search_terms.next(searchBox.value)" [(ngModel)]="search_value">
-            <div class="tool-chip sub" (click)="clear_search()">清空</div>
-          </div>
         </div>
         <div class="list-head mono" [ngClass]="{'with-select': show_selection_column}" *ngIf="search_list.length">
           <button class="head-select-toggle"
