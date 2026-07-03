@@ -32,6 +32,7 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
   @ViewChild('searchInput') searchInputRef: ElementRef<HTMLInputElement>;
   @ViewChild('titleViewport') titleViewportRef: ElementRef<HTMLDivElement>;
   @ViewChild('titleTrack') titleTrackRef: ElementRef<HTMLDivElement>;
+  @ViewChild('titleText') titleTextRef: ElementRef<HTMLDivElement>;
   @Output() onGoParent = new EventEmitter();
   @Output() onGoLogin = new EventEmitter();
   @Output() onOpenSearch = new EventEmitter<void>();
@@ -191,12 +192,12 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
   }
 
   private refresh_title_overflow() {
-    if (!this.titleViewportRef || !this.titleTrackRef) {
+    if (!this.titleViewportRef || !this.titleTrackRef || !this.titleTextRef) {
       return;
     }
     const viewport = this.titleViewportRef.nativeElement;
-    const track = this.titleTrackRef.nativeElement;
-    const overflow = Math.max(track.scrollWidth - viewport.clientWidth, 0);
+    const title = this.titleTextRef.nativeElement;
+    const overflow = Math.max(title.scrollWidth - viewport.clientWidth, 0);
     this.title_shift = -overflow;
     this.title_is_overflowing = overflow > 6;
   }

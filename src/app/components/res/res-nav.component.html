@@ -11,7 +11,7 @@
              [ngClass]="{overflowing: title_is_overflowing}"
              [style.--title-shift.px]="title_shift">
           <div class="title-track" #titleTrack>
-            <div class="title" title="资源名称">{{resource?.rname}}</div>
+            <div class="title" #titleText title="资源名称">{{resource?.rname}}</div>
           </div>
         </div>
       </div>
