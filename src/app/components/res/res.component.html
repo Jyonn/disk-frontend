@@ -77,12 +77,14 @@
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
           <div class="res-name">
             <span class="res-name-text"
+                  *ngIf="!has_selection"
                   title="点击复制名称"
                   ngxClipboard
                   [cbContent]="child.rname"
                   (cbOnError)="copy_error()"
                   (cbOnSuccess)="copy_succ('名称已复制')"
                   (click)="$event.stopPropagation()">{{child.rname}}</span>
+            <span class="res-name-text" *ngIf="has_selection">{{child.rname}}</span>
             <span class="res-name-badge mono" *ngIf="child.new_created">new</span>
           </div>
           <div class="res-time mono">{{resource_time(child)}}</div>
