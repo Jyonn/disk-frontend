@@ -1,77 +1,125 @@
-<div class="cli-shell">
-  <header class="cli-hero">
-    <div class="cli-bar">
-      <div class="mono cli-kicker">HTX CLI</div>
-      <a class="cli-back mono" href="/">back to workspace</a>
-    </div>
+<div class="cli-workspace">
+  <section class="cli-main">
+    <header class="cli-terminal-shell">
+      <div class="cli-terminal-topbar">
+        <div class="cli-chrome-dots" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="cli-path mono">~/vault/tools/htx</div>
+        <a class="cli-back mono" href="/">return to workspace</a>
+      </div>
 
-    <div class="cli-grid">
-      <section class="cli-copy">
-        <div class="eyebrow mono">COMMAND LINE CLIENT</div>
-        <h1>把浑天匣带回终端。</h1>
+      <div class="cli-terminal-copy">
+        <div class="cli-kicker mono">HTX CLI</div>
+        <h1>把资源页的路径感，原样带回终端。</h1>
         <p>
-          `htx` 是浑天匣的命令行客户端。它基于 SSO 取 token，支持按路径或 `&#64;资源ID` 列目录，
-          也支持上传本地文件/目录、下载远程资源和做常见目录操作。
+          `htx` 是浑天匣的命令行入口。它基于 SSO 获取 token，支持按路径或 `&#64;资源ID` 列目录，
+          也支持上传本地文件/目录、下载远端资源和执行常见目录操作。
         </p>
-        <div class="cli-tags">
-          <span class="mono">SSO TOKEN</span>
-          <span class="mono">&#64;RES_ID</span>
-          <span class="mono">PATH MODE</span>
-          <span class="mono">UPLOAD / DOWNLOAD</span>
+      </div>
+
+      <div class="cli-status-row">
+        <span class="status-pill mono">CLI READY</span>
+        <span class="status-note">为熟悉 shell、目录树和资源 ID 的用户准备。</span>
+      </div>
+
+      <div class="command-bar hero-command">
+        <div class="command-code mono">{{quickStartCommand}}</div>
+        <button class="copy-icon"
+                type="button"
+                title="复制启动命令"
+                ngxClipboard
+                [cbContent]="quickStartCommand"
+                (cbOnError)="copyError()"
+                (cbOnSuccess)="copySuccess('启动命令已复制')">
+          <span class="icon-copy"></span>
+        </button>
+      </div>
+    </header>
+
+    <section class="cli-sequence">
+      <article class="cli-chapter" *ngFor="let section of commandSections; let i = index">
+        <div class="cli-chapter-rail mono">0{{i + 1}}</div>
+        <div class="cli-chapter-body">
+          <div class="cli-chapter-head">
+            <div>
+              <div class="chapter-label mono">{{section.label}}</div>
+              <h2>{{section.title}}</h2>
+            </div>
+            <p>{{section.note}}</p>
+          </div>
+
+          <div class="cli-command-list">
+            <div class="cli-command-row" *ngFor="let command of section.commands">
+              <div class="cli-command-prefix mono">$</div>
+              <div class="cli-command-text mono">{{command}}</div>
+              <button class="copy-icon"
+                      type="button"
+                      title="复制命令"
+                      ngxClipboard
+                      [cbContent]="command"
+                      (cbOnError)="copyError()"
+                      (cbOnSuccess)="copySuccess()">
+                <span class="icon-copy"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </section>
+
+  <aside class="cli-side">
+    <div class="cli-dock">
+      <section class="dock-strip">
+        <div class="dock-status-head">
+          <div class="status-pill live">终端工作流</div>
+        </div>
+        <p class="dock-note">这不是营销页，而是一份偏实战的操作面板。你可以把右侧命令直接复制进 shell。</p>
+      </section>
+
+      <section class="dock-strip">
+        <div class="dock-label-row">
+          <div class="dock-label mono">htx</div>
+          <span class="dock-inline-note mono">quick copy</span>
+        </div>
+        <div class="command-stack">
+          <div class="command-bar" *ngFor="let action of sideActions">
+            <div class="command-body">
+              <div class="command-kicker mono">{{action.label}}</div>
+              <div class="command-code mono">{{action.command}}</div>
+            </div>
+            <button class="copy-icon"
+                    type="button"
+                    title="复制命令"
+                    ngxClipboard
+                    [cbContent]="action.command"
+                    (cbOnError)="copyError()"
+                    (cbOnSuccess)="copySuccess(action.title + '命令已复制')">
+              <span class="icon-copy"></span>
+            </button>
+          </div>
         </div>
       </section>
 
-      <section class="cli-console">
-        <div class="console-window">
-          <div class="console-title mono">quickstart.sh</div>
-          <div class="console-lines mono">
-            <div class="console-line" *ngFor="let cmd of authCommands">{{cmd}}</div>
-            <div class="console-output"># 登录后可以继续 `htx ls &#64;资源ID` 或 `htx upload ...`</div>
+      <section class="dock-strip">
+        <div class="dock-label mono">capabilities</div>
+        <div class="capability-list">
+          <span class="capability-tag mono" *ngFor="let item of capabilities">{{item}}</span>
+        </div>
+      </section>
+
+      <section class="dock-strip">
+        <div class="dock-label mono">workflow</div>
+        <div class="workflow-list">
+          <div class="workflow-item" *ngFor="let item of workflow; let i = index">
+            <span class="workflow-index mono">0{{i + 1}}</span>
+            <span>{{item}}</span>
           </div>
         </div>
       </section>
     </div>
-  </header>
-
-  <section class="cli-strip">
-    <div class="strip-label mono">why htx</div>
-    <div class="strip-list">
-      <div class="strip-item" *ngFor="let item of useCases; let i = index">
-        <span class="mono index">0{{i + 1}}</span>
-        <span>{{item}}</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="command-grid">
-    <article class="command-card">
-      <div class="card-label mono">install</div>
-      <h2>安装</h2>
-      <pre class="mono"><code>{{installCommands.join('\n')}}</code></pre>
-    </article>
-
-    <article class="command-card">
-      <div class="card-label mono">auth</div>
-      <h2>认证</h2>
-      <pre class="mono"><code>{{authCommands.join('\n')}}</code></pre>
-    </article>
-
-    <article class="command-card">
-      <div class="card-label mono">listing</div>
-      <h2>列目录</h2>
-      <pre class="mono"><code>{{listCommands.join('\n')}}</code></pre>
-    </article>
-
-    <article class="command-card">
-      <div class="card-label mono">transfer</div>
-      <h2>上传与下载</h2>
-      <pre class="mono"><code>{{transferCommands.join('\n')}}</code></pre>
-    </article>
-
-    <article class="command-card wide">
-      <div class="card-label mono">ops</div>
-      <h2>目录操作</h2>
-      <pre class="mono"><code>{{adminCommands.join('\n')}}</code></pre>
-    </article>
-  </section>
+  </aside>
 </div>
