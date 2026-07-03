@@ -119,12 +119,17 @@
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
-      <div class="input-btn-line solo">
-        <input type="file" multiple webkitdirectory (change)="choose_folder_onchange($event)" #choose_folder>
-        <input readonly [(ngModel)]="upload_folder_name" placeholder="选择文件夹…" maxlength="256">
+      <input type="file" multiple webkitdirectory (change)="choose_folder_onchange($event)" #choose_folder>
+      <div class="file-picker"
+           [ngClass]="{selected: upload_folder_name}"
+           (click)="choose_folder.value = null; choose_folder.click()">
+        <div class="file-picker-label mono">SELECT FOLDER</div>
+        <div class="file-picker-text" *ngIf="!upload_folder_name">点击选择要上传到当前目录的本地文件夹</div>
+        <div class="file-picker-text" *ngIf="upload_folder_name">已选择文件夹 “{{upload_folder_name}}”</div>
+        <div class="upload-row-meta mono" *ngIf="upload_folder_name">{{folder_file_count}} files queued</div>
       </div>
       <div class="modal-actions right">
-        <div class="btn" (click)="choose_folder.value = null; choose_folder.click()">选择</div>
+        <div class="btn" (click)="choose_folder.value = null; choose_folder.click()">重选</div>
         <div class="btn succ"
              [ngClass]="{'disabled': !upload_folder_name || footBtnService.is_ajax_uploading}"
              (click)="upload_folder_action()">上传文件夹</div>

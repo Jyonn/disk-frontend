@@ -580,4 +580,8 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
   get upload_count() {
     return this.upload_entries ? this.upload_entries.length : 0;
   }
+
+  get folder_file_count() {
+    return this.res_folder ? this.res_folder.length : 0;
+  }
 }
