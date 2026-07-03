@@ -95,6 +95,7 @@ export class ResComponent implements OnInit, AfterViewInit {
   show_drag_upload_overlay: boolean;
   drag_upload_depth: number;
   folder_view_mode: FolderViewMode;
+  active_gallery_res_id: string;
 
   constructor(
     public baseService: BaseService,
@@ -130,6 +131,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.show_drag_upload_overlay = false;
     this.drag_upload_depth = 0;
     this.folder_view_mode = this.load_folder_view_mode();
+    this.active_gallery_res_id = '';
 
     this.operations = {
       delete: {
@@ -280,7 +282,9 @@ export class ResComponent implements OnInit, AfterViewInit {
     }
     this.folder_view_mode = mode;
     window.localStorage.setItem(ResComponent.FOLDER_VIEW_STORAGE_KEY, mode);
-    if (mode === ResComponent.VIEW_LIST) {
+    if (mode === ResComponent.VIEW_GALLERY) {
+      this.ensure_gallery_focus();
+    } else if (mode === ResComponent.VIEW_LIST) {
       this.schedule_name_overflow_refresh();
     }
   }
@@ -974,6 +978,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     }
     this.search_list.sort(this.sort_by_new_created);
     this.sort_mode = false;
+    this.ensure_gallery_focus();
   }
 
   get show_back_icon() {
@@ -1047,6 +1052,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     }
     this.children = this.children.filter((item) => !res_str_ids.includes(item.res_str_id));
     this.search_list = this.search_list.filter((item) => !res_str_ids.includes(item.res_str_id));
+    this.ensure_gallery_focus();
   }
 
   onUploadFolder(data: any) {
@@ -1268,6 +1274,13 @@ export class ResComponent implements OnInit, AfterViewInit {
     return this.folder_view_mode === ResComponent.VIEW_GALLERY;
   }
 
+  get current_gallery_resource() {
+    if (!this.search_list?.length) {
+      return null;
+    }
+    return this.search_list.find((item) => item.res_str_id === this.active_gallery_res_id) || this.search_list[0];
+  }
+
   resource_type_label(resource: Resource) {
     if (!resource) {
       return 'resource';
@@ -1351,6 +1364,42 @@ export class ResComponent implements OnInit, AfterViewInit {
     return 'icon';
   }
 
+  gallery_stage_preview_mode(resource: Resource) {
+    if (this.has_gallery_image(resource)) {
+      return 'image';
+    }
+    if (this.has_gallery_pdf(resource)) {
+      return 'pdf';
+    }
+    if (this.has_gallery_audio(resource)) {
+      return 'audio';
+    }
+    return 'icon';
+  }
+
+  gallery_strip_preview_mode(resource: Resource) {
+    if (resource?.is_image) {
+      return 'thumb';
+    }
+    return 'icon';
+  }
+
+  focus_gallery_resource(resource: Resource, event?: Event) {
+    event?.stopPropagation();
+    if (!resource) {
+      return;
+    }
+    if (this.has_selection) {
+      this.select_res(resource, event);
+      return;
+    }
+    this.active_gallery_res_id = resource.res_str_id;
+  }
+
+  gallery_open_action_text(resource: Resource) {
+    return resource?.is_folder ? '进入目录' : '打开详情';
+  }
+
   private resource_api_href(resource: Resource) {
     if (!resource) {
       return '';
@@ -1404,6 +1453,16 @@ export class ResComponent implements OnInit, AfterViewInit {
 
   get selected_count() {
     return this.search_list.filter((item) => item.selected).length;
+  }
+
+  private ensure_gallery_focus() {
+    if (!this.search_list?.length) {
+      this.active_gallery_res_id = '';
+      return;
+    }
+    if (!this.active_gallery_res_id || !this.search_list.some((item) => item.res_str_id === this.active_gallery_res_id)) {
+      this.active_gallery_res_id = this.search_list[0].res_str_id;
+    }
   }
 
   private schedule_name_overflow_refresh() {

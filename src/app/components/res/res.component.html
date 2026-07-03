@@ -149,12 +149,10 @@
             <hr/>
           </div>
         </ng-container>
-        <div class="card-grid"
-             [ngClass]="folder_view_mode"
-             *ngIf="search_list.length && !is_list_view">
+        <div class="card-grid column" *ngIf="search_list.length && is_column_view">
           <article title="{{child.rname}}"
                    class="res-card"
-                   [ngClass]="[folder_view_mode, child.new_created ? 'new-created' : '', has_selection ? 'selection-active' : '']"
+                   [ngClass]="['column', child.new_created ? 'new-created' : '', has_selection ? 'selection-active' : '']"
                    *ngFor="let child of search_list"
                    (click)="has_selection ? select_res(child, $event) : navigate(child.res_str_id)">
             <button class="res-card-select"
@@ -211,6 +209,69 @@
             </div>
           </article>
         </div>
+        <section class="gallery-shell" *ngIf="is_gallery_view && current_gallery_resource as focus">
+          <div class="gallery-stage">
+            <div class="gallery-stage-head">
+              <div class="gallery-stage-copy">
+                <div class="gallery-stage-kicker mono">{{resource_type_label(focus)}}</div>
+                <div class="gallery-stage-name"
+                     *ngIf="!has_selection"
+                     title="点击复制名称"
+                     ngxClipboard
+                     [cbContent]="focus.rname"
+                     (cbOnError)="copy_error()"
+                     (cbOnSuccess)="copy_succ('名称已复制')">{{focus.rname}}</div>
+                <div class="gallery-stage-name" *ngIf="has_selection">{{focus.rname}}</div>
+                <div class="gallery-stage-meta">
+                  <span class="mono">{{resource_time(focus)}}</span>
+                  <span class="mono">{{focus.size || '-'}}</span>
+                  <span class="mono">&#64;{{focus.res_str_id}}</span>
+                </div>
+              </div>
+              <button class="gallery-stage-open"
+                      type="button"
+                      (click)="navigate(focus.res_str_id)">{{gallery_open_action_text(focus)}}</button>
+            </div>
+            <div class="gallery-stage-preview" [ngClass]="gallery_stage_preview_mode(focus)">
+              <img *ngIf="gallery_stage_preview_mode(focus) === 'image'"
+                   [src]="resource_image_src(focus, 'full')"
+                   [alt]="focus.rname"
+                   loading="lazy">
+              <iframe *ngIf="gallery_stage_preview_mode(focus) === 'pdf'"
+                      [src]="resource_pdf_preview_href(focus)"
+                      [title]="focus.rname"
+                      loading="lazy"></iframe>
+              <div class="gallery-audio-shell"
+                   *ngIf="gallery_stage_preview_mode(focus) === 'audio'"
+                   (click)="$event.stopPropagation()">
+                <div class="card-audio-head">
+                  <span [ngClass]="focus.icon"></span>
+                  <span class="mono">audio preview</span>
+                </div>
+                <audio controls preload="none" [src]="resource_preview_href(focus)"></audio>
+              </div>
+              <div class="gallery-icon-shell" *ngIf="gallery_stage_preview_mode(focus) === 'icon'">
+                <span [ngClass]="focus.icon"></span>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-strip">
+            <button type="button"
+                    class="gallery-strip-item"
+                    [ngClass]="{active: focus.res_str_id === child.res_str_id, selected: child.selected}"
+                    *ngFor="let child of search_list"
+                    (click)="focus_gallery_resource(child, $event)">
+              <span class="gallery-strip-select" *ngIf="show_selection_column">
+                <span [ngClass]="child.icon_select"></span>
+              </span>
+              <img *ngIf="gallery_strip_preview_mode(child) === 'thumb'"
+                   [src]="resource_image_src(child, 'thumb')"
+                   [alt]="child.rname"
+                   loading="lazy">
+              <span class="gallery-strip-icon" *ngIf="gallery_strip_preview_mode(child) === 'icon'" [ngClass]="child.icon"></span>
+            </button>
+          </div>
+        </section>
         <section class="main-readme desktop-readme">
           <div class="main-readme-head">
             <span class="mono">README</span>
