@@ -30,6 +30,7 @@ import {VideoService} from "../../services/video.service";
 export class ResComponent implements OnInit {
   static sort_accord = 'name';
   static sort_ascend = true;
+  static relative_time = true;
   static readonly HTX_DISPLAY_MODE = 'list';
   static readonly HTX_DOWNLOAD_MODE = 'download';
   static readonly HTX_MORE_MODE = 'more';
@@ -708,6 +709,33 @@ export class ResComponent implements OnInit {
     return ResComponent.sort_ascend ? '↑' : '↓';
   }
 
+  get time_header_label() {
+    return ResComponent.relative_time ? '相对时间' : '绝对时间';
+  }
+
+  get time_toggle_icon() {
+    return ResComponent.relative_time ? 'icon-toggleon' : 'icon-toggleoff';
+  }
+
+  resource_time(resource: Resource) {
+    if (!resource) {
+      return '-';
+    }
+    return ResComponent.relative_time ? resource.readable_time : resource.absolute_time;
+  }
+
+  toggle_time_display(event?: Event) {
+    event?.stopPropagation();
+    ResComponent.relative_time = !ResComponent.relative_time;
+  }
+
+  sort_state(accord: string) {
+    if (ResComponent.sort_accord !== accord) {
+      return 'inactive';
+    }
+    return ResComponent.sort_ascend ? 'asc' : 'desc';
+  }
+
   private escapeCliPathSegment(name: string) {
     return name
       .replace(/\\/g, "\\\\")
@@ -728,7 +756,10 @@ export class ResComponent implements OnInit {
   }
 
   sort_by_new_created(_: Resource, rb: Resource) {
-    return rb.new_created ? 1 : -1;
+    if (_.new_created === rb.new_created) {
+      return 0;
+    }
+    return _.new_created ? -1 : 1;
   }
 
   sort_by_time(ra: Resource, rb: Resource) {
@@ -755,6 +786,16 @@ export class ResComponent implements OnInit {
     }
   }
 
+  sort_by_size(ra: Resource, rb: Resource) {
+    const left = typeof ra.rsize === 'number' ? ra.rsize : -1;
+    const right = typeof rb.rsize === 'number' ? rb.rsize : -1;
+    if (ResComponent.sort_ascend) {
+      return left - right;
+    } else {
+      return right - left;
+    }
+  }
+
   sort_by(follow_last, accord = null) {
     if (!follow_last) {
       if (ResComponent.sort_accord === accord) {
@@ -770,6 +811,9 @@ export class ResComponent implements OnInit {
         break;
       case 'name':
         this.search_list.sort(this.sort_by_name);
+        break;
+      case 'size':
+        this.search_list.sort(this.sort_by_size);
         break;
       case 'type':
         this.search_list.sort(this.sort_by_type);

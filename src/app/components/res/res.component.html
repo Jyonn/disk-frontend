@@ -29,15 +29,11 @@
               </div>
             </div>
             <div class="tool-group selection-tools" *ngIf="footBtnService.is_selecting">
-              <div class="tool-chip warn" (click)="select_res_help('delete')">删除</div>
+              <div class="tool-chip" (click)="select_res_help('all')">全选</div>
+              <div class="tool-chip" (click)="select_res_help('adverse')">反选</div>
               <div class="tool-chip" (click)="select_res_help('move')">移动</div>
+              <div class="tool-chip warn" (click)="select_res_help('delete')">删除</div>
               <div class="tool-chip sub" (click)="select_res_help('cancel')">退出</div>
-            </div>
-            <div class="tool-group sort-group">
-              <span class="tool-label mono">sort</span>
-              <div class="tool-chip" [ngClass]="{active: sort_name_active}" (click)="sort_by(false, 'name')">名称<span class="chip-order" *ngIf="sort_name_active">{{sort_direction}}</span></div>
-              <div class="tool-chip" [ngClass]="{active: sort_time_active}" (click)="sort_by(false, 'time')">时间<span class="chip-order" *ngIf="sort_time_active">{{sort_direction}}</span></div>
-              <div class="tool-chip" [ngClass]="{active: sort_type_active}" (click)="sort_by(false, 'type')">类型<span class="chip-order" *ngIf="sort_type_active">{{sort_direction}}</span></div>
             </div>
           </div>
           <div class="search-inline" *ngIf="search_mode">
@@ -45,13 +41,25 @@
             <div class="tool-chip sub" (click)="clear_search()">清空</div>
           </div>
         </div>
-        <div class="list-head mono" *ngIf="search_list.length">
-          <span class="head-name">名称</span>
-          <span class="head-type" *ngIf="!footBtnService.is_selecting">大小</span>
-          <span class="head-type select-head-actions" *ngIf="footBtnService.is_selecting">
-            <button class="head-action" type="button" (click)="select_res_help('all')">全选</button>
-            <button class="head-action" type="button" (click)="select_res_help('adverse')">反选</button>
-          </span>
+        <div class="list-head mono" [ngClass]="{selecting: footBtnService.is_selecting}" *ngIf="search_list.length">
+          <span class="head-select" *ngIf="footBtnService.is_selecting"></span>
+          <button class="head-cell head-icon" type="button" (click)="sort_by(false, 'type')">
+            <span class="head-label">类型</span>
+            <span class="head-sort" [ngClass]="sort_state('type')"></span>
+          </button>
+          <button class="head-cell head-name" type="button" (click)="sort_by(false, 'name')">
+            <span class="head-label">名称</span>
+            <span class="head-sort" [ngClass]="sort_state('name')"></span>
+          </button>
+          <button class="head-cell head-time" type="button" (click)="sort_by(false, 'time')">
+            <span class="head-time-toggle" [ngClass]="time_toggle_icon" (click)="toggle_time_display($event)"></span>
+            <span class="head-label">{{time_header_label}}</span>
+            <span class="head-sort" [ngClass]="sort_state('time')"></span>
+          </button>
+          <button class="head-cell head-size" type="button" (click)="sort_by(false, 'size')">
+            <span class="head-label">大小</span>
+            <span class="head-sort" [ngClass]="sort_state('size')"></span>
+          </button>
         </div>
         <div class="res-empty" *ngIf="!search_list.length">
           <div class="empty-title mono">0 entries</div>
@@ -59,14 +67,18 @@
         </div>
         <div title="{{child.rname}}"
              class="res-item"
-             [ngClass]="{'new-created': child.new_created}"
+             [ngClass]="{'new-created': child.new_created, 'selecting': footBtnService.is_selecting}"
              *ngFor="let child of search_list"
              (click)="footBtnService.is_selecting ? select_res(child) : navigate(child.res_str_id)">
           <div class="res-hover-mask"></div>
+          <div class="res-select" *ngIf="footBtnService.is_selecting"><span [ngClass]="child.icon_select"></span></div>
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
-          <div class="res-name">{{child.rname}}</div>
-          <div class="res-info"><span class="mono time">{{child.readable_time}}</span><span *ngIf="child.rtype == 0"> · {{child.dlcount}} 次下载</span><span *ngIf="child.rtype == 2"> · {{child.dlcount}} 次跳转</span></div>
-          <div class="res-type"><span *ngIf="footBtnService.is_selecting" [ngClass]="child.icon_select"></span><span class="mono size" *ngIf="!footBtnService.is_selecting">{{child.size || '-'}}</span></div>
+          <div class="res-name">
+            <span class="res-name-text">{{child.rname}}</span>
+            <span class="res-name-badge mono" *ngIf="child.new_created">new</span>
+          </div>
+          <div class="res-time mono">{{resource_time(child)}}</div>
+          <div class="res-size mono">{{child.size || '-'}}</div>
           <hr/>
         </div>
         <section class="main-readme desktop-readme">

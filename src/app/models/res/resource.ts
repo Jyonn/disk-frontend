@@ -185,6 +185,12 @@ export class Resource {
     return time_str;
   }
 
+  get absolute_time() {
+    const date = new Date(this.create_time * 1000);
+    const pad = (value: number) => value.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  }
+
   get color() {
     const index = Math.floor(this.create_time) % Resource.COLORS.length;
     return Resource.COLORS[index].str;
