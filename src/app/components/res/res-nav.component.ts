@@ -128,8 +128,15 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.onClearSearch.emit();
-    this.pending_search_focus = true;
-    this.focus_search_if_needed();
+    this.pending_search_focus = false;
+    this.onCollapseSearch.emit();
+  }
+
+  on_search_blur() {
+    if (this.search_value) {
+      return;
+    }
+    this.onCollapseSearch.emit();
   }
 
   show_insecure_info($event) {

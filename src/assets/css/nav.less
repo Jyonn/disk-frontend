@@ -61,42 +61,32 @@ nav {
     left: @nav-padding;
     right: @nav-padding;
     top: 16px;
-    min-height: 56px;
-    display: flex;
+    height: 42px;
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) 42px;
     align-items: center;
-    justify-content: space-between;
     gap: 18px;
 
-    div.nav-heading {
+    div.nav-title-block {
       min-width: 0;
-      flex: 1 1 auto;
       display: flex;
       align-items: center;
       gap: 14px;
+      height: 42px;
     }
 
     div.title-stack {
       min-width: 0;
       display: grid;
       gap: 6px;
-      flex: 1 1 auto;
-    }
-
-    div.title-stack.searchable {
-      max-width: 100%;
-    }
-
-    div.title-row {
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      height: 42px;
+      align-content: center;
     }
 
     div.title-shell {
       position: relative;
-      flex: 0 1 min(400px, calc(100vw - 360px));
-      max-width: min(400px, calc(100vw - 360px));
+      width: min(400px, calc(100vw - 380px));
+      max-width: min(400px, calc(100vw - 380px));
       min-width: 0;
       overflow: hidden;
     }
@@ -111,41 +101,36 @@ nav {
       animation: nav-title-marquee 9s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
     }
 
-    div.search-wrap {
-      flex: 1 1 auto;
+    div.nav-search-block {
       min-width: 0;
       display: flex;
-      justify-content: flex-end;
-      padding-left: 10px;
+      align-items: center;
+      justify-content: stretch;
+      height: 42px;
     }
 
     div.nav-search-shell {
       &:extend(.ptr);
-      width: 184px;
-      min-width: 184px;
-      max-width: 184px;
-      height: 32px;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: 42px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       gap: 8px;
-      padding: 0 10px;
+      padding: 0 14px;
       box-sizing: border-box;
       border: 1px solid rgba(111, 146, 154, 0.16);
       border-radius: 12px;
       background: rgba(27, 37, 45, 0.94);
       transition:
-        width 220ms cubic-bezier(0.25, 1, 0.5, 1),
-        min-width 220ms cubic-bezier(0.25, 1, 0.5, 1),
-        max-width 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        background 180ms ease,
         background 180ms ease,
         border-color 180ms ease;
     }
 
     div.nav-search-shell.active {
-      width: 100%;
-      min-width: 220px;
-      max-width: 100%;
       background: rgba(31, 42, 50, 0.98);
       border-color: rgba(74, 171, 149, 0.26);
     }
@@ -184,7 +169,7 @@ nav {
     button.search-clear {
       &:extend(.ptr);
       flex: 0 0 auto;
-      min-height: 24px;
+      min-height: 28px;
       padding: 0 8px;
       border: none;
       background: transparent;
@@ -196,9 +181,9 @@ nav {
     div.left-btn,
     div.right-avatar {
       &:extend(.ptr);
-      width: 34px;
-      height: 34px;
-      flex: 0 0 34px;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
       display: grid;
       place-items: center;
       border-radius: 999px;
@@ -225,7 +210,7 @@ nav {
     span,
     span.icon-unlogin {
       color: oklch(0.88 0.02 85);
-      font-size: 18px;
+      font-size: 19px;
     }
   }
 
@@ -380,39 +365,31 @@ nav.nav-zip {
   nav {
     div.content {
       gap: 12px;
-      min-height: 52px;
+      height: 38px;
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr) 38px;
     }
 
-    div.content div.nav-heading {
+    div.content div.nav-title-block {
       gap: 10px;
+      height: 38px;
     }
 
-    div.content div.title-row {
-      gap: 12px;
-      align-items: center;
+    div.content div.title-stack {
+      height: 38px;
     }
 
     div.content div.title-shell {
-      flex-basis: calc(100vw - 198px);
-      max-width: calc(100vw - 198px);
+      width: min(220px, calc(100vw - 236px));
+      max-width: min(220px, calc(100vw - 236px));
     }
 
-    div.content div.search-wrap {
-      padding-left: 8px;
+    div.content div.nav-search-block {
+      height: 38px;
     }
 
     div.content div.nav-search-shell {
-      width: 136px;
-      min-width: 136px;
-      max-width: 136px;
-      height: 30px;
-      padding: 0 9px;
-    }
-
-    div.content div.nav-search-shell.active {
-      width: 100%;
-      min-width: 180px;
-      max-width: 100%;
+      height: 38px;
+      padding: 0 11px;
     }
 
     div.content div.search-prompt {
@@ -421,6 +398,13 @@ nav.nav-zip {
 
     div.content input.search-input {
       font-size: 0.76rem;
+    }
+
+    div.content div.left-btn,
+    div.content div.right-avatar {
+      width: 38px;
+      height: 38px;
+      flex-basis: 38px;
     }
   }
 }
