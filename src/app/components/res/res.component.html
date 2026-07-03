@@ -65,7 +65,7 @@
              class="res-item"
              [ngClass]="{'new-created': child.new_created, 'with-select': show_selection_column, 'selection-active': has_selection}"
              *ngFor="let child of search_list"
-             (click)="navigate(child.res_str_id)">
+             (click)="has_selection ? select_res(child, $event) : navigate(child.res_str_id)">
           <div class="res-hover-mask"></div>
           <button class="res-select"
                   type="button"
