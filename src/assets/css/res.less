@@ -51,19 +51,6 @@
   }
 }
 
-@keyframes operation-beacon-pulse {
-  0%,
-  100% {
-    transform: scale(0.72);
-    opacity: 0.32;
-  }
-
-  50% {
-    transform: scale(1);
-    opacity: 0.94;
-  }
-}
-
 @keyframes operation-beacon-beam {
   0% {
     transform: translateX(0);
@@ -271,17 +258,16 @@ div.res {
   }
   div.content.resource {
     div.res-item.new-created {
-      div.res-info:before {
+      div.res-name:after {
         content: 'new';
         display: inline-flex;
-        vertical-align: middle;
-        transform: translateY(-1px);
-        margin-right: 8px;
+        margin-left: 8px;
         min-width: 34px;
         height: 18px;
         padding: 0 8px;
         align-items: center;
         justify-content: center;
+        vertical-align: top;
         border-radius: 999px;
         border: 1px solid rgba(154, 126, 77, 0.18);
         background: rgba(188, 142, 76, 0.1);
@@ -293,7 +279,7 @@ div.res {
       }
     }
     div.res-item.new-created:hover {
-      div.res-info:before {
+      div.res-name:after {
         border-color: rgba(154, 126, 77, 0.26);
         background: rgba(188, 142, 76, 0.14);
         color: oklch(0.9 0.02 82);
@@ -540,40 +526,21 @@ div.res {
 
     div.operation-track {
       position: relative;
-      height: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      height: 10px;
       margin-bottom: 12px;
       overflow: hidden;
-    }
-
-    span.operation-pulse {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(208, 229, 214, 0.18);
-      border: 1px solid rgba(164, 206, 175, 0.2);
-      animation: operation-beacon-pulse 1.15s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-    }
-
-    span.operation-pulse:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    span.operation-pulse:nth-child(2) {
-      animation-delay: 120ms;
-    }
-
-    span.operation-pulse:nth-child(3) {
-      animation-delay: 240ms;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(154, 126, 77, 0.1);
     }
 
     span.operation-beam {
       position: absolute;
       left: -36%;
+      top: 50%;
       width: 34%;
       height: 2px;
+      transform: translateY(-50%);
       border-radius: 999px;
       background: linear-gradient(90deg, transparent, rgba(194, 225, 204, 0.88), transparent);
       box-shadow: 0 0 16px rgba(150, 198, 165, 0.28);
@@ -631,11 +598,6 @@ div.res {
       text-align: left;
     }
 
-    div.operation-shell.delete span.operation-pulse {
-      background: rgba(220, 125, 108, 0.28);
-      border-color: rgba(220, 125, 108, 0.2);
-    }
-
     div.operation-shell.delete span.operation-beam,
     div.operation-shell.delete span.operation-prompt,
     div.operation-shell.delete span.operation-caret {
@@ -646,12 +608,6 @@ div.res {
     div.operation-shell.delete span.operation-beam {
       background: linear-gradient(90deg, transparent, oklch(0.7 0.16 32 / 0.9), transparent);
       box-shadow: 0 0 16px oklch(0.7 0.16 32 / 0.2);
-    }
-
-    div.operation-shell.move span.operation-pulse,
-    div.operation-shell.upload-folder span.operation-pulse {
-      background: rgba(145, 186, 240, 0.26);
-      border-color: rgba(145, 186, 240, 0.22);
     }
 
     div.operation-shell.move span.operation-beam,
@@ -670,9 +626,16 @@ div.res {
       box-shadow: 0 0 16px oklch(0.72 0.08 240 / 0.22);
     }
 
-    div.operation-shell.upload span.operation-pulse {
-      background: rgba(158, 214, 176, 0.26);
-      border-color: rgba(158, 214, 176, 0.22);
+    div.operation-shell.upload span.operation-beam,
+    div.operation-shell.upload span.operation-prompt,
+    div.operation-shell.upload span.operation-caret {
+      background: oklch(0.78 0.08 152);
+      color: oklch(0.78 0.08 152);
+    }
+
+    div.operation-shell.upload span.operation-beam {
+      background: linear-gradient(90deg, transparent, oklch(0.78 0.08 152 / 0.92), transparent);
+      box-shadow: 0 0 16px oklch(0.78 0.08 152 / 0.2);
     }
   }
 }
