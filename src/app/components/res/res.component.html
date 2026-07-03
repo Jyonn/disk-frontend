@@ -14,6 +14,40 @@
              (swiperight)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
+  <ng-template #resourceStatusDock>
+    <div class="dock-strip">
+      <div class="dock-status-head">
+        <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
+        <button class="status-edit-btn"
+                type="button"
+                *ngIf="is_owner"
+                title="修改分享设置"
+                (click)="open_share_settings($event)">
+          <span class="icon-pencil"></span>
+        </button>
+      </div>
+      <p class="dock-note">{{visibility_detail}}</p>
+      <div class="dock-mode-block" *ngIf="resource">
+        <div class="dock-mode-head">
+          <div class="dock-mode-label mono">resource mode</div>
+          <button class="mode-help-btn" type="button" title="资源模式说明" (click)="show_resource_mode_info($event)">?</button>
+        </div>
+        <div class="mode-switch" [ngClass]="{readonly: !is_owner, busy: resource_mode_updating}">
+          <button class="mode-option"
+                  type="button"
+                  [ngClass]="{active: resource?.right_bubble}"
+                  [disabled]="!is_owner || resource_mode_updating"
+                  (click)="set_resource_mode(true, $event)">附属模式</button>
+          <button class="mode-option"
+                  type="button"
+                  [ngClass]="{active: !resource?.right_bubble}"
+                  [disabled]="!is_owner || resource_mode_updating"
+                  (click)="set_resource_mode(false, $event)">独立模式</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
   <div class="tab" [ngClass]="[search_class, sort_class]">
     <div class="resource" (click)="switch_tab_mode('resource')">
       <span class="text mono">{{resource_title}}</span>
@@ -116,13 +150,7 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
-          <div class="dock-strip">
-            <div class="status-row">
-              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
-              <div class="dock-ref mono">&#64;{{current_res_ref}}</div>
-            </div>
-            <p class="dock-note">{{visibility_detail}}</p>
-          </div>
+          <ng-container [ngTemplateOutlet]="resourceStatusDock"></ng-container>
           <div class="dock-strip">
             <div class="dock-label-row">
               <div class="dock-label mono">htx</div>
@@ -147,7 +175,6 @@
           </div>
           <div class="dock-actions" *ngIf="is_owner && !has_selection">
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_upload)">上传资源</button>
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动目录</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除目录</button>
@@ -204,13 +231,7 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
-          <div class="dock-strip">
-            <div class="status-row">
-              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
-              <div class="dock-ref mono">&#64;{{current_res_ref}}</div>
-            </div>
-            <p class="dock-note">{{visibility_detail}}</p>
-          </div>
+          <ng-container [ngTemplateOutlet]="resourceStatusDock"></ng-container>
           <div class="dock-strip">
             <div class="dock-label-row">
               <div class="dock-label mono">htx</div>
@@ -241,7 +262,6 @@
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
@@ -295,13 +315,7 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
-          <div class="dock-strip">
-            <div class="status-row">
-              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
-              <div class="dock-ref mono">&#64;{{current_res_ref}}</div>
-            </div>
-            <p class="dock-note">{{visibility_detail}}</p>
-          </div>
+          <ng-container [ngTemplateOutlet]="resourceStatusDock"></ng-container>
           <div class="dock-strip">
             <div class="dock-label-row">
               <div class="dock-label mono">htx</div>
@@ -333,7 +347,6 @@
             <div class="dock-row"><span class="mono">created</span><strong>{{resource?.readable_time}}</strong></div>
           </div>
           <div class="dock-actions" *ngIf="is_owner">
-            <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_share)">分享设置</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_modify)">修改信息</button>
             <button class="action-btn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_move)">移动资源</button>
             <button class="action-btn warn" type="button" (click)="open_inspector_action(footBtnService.foot_btn_delete)">删除资源</button>
@@ -383,13 +396,7 @@
       </section>
       <aside class="workspace-side dock-side">
         <div class="workspace-dock">
-          <div class="dock-strip">
-            <div class="status-row">
-              <div class="status-pill" [ngClass]="visibility_tone">{{visibility_headline}}</div>
-              <div class="dock-ref mono">&#64;{{current_res_ref}}</div>
-            </div>
-            <p class="dock-note">{{visibility_detail}}</p>
-          </div>
+          <ng-container [ngTemplateOutlet]="resourceStatusDock"></ng-container>
           <div class="dock-strip">
             <div class="dock-label-row">
               <div class="dock-label mono">htx</div>

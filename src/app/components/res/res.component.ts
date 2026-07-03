@@ -80,6 +80,7 @@ export class ResComponent implements OnInit, AfterViewInit {
   player: any;
   name_overflow_states: {[res_id: string]: {overflowing: boolean, shift: number}};
   pending_name_overflow_refresh: boolean;
+  resource_mode_updating: boolean;
 
   constructor(
     public baseService: BaseService,
@@ -110,6 +111,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.is_htx_menu_open = false;
     this.name_overflow_states = {};
     this.pending_name_overflow_refresh = false;
+    this.resource_mode_updating = false;
 
     this.operations = {
       delete: {
@@ -1160,6 +1162,40 @@ export class ResComponent implements OnInit, AfterViewInit {
       return 'private';
     }
     return 'public';
+  }
+
+  open_share_settings(event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    this.open_inspector_action(this.footBtnService.foot_btn_share);
+  }
+
+  show_resource_mode_info(event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    BaseService.info_center.next(new Info({
+      text: `附属模式：共享父资源的访问范围，能访问父资源就能访问我。\n独立模式：单独决定公开、加密或私有，不受父资源分享状态影响。`,
+      type: Info.TYPE_WARN,
+    }));
+  }
+
+  set_resource_mode(right_bubble: boolean, event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    if (!this.is_owner || !this.resource || this.resource_mode_updating || this.resource.right_bubble === right_bubble) {
+      return;
+    }
+    this.resource_mode_updating = true;
+    this.resService.modify_res_info(this.res_str_id,
+      {status: null, visit_key: null, description: null, rname: null, right_bubble, parent_str_id: null})
+      .then((resp) => {
+        this.resource.update(null, resp);
+        BaseService.info_center.next(new Info({text: `已切换为${right_bubble ? '附属模式' : '独立模式'}`, type: Info.TYPE_SUCC}));
+      })
+      .catch(() => null)
+      .finally(() => {
+        this.resource_mode_updating = false;
+      });
   }
 
   get readme_empty_hint() {

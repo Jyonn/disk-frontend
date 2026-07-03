@@ -133,13 +133,6 @@
         <div class="btn succ" (click)="modify_res_cover_resource()">更新</div>
       </div>
     </div>
-    <div class="input-box">
-      <div class="title">{{right_bubble_text}}</div>
-      <div class="input-btn-line right">
-        <div class="btn" [ngClass]="resource?.right_bubble ? 'succ' : ''" (click)="modify_bubble_action()">附属模式</div>
-        <div class="btn" [ngClass]="resource?.right_bubble ? '' : 'succ'" (click)="modify_bubble_action()">独立模式</div>
-      </div>
-    </div>
   </div>
 
   <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_setting)">

@@ -466,28 +466,6 @@ export class ResOpComponent implements OnInit {
       });
   }
 
-  modify_bubble_action() {
-    if (this.footBtnService.is_ajax_modifying) {
-      BaseService.info_center.next(new Info({text: '正在更新', type: Info.TYPE_SUCC}));
-      return;
-    }
-    if (!this.resource) {
-      BaseService.info_center.next(new Info({text: '资源尚未加载', type: Info.TYPE_WARN}));
-    }
-    const right_bubble = !this.resource.right_bubble;
-    this.resService.modify_res_info(this.res_str_id,
-      {status: null, visit_key: null, description: null, rname: null, right_bubble: right_bubble, parent_str_id: null})
-      .then((resp) => {
-        this.resource.update(null, resp);
-        // this.footBtnService.foot_btn_active = null;
-        this.footBtnService.is_ajax_modifying = false;
-        BaseService.info_center.next(new Info({text: '修改资源属性成功', type: Info.TYPE_SUCC}));
-      })
-      .catch(() => {
-        this.footBtnService.is_ajax_modifying = false;
-      });
-  }
-
   move_res_action() {
     this.footBtnService.inactivate();
     this.onMove.emit();
@@ -600,17 +578,6 @@ export class ResOpComponent implements OnInit {
 
   show_insecure_info() {
     BaseService.info_center.next({text: this.resource.secure_info, type: Info.TYPE_WARN});
-  }
-
-  get right_bubble_text() {
-    if (!this.resource) {
-      return null;
-    }
-    if (this.resource.right_bubble) {
-      return '附属资源，能访问父资源就能访问我';
-    } else {
-      return '独立资源，不受父资源分享状态影响';
-    }
   }
 
   nav_zip() {
