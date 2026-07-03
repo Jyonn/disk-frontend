@@ -1246,7 +1246,6 @@ div.res {
         align-items: center;
         gap: 8px;
         min-width: 0;
-        cursor: copy;
         color: oklch(0.93 0.01 82);
         font-size: 0.95rem;
         line-height: 1.35;
@@ -1255,10 +1254,14 @@ div.res {
       }
 
       span.res-name-text {
+        &:extend(.ptr);
+        display: inline-block;
+        max-width: 100%;
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        cursor: copy;
         text-decoration: underline;
         text-decoration-color: rgba(188, 142, 76, 0.22);
         text-underline-offset: 0.16em;
@@ -1281,18 +1284,9 @@ div.res {
         text-transform: uppercase;
       }
 
-      div.res-name:hover {
+      span.res-name-text:hover {
         color: oklch(0.98 0.015 82);
-      }
-
-      div.res-name:hover span.res-name-text {
         text-decoration-color: rgba(188, 142, 76, 0.48);
-      }
-
-      div.res-name:hover span.res-name-badge {
-        border-color: rgba(154, 126, 77, 0.26);
-        background: rgba(188, 142, 76, 0.14);
-        color: oklch(0.9 0.02 82);
       }
 
       div.res-time {

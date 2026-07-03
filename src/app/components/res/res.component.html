@@ -73,14 +73,14 @@
           <div class="res-hover-mask"></div>
           <div class="res-select" *ngIf="footBtnService.is_selecting"><span [ngClass]="child.icon_select"></span></div>
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
-          <div class="res-name"
-               title="点击复制名称"
-               ngxClipboard
-               [cbContent]="child.rname"
-               (cbOnError)="copy_error()"
-               (cbOnSuccess)="copy_succ('名称已复制')"
-               (click)="$event.stopPropagation()">
-            <span class="res-name-text">{{child.rname}}</span>
+          <div class="res-name">
+            <span class="res-name-text"
+                  title="点击复制名称"
+                  ngxClipboard
+                  [cbContent]="child.rname"
+                  (cbOnError)="copy_error()"
+                  (cbOnSuccess)="copy_succ('名称已复制')"
+                  (click)="$event.stopPropagation()">{{child.rname}}</span>
             <span class="res-name-badge mono" *ngIf="child.new_created">new</span>
           </div>
           <div class="res-time mono">{{resource_time(child)}}</div>
