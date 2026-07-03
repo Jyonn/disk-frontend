@@ -345,6 +345,21 @@ nav.nav-zip {
 @media (max-width: 720px) {
   nav {
     div.content {
+      transition:
+        grid-template-columns 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        gap 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    div.content div.nav-title-block {
+      overflow: hidden;
+      transform-origin: left center;
+      transition:
+        opacity 220ms ease,
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0ms linear 0ms;
+    }
+
+    div.content {
       gap: 12px;
       height: 38px;
       grid-template-columns: @nav-title-width-mobile minmax(0, 1fr) 38px;
@@ -420,19 +435,14 @@ nav div.menu-box.showing {
 
 @media (max-width: 860px) {
   nav div.content.searching {
-    grid-template-columns: minmax(0, 1fr) @nav-avatar-column;
+    grid-template-columns: 0 minmax(0, 1fr) @nav-avatar-column;
   }
 
   nav div.content.searching div.nav-title-block {
-    display: none;
-  }
-
-  nav div.content.searching div.nav-search-block {
-    grid-column: 1;
-  }
-
-  nav div.content.searching div.right-avatar {
-    grid-column: 2;
+    opacity: 0;
+    visibility: hidden;
+    transform: scaleX(0.94);
+    pointer-events: none;
   }
 }
 
@@ -450,7 +460,7 @@ nav div.menu-box.showing {
   }
 
   nav div.content.searching {
-    grid-template-columns: minmax(0, 1fr) 38px;
+    grid-template-columns: 0 minmax(0, 1fr) 38px;
   }
 
   nav div.title {
