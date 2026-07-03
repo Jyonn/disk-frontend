@@ -17,6 +17,11 @@ import { ResourceTreeService } from "../../services/resource-tree.service";
 import {WechatShareService} from "../../services/wechat-share.service";
 import {VideoService} from "../../services/video.service";
 
+interface DragUploadItem {
+  file: File;
+  relativePath: string;
+}
+
 @Component({
   selector: 'app-res',
   templateUrl: './res.component.html',
@@ -81,6 +86,8 @@ export class ResComponent implements OnInit, AfterViewInit {
   name_overflow_states: {[res_id: string]: {overflowing: boolean, shift: number}};
   pending_name_overflow_refresh: boolean;
   resource_mode_updating: boolean;
+  show_drag_upload_overlay: boolean;
+  drag_upload_depth: number;
 
   constructor(
     public baseService: BaseService,
@@ -112,6 +119,8 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.name_overflow_states = {};
     this.pending_name_overflow_refresh = false;
     this.resource_mode_updating = false;
+    this.show_drag_upload_overlay = false;
+    this.drag_upload_depth = 0;
 
     this.operations = {
       delete: {
@@ -144,6 +153,7 @@ export class ResComponent implements OnInit, AfterViewInit {
   }
 
   baseInitResource(resp) {
+    this.reset_drag_upload_state();
     this.children = [];
     this.resource = new Resource(this.baseService, resp.info);
     this.description = this.resource.description;
@@ -170,6 +180,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     // }
   }
   initResLose(base_resp) {
+    this.reset_drag_upload_state();
     base_resp.info.rtype = Resource.RTYPE_ENCRYPT;
     this.resource = new Resource(this.baseService, base_resp.info);
     this.description = '无法查看介绍资料';
@@ -245,6 +256,63 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.schedule_name_overflow_refresh();
   }
 
+  @HostListener('document:dragenter', ['$event'])
+  onDocumentDragEnter(event: DragEvent) {
+    if (!this.can_drag_upload || !this.is_file_drag(event)) {
+      return;
+    }
+    event.preventDefault();
+    this.drag_upload_depth += 1;
+    this.show_drag_upload_overlay = true;
+  }
+
+  @HostListener('document:dragover', ['$event'])
+  onDocumentDragOver(event: DragEvent) {
+    if (!this.can_drag_upload || !this.is_file_drag(event)) {
+      return;
+    }
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'copy';
+    }
+    this.show_drag_upload_overlay = true;
+  }
+
+  @HostListener('document:dragleave', ['$event'])
+  onDocumentDragLeave(event: DragEvent) {
+    if (!this.show_drag_upload_overlay || !this.is_file_drag(event)) {
+      return;
+    }
+    if (event.clientX <= 0 || event.clientY <= 0 ||
+      event.clientX >= window.innerWidth || event.clientY >= window.innerHeight) {
+      this.reset_drag_upload_state();
+      return;
+    }
+    this.drag_upload_depth = Math.max(this.drag_upload_depth - 1, 0);
+    if (this.drag_upload_depth === 0) {
+      this.show_drag_upload_overlay = false;
+    }
+  }
+
+  @HostListener('document:drop', ['$event'])
+  async onDocumentDrop(event: DragEvent) {
+    if (!this.can_drag_upload || !this.is_file_drag(event)) {
+      return;
+    }
+    event.preventDefault();
+    this.reset_drag_upload_state();
+    if (this.show_op_process) {
+      BaseService.info_center.next(new Info({text: '当前已有任务正在执行，请稍后再拖拽上传', type: Info.TYPE_WARN}));
+      return;
+    }
+    const items = await this.collect_drag_upload_items(event.dataTransfer);
+    if (!items.length) {
+      BaseService.info_center.next(new Info({text: '未识别到可上传的本地文件或目录', type: Info.TYPE_WARN}));
+      return;
+    }
+    this.queue_drag_upload(items);
+  }
+
   get op_percent() {
     if (!this.total_op_num) {
       return '0%';
@@ -257,7 +325,7 @@ export class ResComponent implements OnInit, AfterViewInit {
       this.current_item_percentage = 0;
       this.current_path = upload_res_item.readablePath;
       const resp = await this.resService.get_upload_token(this.res_str_id, {filename: upload_res_item.readablePath});
-      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
+      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, this.upload_source_file(upload_res_item),
         (process) => {
         this.current_item_percentage = process.percentage;
         this.op_append_msg = '，当前文件' + process.percentage + '%';
@@ -302,7 +370,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     const folder_tree = {children: {}, res_id: this.res_str_id};
     for (const upload_res_item of upload_res_list) {
       this.current_item_percentage = 0;
-      const paths = upload_res_item.data.webkitRelativePath.split('/');
+      const paths = this.upload_relative_path(upload_res_item).split('/');
       paths.pop();
       let current_directory = folder_tree;
       for (const directory of paths) {
@@ -323,8 +391,8 @@ export class ResComponent implements OnInit, AfterViewInit {
 
       this.current_path = upload_res_item.readablePath;
       // const resp = await this.fake_wait();
-      const resp = await this.resService.get_upload_token(current_directory.res_id, {filename: upload_res_item.data.name});
-      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, upload_res_item.data,
+      const resp = await this.resService.get_upload_token(current_directory.res_id, {filename: this.upload_source_name(upload_res_item)});
+      const res_data = await this.baseService.api_upload_file(resp.key, resp.upload_token, this.upload_source_file(upload_res_item),
         (process) => {
           this.current_item_percentage = process.percentage;
           this.op_append_msg = '，当前文件' + process.percentage + '%';
@@ -1001,6 +1069,103 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.start_operation(data.callback);
   }
 
+  private upload_source_file(upload_res_item: OperationResItem) {
+    return upload_res_item.data?.file || upload_res_item.data;
+  }
+
+  private upload_source_name(upload_res_item: OperationResItem) {
+    return upload_res_item.data?.name || this.upload_source_file(upload_res_item)?.name || upload_res_item.readablePath;
+  }
+
+  private upload_relative_path(upload_res_item: OperationResItem) {
+    return upload_res_item.data?.webkitRelativePath || upload_res_item.readablePath;
+  }
+
+  private reset_drag_upload_state() {
+    this.show_drag_upload_overlay = false;
+    this.drag_upload_depth = 0;
+  }
+
+  private is_file_drag(event: DragEvent) {
+    const types = Array.from(event.dataTransfer?.types || []);
+    return types.includes('Files');
+  }
+
+  private async collect_drag_upload_items(dataTransfer: DataTransfer | null): Promise<DragUploadItem[]> {
+    if (!dataTransfer) {
+      return [];
+    }
+    const items = Array.from(dataTransfer.items || []);
+    const root_entries = items
+      .map((item) => (item as any).webkitGetAsEntry?.())
+      .filter((entry) => !!entry);
+
+    if (root_entries.length) {
+      const entries: DragUploadItem[] = [];
+      for (const entry of root_entries) {
+        await this.walk_drag_entry(entry, '', entries);
+      }
+      return entries;
+    }
+
+    return Array.from(dataTransfer.files || []).map((file) => ({
+      file,
+      relativePath: file.name,
+    }));
+  }
+
+  private async walk_drag_entry(entry: any, parent_path: string, result: DragUploadItem[]) {
+    if (!entry) {
+      return;
+    }
+    if (entry.isFile) {
+      const file = await new Promise<File>((resolve, reject) => entry.file(resolve, reject));
+      const relative_path = parent_path ? `${parent_path}/${file.name}` : file.name;
+      result.push({file, relativePath: relative_path});
+      return;
+    }
+    if (!entry.isDirectory) {
+      return;
+    }
+    const next_path = parent_path ? `${parent_path}/${entry.name}` : entry.name;
+    const children = await this.read_drag_directory_entries(entry.createReader());
+    for (const child of children) {
+      await this.walk_drag_entry(child, next_path, result);
+    }
+  }
+
+  private async read_drag_directory_entries(reader: any) {
+    const entries = [];
+    while (true) {
+      const batch = await new Promise<any[]>((resolve, reject) => reader.readEntries(resolve, reject));
+      if (!batch.length) {
+        break;
+      }
+      entries.push(...batch);
+    }
+    return entries;
+  }
+
+  private queue_drag_upload(items: DragUploadItem[]) {
+    const has_directory_path = items.some((item) => item.relativePath.includes('/'));
+    this.operation_list = items.map((item) => new OperationResItem({
+      res_str_id: null,
+      readablePath: item.relativePath.replace(/\//g, ' / '),
+    }, has_directory_path ? {
+      file: item.file,
+      name: item.file.name,
+      webkitRelativePath: item.relativePath,
+    } : item.file));
+
+    this.op_identifier = has_directory_path ? 'upload-folder' : 'upload';
+    this.footBtnService.inactivate();
+    BaseService.info_center.next(new Info({
+      text: `检测到${items.length}个拖拽资源，开始上传`,
+      type: Info.TYPE_SUCC,
+    }));
+    this.start_operation();
+  }
+
   onDeleted() {
     if (this.operation_list.length === 0) {
       return;
@@ -1253,6 +1418,10 @@ export class ResComponent implements OnInit, AfterViewInit {
 
   get is_mine() {
     return this.resource && this.userService.user && this.userService.user.user_id === this.resource.owner.user_id;
+  }
+
+  get can_drag_upload() {
+    return !!(this.is_owner && this.resource?.is_folder);
   }
 
   go_login() {

@@ -75,9 +75,10 @@
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_file))" class="input-box">
       <input type="file" multiple (change)="choose_files_onchange($event)" #choose_file>
-      <div class="file-picker" (click)="choose_file.value = null; choose_file.click()">
+      <div class="file-picker" *ngIf="!upload_count" (click)="choose_file.value = null; choose_file.click()">
         <div class="file-picker-label mono">SELECT FILES</div>
-        <div class="file-picker-text">{{upload_count ? '重新选择要上传到当前目录的本地文件' : '点击选择要上传到当前目录的本地文件'}}</div>
+        <div class="file-picker-text">点击选择要上传到当前目录的本地文件</div>
+        <div class="upload-row-meta mono">or drag files / folders into window</div>
       </div>
       <div class="upload-list" *ngIf="upload_count">
         <div class="upload-row" *ngFor="let entry of upload_entries; let i = index">
@@ -112,6 +113,7 @@
         </div>
       </div>
       <div class="modal-actions right">
+        <div class="btn" *ngIf="upload_count" (click)="choose_file.value = null; choose_file.click()">重选</div>
         <div class="btn" *ngIf="upload_count" (click)="clear_upload_files()">清空</div>
         <div class="btn succ"
              [ngClass]="{'disabled': footBtnService.is_ajax_uploading || !upload_count}"
@@ -121,15 +123,21 @@
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
       <input type="file" multiple webkitdirectory (change)="choose_folder_onchange($event)" #choose_folder>
       <div class="file-picker"
+           *ngIf="!upload_folder_name"
            [ngClass]="{selected: upload_folder_name}"
            (click)="choose_folder.value = null; choose_folder.click()">
         <div class="file-picker-label mono">SELECT FOLDER</div>
-        <div class="file-picker-text" *ngIf="!upload_folder_name">点击选择要上传到当前目录的本地文件夹</div>
-        <div class="file-picker-text" *ngIf="upload_folder_name">已选择文件夹 “{{upload_folder_name}}”</div>
-        <div class="upload-row-meta mono" *ngIf="upload_folder_name">{{folder_file_count}} files queued</div>
+        <div class="file-picker-text">点击选择要上传到当前目录的本地文件夹</div>
+        <div class="upload-row-meta mono">or drag files / folders into window</div>
+      </div>
+      <div class="upload-row upload-folder-row" *ngIf="upload_folder_name">
+        <div class="upload-row-main">
+          <div class="upload-row-name">{{upload_folder_name}}</div>
+          <div class="upload-row-meta mono">{{folder_file_count}} files queued</div>
+        </div>
       </div>
       <div class="modal-actions right">
-        <div class="btn" (click)="choose_folder.value = null; choose_folder.click()">重选</div>
+        <div class="btn" *ngIf="upload_folder_name" (click)="choose_folder.value = null; choose_folder.click()">重选</div>
         <div class="btn succ"
              [ngClass]="{'disabled': !upload_folder_name || footBtnService.is_ajax_uploading}"
              (click)="upload_folder_action()">上传文件夹</div>

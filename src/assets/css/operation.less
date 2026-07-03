@@ -324,6 +324,17 @@ div.operation-block {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        max-height: min(320px, 46vh);
+        overflow-y: auto;
+        padding-right: 4px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      div.upload-list::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
       }
 
       div.upload-row {
@@ -334,6 +345,10 @@ div.operation-block {
         border: 1px solid var(--modal-line);
         border-radius: 16px;
         background: rgba(255, 255, 255, 0.025);
+      }
+
+      div.upload-folder-row {
+        margin-top: 14px;
       }
 
       div.upload-row-main {

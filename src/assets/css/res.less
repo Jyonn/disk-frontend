@@ -791,6 +791,53 @@ div.res {
     user-select: text;
   }
 
+  div.drag-upload-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background:
+      linear-gradient(180deg, rgba(9, 14, 17, 0.78), rgba(7, 11, 14, 0.86)),
+      radial-gradient(circle at center, rgba(74, 171, 149, 0.12), transparent 48%);
+    backdrop-filter: blur(12px);
+    pointer-events: none;
+  }
+
+  div.drag-upload-frame {
+    width: min(720px, 100%);
+    padding: 36px 40px;
+    border: 1px dashed var(--term-accent-strong);
+    border-radius: 28px;
+    background: rgba(16, 23, 28, 0.94);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(74, 171, 149, 0.08);
+    text-align: center;
+  }
+
+  div.drag-upload-kicker {
+    color: var(--term-accent);
+    font-size: 0.76rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  div.drag-upload-title {
+    margin-top: 14px;
+    color: var(--term-text);
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    line-height: 1.45;
+  }
+
+  div.drag-upload-note {
+    margin-top: 12px;
+    color: var(--term-text-dim);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
   div.tab {
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--term-line-strong);

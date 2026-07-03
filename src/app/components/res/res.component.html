@@ -15,6 +15,13 @@
              (swiperight)="go_parent()"></app-res-nav>
 
 <div class="res" [ngClass]="[tab_mode, resService.zip_nav ? 'nav-zip' : '', baseService.desc_more ? 'more': '']">
+  <div class="drag-upload-overlay" *ngIf="show_drag_upload_overlay">
+    <div class="drag-upload-frame">
+      <div class="drag-upload-kicker mono">drag upload ready</div>
+      <div class="drag-upload-title">拖拽到此处后将自动上传到当前目录</div>
+      <div class="drag-upload-note mono">files and folders supported</div>
+    </div>
+  </div>
   <ng-template #resourceStatusDock>
     <div class="dock-strip">
       <div class="dock-status-head">
