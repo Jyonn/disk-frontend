@@ -7,7 +7,8 @@
              [search_mode]="search_mode"
              [search_value]="search_value"
              (onGoParent)="go_parent()"
-             (onToggleSearch)="toggle_search_mode()"
+             (onOpenSearch)="open_search_mode()"
+             (onCollapseSearch)="collapse_search_mode()"
              (onSearchValue)="update_search_value($event)"
              (onClearSearch)="clear_search()"
              (swiperight)="go_parent()"></app-res-nav>
