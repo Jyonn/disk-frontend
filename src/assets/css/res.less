@@ -747,7 +747,25 @@ div.res.description.more {
 }
 
 div.res {
-  color: oklch(0.9 0.01 220);
+  --term-bg-0: #0f1418;
+  --term-bg-1: #151b21;
+  --term-bg-2: #1b242c;
+  --term-bg-3: #24303a;
+  --term-panel: rgba(21, 28, 34, 0.92);
+  --term-panel-soft: rgba(27, 36, 44, 0.84);
+  --term-line: rgba(111, 146, 154, 0.14);
+  --term-line-strong: rgba(111, 146, 154, 0.28);
+  --term-text: oklch(0.92 0.012 205);
+  --term-text-soft: oklch(0.8 0.02 198);
+  --term-text-dim: oklch(0.66 0.018 202);
+  --term-accent: oklch(0.74 0.085 178);
+  --term-accent-soft: rgba(74, 171, 149, 0.15);
+  --term-accent-strong: rgba(74, 171, 149, 0.26);
+  --term-warm: oklch(0.79 0.08 72);
+  --term-warm-soft: rgba(204, 153, 89, 0.14);
+  --term-danger: oklch(0.74 0.13 32);
+  --term-danger-soft: rgba(184, 99, 79, 0.16);
+  color: var(--term-text);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -763,59 +781,59 @@ div.res {
 
   div.tab {
     backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(126, 154, 255, 0.1);
+    border-bottom: 1px solid var(--term-line-strong);
 
     div.resource,
     div.description,
     div.desc-edit {
-      background: rgba(10, 15, 26, 0.92);
+      background: linear-gradient(180deg, rgba(24, 33, 39, 0.96), rgba(16, 22, 27, 0.94));
     }
 
     div.resource span,
     div.description span,
     div.desc-edit span {
-      color: oklch(0.78 0.03 228);
+      color: var(--term-text-soft);
       letter-spacing: 0.04em;
     }
 
     div.resource,
     div.description {
-      border-right: 1px solid rgba(126, 154, 255, 0.08);
+      border-right: 1px solid var(--term-line);
     }
 
     div.search-container span.icon-search,
     div.search-container span.icon-collapse,
     div.description span.icon,
     div.resource span.icon-sort {
-      color: oklch(0.74 0.04 225);
+      color: var(--term-accent);
     }
 
     div.search-container div.search-box input.search {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(126, 154, 255, 0.14);
-      color: oklch(0.93 0.01 220);
+      background: var(--term-panel-soft);
+      border: 1px solid var(--term-line);
+      color: var(--term-text);
     }
 
     div.search-container div.search-box span.clear-keyword {
-      color: oklch(0.78 0.07 225);
+      color: var(--term-accent);
     }
 
     div.sort-container,
     div.operation-container {
-      background: rgba(9, 14, 24, 0.98);
-      border: 1px solid rgba(126, 154, 255, 0.12);
+      background: rgba(20, 28, 34, 0.98);
+      border: 1px solid var(--term-line);
       box-shadow: 0 18px 42px rgba(4, 10, 22, 0.36);
 
       div.sort-item,
       div.op-item {
-        color: oklch(0.82 0.02 228);
+        color: var(--term-text-soft);
         font-family: "IBM Plex Mono", monospace;
         letter-spacing: 0.04em;
       }
 
       div.sort-item:hover,
       div.op-item:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--term-accent-soft);
       }
     }
   }
@@ -827,8 +845,9 @@ div.res {
   div.content.resource {
     padding: 10px 0 24px;
     background:
-      radial-gradient(circle at top right, rgba(188, 142, 76, 0.08), transparent 24%),
-      linear-gradient(180deg, rgba(10, 14, 19, 0.98), rgba(8, 11, 15, 1));
+      radial-gradient(circle at top right, rgba(74, 171, 149, 0.12), transparent 28%),
+      radial-gradient(circle at 22% 14%, rgba(204, 153, 89, 0.08), transparent 20%),
+      linear-gradient(180deg, #12181d 0%, #0d1216 100%);
 
     div.command-bar {
       display: flex;
@@ -841,8 +860,8 @@ div.res {
       box-sizing: border-box;
       overflow: hidden;
       border-radius: 12px;
-      border: 1px solid rgba(154, 126, 77, 0.12);
-      background: rgba(255, 249, 238, 0.03);
+      border: 1px solid var(--term-line);
+      background: linear-gradient(180deg, rgba(34, 46, 54, 0.72), rgba(24, 32, 39, 0.72));
     }
 
     div.dock-label-row {
@@ -873,16 +892,16 @@ div.res {
       justify-content: space-between;
       gap: 8px;
       border-radius: 999px;
-      border: 1px solid rgba(154, 126, 77, 0.14);
-      background: rgba(255, 249, 238, 0.04);
-      color: oklch(0.84 0.02 82);
+      border: 1px solid var(--term-line);
+      background: rgba(31, 42, 50, 0.96);
+      color: var(--term-text-soft);
       font-size: 0.72rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     span.command-dropdown-caret {
-      color: oklch(0.64 0.03 82);
+      color: var(--term-accent);
       font-size: 0.72rem;
       line-height: 1;
       transition: transform 180ms ease, color 180ms ease;
@@ -890,7 +909,7 @@ div.res {
 
     div.command-dropdown.open span.command-dropdown-caret {
       transform: rotate(180deg);
-      color: oklch(0.9 0.015 82);
+      color: var(--term-text);
     }
 
     div.command-dropdown-menu {
@@ -902,8 +921,8 @@ div.res {
       display: grid;
       gap: 4px;
       border-radius: 14px;
-      border: 1px solid rgba(154, 126, 77, 0.16);
-      background: rgba(11, 15, 19, 0.98);
+      border: 1px solid var(--term-line);
+      background: rgba(18, 25, 30, 0.98);
       box-shadow: 0 18px 36px rgba(4, 7, 12, 0.34);
       z-index: 3;
     }
@@ -916,21 +935,21 @@ div.res {
       border: none;
       border-radius: 10px;
       background: transparent;
-      color: oklch(0.84 0.02 82);
+      color: var(--term-text-soft);
       font-size: 0.74rem;
       letter-spacing: 0.08em;
     }
 
     button.command-dropdown-item:hover {
-      background: rgba(255, 249, 238, 0.06);
-      color: oklch(0.95 0.01 82);
+      background: var(--term-accent-soft);
+      color: var(--term-text);
     }
 
     div.command-code {
       flex: 1 1 auto;
       min-width: 0;
       max-width: 100%;
-      color: oklch(0.88 0.015 82);
+      color: var(--term-text);
       font-size: 0.82rem;
       white-space: nowrap;
       overflow-x: auto;
@@ -954,26 +973,26 @@ div.res {
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      border: 1px solid rgba(154, 126, 77, 0.12);
-      background: rgba(255, 249, 238, 0.03);
-      color: oklch(0.76 0.03 82);
+      border: 1px solid var(--term-line);
+      background: rgba(29, 39, 47, 0.9);
+      color: var(--term-accent);
     }
 
     div.copy-icon:hover {
-      border-color: rgba(154, 126, 77, 0.24);
-      background: rgba(188, 142, 76, 0.1);
-      color: oklch(0.95 0.01 82);
+      border-color: var(--term-accent-strong);
+      background: var(--term-accent-soft);
+      color: var(--term-text);
     }
 
     div.list-intro {
       margin: 0 18px 14px;
       padding: 8px 0 18px;
-      border-bottom: 1px solid rgba(154, 126, 77, 0.12);
+      border-bottom: 1px solid var(--term-line);
       background: transparent;
       animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       div.summary {
-        color: oklch(0.67 0.02 82);
+        color: var(--term-text-dim);
         font-size: 0.84rem;
       }
 
@@ -1008,17 +1027,17 @@ div.res {
         min-height: 32px;
         padding: 0 11px;
         border-radius: 10px;
-        border: 1px solid rgba(154, 126, 77, 0.12);
-        background: rgba(255, 249, 238, 0.03);
-        color: oklch(0.78 0.02 82);
+        border: 1px solid var(--term-line);
+        background: rgba(28, 38, 46, 0.92);
+        color: var(--term-text-soft);
         font-size: 0.78rem;
         letter-spacing: 0.04em;
       }
 
       div.tool-chip.active {
-        border-color: rgba(154, 126, 77, 0.24);
-        background: rgba(188, 142, 76, 0.12);
-        color: oklch(0.95 0.01 82);
+        border-color: var(--term-accent-strong);
+        background: var(--term-accent-soft);
+        color: var(--term-text);
       }
 
       div.tool-chip.sub {
@@ -1026,8 +1045,8 @@ div.res {
       }
 
       div.tool-chip.warn {
-        color: oklch(0.88 0.04 40);
-        background: rgba(185, 103, 72, 0.12);
+        color: var(--term-danger);
+        background: var(--term-danger-soft);
       }
 
       span.chip-order {
@@ -1046,9 +1065,9 @@ div.res {
         min-width: 0;
         height: 38px;
         border-radius: 10px;
-        border: 1px solid rgba(154, 126, 77, 0.14);
-        background: rgba(255, 249, 238, 0.04);
-        color: oklch(0.93 0.01 82);
+        border: 1px solid var(--term-line);
+        background: rgba(28, 38, 46, 0.92);
+        color: var(--term-text);
         padding: 0 16px;
       }
     }
@@ -1062,8 +1081,8 @@ div.res {
       gap: 12px;
       margin: 0 18px 10px;
       padding: 12px 0 10px;
-      background: linear-gradient(180deg, rgba(10, 14, 19, 1), rgba(10, 14, 19, 0.82));
-      color: oklch(0.54 0.03 82);
+      background: linear-gradient(180deg, rgba(23, 31, 38, 0.98), rgba(18, 25, 31, 0.88));
+      color: var(--term-text-dim);
       letter-spacing: 0.1em;
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -1084,12 +1103,12 @@ div.res {
       justify-content: center;
       border: none;
       background: transparent;
-      color: oklch(0.66 0.03 82);
+      color: var(--term-accent);
       font-size: 0.92rem;
     }
 
     button.head-select-toggle:hover {
-      color: oklch(0.9 0.015 82);
+      color: var(--term-text);
     }
 
     button.head-cell {
@@ -1127,19 +1146,19 @@ div.res {
     }
 
     button.head-cell:hover {
-      color: oklch(0.74 0.05 82);
+      color: var(--term-text-soft);
     }
 
     span.head-time-toggle {
       &:extend(.ptr);
       flex: 0 0 auto;
-      color: oklch(0.66 0.03 82);
+      color: var(--term-accent);
       font-size: 0.84rem;
     }
 
     span.head-sort {
       flex: 0 0 auto;
-      color: oklch(0.44 0.02 82);
+      color: var(--term-text-dim);
       font-size: 0.82rem;
       line-height: 1;
     }
@@ -1149,7 +1168,7 @@ div.res {
     }
 
     span.head-sort.asc {
-      color: oklch(0.82 0.04 82);
+      color: var(--term-accent);
     }
 
     span.head-sort.asc::before {
@@ -1157,7 +1176,7 @@ div.res {
     }
 
     span.head-sort.desc {
-      color: oklch(0.82 0.04 82);
+      color: var(--term-accent);
     }
 
     span.head-sort.desc::before {
@@ -1167,13 +1186,13 @@ div.res {
     div.res-empty {
       margin: 0 18px;
       padding: 28px 0;
-      border-top: 1px dashed rgba(154, 126, 77, 0.16);
-      border-bottom: 1px dashed rgba(154, 126, 77, 0.16);
+      border-top: 1px dashed var(--term-line);
+      border-bottom: 1px dashed var(--term-line);
       background: transparent;
       text-align: left;
 
       div.empty-title {
-        color: oklch(0.78 0.04 82);
+        color: var(--term-accent);
         letter-spacing: 0.12em;
         text-transform: uppercase;
         font-size: 0.78rem;
@@ -1181,7 +1200,7 @@ div.res {
 
       div.empty-desc {
         margin-top: 10px;
-        color: oklch(0.68 0.02 82);
+        color: var(--term-text-dim);
       }
     }
 
@@ -1200,7 +1219,7 @@ div.res {
       padding: 7px 0;
       border-radius: 0;
       border: none;
-      border-bottom: 1px solid rgba(154, 126, 77, 0.08);
+      border-bottom: 1px solid var(--term-line);
       background: transparent;
       overflow: hidden;
       animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
@@ -1223,13 +1242,13 @@ div.res {
 
       button.res-select span {
         font-size: 16px;
-        color: @active-btn-bg;
+        color: var(--term-accent);
         opacity: 0;
         transition: opacity 160ms ease, color 160ms ease;
       }
 
       button.res-select span.icon-uncheck {
-        color: @inactive-btn-bg;
+        color: var(--term-text-dim);
       }
 
       button.res-select:hover span,
@@ -1255,14 +1274,14 @@ div.res {
         border-radius: 10px;
         width: 40px;
         height: 40px;
-        background: rgba(255, 249, 238, 0.035);
-        border: 1px solid rgba(154, 126, 77, 0.12);
+        background: linear-gradient(180deg, rgba(36, 49, 58, 0.9), rgba(28, 38, 46, 0.88));
+        border: 1px solid var(--term-line-strong);
         box-shadow: none;
       }
 
       div.res-image span {
         font-size: 18px;
-        color: oklch(0.8 0.03 82);
+        color: var(--term-accent);
       }
 
       div.res-name {
@@ -1270,7 +1289,7 @@ div.res {
         align-items: center;
         gap: 8px;
         min-width: 0;
-        color: oklch(0.93 0.01 82);
+        color: var(--term-text);
         font-size: 0.95rem;
         line-height: 1.35;
         font-weight: 560;
@@ -1287,7 +1306,7 @@ div.res {
         white-space: nowrap;
         cursor: copy;
         text-decoration: underline;
-        text-decoration-color: rgba(188, 142, 76, 0.22);
+        text-decoration-color: rgba(74, 171, 149, 0.3);
         text-underline-offset: 0.16em;
       }
 
@@ -1300,27 +1319,27 @@ div.res {
         height: 18px;
         padding: 0 8px;
         border-radius: 999px;
-        border: 1px solid rgba(154, 126, 77, 0.18);
-        background: rgba(188, 142, 76, 0.1);
-        color: oklch(0.82 0.03 82);
+        border: 1px solid rgba(204, 153, 89, 0.18);
+        background: var(--term-warm-soft);
+        color: var(--term-warm);
         font-size: 0.6rem;
         letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       span.res-name-text:hover {
-        color: oklch(0.98 0.015 82);
-        text-decoration-color: rgba(188, 142, 76, 0.48);
+        color: var(--term-text);
+        text-decoration-color: rgba(74, 171, 149, 0.62);
       }
 
       div.res-time {
-        color: oklch(0.66 0.02 82);
+        color: var(--term-text-dim);
         font-size: 0.78rem;
         white-space: nowrap;
       }
 
       div.res-size {
-        color: oklch(0.72 0.03 82);
+        color: var(--term-text-soft);
         font-size: 0.78rem;
         text-align: right;
         white-space: nowrap;
@@ -1337,7 +1356,9 @@ div.res {
 
     div.res-item:hover {
       div.res-hover-mask {
-        background-color: rgba(255, 249, 238, 0.03);
+        background:
+          linear-gradient(90deg, rgba(74, 171, 149, 0.05), transparent 42%),
+          rgba(36, 48, 57, 0.28);
       }
     }
 
@@ -1348,15 +1369,15 @@ div.res {
       margin: 0 18px;
       padding: 18px 0 22px;
       border-radius: 0;
-      border-top: 1px solid rgba(154, 126, 77, 0.12);
-      border-bottom: 1px solid rgba(154, 126, 77, 0.12);
+      border-top: 1px solid var(--term-line);
+      border-bottom: 1px solid var(--term-line);
       background: transparent;
       box-shadow: none;
       animation: workspace-rise 420ms cubic-bezier(0.25, 1, 0.5, 1) both;
 
       span.icon {
         font-size: 54px;
-        color: oklch(0.78 0.04 82);
+        color: var(--term-accent);
       }
 
       div.file-name {
@@ -1365,21 +1386,21 @@ div.res {
         padding: 0;
         text-align: left;
         cursor: copy;
-        color: oklch(0.95 0.015 82);
+        color: var(--term-text);
         font-size: clamp(1.18rem, 2.2vw, 1.76rem);
         line-height: 1.12;
         white-space: normal;
       }
 
       div.file-name:hover {
-        color: oklch(0.98 0.015 82);
+        color: var(--term-text);
       }
 
       div.file-size {
         position: static;
         margin-top: 10px;
         text-align: left;
-        color: oklch(0.66 0.02 82);
+        color: var(--term-text-dim);
         font-size: 0.92rem;
       }
 
@@ -1396,8 +1417,8 @@ div.res {
         display: grid;
         place-items: center;
         border-radius: 18px;
-        border: 1px solid rgba(154, 126, 77, 0.12);
-        background: rgba(255, 249, 238, 0.035);
+        border: 1px solid var(--term-line-strong);
+        background: linear-gradient(180deg, rgba(34, 46, 54, 0.96), rgba(26, 36, 43, 0.92));
       }
 
       div.asset-icon span.icon {
@@ -1415,7 +1436,7 @@ div.res {
       }
 
       div.asset-kicker {
-        color: oklch(0.72 0.04 82);
+        color: var(--term-accent);
         font-size: 0.68rem;
         letter-spacing: 0.16em;
         text-transform: uppercase;
@@ -1425,13 +1446,13 @@ div.res {
         display: flex;
         flex-wrap: wrap;
         gap: 8px 16px;
-        color: oklch(0.66 0.02 82);
+        color: var(--term-text-dim);
         font-size: 0.88rem;
       }
 
       div.asset-target {
         max-width: 100%;
-        color: oklch(0.78 0.03 82);
+        color: var(--term-text-soft);
         font-size: 0.84rem;
         line-height: 1.5;
         word-break: break-all;
@@ -1443,18 +1464,18 @@ div.res {
 
       div.command-hint {
         margin-bottom: 8px;
-        color: oklch(0.74 0.05 144);
+        color: var(--term-accent);
         letter-spacing: 0.12em;
         text-transform: uppercase;
         font-size: 0.7rem;
       }
 
       div.command-bar.link-box {
-        background: rgba(188, 142, 76, 0.08);
+        background: rgba(74, 171, 149, 0.1);
       }
 
       div.command-bar.link-box div.command-code {
-        color: oklch(0.92 0.015 82);
+        color: var(--term-text);
       }
 
       div.btn-box {
@@ -1492,7 +1513,7 @@ div.res {
 
       div.title {
         margin-top: 0;
-        color: oklch(0.82 0.02 82);
+        color: var(--term-text-soft);
       }
 
       div.input-box {
@@ -1506,9 +1527,9 @@ div.res {
         input {
           position: static;
           min-width: min(320px, 100%);
-          background: rgba(255, 249, 238, 0.04);
-          border: 1px solid rgba(154, 126, 77, 0.12);
-          color: oklch(0.93 0.01 82);
+          background: rgba(27, 37, 45, 0.94);
+          border: 1px solid var(--term-line);
+          color: var(--term-text);
         }
 
         div.round-btn {
@@ -1520,7 +1541,7 @@ div.res {
     section.main-readme {
       margin: 28px 18px 0;
       padding-top: 18px;
-      border-top: 1px solid rgba(154, 126, 77, 0.12);
+      border-top: 1px solid var(--term-line);
     }
 
     div.main-readme-head {
@@ -1532,7 +1553,7 @@ div.res {
     }
 
     div.main-readme-head span {
-      color: oklch(0.74 0.04 82);
+      color: var(--term-accent);
       font-size: 0.74rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -1540,12 +1561,12 @@ div.res {
   }
 
   div.content.description {
-    background: rgba(7, 11, 19, 0.92);
-    border-left: 1px solid rgba(126, 154, 255, 0.1);
+    background: linear-gradient(180deg, rgba(16, 22, 27, 0.96), rgba(12, 17, 21, 0.96));
+    border-left: 1px solid var(--term-line);
 
     div.padding-div {
       padding: 18px 22px 22px;
-      color: oklch(0.87 0.01 220);
+      color: var(--term-text);
 
       div.doc-head {
         display: flex;
@@ -1553,14 +1574,14 @@ div.res {
         gap: 12px;
         align-items: center;
         margin-bottom: 16px;
-        color: @blue;
+        color: var(--term-accent);
         letter-spacing: 0.08em;
         font-size: 0.78rem;
         text-transform: uppercase;
       }
 
       span.doc-hint {
-        color: oklch(0.62 0.02 228);
+        color: var(--term-text-dim);
         font-size: 0.74rem;
       }
 
@@ -1580,17 +1601,17 @@ div.res {
         min-height: 32px;
         padding: 0 12px;
         border-radius: 999px;
-        border: 1px solid rgba(126, 154, 255, 0.14);
-        background: rgba(95, 128, 208, 0.12);
-        color: oklch(0.95 0.01 220);
+        border: 1px solid var(--term-line-strong);
+        background: var(--term-accent-soft);
+        color: var(--term-text);
         font-size: 0.76rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
       div.doc-action.sub {
-        background: rgba(255, 255, 255, 0.04);
-        color: oklch(0.8 0.02 228);
+        background: rgba(27, 37, 45, 0.94);
+        color: var(--term-text-soft);
       }
 
       div.empty-doc {
@@ -1599,18 +1620,18 @@ div.res {
         margin-top: 18px;
         padding: 18px;
         border-radius: 18px;
-        border: 1px dashed rgba(126, 154, 255, 0.14);
-        color: oklch(0.72 0.02 228);
+        border: 1px dashed var(--term-line);
+        color: var(--term-text-dim);
       }
 
       textarea {
-        color: oklch(0.92 0.01 220);
+        color: var(--term-text);
       }
     }
   }
 
   div.content.operation {
-    background: rgba(6, 10, 18, 0.94);
+    background: rgba(10, 14, 18, 0.94);
   }
 }
 
@@ -1637,6 +1658,8 @@ div.res div.content.resource {
   aside.workspace-side {
     margin: 18px;
     overflow-x: hidden;
+    background: linear-gradient(180deg, rgba(25, 33, 39, 0.78), rgba(19, 25, 30, 0.72));
+    border: 1px solid var(--term-line);
   }
 
   div.status-row {
@@ -1655,37 +1678,37 @@ div.res div.content.resource {
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    border: 1px solid rgba(154, 126, 77, 0.16);
-    background: rgba(255, 249, 238, 0.04);
-    color: oklch(0.92 0.015 82);
+    border: 1px solid var(--term-line);
+    background: rgba(29, 39, 47, 0.94);
+    color: var(--term-text);
   }
 
   div.status-pill.public {
-    background: rgba(103, 154, 103, 0.14);
+    background: var(--term-accent-soft);
   }
 
   div.status-pill.protect {
-    background: rgba(179, 128, 72, 0.14);
+    background: var(--term-warm-soft);
   }
 
   div.status-pill.private {
-    background: rgba(255, 255, 255, 0.05);
-    color: oklch(0.82 0.015 82);
+    background: rgba(32, 42, 50, 0.94);
+    color: var(--term-text-soft);
   }
 
   div.status-pill.warn {
-    background: rgba(185, 103, 72, 0.14);
+    background: var(--term-danger-soft);
   }
 
   div.dock-ref {
-    color: oklch(0.68 0.03 82);
+    color: var(--term-accent);
     font-size: 0.76rem;
     letter-spacing: 0.12em;
   }
 
   p.dock-note {
     margin-top: 12px;
-    color: oklch(0.72 0.02 82);
+    color: var(--term-text-dim);
     line-height: 1.68;
     font-size: 0.88rem;
   }
@@ -1700,12 +1723,12 @@ div.res div.content.resource {
   div.dock-strip {
     min-width: 0;
     padding-bottom: 18px;
-    border-bottom: 1px solid rgba(154, 126, 77, 0.12);
+    border-bottom: 1px solid var(--term-line);
   }
 
   div.dock-label {
     margin-bottom: 10px;
-    color: oklch(0.72 0.04 82);
+    color: var(--term-accent);
     font-size: 0.68rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -1722,18 +1745,18 @@ div.res div.content.resource {
     justify-content: space-between;
     gap: 12px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(154, 126, 77, 0.08);
+    border-bottom: 1px solid var(--term-line);
   }
 
   div.dock-row span {
-    color: oklch(0.56 0.03 82);
+    color: var(--term-text-dim);
     font-size: 0.68rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
   div.dock-row strong {
-    color: oklch(0.92 0.015 82);
+    color: var(--term-text);
     font-size: 0.9rem;
     font-weight: 550;
     text-align: right;
@@ -1746,7 +1769,7 @@ div.res div.content.resource {
   }
 
   div.selection-count {
-    color: oklch(0.9 0.015 82);
+    color: var(--term-text);
     font-size: 0.96rem;
     line-height: 1.4;
   }
@@ -1759,9 +1782,9 @@ div.res div.content.resource {
 
   button.action-btn {
     &:extend(.ptr);
-    border: 1px solid rgba(154, 126, 77, 0.14);
-    background: rgba(255, 249, 238, 0.04);
-    color: oklch(0.9 0.015 82);
+    border: 1px solid var(--term-line);
+    background: rgba(28, 38, 46, 0.94);
+    color: var(--term-text);
     min-height: 40px;
     padding: 0 12px;
     border-radius: 12px;
@@ -1772,13 +1795,13 @@ div.res div.content.resource {
   }
 
   button.action-btn.warn {
-    color: oklch(0.88 0.04 40);
-    background: rgba(185, 103, 72, 0.12);
+    color: var(--term-danger);
+    background: var(--term-danger-soft);
   }
 
   button.action-btn.subtle {
-    color: oklch(0.74 0.02 82);
-    background: rgba(255, 249, 238, 0.02);
+    color: var(--term-text-soft);
+    background: rgba(22, 31, 38, 0.88);
   }
 
   div.doc-actions {
@@ -1797,27 +1820,27 @@ div.res div.content.resource {
     min-height: 32px;
     padding: 0 12px;
     border-radius: 10px;
-    border: 1px solid rgba(154, 126, 77, 0.14);
-    background: rgba(188, 142, 76, 0.1);
-    color: oklch(0.92 0.015 82);
+    border: 1px solid var(--term-line);
+    background: var(--term-accent-soft);
+    color: var(--term-text);
     font-size: 0.74rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   div.doc-action.sub {
-    background: rgba(255, 249, 238, 0.04);
-    color: oklch(0.74 0.02 82);
+    background: rgba(28, 38, 46, 0.94);
+    color: var(--term-text-soft);
   }
 
   textarea.inspector-textarea {
     width: 100%;
     min-height: 220px;
     resize: vertical;
-    border: 1px solid rgba(154, 126, 77, 0.12);
+    border: 1px solid var(--term-line);
     border-radius: 12px;
-    background: rgba(255, 249, 238, 0.03);
-    color: oklch(0.92 0.015 82);
+    background: rgba(24, 33, 40, 0.96);
+    color: var(--term-text);
     padding: 14px 16px;
     outline: none;
   }
@@ -1833,12 +1856,12 @@ div.res div.content.resource {
 
 div.res.resource div.tab div.resource,
 div.res.description div.tab div.description {
-  background: rgba(18, 29, 47, 0.96);
+  background: linear-gradient(180deg, rgba(28, 42, 47, 0.98), rgba(18, 28, 33, 0.98));
 }
 
 div.res.resource div.tab div.resource span,
 div.res.description div.tab div.description span {
-  color: oklch(0.96 0.015 220);
+  color: var(--term-text);
 }
 
 div.res div.tab:not(.selecting) {
@@ -1964,8 +1987,10 @@ div.res div.content.resource aside.workspace-side {
         overflow-x: hidden;
         overflow-y: auto;
         padding: 0 18px 0 22px;
-        border-left: 1px solid rgba(154, 126, 77, 0.1);
-        background: rgba(11, 15, 19, 0.7);
+        border-left: 1px solid var(--term-line);
+        background:
+          linear-gradient(180deg, rgba(26, 35, 42, 0.86), rgba(18, 25, 30, 0.78)),
+          radial-gradient(circle at top, rgba(74, 171, 149, 0.08), transparent 42%);
       }
 
       div.workspace-dock {
