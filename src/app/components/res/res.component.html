@@ -261,9 +261,6 @@
                     [ngClass]="{active: focus.res_str_id === child.res_str_id, selected: child.selected}"
                     *ngFor="let child of search_list"
                     (click)="focus_gallery_resource(child, $event)">
-              <span class="gallery-strip-select" *ngIf="show_selection_column">
-                <span [ngClass]="child.icon_select"></span>
-              </span>
               <img *ngIf="gallery_strip_preview_mode(child) === 'thumb'"
                    [src]="resource_image_src(child, 'thumb')"
                    [alt]="child.rname"

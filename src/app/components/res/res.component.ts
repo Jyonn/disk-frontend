@@ -186,6 +186,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     }
     this.reset_htx_command_mode();
     this.resource_search();
+    this.maybe_auto_enter_gallery();
     this.meta.updateTag({name: 'description', content: `${this.resource.owner.nickname}分享了“${this.resource.rname}”，快来看看吧！`});
     this.meta.updateTag({name: 'image', content: this.resource.cover_small});
 
@@ -1044,6 +1045,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     res.new_created = true;
     this.children.push(res);
     this.resource_search();
+    this.maybe_auto_enter_gallery();
   }
 
   removeChildren(res_str_ids: string[]) {
@@ -1052,6 +1054,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     }
     this.children = this.children.filter((item) => !res_str_ids.includes(item.res_str_id));
     this.search_list = this.search_list.filter((item) => !res_str_ids.includes(item.res_str_id));
+    this.maybe_auto_enter_gallery();
     this.ensure_gallery_focus();
   }
 
@@ -1346,6 +1349,10 @@ export class ResComponent implements OnInit, AfterViewInit {
     return !!resource?.is_music;
   }
 
+  is_gallery_previewable(resource: Resource) {
+    return this.has_gallery_image(resource) || this.has_gallery_pdf(resource) || this.has_gallery_audio(resource);
+  }
+
   card_preview_mode(resource: Resource) {
     if (this.is_gallery_view) {
       if (this.has_gallery_image(resource)) {
@@ -1463,6 +1470,19 @@ export class ResComponent implements OnInit, AfterViewInit {
     if (!this.active_gallery_res_id || !this.search_list.some((item) => item.res_str_id === this.active_gallery_res_id)) {
       this.active_gallery_res_id = this.search_list[0].res_str_id;
     }
+  }
+
+  private maybe_auto_enter_gallery() {
+    if (!this.children?.length) {
+      return;
+    }
+    const previewable_count = this.children.filter((item) => this.is_gallery_previewable(item)).length;
+    if (previewable_count / this.children.length <= 0.5) {
+      return;
+    }
+    this.folder_view_mode = ResComponent.VIEW_GALLERY;
+    window.localStorage.setItem(ResComponent.FOLDER_VIEW_STORAGE_KEY, ResComponent.VIEW_GALLERY);
+    this.ensure_gallery_focus();
   }
 
   private schedule_name_overflow_refresh() {
