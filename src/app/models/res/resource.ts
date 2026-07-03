@@ -314,4 +314,25 @@ export class Resource {
   get is_private() {
     return this.status === Resource.STATUS_PRIVATE;
   }
+
+  get ext() {
+    const match = this.rname?.match(/\.([^.]+)$/);
+    return match ? match[1].toLowerCase() : '';
+  }
+
+  get is_image() {
+    return this.sub_type === Resource.STYPE_IMAGE;
+  }
+
+  get is_video() {
+    return this.sub_type === Resource.STYPE_VIDEO;
+  }
+
+  get is_music() {
+    return this.sub_type === Resource.STYPE_MUSIC;
+  }
+
+  get is_pdf() {
+    return this.is_file && this.ext === 'pdf';
+  }
 }

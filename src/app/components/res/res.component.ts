@@ -11,7 +11,7 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import { BaseService } from "../../services/base.service";
 import { Info } from "../../models/base/info";
-import { Meta } from "@angular/platform-browser";
+import { DomSanitizer, Meta, SafeResourceUrl } from "@angular/platform-browser";
 import { OperationResItem } from "../../models/res/operation-res-item";
 import { ResourceTreeService } from "../../services/resource-tree.service";
 import {WechatShareService} from "../../services/wechat-share.service";
@@ -21,6 +21,8 @@ interface DragUploadItem {
   file: File;
   relativePath: string;
 }
+
+type FolderViewMode = 'list' | 'column' | 'gallery';
 
 @Component({
   selector: 'app-res',
@@ -36,6 +38,10 @@ export class ResComponent implements OnInit, AfterViewInit {
   static sort_accord = 'name';
   static sort_ascend = true;
   static relative_time = true;
+  static readonly FOLDER_VIEW_STORAGE_KEY = 'folder-view-mode';
+  static readonly VIEW_LIST: FolderViewMode = 'list';
+  static readonly VIEW_COLUMN: FolderViewMode = 'column';
+  static readonly VIEW_GALLERY: FolderViewMode = 'gallery';
   static readonly HTX_DISPLAY_MODE = 'list';
   static readonly HTX_DOWNLOAD_MODE = 'download';
   static readonly HTX_MORE_MODE = 'more';
@@ -88,6 +94,7 @@ export class ResComponent implements OnInit, AfterViewInit {
   resource_mode_updating: boolean;
   show_drag_upload_overlay: boolean;
   drag_upload_depth: number;
+  folder_view_mode: FolderViewMode;
 
   constructor(
     public baseService: BaseService,
@@ -101,6 +108,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     private video: VideoService,
     private router: Router,
     private meta: Meta,
+    private sanitizer: DomSanitizer,
   ) {
     this.resource = null;
     this.res_str_id = '';
@@ -121,6 +129,7 @@ export class ResComponent implements OnInit, AfterViewInit {
     this.resource_mode_updating = false;
     this.show_drag_upload_overlay = false;
     this.drag_upload_depth = 0;
+    this.folder_view_mode = this.load_folder_view_mode();
 
     this.operations = {
       delete: {
@@ -150,6 +159,14 @@ export class ResComponent implements OnInit, AfterViewInit {
 
   initVideo() {
     // this.player = this.video.getPlayer('video-js');
+  }
+
+  private load_folder_view_mode(): FolderViewMode {
+    const mode = window.localStorage.getItem(ResComponent.FOLDER_VIEW_STORAGE_KEY) as FolderViewMode;
+    if (mode === ResComponent.VIEW_COLUMN || mode === ResComponent.VIEW_GALLERY) {
+      return mode;
+    }
+    return ResComponent.VIEW_LIST;
   }
 
   baseInitResource(resp) {
@@ -254,6 +271,18 @@ export class ResComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize')
   onWindowResize() {
     this.schedule_name_overflow_refresh();
+  }
+
+  set_folder_view_mode(mode: FolderViewMode, event?: Event) {
+    event?.stopPropagation();
+    if (this.folder_view_mode === mode) {
+      return;
+    }
+    this.folder_view_mode = mode;
+    window.localStorage.setItem(ResComponent.FOLDER_VIEW_STORAGE_KEY, mode);
+    if (mode === ResComponent.VIEW_LIST) {
+      this.schedule_name_overflow_refresh();
+    }
   }
 
   @HostListener('document:dragenter', ['$event'])
@@ -1217,6 +1246,144 @@ export class ResComponent implements OnInit, AfterViewInit {
       return `搜索“${_v}”的结果`;
     }
     return '目录';
+  }
+
+  get folder_view_options() {
+    return [
+      {value: ResComponent.VIEW_LIST, label: '列表'},
+      {value: ResComponent.VIEW_COLUMN, label: '分栏'},
+      {value: ResComponent.VIEW_GALLERY, label: '画廊'},
+    ];
+  }
+
+  get is_list_view() {
+    return this.folder_view_mode === ResComponent.VIEW_LIST;
+  }
+
+  get is_column_view() {
+    return this.folder_view_mode === ResComponent.VIEW_COLUMN;
+  }
+
+  get is_gallery_view() {
+    return this.folder_view_mode === ResComponent.VIEW_GALLERY;
+  }
+
+  resource_type_label(resource: Resource) {
+    if (!resource) {
+      return 'resource';
+    }
+    if (resource.is_folder) {
+      return 'folder';
+    }
+    if (resource.is_image) {
+      return 'image';
+    }
+    if (resource.is_pdf) {
+      return 'pdf';
+    }
+    if (resource.is_music) {
+      return 'audio';
+    }
+    if (resource.is_video) {
+      return 'video';
+    }
+    if (resource.is_link) {
+      return 'link';
+    }
+    return 'file';
+  }
+
+  resource_preview_href(resource: Resource) {
+    return this.resource_direct_href(resource) || this.resource_api_href(resource);
+  }
+
+  resource_image_src(resource: Resource, quality: 'thumb' | 'full' = 'thumb') {
+    if (!resource) {
+      return '';
+    }
+    if (quality === 'full' && resource.cover) {
+      return resource.cover;
+    }
+    if (resource.cover_small) {
+      return resource.cover_small;
+    }
+    if (resource.cover) {
+      return resource.cover;
+    }
+    return this.resource_preview_href(resource);
+  }
+
+  resource_pdf_preview_href(resource: Resource): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.resource_preview_href(resource)}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`);
+  }
+
+  has_column_thumbnail(resource: Resource) {
+    return !!(resource?.is_image && (resource.cover_small || resource.cover));
+  }
+
+  has_gallery_image(resource: Resource) {
+    return !!(resource?.is_image && (resource.cover || resource.cover_small));
+  }
+
+  has_gallery_pdf(resource: Resource) {
+    return !!resource?.is_pdf;
+  }
+
+  has_gallery_audio(resource: Resource) {
+    return !!resource?.is_music;
+  }
+
+  card_preview_mode(resource: Resource) {
+    if (this.is_gallery_view) {
+      if (this.has_gallery_image(resource)) {
+        return 'image';
+      }
+      if (this.has_gallery_pdf(resource)) {
+        return 'pdf';
+      }
+      if (this.has_gallery_audio(resource)) {
+        return 'audio';
+      }
+    }
+    if (this.is_column_view && this.has_column_thumbnail(resource)) {
+      return 'thumb';
+    }
+    return 'icon';
+  }
+
+  private resource_api_href(resource: Resource) {
+    if (!resource) {
+      return '';
+    }
+    const params = new URLSearchParams();
+    params.set('token', BaseService.token || '');
+    const visit_key = resource.visit_key || this.resolved_visit_key;
+    if (visit_key) {
+      params.set('visit_key', visit_key);
+    }
+    return `${this.baseService.host}/api/res/${resource.res_str_id}/dl?${params.toString()}`;
+  }
+
+  private resource_direct_href(resource: Resource) {
+    if (!resource || resource.is_folder) {
+      return null;
+    }
+
+    let link = `${this.baseService.short_link_host}/${resource.res_str_id}`;
+    if (resource.rname) {
+      link += `/${encodeURIComponent(resource.rname)}`;
+    }
+
+    if (resource.is_effectively_public) {
+      return link;
+    }
+
+    const visit_key = resource.visit_key || this.resolved_visit_key;
+    if (resource.is_protected && visit_key) {
+      return `${link}?visit_key=${encodeURIComponent(visit_key)}`;
+    }
+
+    return null;
   }
 
   get current_res_ref() {
