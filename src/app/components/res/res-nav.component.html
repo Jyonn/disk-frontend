@@ -6,9 +6,9 @@
       <div class="left-btn" *ngIf="!resource?.is_home">
         <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>
       </div>
-      <div class="title-stack">
+      <div class="title-stack" [ngClass]="{searchable: show_search_control}">
         <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
-        <div class="title-row" *ngIf="show_search_control; else staticTitle">
+        <div class="title-row">
           <div class="title-shell"
                #titleViewport
                [ngClass]="{overflowing: title_is_overflowing}"
@@ -17,36 +17,29 @@
               <div class="title" title="资源名称">{{resource?.rname}}</div>
             </div>
           </div>
-          <div class="nav-search-shell"
-               [ngClass]="{active: search_mode}"
-               (click)="open_search($event)">
-            <div class="search-prompt mono" *ngIf="!search_mode">
-              <span class="icon-search"></span>
-              <span>键入“/”以搜索</span>
+          <div class="search-wrap" *ngIf="show_search_control">
+            <div class="nav-search-shell"
+                 [ngClass]="{active: search_mode}"
+                 (click)="open_search($event)">
+              <div class="search-prompt mono" *ngIf="!search_mode">
+                <span class="icon-search"></span>
+                <span>键入“/”以搜索</span>
+              </div>
+              <input #searchInput
+                     class="search-input mono"
+                     *ngIf="search_mode"
+                     type="text"
+                     [placeholder]="search_mode ? '' : null"
+                     [ngModel]="search_value"
+                     (ngModelChange)="update_search($event)"
+                     (click)="$event.stopPropagation()">
+              <button class="search-clear mono"
+                      type="button"
+                      *ngIf="search_mode && search_value"
+                      (click)="clear_search($event)">清空</button>
             </div>
-            <input #searchInput
-                   class="search-input mono"
-                   *ngIf="search_mode"
-                   type="text"
-                   [ngModel]="search_value"
-                   (ngModelChange)="update_search($event)"
-                   (click)="$event.stopPropagation()">
-            <button class="search-clear mono"
-                    type="button"
-                    *ngIf="search_mode && search_value"
-                    (click)="clear_search($event)">清空</button>
           </div>
         </div>
-        <ng-template #staticTitle>
-          <div class="title-shell"
-               #titleViewport
-               [ngClass]="{overflowing: title_is_overflowing}"
-               [style.--title-shift.px]="title_shift">
-            <div class="title-track" #titleTrack>
-              <div class="title" title="资源名称">{{resource?.rname}}</div>
-            </div>
-          </div>
-        </ng-template>
       </div>
     </div>
     <div title="菜单" class="right-avatar" *ngIf="userService.has_login" (click)="click_avatar($event)">
