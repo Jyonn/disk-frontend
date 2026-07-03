@@ -5,26 +5,28 @@
         <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>
       </div>
       <div class="title-stack">
-        <div class="shell-kicker-row">
-          <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
-          <button class="title-edit-btn"
-                  type="button"
-                  *ngIf="is_mine && !renaming_title"
-                  title="重命名资源"
-                  (click)="start_rename($event)">
-            <span class="icon-pencil"></span>
-          </button>
-        </div>
-        <div class="title-shell"
-             #titleViewport
-             [ngClass]="{overflowing: title_is_overflowing}"
-             [style.--title-shift.px]="title_shift">
-          <div class="title-track" #titleTrack *ngIf="!renaming_title">
-            <div class="title"
-                 #titleText
-                 title="资源名称"
-                 [ngClass]="{editable: is_mine}"
-                 (click)="is_mine ? start_rename($event) : null">{{resource?.rname}}</div>
+        <div class="shell-kicker mono">{{resource?.is_home ? 'root workspace' : resource?.readable_status}}</div>
+        <div class="title-shell">
+          <div class="title-read-shell" *ngIf="!renaming_title">
+            <div class="title-marquee-viewport"
+                 #titleViewport
+                 [ngClass]="{overflowing: title_is_overflowing}"
+                 [style.--title-shift.px]="title_shift">
+              <div class="title-track" #titleTrack>
+                <div class="title"
+                     #titleText
+                     title="资源名称"
+                     [ngClass]="{editable: is_mine}"
+                     (click)="is_mine ? start_rename($event) : null">{{resource?.rname}}</div>
+              </div>
+            </div>
+            <button class="title-edit-btn"
+                    type="button"
+                    *ngIf="is_mine"
+                    title="重命名资源"
+                    (click)="start_rename($event)">
+              <span class="icon-pencil"></span>
+            </button>
           </div>
           <div class="title-edit-shell" *ngIf="renaming_title" (click)="$event.stopPropagation()">
             <input #renameInput
