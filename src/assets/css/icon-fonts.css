@@ -73,7 +73,7 @@
 }
 .icon-pencil {
   display: inline-block;
-  transform: rotate(-22deg);
+  transform: rotate(22deg);
   transform-origin: 50% 50%;
 }
 .icon-play:before {
