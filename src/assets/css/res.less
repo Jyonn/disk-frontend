@@ -42,6 +42,18 @@
   }
 }
 
+@keyframes resource-name-marquee {
+  0%,
+  14% {
+    transform: translateX(0);
+  }
+
+  86%,
+  100% {
+    transform: translateX(var(--name-shift, 0px));
+  }
+}
+
 @keyframes workspace-scan {
   from {
     transform: translateY(-100%);
@@ -1208,6 +1220,17 @@ div.res {
         white-space: nowrap;
       }
 
+      div.res-name-viewport {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      div.res-name-track {
+        min-width: 0;
+        display: block;
+      }
+
       span.res-name-text {
         &:extend(.ptr);
         display: inline-block;
@@ -2002,5 +2025,48 @@ div.res div.content.resource aside.workspace-side {
   div.res div.content.description div.padding-div div.doc-head {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 860px) {
+  div.res div.content.resource div.list-head {
+    grid-template-columns: 52px minmax(0, 1fr) 92px;
+  }
+
+  div.res div.content.resource div.list-head.with-select {
+    grid-template-columns: 32px 52px minmax(0, 1fr) 92px;
+  }
+
+  div.res div.content.resource div.list-head button.head-cell.head-time,
+  div.res div.content.resource div.res-item div.res-time {
+    display: none;
+  }
+
+  div.res div.content.resource div.res-item {
+    grid-template-columns: 52px minmax(0, 1fr) 92px;
+  }
+
+  div.res div.content.resource div.res-item.with-select {
+    grid-template-columns: 32px 52px minmax(0, 1fr) 92px;
+  }
+
+  div.res div.content.resource div.res-item div.res-name-viewport {
+    overflow: hidden;
+  }
+
+  div.res div.content.resource div.res-item div.res-name-track {
+    width: max-content;
+    min-width: 100%;
+    display: inline-flex;
+  }
+
+  div.res div.content.resource div.res-item div.res-name-track.overflowing {
+    animation: resource-name-marquee 8.4s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
+  }
+
+  div.res div.content.resource div.res-item div.res-name-track span.res-name-text {
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
   }
 }

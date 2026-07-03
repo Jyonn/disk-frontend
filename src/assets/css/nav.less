@@ -418,6 +418,24 @@ nav div.menu-box.showing {
   }
 }
 
+@media (max-width: 860px) {
+  nav div.content.searching {
+    grid-template-columns: minmax(0, 1fr) @nav-avatar-column;
+  }
+
+  nav div.content.searching div.nav-title-block {
+    display: none;
+  }
+
+  nav div.content.searching div.nav-search-block {
+    grid-column: 1;
+  }
+
+  nav div.content.searching div.right-avatar {
+    grid-column: 2;
+  }
+}
+
 @media (max-width: 720px) {
   nav {
     height: 68px;
@@ -429,6 +447,10 @@ nav div.menu-box.showing {
 
   nav div.content {
       gap: 12px;
+  }
+
+  nav div.content.searching {
+    grid-template-columns: minmax(0, 1fr) 38px;
   }
 
   nav div.title {

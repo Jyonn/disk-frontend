@@ -1,5 +1,5 @@
 <nav [ngClass]="{'nav-zip': zip_nav}" (click)="dismiss_menu()" xmlns="http://www.w3.org/1999/html">
-  <div class="content">
+  <div class="content" [ngClass]="{searching: search_mode}">
     <div class="nav-title-block">
       <div class="left-btn" *ngIf="!resource?.is_home">
         <span title="返回父目录" class="icon-back" (click)="go_parent($event)"></span>

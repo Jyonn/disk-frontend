@@ -71,15 +71,26 @@
           </button>
           <div class="res-image"><span [ngClass]="child.icon"></span></div>
           <div class="res-name">
-            <span class="res-name-text"
-                  *ngIf="!has_selection"
-                  title="点击复制名称"
-                  ngxClipboard
-                  [cbContent]="child.rname"
-                  (cbOnError)="copy_error()"
-                  (cbOnSuccess)="copy_succ('名称已复制')"
-                  (click)="$event.stopPropagation()">{{child.rname}}</span>
-            <span class="res-name-text" *ngIf="has_selection">{{child.rname}}</span>
+            <div class="res-name-viewport" #resNameViewport [attr.data-res-id]="child.res_str_id">
+              <div class="res-name-track"
+                   [ngClass]="{'overflowing': is_name_overflowing(child.res_str_id)}"
+                   [style.--name-shift.px]="name_shift(child.res_str_id)">
+                <span class="res-name-text"
+                      #resNameText
+                      [attr.data-res-id]="child.res_str_id"
+                      *ngIf="!has_selection"
+                      title="点击复制名称"
+                      ngxClipboard
+                      [cbContent]="child.rname"
+                      (cbOnError)="copy_error()"
+                      (cbOnSuccess)="copy_succ('名称已复制')"
+                      (click)="$event.stopPropagation()">{{child.rname}}</span>
+                <span class="res-name-text"
+                      #resNameText
+                      [attr.data-res-id]="child.res_str_id"
+                      *ngIf="has_selection">{{child.rname}}</span>
+              </div>
+            </div>
             <span class="res-name-badge mono" *ngIf="child.new_created">new</span>
           </div>
           <div class="res-time mono">{{resource_time(child)}}</div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { UserService } from "../../services/user.service";
 import { Resource } from "../../models/res/resource";
 import { ClockService } from "../../services/clock.service";
@@ -27,7 +27,7 @@ import {VideoService} from "../../services/video.service";
     '../../../assets/css/res.less',
   ],
 })
-export class ResComponent implements OnInit {
+export class ResComponent implements OnInit, AfterViewInit {
   static sort_accord = 'name';
   static sort_ascend = true;
   static relative_time = true;
@@ -36,6 +36,8 @@ export class ResComponent implements OnInit {
   static readonly HTX_MORE_MODE = 'more';
 
   @ViewChild('resList') resListElement: ElementRef;
+  @ViewChildren('resNameViewport') resNameViewportRefs: QueryList<ElementRef<HTMLDivElement>>;
+  @ViewChildren('resNameText') resNameTextRefs: QueryList<ElementRef<HTMLSpanElement>>;
 
   res_str_id: string;
 
@@ -76,6 +78,8 @@ export class ResComponent implements OnInit {
   is_htx_menu_open: boolean;
 
   player: any;
+  name_overflow_states: {[res_id: string]: {overflowing: boolean, shift: number}};
+  pending_name_overflow_refresh: boolean;
 
   constructor(
     public baseService: BaseService,
@@ -104,6 +108,8 @@ export class ResComponent implements OnInit {
     this.modify_desc = false;
     this.htx_command_mode = ResComponent.HTX_DISPLAY_MODE;
     this.is_htx_menu_open = false;
+    this.name_overflow_states = {};
+    this.pending_name_overflow_refresh = false;
 
     this.operations = {
       delete: {
@@ -221,9 +227,20 @@ export class ResComponent implements OnInit {
       .subscribe(keyword => this.resource_search(keyword));
   }
 
+  ngAfterViewInit(): void {
+    this.resNameViewportRefs.changes.subscribe(() => this.schedule_name_overflow_refresh());
+    this.resNameTextRefs.changes.subscribe(() => this.schedule_name_overflow_refresh());
+    this.schedule_name_overflow_refresh();
+  }
+
   @HostListener('document:click')
   onDocumentClick() {
     this.is_htx_menu_open = false;
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.schedule_name_overflow_refresh();
   }
 
   get op_percent() {
@@ -1039,8 +1056,50 @@ export class ResComponent implements OnInit {
     return !!(this.is_owner && this.resource?.is_folder);
   }
 
+  is_name_overflowing(res_id: string) {
+    return !!this.name_overflow_states[res_id]?.overflowing;
+  }
+
+  name_shift(res_id: string) {
+    return this.name_overflow_states[res_id]?.shift || 0;
+  }
+
   get selected_count() {
     return this.search_list.filter((item) => item.selected).length;
+  }
+
+  private schedule_name_overflow_refresh() {
+    if (this.pending_name_overflow_refresh) {
+      return;
+    }
+    this.pending_name_overflow_refresh = true;
+    setTimeout(() => {
+      this.pending_name_overflow_refresh = false;
+      this.refresh_name_overflow();
+    });
+  }
+
+  private refresh_name_overflow() {
+    if (!this.resNameViewportRefs || !this.resNameTextRefs) {
+      return;
+    }
+    const next_states = {};
+    const viewports = this.resNameViewportRefs.toArray();
+    const texts = this.resNameTextRefs.toArray();
+    viewports.forEach((viewport_ref, index) => {
+      const viewport = viewport_ref.nativeElement;
+      const text = texts[index]?.nativeElement;
+      const res_id = viewport.dataset.resId || text?.dataset.resId;
+      if (!res_id || !text) {
+        return;
+      }
+      const overflow = Math.max(text.scrollWidth - viewport.clientWidth, 0);
+      next_states[res_id] = {
+        overflowing: overflow > 6,
+        shift: -overflow,
+      };
+    });
+    this.name_overflow_states = next_states;
   }
 
   get has_selection() {
