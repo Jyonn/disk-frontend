@@ -52,7 +52,6 @@
       <div class="menu-item" (click)="menu_handler($event, 'tips')">使用贴士</div>
       <div class="menu-item" (click)="menu_handler($event, 'updates')">更新日志</div>
       <div class="menu-item" (click)="menu_handler($event, 'code')">代码开源</div>
-      <div class="menu-item" (click)="menu_handler($event, 'setting')">全局设置</div>
       <div class="menu-item warn" (click)="userService.exit()">退出登录</div>
     </div>
     <div class="menu-list" *ngIf="!userService.has_login">

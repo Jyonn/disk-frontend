@@ -171,9 +171,6 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     } else if (s === 'updates') {
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_update);
-    } else if (s === 'setting') {
-      this.show_menu = false;
-      this.footBtnService.activate_btn(this.footBtnService.foot_btn_setting);
     }
   }
 
