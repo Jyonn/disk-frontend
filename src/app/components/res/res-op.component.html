@@ -6,13 +6,14 @@
       <app-loading></app-loading>
     </div>
     <div class="input-box">
-      <div class="title">当前名称会自动全选，直接输入即可覆盖</div>
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input #renameInput
                [(ngModel)]="rename_draft"
                placeholder="在此输入新的资源名称…"
                maxlength="256"
                (keydown.enter)="rename_res_action()">
+      </div>
+      <div class="modal-actions right">
         <div class="btn" (click)="footBtnService.inactivate()">取消</div>
         <div class="btn succ" (click)="rename_res_action()">保存</div>
       </div>
@@ -32,23 +33,29 @@
     </div>
     <div class="input-box">
       <div class="title">分享本页面链接</div>
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [value]="share_show_text" readonly>
+      </div>
+      <div class="modal-actions right">
         <div class="btn succ" ngxClipboard [cbContent]="share_show_text" (cbOnError)="copy_error()" (cbOnSuccess)="copy_succ()">复制</div>
       </div>
     </div>
     <div class="input-box" [ngClass]="b2s(is_public)">
       <div class="title">分享直链（打开链接即可下载资源）</div>
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [value]="share_direct_link" readonly>
+      </div>
+      <div class="modal-actions right">
         <div class="btn" (click)="toggle_copy_mode()">{{short_or_long}}</div>
         <div class="btn succ" ngxClipboard [cbContent]="share_direct_link" (cbOnError)="copy_error()" (cbOnSuccess)="copy_link_succ()">复制</div>
       </div>
     </div>
     <div class="input-box" [ngClass]="b2s(is_protect)">
       <div class="title">更新资源密钥</div>
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [(ngModel)]="res_visit_key" placeholder="在此输入资源密码…" maxlength="16">
+      </div>
+      <div class="modal-actions right">
         <div class="btn" [ngClass]="(!res_visit_key || res_visit_key.length >= 16 || res_visit_key.length < 3) ? 'warn' : 'num'">{{res_visit_key && res_visit_key.length || 0}}/16</div>
         <div class="btn succ" (click)="modify_res_visit_key_action()">更新</div>
       </div>
@@ -57,7 +64,7 @@
 
   <div class="flex-container" [ngClass]="footBtnService.is_active(footBtnService.foot_btn_upload)">
     <div class="title-box">
-      <div class="title">上传资源<span *ngIf="is_active('upload', upload_file)">（{{res_files ? '已选择“' + res_files[0].name + '”' : '支持批量文件上传'}}{{res_files && res_files.length > 1 ? '等' + res_files.length + '个文件' : ''}}）</span></div>
+      <div class="title">上传资源<span *ngIf="is_active('upload', upload_file)">（{{upload_count ? '已加入 ' + upload_count + ' 个待上传文件' : '支持批量文件上传'}}）</span></div>
       <app-loading></app-loading>
     </div>
     <div class="choose-bar">
@@ -67,39 +74,80 @@
            (click)="upload_active=btn.value">{{btn.text}}</div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_file))" class="input-box">
-      <div class="input-btn-line">
-        <input type="file" multiple (change)="res_files = $event.target.files; file_name = res_files[0].name;" #choose_file>
-        <input *ngIf="!res_files || res_files.length < 2" [(ngModel)]="file_name" placeholder="在此输入文件名称…" maxlength="256">
-        <input *ngIf="res_files && res_files.length > 1" placeholder="多文件上传不允许修改文件名" readonly>
-        <div *ngIf="!res_files || res_files.length < 2" class="btn" (click)="file_name = ''">清名</div>
-        <div class="btn" (click)="res_files = null; file_name = ''; choose_file.click()">选择</div>
-        <div class="btn succ" (click)="upload_file_action()" [ngClass]="{'disabled': footBtnService.is_ajax_uploading}">上传</div>
+      <input type="file" multiple (change)="choose_files_onchange($event)" #choose_file>
+      <div class="file-picker" (click)="choose_file.value = null; choose_file.click()">
+        <div class="file-picker-label mono">SELECT FILES</div>
+        <div class="file-picker-text">{{upload_count ? '重新选择要上传到当前目录的本地文件' : '点击选择要上传到当前目录的本地文件'}}</div>
+      </div>
+      <div class="upload-list" *ngIf="upload_count">
+        <div class="upload-row" *ngFor="let entry of upload_entries; let i = index">
+          <div class="upload-row-main">
+            <div class="upload-row-name" *ngIf="!entry.editing">{{entry.name}}</div>
+            <div class="input-btn-line solo upload-edit-line" *ngIf="entry.editing">
+              <input #uploadNameInput
+                     [(ngModel)]="entry.draft_name"
+                     maxlength="256"
+                     (keydown.enter)="save_upload_name_edit(i, $event)"
+                     (keydown.escape)="cancel_upload_name_edit(i, $event)">
+            </div>
+            <div class="upload-row-meta mono">{{readable_upload_size(entry.file.size)}}</div>
+          </div>
+          <div class="upload-row-actions">
+            <div class="row-icon-btn"
+                 *ngIf="!entry.editing"
+                 title="重命名文件"
+                 (click)="start_upload_name_edit(i, $event)">
+              <span class="icon-pencil"></span>
+            </div>
+            <div class="row-icon-btn succ"
+                 *ngIf="entry.editing"
+                 title="确认名称"
+                 (click)="save_upload_name_edit(i, $event)">
+              <span class="icon-check"></span>
+            </div>
+            <div class="row-text-btn"
+                 *ngIf="entry.editing"
+                 (click)="cancel_upload_name_edit(i, $event)">取消</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions right">
+        <div class="btn" *ngIf="upload_count" (click)="clear_upload_files()">清空</div>
+        <div class="btn succ"
+             [ngClass]="{'disabled': footBtnService.is_ajax_uploading || !upload_count}"
+             (click)="upload_file_action()">上传{{upload_count}}个文件</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_folder))" class="input-box">
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input type="file" multiple webkitdirectory (change)="choose_folder_onchange($event)" #choose_folder>
         <input readonly [(ngModel)]="upload_folder_name" placeholder="选择文件夹…" maxlength="256">
-        <div class="btn succ" (click)="choose_folder.click()">选择</div>
+      </div>
+      <div class="modal-actions right">
+        <div class="btn" (click)="choose_folder.value = null; choose_folder.click()">选择</div>
+        <div class="btn succ"
+             [ngClass]="{'disabled': !upload_folder_name || footBtnService.is_ajax_uploading}"
+             (click)="upload_folder_action()">上传文件夹</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', create_folder))" class="input-box">
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [(ngModel)]="folder_name" placeholder="在此输入文件夹名称…" maxlength="256">
-        <!--<div class="btn" *ngIf="folder_name && folder_name.length" [ngClass]="(folder_name.length >= 256) ? 'warn' : 'num'">{{folder_name.length}}/256</div>-->
+      </div>
+      <div class="modal-actions right">
+        <div class="btn" (click)="folder_name = null">清空</div>
         <div class="btn succ" (click)="create_folder_action()">创建</div>
       </div>
     </div>
     <div [ngClass]="b2s(is_active('upload', upload_link))" class="input-box">
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [(ngModel)]="link_name" placeholder="在此输入链接名称…" maxlength="256">
-        <!--<div class="btn" *ngIf="link_name && link_name.length" [ngClass]="(link_name.length >= 256) ? 'warn' : 'num'">{{link_name.length}}/256</div>-->
-        <div class="btn" (click)="link_name = null">重置</div>
       </div>
-      <div class="input-btn-line">
+      <div class="input-btn-line solo">
         <input [(ngModel)]="link_url" placeholder="在此输入链接…" maxlength="1024">
-        <!--<div class="btn" *ngIf="link_url && link_url.length" [ngClass]="(link_url.length >= 1024) ? 'warn' : 'num'">{{link_url.length}}/1024</div>-->
-        <div class="btn" (click)="link_url = null">重置</div>
+      </div>
+      <div class="modal-actions right">
+        <div class="btn" (click)="link_name = null; link_url = null">重置</div>
         <div class="btn succ" (click)="create_link_action()">创建</div>
       </div>
     </div>

@@ -1,4 +1,15 @@
-import {AfterViewChecked, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from "@angular/core";
 import {Resource} from "../../models/res/resource";
 import {ResourceService} from "../../services/resource.service";
 import {RadioBtn} from "../../models/res/radio-btn";
@@ -9,6 +20,13 @@ import {UpdateService} from "../../services/update.service";
 import {ResourceTreeService} from "../../services/resource-tree.service";
 import {FootBtnService} from "../../services/foot-btn.service";
 import {UserService} from "../../services/user.service";
+
+interface UploadEntry {
+  file: File;
+  name: string;
+  draft_name: string;
+  editing: boolean;
+}
 
 @Component({
   selector: 'app-res-op',
@@ -24,6 +42,7 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
   @Input() tab_mode: string;
   @Input() delete_text: string;
   @ViewChild('renameInput') renameInputRef: ElementRef<HTMLInputElement>;
+  @ViewChildren('uploadNameInput') uploadNameInputRefs: QueryList<ElementRef<HTMLInputElement>>;
   @Output() onUploaded = new EventEmitter<any>();
   @Output() onUploadedFolder = new EventEmitter<any>();
   @Output() onAddChildRes = new EventEmitter<Resource>();
@@ -56,7 +75,7 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
   upload_folder_ok: boolean;  // chrome浏览器才支持
 
   res_files: FileList;
-  file_name: string;
+  upload_entries: Array<UploadEntry>;
   folder_name: string;
   link_name: string;
   link_url: string;
@@ -67,6 +86,7 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
   rename_draft: string;
   pending_rename_focus: boolean;
   rename_modal_opened: boolean;
+  pending_upload_name_focus_index: number;
 
   initShare() {
     this.share_private = new RadioBtn({
@@ -111,6 +131,7 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
     this.folder_name = null;
     this.link_name = null;
     this.link_url = null;
+    this.clear_upload_files();
   }
 
   b2s(b: boolean) {
@@ -171,12 +192,86 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  get upload_res_text() {
-    if (this.res_files && this.res_files[0]) {
-      return this.res_files[0].name;
-    } else {
-      return null;
+  choose_files_onchange($event) {
+    this.res_files = $event.target.files;
+    this.upload_entries = [];
+    if (!this.res_files || !this.res_files.length) {
+      return;
     }
+    for (let index = 0; index < this.res_files.length; index++) {
+      const file = this.res_files[index];
+      this.upload_entries.push({
+        file,
+        name: file.name,
+        draft_name: file.name,
+        editing: false,
+      });
+    }
+  }
+
+  clear_upload_files() {
+    this.res_files = null;
+    this.upload_entries = [];
+    this.pending_upload_name_focus_index = null;
+  }
+
+  start_upload_name_edit(index: number, $event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    this.upload_entries.forEach((entry, currentIndex) => {
+      entry.editing = currentIndex === index;
+      if (entry.editing) {
+        entry.draft_name = entry.name;
+      }
+    });
+    this.pending_upload_name_focus_index = index;
+  }
+
+  cancel_upload_name_edit(index: number, $event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    const entry = this.upload_entries[index];
+    if (!entry) {
+      return;
+    }
+    entry.draft_name = entry.name;
+    entry.editing = false;
+    this.pending_upload_name_focus_index = null;
+  }
+
+  save_upload_name_edit(index: number, $event?: Event) {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+    const entry = this.upload_entries[index];
+    if (!entry) {
+      return;
+    }
+    const nextName = (entry.draft_name || '').trim();
+    if (!nextName) {
+      BaseService.info_center.next(new Info({text: '文件名称不能为空', type: Info.TYPE_WARN}));
+      this.pending_upload_name_focus_index = index;
+      return;
+    }
+    entry.name = nextName;
+    entry.draft_name = nextName;
+    entry.editing = false;
+    this.pending_upload_name_focus_index = null;
+  }
+
+  readable_upload_size(size: number) {
+    if (size == null || size < 0) {
+      return '-';
+    }
+    if (size < 1024) {
+      return `${size} B`;
+    }
+    if (size < 1024 * 1024) {
+      return `${(size / 1024).toFixed(1)} KB`;
+    }
+    if (size < 1024 * 1024 * 1024) {
+      return `${(size / 1024 / 1024).toFixed(1)} MB`;
+    }
+    return `${(size / 1024 / 1024 / 1024).toFixed(1)} GB`;
   }
 
   choose_folder_onchange($event) {
@@ -186,8 +281,6 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
       const path = this.res_folder[0].webkitRelativePath;
       this.upload_folder_name = path.substr(0, path.indexOf('/'));
     }
-
-    this.upload_folder_action();
   }
 
   upload_folder_action() {
@@ -195,7 +288,7 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
-    if (!this.res_folder.length) {
+    if (!this.res_folder || !this.res_folder.length) {
       BaseService.info_center.next(new Info({text: '没有选择文件夹或文件夹为空', type: Info.TYPE_WARN}));
       return;
     }
@@ -216,19 +309,24 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
       BaseService.info_center.next(new Info({text: '正在上传', type: Info.TYPE_SUCC}));
       return;
     }
-    const res_name = this.upload_res_text;
-    if (!res_name) {
+    if (!this.upload_entries || !this.upload_entries.length) {
       BaseService.info_center.next(new Info({text: '没有选择文件', type: Info.TYPE_WARN}));
       return;
+    }
+    for (let index = 0; index < this.upload_entries.length; index++) {
+      if (this.upload_entries[index].editing) {
+        this.save_upload_name_edit(index);
+        if (this.upload_entries[index].editing) {
+          return;
+        }
+      }
     }
     this.footBtnService.is_ajax_uploading = true;
 
     this.onUploaded.emit({
-      res_files: this.res_files,
-      file_name: this.file_name,
+      upload_entries: this.upload_entries.map((entry) => ({file: entry.file, name: entry.name})),
       callback: () => {
-        this.file_name = '';
-        this.res_files = null;
+        this.clear_upload_files();
         this.footBtnService.is_ajax_uploading = false;
       }
     });
@@ -442,6 +540,8 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
     this.rename_draft = '';
     this.pending_rename_focus = false;
     this.rename_modal_opened = false;
+    this.upload_entries = [];
+    this.pending_upload_name_focus_index = null;
 
     this.initShare();
     this.initUpload();
@@ -458,12 +558,26 @@ export class ResOpComponent implements OnInit, AfterViewChecked {
       this.pending_rename_focus = false;
     }
 
-    if (!this.pending_rename_focus || !this.renameInputRef) {
+    if (this.pending_rename_focus && this.renameInputRef) {
+      const input = this.renameInputRef.nativeElement;
+      input.focus();
+      input.select();
+      this.pending_rename_focus = false;
+    }
+
+    if (this.pending_upload_name_focus_index == null || !this.uploadNameInputRefs) {
       return;
     }
-    const input = this.renameInputRef.nativeElement;
-    input.focus();
-    input.select();
-    this.pending_rename_focus = false;
+    const uploadInput = this.uploadNameInputRefs.toArray()[this.pending_upload_name_focus_index];
+    if (!uploadInput) {
+      return;
+    }
+    uploadInput.nativeElement.focus();
+    uploadInput.nativeElement.select();
+    this.pending_upload_name_focus_index = null;
+  }
+
+  get upload_count() {
+    return this.upload_entries ? this.upload_entries.length : 0;
   }
 }

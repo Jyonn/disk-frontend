@@ -970,10 +970,18 @@ export class ResComponent implements OnInit, AfterViewInit {
   }
 
   onUpload(data: any) {
+    const upload_entries = data.upload_entries;
     const res_files = data.res_files;
     const file_name = data.file_name;
     this.operation_list = [];
-    if (res_files.length === 1) {
+    if (upload_entries && upload_entries.length) {
+      for (const entry of upload_entries) {
+        this.operation_list.push(new OperationResItem({
+          res_str_id: null,
+          readablePath: entry.name,
+        }, entry.file));
+      }
+    } else if (res_files.length === 1) {
       this.operation_list.push(new OperationResItem({
         res_str_id: null,
         readablePath: file_name,

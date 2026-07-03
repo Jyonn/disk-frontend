@@ -248,8 +248,149 @@ div.operation-block {
         }
       }
 
+      div.input-btn-line.solo {
+        input {
+          width: 100%;
+          border-right: 1px solid var(--modal-line);
+          border-radius: 999px;
+        }
+      }
+
       div.input-btn-line.right {
         justify-content: flex-end;
+      }
+
+      div.modal-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+
+        div.btn {
+          min-height: 40px;
+          padding: 0 18px;
+          border: 1px solid var(--modal-line);
+          border-radius: 999px;
+        }
+
+        div.btn.disabled {
+          opacity: 0.42;
+          pointer-events: none;
+        }
+      }
+
+      div.modal-actions.right {
+        justify-content: flex-end;
+      }
+
+      div.file-picker {
+        &:extend(.ptr, .animate);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 16px 18px;
+        border: 1px dashed var(--modal-line-strong);
+        border-radius: 18px;
+        background: var(--modal-panel-soft);
+        color: var(--modal-text-soft);
+      }
+
+      div.file-picker:hover {
+        border-color: var(--modal-accent-strong);
+        background: rgba(74, 171, 149, 0.06);
+        color: var(--modal-text);
+      }
+
+      div.file-picker-label {
+        color: var(--modal-accent);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+
+      div.file-picker-text {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      div.upload-list {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      div.upload-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--modal-line);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      div.upload-row-main {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      div.upload-row-name {
+        color: var(--modal-text);
+        font-size: 13px;
+        line-height: 1.5;
+        word-break: break-all;
+      }
+
+      div.upload-row-meta {
+        color: var(--modal-text-dim);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+      }
+
+      div.upload-row-actions {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      div.upload-edit-line {
+        margin-bottom: 0;
+      }
+
+      div.row-icon-btn,
+      div.row-text-btn {
+        &:extend(.ptr, .animate);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--modal-line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--modal-text-soft);
+        font-size: 12px;
+      }
+
+      div.row-icon-btn {
+        min-width: 34px;
+        padding: 0;
+      }
+
+      div.row-icon-btn.succ {
+        background: var(--modal-accent-soft);
+        color: var(--modal-accent);
+      }
+
+      div.row-icon-btn:hover,
+      div.row-text-btn:hover {
+        border-color: var(--modal-accent-strong);
+        color: var(--modal-text);
       }
     }
 
