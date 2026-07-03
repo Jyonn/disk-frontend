@@ -1,5 +1,4 @@
 <nav [ngClass]="{'nav-zip': zip_nav}" (click)="dismiss_menu()" xmlns="http://www.w3.org/1999/html">
-  <div class="nav-grid"></div>
   <div class="content">
     <div class="nav-title-block">
       <div class="left-btn" *ngIf="!resource?.is_home">
@@ -43,11 +42,6 @@
       <img [src]="userService.user.avatar_src" alt="当前用户头像">
     </div>
     <div title="注册或登录" class="right-avatar" *ngIf="!userService.has_login" (click)="go_login($event)"><span class="icon-unlogin"></span></div>
-  </div>
-  <div class="foot">
-    <span class="owner"><strong>{{nav_foot_owner}}</strong>创建于{{resource?.readable_time}}</span>
-    <div title="点击进入TA的主页" class="avatar" *ngIf="!is_mine"><img [src]="resource?.owner?.avatar_src" alt="资源所有者头像" (click)="go_owner_home($event)"></div>
-    <div class="share">{{resource?.readable_status}}<span class="warn" (click)="show_insecure_info($event)">{{resource?.secure_word}}</span></div>
   </div>
   <div class="menu-box" [ngClass]="{showing: show_menu}">
     <div class="triangle"></div>

@@ -12,8 +12,6 @@ import {
 } from "@angular/core";
 import {UserService} from "../../services/user.service";
 import {Resource} from "../../models/res/resource";
-import {BaseService} from "../../services/base.service";
-import {Info} from "../../models/base/info";
 import {Router} from "@angular/router";
 import {FootBtnService} from "../../services/foot-btn.service";
 
@@ -47,7 +45,6 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
 
   constructor(
     public userService: UserService,
-    public baseService: BaseService,
     public footBtnService: FootBtnService,
     public router: Router,
   ) {
@@ -139,12 +136,6 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     this.onCollapseSearch.emit();
   }
 
-  show_insecure_info($event) {
-    $event.cancelBubble = true;
-    $event.stopPropagation();
-    BaseService.info_center.next(new Info({text: this.resource.secure_info, type: Info.TYPE_WARN}));
-  }
-
   go_parent($event) {
     $event.cancelBubble = true;
     $event.stopPropagation();
@@ -162,15 +153,6 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     $event.cancelBubble = true;
     $event.stopPropagation();
     this.show_menu = !this.show_menu;
-  }
-
-  go_owner_home($event) {
-    $event.cancelBubble = true;
-    $event.stopPropagation();
-    if (this.resource) {
-      const link = ['/res', this.resource.owner.rootRes];
-      this.router.navigate(link);
-    }
   }
 
   menu_handler($event, s: string) {
@@ -192,17 +174,6 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
       this.show_menu = false;
       this.footBtnService.activate_btn(this.footBtnService.foot_btn_setting);
     }
-  }
-
-  get nav_foot_owner() {
-    let owner = null;
-    if (this.resource) {
-      owner = this.resource.owner.nickname;
-    }
-    if (this.is_mine) {
-      owner = '我';
-    }
-    return owner;
   }
 
   get show_search_control() {
