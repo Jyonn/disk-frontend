@@ -37,6 +37,8 @@ Before the first GitHub deployment, make sure the repository is configured with:
 
 DNS can keep using the existing CNAME target `jyonn.github.io`.
 
+If you want the workflow to auto-enable Pages for a brand new repository, create a secret named `PAGES_DEPLOY_TOKEN` and give that token permission to manage Pages for this repository. Without that secret, the first enablement still needs to be done once in GitHub Settings.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

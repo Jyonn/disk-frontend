@@ -29,7 +29,33 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Configure GitHub Pages with auto-enable
+        if: ${{ secrets.PAGES_DEPLOY_TOKEN != '' }}
+        uses: actions/configure-pages@v5
+        with:
+          token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          enablement: true
+
+      - name: Verify Pages is enabled
+        if: ${{ secrets.PAGES_DEPLOY_TOKEN == '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -e
+          api="https://api.github.com/repos/${REPO}/pages"
+          status=$(curl -s -o /tmp/pages.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "$api")
+          if [ "$status" = "404" ]; then
+            echo "::error title=GitHub Pages not enabled::Open Settings -> Pages, set Source to GitHub Actions, then re-run this workflow. If you want auto-enablement, create a secret named PAGES_DEPLOY_TOKEN with repo/pages write access."
+            cat /tmp/pages.json
+            exit 1
+          fi
+
       - name: Configure GitHub Pages
+        if: ${{ secrets.PAGES_DEPLOY_TOKEN == '' }}
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
