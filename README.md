@@ -14,6 +14,29 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
+## GitHub Pages Deployment
+
+The repo now includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
+
+Run this locally if you want to verify the Pages artifact:
+
+```bash
+npm run build:pages
+```
+
+That command will:
+
+- Build the Angular app into `dist/disk-frontend`
+- Copy `index.html` to `404.html` so SPA routes like `/res/xxxx` still work on GitHub Pages
+- Create `.nojekyll` in the publish directory
+
+Before the first GitHub deployment, make sure the repository is configured with:
+
+- `Settings -> Pages -> Source`: `GitHub Actions`
+- `Settings -> Pages -> Custom domain`: `disk.6-79.cn`
+
+DNS can keep using the existing CNAME target `jyonn.github.io`.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
