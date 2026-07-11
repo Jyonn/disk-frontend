@@ -172,7 +172,7 @@ export class ResNavComponent implements AfterViewInit, OnChanges {
     if (s === 'mine') {
       this.router.navigate(['/res', this.userService.user.rootRes]);
     } else if (s === 'profile') {
-      window.location.href = `https://sso.6-79.cn/user/info-modify?from=https%3A%2F%2Fd.6-79.cn%2F/user/refresh`;
+      window.location.href = `https://qt.6-79.cn/user/info-modify?from=https%3A%2F%2Fd.6-79.cn%2Fuser%2Frefresh`;
     } else if (s === 'code') {
       window.open('https://github.com/lqj679ssn/disk-frontend');
     } else if (s === 'tips') {

@@ -6,7 +6,7 @@ import {ResourceTreeService} from "./resource-tree.service";
 
 @Injectable()
 export class UserService {
-  public oauth_uri = 'https://sso.6-79.cn/oauth/?app_id=R41nXZEwpfl6tw6KYyoEZ4FYST4BXPlF';
+  public oauth_uri = 'https://qt.6-79.cn/oauth/?app_id=R41nXZEw';
   public user: User;
   public user_update_center = new Subject<User>();
   public has_get_user: boolean;

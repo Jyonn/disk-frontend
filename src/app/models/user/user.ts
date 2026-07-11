@@ -1,6 +1,6 @@
 export class User {
   private static readonly FALLBACK_AVATAR = "https://unsplash.6-79.cn/random/small";
-  private static readonly SSO_HOST = "https://sso.6-79.cn";
+  private static readonly SSO_HOST = "https://qt.6-79.cn";
 
   user_id: number;
   nickname: string;

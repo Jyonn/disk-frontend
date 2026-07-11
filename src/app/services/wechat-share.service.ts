@@ -38,7 +38,7 @@ export class WechatShareService {
     this.link = this.location['location'].href;
     this.link = this.link.split('#')[0];
     this.baseService
-      .post('https://sso.6-79.cn/api/wechat/config', {url: this.link})
+      .post('https://qt.6-79.cn/api/wechat/config', {url: this.link})
       .then((resp) => {
         const appid = resp.appid;
         const signature = resp.signature;
